@@ -1,0 +1,39 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam style strictuml
+skinparam LifelineStrategy nosolid
+skinparam sequenceMessageAlign center
+title Work Request
+
+participant Client as client
+participant Worker1 as worker
+participant Worker2 as worker2
+
+activate worker2
+note over worker2
+Running a computation
+whose results are depended
+upon by Worker1
+end note
+client -> worker ++: Request work
+activate client
+worker --> client: ACK
+deactivate client
+
+worker -> worker2: Attain arguments from Worker2
+worker -> worker --: Return to main loop
+note over worker
+Worker may continue
+processing, including
+responding to other
+requests for data
+end note
+...
+worker2 -> worker2 ++--: Store results of computation
+worker2 -> worker2 --: Return to main loop
+worker2 -> worker ++: results
+worker -> worker ++--: Run computation
+worker -> worker ++--: Store results of computation
+worker -> worker --: Return to main loop
+@enduml

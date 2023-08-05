@@ -1,0 +1,68 @@
+digraph scalarindex {
+    rankdir = LR;
+
+
+	subgraph cluster_arguments_scalar {
+		label=<
+        Arguments for each chunk computation<BR/>
+        in a distributed object with x considered scalar and recyclable.<BR/>
+        Operation: <FONT FACE="Courier">max(x, y)</FONT>>;
+		
+
+		subgraph cluster_chunkscalar1 {
+			label=<Chunk Computation 1: <FONT FACE="Courier">max(x, y)</FONT>>;
+			
+
+			xd1[label="x: int 1"];
+			yd1[label="y: int 1:1E9"];
+		}
+        subgraph cluster_chunkscalar2 {
+			label=<Chunk Computation 2: <FONT FACE="Courier">max(x, y)</FONT>>;
+			
+
+			xd2[label="x: int 1"];
+			yd2[label="y: int 1E9:2E9"];
+		}
+        subgraph cluster_chunkscalar3 {
+			label=<Chunk Computation 3: <FONT FACE="Courier">max(x, y)</FONT>>;
+			
+
+			xd3[label="x: int 1"];
+			yd3[label="y: int 2E9:3E9"];
+		}
+	}
+
+	subgraph cluster_arguments_converted {
+		label=<
+        Arguments for each chunk computation<BR/>
+        in a distributed object with x considered scalar and non-recyclable.<BR/>
+        Operation: <FONT FACE="Courier">y[x]</FONT>>
+		
+
+		subgraph cluster_chunkconverted1 {
+			label=<Chunk Computation 1: <FONT FACE="Courier">y[x]</FONT>>;
+			
+
+			xc1[label="x: int 1"];
+			yc1[label="y: int 1:1E9"];
+		}
+        subgraph cluster_chunkconverted2 {
+			label=<Chunk Computation 2: <FONT FACE="Courier">y[x]</FONT>>;
+			
+
+			xc2[label="x: NULL"];
+			yc2[label="y: int 1E9:2E9"];
+		}
+        subgraph cluster_chunkconverted3 {
+			label=<Chunk Computation 3: <FONT FACE="Courier">y[x]</FONT>>;
+			
+
+			xc3[label="x: NULL"];
+			yc3[label="y: int 2E9:3E9"];
+		}
+	}
+
+    
+    x[label="chunk containing int 1"];
+    x -> {xd1 xd2 xd3 xc1 xc2 xc3};
+}

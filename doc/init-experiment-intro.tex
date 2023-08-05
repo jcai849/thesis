@@ -1,0 +1,26 @@
+Very early on in the project, initial experiments were undertaken in order to explore the viability of implementing a distributed system for statistical modeling. 
+These experiments were undertaken concurrently with much of the later literature review, and allowed for the validation and replication for the concepts behind some of the existing systems.
+A side effect of this included an exploration of some of the data structures underpinning distributed systems, including an understanding of what is necessary and sufficient in terms of these data structures for the support of a distributed system.
+done structures full of the support of a distributed system.
+Likewise for the understanding of the topologies of distributed systems; the experiments replicated and served to qualitatively examine the differences between some of the network topologies.
+In existing systems as considered in the literature review, the network superstructures are shown to demonstrate enormous variation between them.
+Comparison and evaluation of isn't a trivial matter.
+While there are benefits and drawbacks of each one, which were described as well in the literature review, in practice these matters are best evaluated empirically, and ideally ceteris paribus, which is difficult to perform when comparing the topologies of different existing systems in the face of many other differentiating variables.
+The empirical qualitative tests within these experiments served to deliver some further understanding of these concepts.
+
+The general methodology for the experiments involved creating minimum viable products with viability dependent upon delivery of cohesive and functioning distributed systems in which statistical modeling could take place, implemented using the R programming language.
+Upon reaching a state of viability/functionality, evaluated and iterated upon.
+Such methodology allowed for rapid development of highly complex systems, which could be abandoned and started fresh as easily as they were to develop upon.
+This meant that decisions made early on were not constraining, and experimentation was not narrow, with a broad range of data structures and topologies engaged with.
+The notion of the minimum viable product comes commercially from the necessity of getting a product to market as soon as possible.
+Here, the intention is do assess different systems, somewhat analogous to, though certainly distinct, as products.
+In this case, the constraining factor with the time to create and develop something as complex as a statistical distributed system, multiple times over, as a single author, in the limited timespan of this project - this set the need for minimality, just as much as the scientific need for simplicity in order to allow clear examination of each component.
+
+The means by which evaluation of the experimental systems took place is worth some discussion.
+Beyond absolute functionality, they all needed to meet the clear threshold of being capable of running a simple statistical algorithm on data that was too large to fit in the memory of a single node.
+On top of this, they were assessed with respect to how well they met or supported the constructive precepts defined in the preceding chapter.
+Were it found that they empirically demonstrated the non-necessity of any of the precepts, then this would be taken as a success in establishing such non-necessity, and the precept would have to be altered or removed in order to reflect this - empirical results are taken as superior in the definition of the system over theoretical constructs.
+
+In the end, three systems were created, each system undergoing many internal iterative forms, with each engaging in different data structures and topologies, and the final system evolving into the final deliverable, which is oulined in the next chapter.
+The remainder of this chapter serves to describe the features of the two initial systems.
+At a high level, the first system used a master-worker topology, and naive, blocking data structures for the representation of distributed data, while the second system made use of a central message queue as a core data structure to allow for inter-node communication and a less taxing topology for the master, while the third system engaged in further distribution, with direct peer-to-peer communication facilitated by a central hash table for locations.

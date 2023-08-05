@@ -1,0 +1,181 @@
+We now move to the central problem that prompted this work; defining a novel distributed statistical algorithm.
+Rather than detour with a truly novel algorithm, it is prefereable to engage with something that is familiar, but holds a fairly generic form that novel analyses often share.
+Let's consider distributed LASSO regression, using the Alternating Direction Method of Multipliers, as described by \textcite{mateos2010}.
+We begin by assessing the mathematical form in Subsection \ref{sec:mathlasso}, followed by the ``standard R'' means of writing a chunked algorithm in contraposition with the \pkg{largescaler} manner in Subsection \ref{sec:rlasso}.
+
+\subsection{Distributed LASSO Mathematical Definition}\label{sec:mathlasso}
+
+This section seeks to give a brief taste of what a mathematical formulation for a distributed statistical model takes, in order to demonstrate the semantic and syntactic similarity to \pkg{largescaler} in Subsection \ref{sec:rlasso}.
+A richer description, with significant background, is given in \textcite{boyd2011}.
+
+We begin with a description of the input data, as given in Equation \ref{eqn:mathlassodata}
+
+\begin{equation}
+\begin{aligned}\label{eqn:mathlassodata}
+    A = \begin{bmatrix}
+        A_1\\
+        \vdots \\
+        A_N
+    \end{bmatrix},&
+    \quad b=\begin{bmatrix}
+        b_1\\
+        \vdots \\
+        b_N
+    \end{bmatrix}\\
+    A_i \in \mathbb{R}^{m_i\times n},& \quad b_i \in \mathbb{R}^{m_i}
+\end{aligned}
+\end{equation}
+
+The starting data includes a column block matrix of explanatory variables, $A$, consisting of $N$ submatrices.
+This is equivalent to a distributed object consisting of $N$ chunks.
+Here, each chunk is of the standard form where rows are individual observations and columns are variables.
+We also have a block matrix $b$ of the same number of chunks, with each chunk being the column vector of response variables to the corresponding $A$ chunks.
+
+The standard form of the LASSO as an optimisation problem is expressed in Equation \ref{eqn:mathlassointention}.
+
+\begin{equation}\label{eqn:mathlassointention}
+    \begin{aligned}
+        f(x) &= \frac{1}{2} \left\| A_i x_i - b_i \right\|^2_2 \\
+        g(z) &= \lambda \left| z \right|_1 \\
+        \text{minimise} \quad f(x) + g(z) &\quad \text{subject to} \quad x = z
+    \end{aligned} 
+\end{equation}
+
+The body of the ADMM loop is given by Equation \ref{eqn:mathlassoloop}.
+Of note is the complexity, the presence of iteration, and the interactions between sets of chunks getting reduced and emerged.
+
+\begin{equation}\label{eqn:mathlassoloop}
+    \begin{aligned}
+        x_i^{k+1} &:= (A_i^T A_i + \rho I)^{-1}(A^T b + \rho(z^k - u_i^k))\\
+        z^{k+1} &:= S_\frac{\lambda}{\rho N} (\overline{x}^{k+1} + \overline{u}^k) \\
+        u_i^{k+1} &:= u_i^k + x_i^{k+1} - z^{k+1}
+    \end{aligned} 
+\end{equation}
+
+\subsection{Distributed LASSO R Description}\label{sec:rlasso}
+
+This subsection gives both base R syntax for working with a local chunked dataset, as well as the minimal changes that are required when using \pkg{largescaler} to transform the expressions to handle distributed data.
+The core substance of this subsection is to demonstrate the ease with which \proglang{R} is able to meet a mathematical definition, and the successive ease by which \pkg{largescaler} is able to turn that into a truly distributed algorithm.
+As in Subsection \ref{sec:mathlasso}, the working example is given of distributed LASSO.
+Consider first some chunked data, given as a diff below.
+In the diff, semantic differences are demarcated through underlining, with shared code given centrally, with no dividing line.
+On the left of the diff we have how the LASSO as described might be encoded in the absence of the API, assuming that the data fit into memory, and on the right, we make use of large scale R with no such constraining assumption.
+
+In the \pkg{largescaler} code, distributed data may come from multiple files and multiple hosts holding the chunks, and this is easily provided for.
+The distribution comes with the necessity to carefully differentiate between the reference of the distributed object, and the distributed object itself.
+The ability to explicitly distribute local values to particular locations is also demonstrated here.
+
+\begin{table}[H]
+    \centering
+\begin{tabular}{p{\dimexpr 0.5\linewidth-2\tabcolsep} | p{\dimexpr 0.5\linewidth-2\tabcolsep}}
+R & largescaler \\ \midrule
+\begin{Verbatim}[commandchars=\#\[\]]
+A <- read.#underline[csv("~/filepath/A")]
+
+b <- read.#underline[csv("~/filepath/b")]
+
+M_N <- dim(#underline[A])
+\end{Verbatim}
+&
+\begin{Verbatim}[commandchars=\#\[\]]
+A <- read.#underline[dmatrix(c("host1:~/filepath/A1",]
+                    #underline["host2:~/filepath/A2"))]
+b <- read.#underline[dmatrix(c("host1:~/filepath/b1",]
+                    #underline["host2:~/filepath/b2"))]
+M_N <- dim(#underline[Ref(A)])
+\end{Verbatim}
+\end{tabular}
+\begin{Verbatim}[commandchars=\#\[\]]
+                        m <- ncol(A)
+                        S_z <- S(lambda/(rho*M_N[2]))
+                        z_curr <- rep(1, m)
+\end{Verbatim}
+\begin{tabular}{p{\dimexpr 0.5\linewidth-2\tabcolsep} | p{\dimexpr 0.5\linewidth-2\tabcolsep}}
+\begin{Verbatim}[commandchars=\#\[\]]
+x_curr <- u_curr <- #underline[rep(list(z_curr),]
+                                    #underline[N)]
+\end{Verbatim}
+&
+\begin{Verbatim}[commandchars=\#\[\]]
+x_curr <- u_curr <- #underline[distribute(z_curr,]
+                               #underline[where=A)]
+\end{Verbatim}
+\end{tabular}
+\end{table}
+
+The layout of the data is followed by the iterative loop, given in the below diff.
+Within the iterative loop, we can see that very little is actually needed to be changed in order to distribute this algorithm.
+We make use of a function that operates on distributed objects which we define ourselves in the successive diff, as well as the emerge to bring the distributed local as we saw before.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{p{\dimexpr 0.5\linewidth-2\tabcolsep} | p{\dimexpr 0.5\linewidth-2\tabcolsep}}
+R & largescaler \\ \midrule
+\end{tabular}
+\begin{Verbatim}[commandchars=\#\[\]]
+             while (l1_norm(z_curr - z_prev) >tolerance) {
+                 x_prev <- x_curr; z_prev <- z_curr; u_prev <- u_curr
+\end{Verbatim}
+\begin{tabular}{p{\dimexpr 0.5\linewidth-2\tabcolsep} | p{\dimexpr 0.5\linewidth-2\tabcolsep}}
+\begin{Verbatim}[commandchars=\#\[\]]
+x_curr <- #underline[mapply(]x.update, x_prev,
+                     A, b, u_prev,
+     #underline[MoreArgs = list(rho, z_prev))]
+z_curr <- S_z(rowMeans(x_curr) +
+              rowMeans(u_curr))
+u_curr <- #underline[mapply(function(u_prev,]
+                  #underline[x_curr, z_curr)]
+        u_prev + x_curr - z_curr#underline[,]
+                  #underline[u_prev, x_curr,]
+         #underline[MoreArgs = list(z_curr))]
+\end{Verbatim}
+& 
+\begin{Verbatim}[commandchars=\#\[\]]
+x_curr <- #underline[d.]x_update(x_prev, A, b,
+              u_prev, #underline[rho, z_prev])
+
+z_curr <- S_z(rowMeans(#underline[emerge(x_curr)]) +
+              rowMeans(#underline[emerge(u_curr))])
+u_curr <- u_prev + x_curr - z_curr
+\end{Verbatim}
+\end{tabular}
+\begin{Verbatim}[commandchars=\#\[\]]
+                                        }
+                                    z_curr
+\end{Verbatim}
+\end{table}
+
+Note the significantly simplified and reduced logic in switching to \pkg{largescaler}, which bears a far closer resemblance to the mathematical description.
+The \code{x\_update()} function given above is exemplary of the approach provided by \pkg{largescaler}, which allows for the switching of a local to a distributed function through the higher-order \code{d()} function, as demonstrated below:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{p{\dimexpr 0.5\linewidth-2\tabcolsep} | p{\dimexpr 0.5\linewidth-2\tabcolsep}}
+R & largescaler \\ \midrule
+\begin{Verbatim}[commandchars=\#\[\]]
+#underline[x_update] <- function(x_prev, A, b,
+\end{Verbatim}
+& 
+\begin{Verbatim}[commandchars=\#\[\]]
+#underline[d.x_update] <- #underline[d(]function(x_prev, A, b,
+\end{Verbatim}
+\end{tabular}
+\begin{Verbatim}[commandchars=\#\[\]]
+                     u_prev, rho, z_prev) {
+                optim(x_prev, function(x_prev)
+                        (1/2)*l2_norm(A %*% x_prev - b)^2 +
+                        (rho/2)*l2_norm(x_prev - z_prev + u_prev)^2)$par
+\end{Verbatim}
+\begin{tabular}{p{\dimexpr 0.5\linewidth-2\tabcolsep} | p{\dimexpr 0.5\linewidth-2\tabcolsep}}
+\begin{Verbatim}[commandchars=\#\[\]]
+                 }
+\end{Verbatim}
+&
+\begin{Verbatim}[commandchars=\#\[\]]
+                 }#underline[)]
+\end{Verbatim}
+\\
+\end{tabular}
+\end{table}
+
+And this serves to define a distributed LASSO, using ADMM.

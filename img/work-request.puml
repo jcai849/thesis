@@ -1,0 +1,24 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam style strictuml
+skinparam LifelineStrategy nosolid
+skinparam sequenceMessageAlign center
+title Work Request
+
+participant Client as client
+participant Worker as worker
+
+client -> worker ++: Request work
+activate client
+worker --> client: ACK
+deactivate client
+worker -> worker ++--: Attain arguments,\npossibly from other workers
+worker -> worker ++--: Run computation
+worker -> worker ++--: Store results of computation
+worker -> worker --: Return to main loop
+client -> worker ++: emerge result
+activate client
+return result
+deactivate client
+@enduml

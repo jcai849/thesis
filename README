@@ -1,0 +1,3 @@
+Thesis
+
+Dependencies: latexmk lualatex biber plantuml graphviz dot2tex python3-pygments

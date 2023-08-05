@@ -1,0 +1,401 @@
+With the establishment of an object system, attention may then be turned
+to the actualities of computation. Some questions that have been brewing
+may be investigated: What form does a computation possess? With the
+intention of the system to allow for extension at every level, what is a
+necessary minimum basis with which to engage at a level lower than the
+aformentioned ``chunk'' layer, where the very operations that are
+performed on chunks are concerned? What can a developer expect to take
+place in the system when an operation is performed on some object?
+
+Such questions depend on further elucidation of the system, including
+determination of the specific means of distribution of the chunks. While
+this dependency brings much light to the subject, this will be delayed
+in order to constrain the discussion to only those features of
+computation that are invariant to distribution specifics, with these
+details being discussed later.
+
+We may continue with the \mintinline{r}{max} example as raised in the preceding
+section, with greater focus on the computational aspects. Starting
+again, we have some chunk referenced through \mintinline{r}{d1} in \ref{lst:chunk-d1}:
+
+\begin{listing}
+    \begin{minted}{r}
+print(d1)
+
+# 1 chunk:
+# int [1:1E9] 304 12348 -5899 ...
+    \end{minted}
+    \caption{Single chunk for manipulation}
+    \label{lst:chunk-d1}
+\end{listing}
+
+We want to attain the maximum of this chunk. As given before, we may run
+the \mintinline{r}{max()} function over it, returning another chunk reference to
+a chunk representing the \mintinline{r}{max()} of \mintinline{r}{d1}, and emerge the
+result to attain the max as a local, standard, object in \ref{lst:emerge-max}:
+
+\begin{listing}
+    \begin{minted}{r}
+d2 <- max(d1)
+print(d2)
+
+# 1 chunk:
+# int 109230
+
+l2 <- emerge(d2)
+print(l2)
+
+# int 109230
+    \end{minted}
+    \caption{Emerging the maximum of a chunk}
+    \label{lst:emerge-max}
+\end{listing}
+
+Let's look at this from another angle, tracing the very route of the
+computation that creates such a result. The anatomy of a computational
+function may guide discussion, with the parts being arguments, body, and
+returned value. Applied to chunk operations:
+
+\begin{itemize}
+
+    \item
+          Operations on chunks must have some means of access to all of the
+          relevant chunk arguments to operate on together;
+    \item
+          the operation must have a stored description of some kind;
+    \item
+          and the result of the operation must be stored somewhere.
+\end{itemize}
+
+With respect to the \mintinline{r}{max} operation above, the first point means
+that the chunk pointed to by \mintinline{r}{d1} must be located in the same
+memory space as what the \mintinline{r}{max} operation has direct access to.
+This means that the computation must take place remotely. The remote
+memory space which has operations performed is known as a
+\textbf{worker}, which may possibly be a distinct computing node in a
+network. This contrasts with the local node which holds the chunk
+references and is interacted with directly, which is known as the
+\textbf{client}. Here a specific choice is made as to where the
+computation takes place; the \textbf{computation travels to the chunk},
+rather than the chunk travelling to the computation. A corrolary of this
+fact is what allows for computations to take place over multiple chunks
+which can't coexist in memory: that each computation takes place within
+a separate memory space. Furthermore, the computation, as will be
+described, is typically several orders of magnitude smaller in size than
+the chunk, and is therefore more efficient to transport.
+
+To investigate this, let us first introduce the notion of a function
+applicator that sends a function to be run over chunks, through their
+chunk references. We label it \mintinline{r}{chunk.call}, taking some function
+to be applied as it's first argument, with the remaining arguments chunk
+references to have the function remotely applied to, and returns a
+single chunk reference to the result. For example, we have a potential
+implementation of remote \mintinline{r}{max} at a low level using
+\mintinline{r}{chunk.call} in \ref{lst:chunk-call}
+
+\begin{listing}
+    \begin{minted}{r}
+d2 <- chunk.call(max, d1)
+print(d2)
+
+# 1 chunk:
+# int 109230
+    \end{minted}
+    \caption{Directly calling a function on a chunk}
+    \label{lst:chunk-call}
+\end{listing}
+
+The use of \mintinline{r}{chunk.call} on a single chunk may be effectively
+useless if the remote memory space the chunk occupies is equivalent to
+the local space - in this case it would be simpler to run the
+computation directly, locally, and avoid any overhead associated with
+the indirection provided by chunks. When multiple chunks are to be
+considered for a computation, the situation changes; With the size of
+all chunks together exceeding memory limits, the worker performing the
+operation must only possess some of the chunks in memory at any one
+time. While seemingly paradoxical, if the set of permitted operations is
+sufficiently constrained to only allow for some of the chunk arguments
+to be operated on together simultaneously, then memory limitations may
+be respected. An example may be a parallel arithmetic operation on two
+vectors of equal length; At any point in the specific arithmetic
+operation, all that is required are the two elements existing at equal
+indices of the vectors. Some number of elements that remains within
+memory bounds may then form a chunk, with each corresponding set of
+chunks may be operated upon in memory, until an entire set of chunks,
+larger than memory in aggregate, may be processed. Take for example, a
+slightly modified version of the previous example, where rather than a
+single maximum, a running parallel maximum along several vectors of
+equal length is to be computed. Each vector is larger than memory, and
+as such, is broken into several chunks. These chunks can be compared
+across vectors in memory, without the entireity of the vectors being
+loaded into memory together.
+
+\textbf{diagram of this}
+
+Concretely, consider vectors \mintinline{r}{v1}, \mintinline{r}{v2}, and \mintinline{r}{v3},
+each of which is composed of one trillion integers, and the running
+parallel maximum is to be found amongst them. Each vector is broken into
+ten thousand equally-sized chunks, with the chunks labelled according to
+vector \mintinline{r}{i} and chunk \mintinline{r}{j}, as \mintinline{r}{d\_i\_j}, so that the
+third chunk of the first vector is referred to as \mintinline{r}{d\_1\_3}. Then
+each \(j\)th chunk of the vectors can be compared across with
+\mintinline{r}{pmax}, using \mintinline{r}{chunk.call}, with the \ref{lst:call-along-chunks}
+comparing the first chunk of each of the vectors:
+
+\begin{listing}
+    \begin{minted}{r}
+pmax_1 <- chunk.call(pmax, d_1_1, d_2_1, d_3_1)
+print(pmax_1)
+
+# 1 chunk:
+# int [1:1E8] 109230 2374 83874 ...
+    \end{minted}
+    \caption{A call along multiple chunks}
+    \label{lst:call-along-chunks}
+\end{listing}
+
+Were each vector to be taken to the user level, as described in the
+previous section, they would be treated as distributed objects. The
+first vector \mintinline{r}{d\_1} may look something like the \ref{lst:distobj}:
+
+\begin{listing}
+    \begin{minted}{r}
+print(d1)
+
+# Distributed Object composed of 10,000 chunks
+# int [1:1E12] 109230 1938 34234 ...
+    \end{minted}
+    \caption{An example distributed object}
+    \label{lst:distobj}
+\end{listing}
+
+Here we may introduce a higher-level version of \mintinline{r}{chunk.call},
+which similarly applies a function given as argument to the remainder of
+arguments, though the remainder of arguments in this case are to be
+distributed objects. With the example given above, we may label this
+function \mintinline{r}{distributedObject.call}, and run it with \mintinline{r}{pmax}
+over the distributed object vectors \mintinline{r}{d\_1}, \mintinline{r}{d\_2}, and
+\mintinline{r}{d\_3} like \ref{lst:distobj-call}:
+
+\begin{listing}
+    \begin{minted}{r}
+dpmax <- distributedObject.call(pmax, d_1, d_2, d_3)
+print(dpmax)
+
+# Distributed Object composed of 10,000 chunks
+# int [1:1E12] 109230 2374 83874 ...
+    \end{minted}
+    \caption{Calling over a distributed object}
+    \label{lst:distobj-call}
+\end{listing}
+
+With this example, the means of access to the multiple arguments also
+raises questions; were the chunks distributed across a network, the
+worker performing the computation requires some \textbf{means of
+    attaining the relevant chunk arguments}, and if they were to be operated
+upon in a stream, a consistent method of pulling chunks into memory is
+required. Here the water muddies with respect to moving computations to
+data, versus moving data to computations. But with such a methodology,
+it is clear that the computation always moves to some data, with the
+remainder of data movement occuring only as required. Such further data
+movement can be directed through a variety of strategies, including
+optimising to minimise size of movement, optimising to minimise load on
+the end worker, among others - none are to be specified at this stage.
+
+One situation that would have to be considered is the mixing of local
+and remote arguments. For instance, returning to our earlier, simpler
+example in listing \ref{lst:earlier-example}:
+
+\begin{listing}
+    \begin{minted}{r}
+d2 <- max(d1, na.rm=TRUE)
+print(d2)
+
+# 1 chunk:
+# int 109230
+    \end{minted}
+    \caption{Finding the maximum of a distributed object}
+    \label{lst:earlier-example}
+\end{listing}
+
+Nothing on the face of it is wrong with such a statement, as indeed the
+semantics are exceedingly clear. A chunk is to be operated on, and the
+operation is to take the local argument \mintinline{r}{na.rm=TRUE} A threshold
+has been crossed however, in now allowing for the \textbf{mixing of
+    local and remote arguments}. The worker requires all relevant arguments
+to the operation to exist in its own memory. Therefore,
+\mintinline{r}{na.rm=TRUE} must be sent to the worker as part of the operation.
+For the sake of consistency, it may be that \mintinline{r}{na.rm} is sent over
+to the worker to be treated as a chunk, including the generation of a
+local chunk reference -- but this is to be decided by the
+implementation. There at least seems a clear answer to such a situation,
+though it is important to consider the very existence of such a
+situation.
+
+The situation of argument attainment complexifies enormously when
+\textbf{arguments of differing length} are supplied. The above example
+had a very obvious interpretation, where \mintinline{r}{na.rm} is sent as-is to
+wherever the chunk referred to by \mintinline{r}{d1} is located. Even in a
+situation like the \mintinline{r}{distributedObject.call}, run with a
+\mintinline{r}{max} over a single distributed object, it is obvious that
+\mintinline{r}{na.rm} should be sent to all workers operating on each chunk of
+the distributed object. That is, obvious to the user, but not
+necessarily so obvious to the computer. It is obvious to the user
+because the user knows of it as a scalar. In other situations, the
+scalar may be treated as a vector to be recycled to the same length of
+the greater object. For instance, the \mintinline{r}{pmax} between a scalar and
+a vector. Recycling is not always intended, and when comparing
+distributed objects of differing length, different functions may require
+different strategies.
+
+Figure \ref{fig:chunk-recycle} shows precisely this example. Here, \mintinline{r}{x} is a
+chunk containing a single integer, \mintinline{r}{1}, and \mintinline{r}{y} is a
+distributed object composed of three chunks, each holding a section from
+\mintinline{r}{1:3E9}. In all chunk computations with \mintinline{r}{max(x,\ y)},
+\mintinline{r}{x} is to be recycled to engage as an argument with all chunk
+operations involving \mintinline{r}{y}. Conversely, if \mintinline{r}{y} is to be
+indexed by \mintinline{r}{x}, it should not be recycled, and each chunk
+belonging to \mintinline{r}{y} should receive different transformations of
+\mintinline{r}{x}. Specifically, the first chunk of \mintinline{r}{y} should receive
+\mintinline{r}{x} as-is, because with \mintinline{r}{x} as \mintinline{r}{1}, it selects the
+first element. The first element of the distributed object is the first
+element of the first chunk, but nothing should be selected from the
+other chunks. Were a \mintinline{r}{1} to be indexed from each of the other
+chunks, they would index relative to themselves, and unintended results
+would ensue.
+
+\begin{figure}[ht]
+    \centering
+    \input{img/scalar-index.tex}
+    \caption{Figure showing a chunk that is treated as-is and recycled in
+        the situation where it is considered a scalar, but converted to
+        something else entirely when used as a numerical index}
+    \label{fig:chunk-recycle}
+\end{figure}
+
+The earlier section implies that length is always known of a distributed
+object, which hasn't necessarily been established. Were the object under
+consideration the result of a long chain of operations which may alter
+the length, and the chunks all remote, there is not any local knowledge
+of length without a direct query to the relevant workers and a summation
+of all of the lengths. To add to the difficulty, simple vectors with a
+single ``length'' value are not the only underlying datatypes that are
+allowed for, as specified in the Object System section; the data may be
+of any dimension, and indeed any shape, making the idea that recycling
+can take place appear increasingly impossible. Indexing of a distributed
+object is a similar problem, for similar reasons - there is no
+theoretical solution to a completely open problem as this, so experience
+through prototyping will have to be relied upon to provide some
+reasonable heuristics and defaults.
+
+With the arguments in place for the computation, the computation can be
+run on the worker. What computation? Specifically, how does the worker
+know of the computation, and how is the computation run? The
+implementation details of how the worker receives the computation may
+vary, however an essential aspect is the serialisation and sending of
+the procedure as supplied to one of the applicator functions on the
+local end to the chunk reference. The important step, made opaque by the
+applicator functions, is to couple the reference to the chunk arguments
+with a computation, as a set of instructions, and send that to the
+worker. This step implies two additional corollaries:
+
+\begin{itemize}
+    \item
+          References to chunks must be understood by both the local memory as
+          well as the remote worker memory. This means that there should be some
+          universal means of reference to specific chunks within the system;
+          either through tagging or other ID measures. Were this not the case,
+          the worker would not understand what chunk is being referred to as
+          part of the computation instructions as sent from the client.
+    \item
+          Computations are sent to the worker, which would ideally have most of
+          the relevant data available.
+\end{itemize}
+
+After receiving the packaged computation and chunk references, the
+worker would first have to arrange the chunks in its memory as described
+above, and with all this in place, deserialise the provided computation
+and run it over the chunks in a regular fashion, with all relevant
+pieces being local. Despite the running of a computation on remote
+chunks being core to the running of the system as a whole, this aspect
+appears to be the most straightforward of any. Experience will put such
+a statement to the test. One possible difficulty lies in the fact that
+arguments are not the only relative data to the running of any function.
+Functions may reference variables beyond just the arguments, such as
+global variables. Were this to be allowed in the system, a means of
+identifying such variable use in the body of a function is required, as
+they would have to be sent alongside the arguments. This may add massive
+amounts of complexity to each remote computation call however, as such
+static analysis, particularly of dynamic languages, is notoriously
+difficult and unreliable.
+
+Following the running of the computation, the ``body'' as given in the
+earlier guide to this discussion, a returned value results. There are
+two aspects worth considering with respect to such a value:
+
+\begin{itemize}
+    \item
+          How it is stored as a chunk on the worker
+    \item
+          How it is referenced on the originator of the computation (the client)
+\end{itemize}
+
+Both aspects depend on the notion that chunks must persist, which is a
+point worth focussing on directly: First, consider the alternative,
+where chunks are not persistent. In such a form, the chunk resulting
+from any remote operation would have to be sent immediately to the
+client in order for anything useful to eventuate from its creation,
+assuming such an operation was not run purely for its side effects. Such
+is the course taken by SNOW, which has such limitations already
+addressed. Notably - the enormous amount of movement back and forth of
+data, and unintuitive programming techniques to emulate persistence;
+neither of which are suited to very big data. As such, let it be assumed
+that chunks persist. Returning to the two aspects just described, the
+question is: How?
+
+Consider first how the result is stored on the worker. This would be
+specific to the form of distribution of chunks. Were chunks to be
+distributed over time across the same machine, sinking to disk is the
+only possible option, with the maintenance of some further reference to
+the location on disk. With chunks distributed across a cluster of nodes,
+the same option is available, as well as the potential to maintain the
+chunk in-memory, assuming each chunk is sufficiently small enough to
+leave space for other chunks, which could be enforced.
+
+Reference of the result on the client requires some agreement at the
+time of sending the computation request as to how the result is to be
+referenced. Were the request to be sent without any contract between
+client and worker as to how to reference the result, any further
+communication would also lack this information, as the result would be
+indiscernable from any other computation result. Therefore, some initial
+contract as to how to refer to the resulting chunk is required between
+client and worker, with a variety of strategies discussed in the
+appendix. Irrespective of strategy, the persistence of chunks dictates
+that the result should be a chunk, with the returned value on the client
+a chunk reference. With this consistency, it can be seen inductively
+that indefinitely long chains of remote operations can take place
+without need for continual data movement between client and workers. For
+example, listing \ref{lst:type-annotated} gives an annotation of the type of each
+object as it may exist relative to the client node:
+
+\begin{listing}
+    \begin{minted}{r}
+n <- 99999                               # Integer on client
+y <- read.chunk(distributed_data_source) # chunk reference on client pointing to an integer chunk on some worker
+z <- x + y                               # chunk reference on client pointing to an integer chunk on some worker
+a <- z + 1 + 2 + ... + n                 # chunk reference on client pointing to an integer chunk on some worker
+b <- emerge(a)                           # Integer on client
+    \end{minted}
+    \caption{Relative locations of each object}
+    \label{lst:type-annotated}
+\end{listing}
+
+Here, the variable \mintinline{r}{a} is of particular interest, as it requires
+the creation of many temporary chunks as each addition computation is
+engaged in. The treatment of such temporary chunks is worth
+consideration, as without appropriate collection, they will gather and
+leak memory.
+
+With client and workers engaging in multiple computations, it is now
+worth asking how they are to be arranged over time. The following
+section seeks to explore precisely this question.

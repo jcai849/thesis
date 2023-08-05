@@ -1,0 +1,94 @@
+\pkg{largescaler} serves as a functioning system, capable of performing complex statistical analyses over datasets spanning many nodes.
+The implementation of this system makes use of a layered approach, wherein each layer targets a different category of user.
+The \pkg{largescaler} interface is the principal new contribution by this project, delivering a novel means of interacting with distributed data through meaningful primitives defined at every level of abstraction.
+A key offering of the layered approach is the ease by which a user of the package can traverse the levels as needed, with irrelevant information remaining hidden until required.
+The levels of abstraction correspond to users of the package, given as the following:
+
+\begin{description}
+    \item[Analyst] A user solely interested in using the provided models and statistical functions in order to attain insight into some larger-than-memory data, typically a distributed data frame. All details of distribution are abstracted away.
+    \item[Researcher] A user seeking to develop their own distributed statistical models. Distributed objects are to be considered as singular cohesive objects.
+    \item[Developer] A user seeking greater expressivity in the definition of statistical models. Chunks are considered a relevant concern to be manipulated directly.
+    \item[Architect] A user intending to directly modify the network topology of the distributed system, mainly in order to attain major efficiency gains.
+\end{description}
+
+Each of the users are served by the aforementioned packages making up the framework, in turn serving a logical layer of abstraction.
+This mapping is given in Table \ref{tab:layer}.
+
+\begin{table}[h!]
+\centering
+\caption{A mapping of logical layers, users and the respective packages provided by the \pkg{largescaler} framework to enable the use.}
+\label{tab:layer}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Layer & User & Package \\ \midrule
+Model Usage & Analyst & \pkg{largescalemodelr} \\
+Model Description & Researcher & \pkg{largescaler} \\
+Cluster Interaction & Developer & \pkg{chunknet} \\
+Communication & Architect & \pkg{orcv} \\ \bottomrule
+\end{tabular}
+\end{table}
+
+Owing to considerations of space, this description of the user interface will focus solely on the key offerings of the \pkg{largescaler} user interface, with descriptions of other components and packages having a fuller treatment in \cite{cairns2023}.
+Use of the API is given by way of example below.
+
+Consider first a simple operation of summation.
+Given some vector $x$ that is broken up into $j$ chunks, yielding $j$ subvectors of length $i$.
+Due to associativity the sum of the whole is the sum of the sum of the parts, as shown in Equation \ref{eqn:sum}.
+
+\begin{equation}\label{eqn:sum}
+    \sum_i x_i= \sum_{j,i}x_{ij} = \sum_j\sum_i x_{ij}
+\end{equation}
+
+In an effort to maintain as close proximity as possible between the mathematical description and the provided interface, this may be written in \pkg{largescaler} as in the following \proglang{R} code:
+
+\code{ d(sum)(x) |> emerge() |> sum() }
+
+Here, the \code{d()} applicator function transforms the base \code{sum()} function to work over distributed objects, in this example given by \code{x}.
+\code{sum()} is therefore sent to each chunk, yielding a new distributed object as the output.
+This output distributed object can be brought back to the requesting client and combined using the provided \code{emerge()} function, yielding a regular \proglang{R} numeric vector of sums.
+This vector of sums may then be summed as normal, providing the final result.
+The given example is actually a very simple application of map-reduce, and could effectively serve as the \code{sum()} method for distributed objects
+
+Consider something slightly more complex: the arithmetic mean.
+Again, a chunked mathematical description is given in Equation \ref{eqn:mean}
+
+\begin{equation}\label{eqn:mean}
+    \overline{x} = \frac{\sum_{i}x_{i}}{n} = \frac{\sum_{j,i}x_{ij}}{\sum_j n_j}
+\end{equation}
+
+A related means of specification through \pkg{largescaler} is possible, given in the following code:
+
+\code{sum(x) / { d(length)(x) |> sum() } }
+
+Here we build on the distributed sum introduced above, but the total length of The distributed object is relevent as the denominator.
+Assuming a \code{sum()} method for distributed objects as described, and the math group generic defined in a similar fashion, the denominator is defined using the same \code{d()} function that sends a \code{length} computation to all of the chunks.
+
+Finally, consider the cumulative sum.
+It is important in this case to think of chunks as being in series, which is determined by the structure of the distributed object reference.
+The main difference between a non-distributed and a distributed version of cumulative sum is that for each chunk in the series, computation requires the cumulative sum of the previous chunk as a starting value.
+Using a chunked mathematical description, cumulative sum may be described by Equation \ref{eqn:cumsum}.
+
+\begin{equation}
+\begin{gathered}\label{eqn:cumsum}
+    S_i = S_{i-1}+x_i, \quad S_0 = 0\\
+    \iff S_{i,j} = S_{i-1,j} + x_{i,j}, \quad S_{0,j} = S_{n_i,j-1},\\
+    \qquad S_{0,0} = 0
+\end{gathered}
+\end{equation}
+
+This can be expressed in a functional manner using the \textit{reduce} operator, also known as a \textit{fold}, and the \pkg{largescaler} framework provides a distributed form of such a function, where the results of one chunk are sent as the initial value to the reduce function as applied to the next chunk and so on in series.
+An example of a reduce operation is given in Figure \ref{fig:dreduce}.
+
+\begin{figure}[ht]
+\begin{center}
+    \input{img/dreduce.tex}
+\caption{Example distributed reduce pattern from controlling process.}
+\label{fig:dreduce}
+\end{center}
+\end{figure}
+
+This is put to use for cumulative sum by \pkg{largescaler} by the following code:
+
+\code{ dReduce(cumsum, x) |> emerge() }
+
+A distributed object is returned that by default just holds the final accumulation, consisting of one single chunk.
