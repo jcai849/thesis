@@ -1,0 +1,36 @@
+\begin{minipage}{0.4\textwidth}
+	\begin{tikzpicture}
+		\draw[-{>[scale=2]}] (0,8) -- (0,0) node[at start, anchor=south] {C};
+		\draw[-{>[scale=2]}] (2,8) -- (2,0) node[at start, anchor=south] {Q};
+		\draw[-{>[scale=2]}] (4,8) -- (4,0) node[at start, anchor=south] {S};
+
+		\draw[red] (0,7.5) -- (0,3) node[midway, anchor=east] {x};
+		\draw[red] (4,5) -- (4,4.5) node[midway, anchor=west] {y};
+
+		\draw[-{>[scale=2]}] (0,7.5) -- (2, 6.5) node[midway, anchor=south] {a};
+		\draw[-{>[scale=2]}] (4,8) -- (2, 7) node[midway, anchor=south] {b};
+		\draw[-{>[scale=2]}] (2, 6) -- (4, 5) node[midway, anchor=south] {c};
+		\draw[-{>[scale=2]}] (4, 4.5) -- (2, 3.5) node[midway, anchor=south] {d};
+		\draw[-{>[scale=2]}] (0, 3) -- (2, 2) node[midway, anchor=south] {e};
+		\draw[-{>[scale=2]}] (2, 1.5) -- (0, 0.5) node[midway, anchor=south] {f};
+	\end{tikzpicture}
+\end{minipage}
+\begin{minipage}{0.6\textwidth}
+	\begin{description}
+		\item [a] Assignment request message pushed to chunk
+			queue
+		\item [b] Blocking pop of queue
+		\item [c] Message popped from queue
+		\item [d] Chunk ID pushed to information reference
+			queue
+		\item [e] Request for chunk ID creates blocking pop for
+			information reference queue
+		\item [f] Chunk ID message popped from information
+			reference queue
+		\item [\textcolor{red}{x}] Creation of chunk object
+			containing job ID, but no chunk ID, followed by
+			any operations not requiring chunk ID
+		\item [\textcolor{red}{y}] Perform operation specified
+			by message in \textbf{e}, with assignment
+	\end{description}
+\end{minipage}

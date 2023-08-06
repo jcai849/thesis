@@ -60,8 +60,8 @@ it a more general request of addition between distributed objects, and
 the node will have to determine for itself which chunks to pull to it,
 if any.
 
-A very simple example is given by \cite{lst:msg-q-master}
-\cite{lst:msg-q-worker}, demonstrating the master and worker node routines
+A very simple example is given by \ref{lst:msg-q-master}
+\ref{lst:msg-q-worker}, demonstrating the master and worker node routines
 respectively.
 
 \hypertarget{lst:msg-q-master}{%
@@ -256,6 +256,10 @@ and monitored by the client node.
 
 \begin{table}
 	\centering
+	\caption{Description of Algorithms and Data Structure of chunk
+	reference object, by blocking status in creation, and origination of
+	chunk ID.}
+	\label{tab:name-orig-block}
 	\begin{tabularx}{\textwidth}{l|XX}
 	\toprule
 	& Client-Originated chunk ID & Server-Originated chunk ID \\
@@ -289,10 +293,6 @@ and monitored by the client node.
 		in the common information repository. \\
 	\bottomrule
 \end{tabularx}
-	\caption{Description of Algorithms and Data Structure of chunk
-	reference object, by blocking status in creation, and origination of
-	chunk ID.}
-	\label{tab:name-orig-block}
 \end{table}
 
 While it is clearly more straightforward for a client node to originate a chunk
@@ -356,42 +356,7 @@ The chunk object then has the associate the ID associated with it, and the
 information reference queue can be deleted.
 
 \begin{figure}
-	\begin{minipage}{0.4\textwidth}
-		\begin{tikzpicture}
-			\draw[-{>[scale=2]}] (0,8) -- (0,0) node[at start, anchor=south] {C};
-			\draw[-{>[scale=2]}] (2,8) -- (2,0) node[at start, anchor=south] {Q};
-			\draw[-{>[scale=2]}] (4,8) -- (4,0) node[at start, anchor=south] {S};
-
-			\draw[red] (0,7.5) -- (0,3) node[midway, anchor=east] {x};
-			\draw[red] (4,5) -- (4,4.5) node[midway, anchor=west] {y};
-
-			\draw[-{>[scale=2]}] (0,7.5) -- (2, 6.5) node[midway, anchor=south] {a};
-			\draw[-{>[scale=2]}] (4,8) -- (2, 7) node[midway, anchor=south] {b};
-			\draw[-{>[scale=2]}] (2, 6) -- (4, 5) node[midway, anchor=south] {c};
-			\draw[-{>[scale=2]}] (4, 4.5) -- (2, 3.5) node[midway, anchor=south] {d};
-			\draw[-{>[scale=2]}] (0, 3) -- (2, 2) node[midway, anchor=south] {e};
-			\draw[-{>[scale=2]}] (2, 1.5) -- (0, 0.5) node[midway, anchor=south] {f};
-		\end{tikzpicture}
-	\end{minipage}
-	\begin{minipage}{0.6\textwidth}
-		\begin{description}
-			\item [a] Assignment request message pushed to chunk
-				queue
-			\item [b] Blocking pop of queue
-			\item [c] Message popped from queue
-			\item [d] Chunk ID pushed to information reference
-				queue
-			\item [e] Request for chunk ID creates blocking pop for
-				information reference queue
-			\item [f] Chunk ID message popped from information
-				reference queue
-			\item [\textcolor{red}{x}] Creation of chunk object
-				containing job ID, but no chunk ID, followed by
-				any operations not requiring chunk ID
-			\item [\textcolor{red}{y}] Perform operation specified
-				by message in \textbf{e}, with assignment
-		\end{description}
-	\end{minipage}
+	\input{img/chunk-assign.tex}
 	\caption{\label{fig:w-o-td}Logical time diagram of chunk assignment for
 	server-originated chunk ID}
 \end{figure}
@@ -461,85 +426,7 @@ A space-time diagram of the client-originated chunk ID model is given in figure
 \ref{fig:mci}.
 
 \begin{figure}
-	\begin{minipage}{0.6\textwidth}
-	\begin{tikzpicture}
-		% nodes
-		\draw[very thin,-{>[scale=2]}] (0,10) -- (0,0) 
-			node[at start,anchor=south] {C};
-		\draw[very thin,-{>[scale=2]}] (2,10) -- (2,0) 
-			node[at start,anchor=south] {Q};
-		\draw[very thin,-{>[scale=2]}] (4,10) -- (4,0) 
-			node[at start,anchor=south] {S};
-
-		% listeners
-		\draw[color=mygray] (4,9.5) -- (2,9.5) 
-			node[midway,anchor=south] {b};
-		\draw[color=dark2-5] (0,7.5) -- (2,7.5) 
-			node[midway,anchor=south] {e};
-		\draw[color=mygray] (4,7.5) -- (2,7.5) 
-			node[midway,anchor=south] {g};
-		\draw[color=mygray] (4,6) -- (2,6) 
-			node[midway,anchor=south] {i};
-		\draw[color=mygray] (4,4.5) -- (2,4.5) 
-			node[midway,anchor=south] {k};
-
-		% y <- f(x)
-		\draw[-{>[scale=2]},dark2-1] (0,9.5) -- (2,9) 
-			node[at start,anchor=east] {\texttt{y <- f(x)}}
-			node[midway,anchor=south] {a};
-		\draw[-{>[scale=2]},dark2-1] (2,9) -- (4,8.5)
-			node[midway,anchor=south] {c};
-		\draw[very thick,dark2-1] (4,8.5) -- (4,7.5) 
-			node[midway,anchor=west] {\texttt{C2 <- f(C1)}};
-
-		% f(i)
-		\draw[very thick,dark2-2] (0,9.5) -- (0,8.5) 
-			node[midway,anchor=east] {\texttt{f(i)}};
-
-		% z <- f(y)
-		\draw[-{>[scale=2]},dark2-3] (0,8.5) -- (2,8) 
-			node[at start,anchor=east] {\texttt{z <- f(y)}}
-			node[midway,anchor=south] {d};
-		\draw[-{>[scale=2]},dark2-3] (2,7.5) -- (4,7)
-			node[midway,anchor=north] {h};
-		\draw[very thick,dark2-3] (4,7) -- (4,6) 
-			node[midway,anchor=west] {\texttt{f(C2)}};
-
-		% f(j)
-		\draw[very thick,dark2-4] (0,8.5) -- (0,7.5)
-			node[midway,anchor=east] {\texttt{f(j)}};
-			
-		% f(z)
-		\draw[-{>[scale=2]},dark2-5] (0,7.5) -- (2,7) 
-			node[at start,anchor=east] {\texttt{f(z)}}
-			node[midway,anchor=north] {f};
-		\draw[-{>[scale=2]},dark2-5] (2,6) -- (4,5.5)
-			node[midway,anchor=north] {j};
-		\draw[very thick,dark2-5] (4,5.5) -- (4,4.5) 
-			node[midway,anchor=west] {\texttt{f(C3)}};
-		\draw[-{>[scale=2]},dark2-5] (4,4.5) -- (2,4)
-			node[midway,anchor=north] {l};
-		\draw[-{>[scale=2]},dark2-5] (2,4) -- (0,3.5)
-			node[midway,anchor=south] {m};
-	\end{tikzpicture}
-	\end{minipage}
-	\begin{minipage}{0.4\textwidth}
-		\begin{description}
-			\item [\textcolor{dark2-1}{a}] Push \texttt{<f, chunkID=C2>} to queue \texttt{C1}
-			\item [\textcolor{mygray}{b}] Listen to queue \texttt{C1}
-			\item [\textcolor{dark2-1}{c}] Pop \texttt{<f, chunkID=C2>} from queue \texttt{C1}
-			\item [\textcolor{dark2-3}{d}] Push \texttt{<f, chunkID=C3>} to queue \texttt{C2}
-			\item [\textcolor{dark2-5}{e}] Listen to queue \texttt{C3}
-			\item [\textcolor{dark2-5}{f}] Push \texttt{<f, jobID=J1>} to queue \texttt{C3}
-			\item [\textcolor{mygray}{g}] Listen to queues \texttt{C1, C2}
-			\item [\textcolor{dark2-3}{h}] Pop \texttt{<f, chunkID=C3>} from queue \texttt{C2}
-			\item [\textcolor{mygray}{i}] Listen to queues \texttt{C1, C2, C3}
-			\item [\textcolor{dark2-5}{j}] Pop \texttt{<f, jobID=J1>} from queue \texttt{C3}
-			\item [\textcolor{mygray}{k}] Listen to queues \texttt{C1, C2, C3}
-			\item [\textcolor{dark2-5}{l}] Push \texttt{<val>} to queue \texttt{J1}
-			\item [\textcolor{dark2-5}{m}] Pop \texttt{<val>} from queue \texttt{J1}
-		\end{description}
-	\end{minipage}
+	\input{img/client-chunk-id.tex}
 	\caption{\label{fig:mci} Space-Time Diagram of Client-Originated Chunk ID}
 \end{figure}
 
@@ -559,98 +446,7 @@ A diagram of the server-originated chunk ID model is given in figure \ref{fig:ms
 \setlength{\columnsep}{50pt}
 \begin{figure}
 	\centering
-	\begin{tikzpicture}
-		% nodes
-		\draw[very thin,-{>[scale=2]}] (0,10) -- (0,0) 
-			node[at start,anchor=south] {C};
-		\draw[very thin,-{>[scale=2]}] (2,10) -- (2,0) 
-			node[at start,anchor=south] {Q};
-		\draw[very thin,-{>[scale=2]}] (4,10) -- (4,0) 
-			node[at start,anchor=south] {S};
-
-		% listeners
-		\draw[color=mygray] (4,9.5) -- (2,9.5) 
-			node[midway,anchor=south] {b};
-		\draw[color=dark2-3] (0,8.5) -- (2,8.5) 
-			node[midway,anchor=south] {d};
-		\draw[color=mygray] (4,7.5) -- (2,7.5) 
-			node[midway,anchor=south] {e};
-		\draw[color=dark2-5] (0,5.5) -- (2,5.5) 
-			node[midway,anchor=south] {j};
-		\draw[color=mygray] (4,4.5) -- (2,4.5) 
-			node[midway,anchor=south] {k};
-		\draw[color=mygray] (4,1.5) -- (2,1.5) 
-			node[midway,anchor=south] {p};
-
-		% y <- f(x)
-		\draw[-{>[scale=2]},dark2-1] (0,9.5) -- (2,9) 
-			node[at start,anchor=east] {\texttt{y <- f(x)}}
-			node[midway,anchor=south] {a};
-		\draw[-{>[scale=2]},dark2-1] (2,9) -- (4,8.5)
-			node[midway,anchor=south] {c};
-		\draw[very thick,dark2-1] (4,8.5) -- (4,7.5) 
-			node[midway,anchor=west] {\texttt{C2 <- f(C1)}};
-		\draw[-{>[scale=2]},dark2-1] (4,7.5) -- (2,7) 
-			node[midway,anchor=north] {f};
-		\draw[-{>[scale=2]},dark2-1] (2,7) -- (0,6.5)
-			node[midway,anchor=south] {g};
-
-		% f(i)
-		\draw[very thick,dark2-2] (0,9.5) -- (0,8.5)
-			node[midway,anchor=east] {\texttt{f(i)}};
-
-		% z <- f(y)
-		\node[anchor=east,color=dark2-3] at (0,8.5) {\texttt{z <- f(y)}};
-		\draw[-{>[scale=2]},dark2-3] (0,6.5) -- (2,6) 
-			node[midway,anchor=south] {h};
-		\draw[-{>[scale=2]},dark2-3] (2,6) -- (4,5.5)
-			node[midway,anchor=south] {i};
-		\draw[very thick,dark2-3] (4,5.5) -- (4,4.5) 
-			node[midway,anchor=west] {\texttt{C3 <- f(C2)}};
-		\draw[-{>[scale=2]},dark2-3] (4,4.5) -- (2,4) 
-			node[midway,anchor=north] {l};
-		\draw[-{>[scale=2]},dark2-3] (2,4) -- (0,3.5)
-			node[midway,anchor=south] {m};
-
-		% f(j)
-		\draw[very thick,dark2-4] (0,6.5) -- (0,5.5)
-			node[midway,anchor=east] {\texttt{f(j)}};
-			
-		% f(z)
-		\node[anchor=east,color=dark2-5] at (0,5.5) {\texttt{f(z)}};
-		\draw[-{>[scale=2]},dark2-5] (0,3.5) -- (2,3) 
-			node[midway,anchor=south] {n};
-		\draw[-{>[scale=2]},dark2-5] (2,3) -- (4,2.5)
-			node[midway,anchor=south] {o};
-		\draw[very thick,dark2-5] (4,2.5) -- (4,1.5) 
-			node[midway,anchor=west] {\texttt{f(C3)}};
-		\draw[-{>[scale=2]},dark2-5] (4,1.5) -- (2,1) 
-			node[midway,anchor=north] {q};
-		\draw[-{>[scale=2]},dark2-5] (2,1) -- (0,0.5)
-			node[midway,anchor=south] {r};
-	\end{tikzpicture}
-	\begin{multicols}{2}
-		\begin{description}
-			\item [\textcolor{dark2-1}{a}] Push \texttt{<f, jobID=J1>} to queue \texttt{C1}
-			\item [\textcolor{mygray}{b}] Listen to queue \texttt{C1}
-			\item [\textcolor{dark2-1}{c}] Pop \texttt{<f, jobID=J1>} from queue \texttt{C1}
-			\item [\textcolor{dark2-3}{d}] Listen to queue \texttt{J1}
-			\item [\textcolor{mygray}{e}] Listen to queues \texttt{C1, C2}
-			\item [\textcolor{dark2-1}{f}] Push \texttt{<chunkID=C2>} to queue \texttt{J1}
-			\item [\textcolor{dark2-1}{g}] Pop \texttt{<chunkID=C2>} from queue \texttt{J1}
-			\item [\textcolor{dark2-3}{h}] Push \texttt{<f, jobID=J2>} to queue \texttt{C2}
-			\item [\textcolor{dark2-3}{i}] Pop \texttt{<f, jobID=J2>} from queue \texttt{C2}
-			\item [\textcolor{dark2-5}{j}] Listen to queue \texttt{J2}
-			\item [\textcolor{mygray}{k}] Listen to queues \texttt{C1, C2, C3}
-			\item [\textcolor{dark2-3}{l}] Push \texttt{<chunkID=C3>} to queue \texttt{J2}
-			\item [\textcolor{dark2-3}{m}] Pop \texttt{<chunkID=C3>} from queue \texttt{J2}
-			\item [\textcolor{dark2-5}{n}] Push \texttt{<f, jobID=J3>} to queue \texttt{C3}
-			\item [\textcolor{dark2-5}{o}] Pop \texttt{<f, jobID=J3>} from queue \texttt{C3}
-			\item [\textcolor{mygray}{p}] Listen to queues \texttt{C1, C2, C3}
-			\item [\textcolor{dark2-5}{q}] Push \texttt{<val>} to queue \texttt{J3}
-			\item [\textcolor{dark2-5}{r}] Pop \texttt{<val>} from queue \texttt{J3}
-		\end{description}
-	\end{multicols}
+	\input{img/server-chunk-id.tex}
 	\caption{\label{fig:msi} Space-Time Diagram of Server-Originated Chunk ID}
 \end{figure}
 
@@ -711,99 +507,7 @@ step, is given in \ref{fig:masi}
 
 \begin{figure}
 	\centering
-	\begin{tikzpicture}
-		% nodes
-		\draw[very thin,-{>[scale=2]}] (0,10) -- (0,0) 
-			node[at start,anchor=south] {C};
-		\draw[very thin,-{>[scale=2]}] (2,10) -- (2,0) 
-			node[at start,anchor=south] {Q};
-		\draw[very thin,-{>[scale=2]}] (4,10) -- (4,0) 
-			node[at start,anchor=south] {S};
-
-		% listeners
-		\draw[color=mygray] (4,9.5) -- (2,9.5) 
-			node[midway,anchor=south] {b};
-		\draw[color=dark2-5] (0,7.5) -- (2,7.5) 
-			node[midway,anchor=south] {e};
-		\draw[color=mygray] (4,7.5) -- (2,7.5) 
-			node[midway,anchor=south] {g};
-		\draw[color=mygray] (4,6) -- (2,6) 
-			node[midway,anchor=south] {j};
-		\draw[color=mygray] (4,4.5) -- (2,4.5) 
-			node[midway,anchor=south] {m};
-
-		% y <- f(x)
-		\draw[-{>[scale=2]},dark2-1] (0,9.5) -- (2,9) 
-			node[at start,anchor=east] {\texttt{y <- f(x)}}
-			node[midway,anchor=south] {a};
-		\draw[-{>[scale=2]},dark2-1] (2,9) -- (4,8.5)
-			node[midway,anchor=south] {c};
-		\draw[very thick,dark2-1] (4,8.5) -- (4,7.5) 
-			node[midway,anchor=west] {\texttt{C2 <- f(C1)}};
-		\draw[-{>[scale=2]},dark2-1] (4,7.5) -- (2,7)
-			node[pos=0.8,anchor=north] {h};
-
-		% f(i)
-		\draw[very thick,dark2-2] (0,9.5) -- (0,8.5) 
-			node[midway,anchor=east] {\texttt{f(i)}};
-
-		% z <- f(y)
-		\draw[-{>[scale=2]},dark2-3] (0,8.5) -- (2,8) 
-			node[at start,anchor=east] {\texttt{z <- f(y)}}
-			node[midway,anchor=south] {d};
-		\draw[-{>[scale=2]},dark2-3] (2,7.5) -- (4,7)
-			node[pos=0.8,anchor=north] {i};
-		\draw[very thick,dark2-3] (4,7) -- (4,6) 
-			node[midway,anchor=west] {\texttt{C3 <- f(C2)}};
-		\draw[-{>[scale=2]},dark2-3] (4,6) -- (2,5.5)
-			node[pos=0.8,anchor=north] {k};
-
-		% f(j)
-		\draw[very thick,dark2-4] (0,8.5) -- (0,7.5)
-			node[midway,anchor=east] {\texttt{f(j)}};
-			
-		% f(z)
-		\draw[-{>[scale=2]},dark2-5] (0,7.5) -- (2,7) 
-			node[at start,anchor=east] {\texttt{f(z)}}
-			node[midway,anchor=north] {f};
-		\draw[-{>[scale=2]},dark2-5] (2,6) -- (4,5.5)
-			node[pos=0.8,anchor=north] {l};
-		\draw[very thick,dark2-5] (4,5.5) -- (4,4.5) 
-			node[midway,anchor=west] {\texttt{f(C3)}};
-		\draw[-{>[scale=2]},dark2-5] (4,4.5) -- (2,4)
-			node[midway,anchor=north] {n};
-		\draw[-{>[scale=2]},dark2-5] (2,4) -- (0,3.5)
-			node[midway,anchor=south] {o};
-
-		% resolved(x)
-		\draw[-{>[scale=2]},dark2-6] (0,3.5) -- (2,3.5) 
-			node[at start,anchor=east] {\texttt{resolved(x)}}
-			node[pos=0.8,anchor=south] {p};
-		\draw[-{>[scale=2]},dark2-6] (2,3.5) -- (0,3)
-			node[midway,anchor=north] {q};
-	\end{tikzpicture}
-	\setlength{\columnsep}{50pt}
-	\begin{multicols}{2}
-		\begin{description}
-			\item [\textcolor{dark2-1}{a}] Push \texttt{<f, chunkID=C2, jobID=J1>} to queue \texttt{C1}
-			\item [\textcolor{mygray}{b}] Listen to queue \texttt{C1}
-			\item [\textcolor{dark2-1}{c}] Pop \texttt{<f, chunkID=C2, jobID=J1>} from queue \texttt{C1}
-			\item [\textcolor{dark2-3}{d}] Push \texttt{<f, chunkID=C3 jobID=J2>} to queue \texttt{C2}
-			\item [\textcolor{dark2-5}{e}] Listen to queue \texttt{J3}
-			\item [\textcolor{dark2-5}{f}] Push \texttt{<f, jobID=J3>} to queue \texttt{C3}
-			\item [\textcolor{mygray}{g}] Listen to queues \texttt{C1, C2}
-			\item [\textcolor{dark2-1}{h}] Push \texttt{<success>} to queue \texttt{J1}
-			\item [\textcolor{dark2-3}{i}] Pop \texttt{<f, chunkID=C3, jobID=J2>} from queue \texttt{C2}
-			\item [\textcolor{mygray}{j}] Listen to queues \texttt{C1, C2, C3}
-			\item [\textcolor{dark2-3}{k}] Push \texttt{<success>} to queue \texttt{J2}
-			\item [\textcolor{dark2-5}{l}] Pop \texttt{<f, jobID=J3>} from queue \texttt{C3}
-			\item [\textcolor{mygray}{m}] Listen to queues \texttt{C1, C2, C3}
-			\item [\textcolor{dark2-5}{n}] Push \texttt{<val>} to queue \texttt{J3}
-			\item [\textcolor{dark2-5}{o}] Pop \texttt{<val>} from queue \texttt{J3}
-			\item [\textcolor{dark2-6}{p}] Listen to queue \texttt{J1}
-			\item [\textcolor{dark2-6}{q}] Pop \texttt{<success>} from queue \texttt{J1}
-		\end{description}
-	\end{multicols}
+	\input{img/amended-chunk-id.tex}
 	\caption{\label{fig:masi} Space-Time Diagram of Proposed Amended Server-Originated Chunk ID}
 \end{figure}
 
@@ -863,50 +567,7 @@ client later.
 
 \begin{figure}
 	\centering
-	\begin{tikzpicture}[scale=0.5]
-		% client
-		\node[object] (chunkref) {Chunk Reference (C1)};
-		\node[proc,below=of chunkref] (docallcr) {\texttt{do.call.chunkRef()}};
-
-		% Queue server
-		%% chunk queues
-		\node[queue,right=\commdist of docallcr] (c1) {Queue C1};
-		\node[queue,below=\blockdist of c1] (cdotdot) {\(\dots\)};
-		\node[queue,below=\blockdist of cdotdot] (cn) {Queue C\(n\)};
-		%% job queues
-		\node[queue,below=of cn] (j1) {Queue J1};
-		\node[queue,below=\blockdist of j1] (jdotdot) {\(\dots\)};
-		\node[queue,below=\blockdist of jdotdot] (jm) {Queue J\(m\)};
-		%% counters
-		\node[counter,above=of c1] (jc) {Job Counter};
-		\node[counter,above=\blockdist of jc] (cc) {Chunk Counter};
-
-		% Chunk server
-		\node[proc,right=\commdist of c1] (docallc) {\texttt{do.call.chunk()}};
-		\node[object,below=of docallc] (chunk1) {Chunk C1};
-		\node[object,below=\blockdist of chunk1] (chunkdotdot) {\(\dots\)};
-		\node[object,below=\blockdist of chunkdotdot] (chunkn) {Chunk C\(n\)};
-
-		\begin{pgfonlayer}{categories}
-			\node[category,fit=(c1)(cdotdot)(cn),label={[name=cq] Chunk Queues}] (chunkq) {};
-			\node[category,fit=(j1)(jdotdot)(jm),label={[name=jq] Job Queues}] (jobq) {};
-			\node[table,fit=(chunk1)(chunkn),label={[name=ct] Chunk Table}] (chunkt) {};
-		\end{pgfonlayer}
-
-		\begin{pgfonlayer}{units}
-			\node[unit,fit=(chunkref)(docallcr),label={Client}] (client) {};
-			\node[unit,fit=(cc)(chunkq)(jobq),label={Queue Server}] (qserv) {};
-			\node[unit,fit=(docallc)(chunkt),label={Chunk Server}] (cserv) {};
-		\end{pgfonlayer}
-		
-		% Connections
-		\draw[mypath] (chunkref) -- (docallcr);
-		\draw[mypath] (docallcr.north east) -- (c1.west);
-		\draw[mypath] (jm.west) -- (docallcr.south east);
-		\draw[mypath] (c1.east) -- (docallc.north west);
-		\draw[mypath] (docallc.south west) -- (jm.east);
-		\draw[mypath] (ct.north) -- (docallc.south);
-	\end{tikzpicture}
+	\input{img/chunk-arch.tex}
 	\caption{\label{fig:chunk-arch} An outline of the architecture of the
 	chunk component in the distributed system}
 \end{figure}
@@ -1134,83 +795,7 @@ entered into, with figure \ref{fig:distobj} accompanying.
 
 \begin{figure}
 	\centering
-	\begin{tikzpicture}
-		% distobjrefs
-		\node[object] (cn) {\(c_n\)};
-		\node[object,right=\blockdist of cn] (cndot) {\(\dots\)};
-		\node[object,right=\blockdist of cndot] (cm) {\(c_m\)};
-		\node[object,right={5*\blockdist} of cm] (ci) {\(c_i\)};
-		\node[object,right=\blockdist of ci] (cidot) {\(\dots\)};
-		\node[object,right=\blockdist of cidot] (cj) {\(c_j\)};
-		\path (cm.east) -- (ci.west) node(midclient) [midway] {};
-
-		% client args
-		\node[proc,below=of midclient] (dcdor) {\texttt{do.call.distObjRef}};
-		\node[proc,below=of dcdor] (ft) {\texttt{findTarget}};
-		\node[proc,below=of ft] (dccr) {\texttt{do.call.chunkRef}};
-		\node[below=of dccr] (midlowcl) {};
-		\node[proc,left=\blockdist of midlowcl] (dor) {\texttt{distObjRef}};
-		\node[proc,right=\blockdist of midlowcl] (sendreq) {\texttt{send}};
-
-		\node[object,below=2 of dor] (cpdot) {\(\dots\)};
-		\node[object,left=\blockdist of cpdot] (cp) {\(c_p\)};
-		\node[object,right=\blockdist of cpdot] (cq) {\(c_q\)};
-
-		% chunk queues
-		\node[queue,right={1.5*\commdist} of dccr] (cmq) {\(c_m\)};
-		\node[queue,above=of cmq] (cmdotq) {\(\dots\)};
-		\node[queue,above=of cmdotq] (cnq) {\(c_n\)};
-		\node[queue,right={5*\blockdist} of cmdotq] (cmdotqdot) {\(\dots\)};
-		\node[queue,right={5*\blockdist} of cmq] (cmqdot) {\(\dots\)};
-
-		% server args
-		\node[proc,right={1.5*\commdist} of cmq] (dc) {\texttt{do.call}};
-		\node[proc,above=of dc] (alignment) {\texttt{alignment}};
-		\node[proc,above=of alignment] (r2r) {\texttt{refToRec}};
-		\node[proc,above=of r2r] (dcm) {\texttt{do.call.msg}};
-		\node[proc,below=of dc] (set) {\texttt{set}};
-
-		% metadata
-		\node[object,below=of cmq] (cns) {\(c_n\) size};
-		\node[object,below=of cns] (cdots) {\(\dots\)};
-
-		\begin{pgfonlayer}{categories}
-			\node[category,fit=(cn)(cndot)(cm),label={[name=dnl] \texttt{distObjRef x}}] (dn) {};
-			\node[category,fit=(ci)(cidot)(cj),label={[name=dil] \texttt{distObjRef y}}] (di) {};
-			\node[category,fit=(cp)(cpdot)(cq),label={[name=dql]\texttt{distObjRef z}}] (dq) {};
-		\end{pgfonlayer}
-
-		\begin{pgfonlayer}{units}
-			\node[unit,fit=(dnl)(dil)(dor)(sendreq)(dq)(dql),label={[name=cl] Client}] (c) {};
-			\node[unit,fit=(cmq)(cnq),label={[name=qsl] Queue Server}] (qs) {};
-			\node[unit,fit=(cns)(cdots),label={[name=setsl] Distributed Keys}] (sets) {};
-			\node[unit,fit=(dcm)(set),label={[name=sl] Server}] (s) {};
-		\end{pgfonlayer}
-
-		\draw[mypath] (dn) -- (dcdor);
-		\draw[mypath] (di) -- (dcdor);
-		\draw[mypath] (dcdor) -- (ft);
-		\draw[mypath] (ft) -- (dccr);
-		\draw[mypath] (dccr) -- (dor);
-		\draw[mypath] (dccr) -- (sendreq);
-		\draw[mypath] (dor) -- (dql);
-
-		\draw[mypath] (sendreq.east) -- (cmq.west);
-		\draw[mypath] (sendreq.east) -- (cmdotq.west);
-		\draw[mypath] (sendreq.east) -- (cnq.west);
-
-		\draw[mypath] (cnq.east) -- (dcm);
-		\draw[mypath] (cmdotq) -- (cmdotqdot);
-		\draw[mypath] (cmq) -- (cmqdot);
-		
-		\draw[mypath] (dcm) -- (r2r);
-		\draw[mypath] (r2r) -- (alignment);
-		\draw[mypath] (alignment) -- (dc);
-		\draw[mypath] (dc) -- (set);
-
-		\draw[mypath] (set) -- (cns);
-		\draw[mypath] (set) -- (cdots);
-	\end{tikzpicture}
+	\input{img/distobj-eval-align.tex}
 	\caption{\label{fig:distobj}Process of evaluation and alignment for
 	distributed object references resulting from the expresssion,
 	\mintinline{r}{z <- do.call.distObjRef(what=f, args=list(x, y))}}
@@ -1318,36 +903,7 @@ The algorithm therefore never terminates in such a situation.
 
 \begin{figure}
 	\centering
-	\begin{tikzpicture}
-		\draw[very thin,-{>[scale=2]}] (0,10) -- (0,5.5) node[at start,anchor=south] {\(K\)};
-		\draw[very thin,-{>[scale=2]}] (2,10) -- (2,5.5) node[at start, anchor=south] {Q};
-		\draw[very thin] (4,10) -- (4,5) node[at start, anchor=south] {\(S\)};
-
-		% from K
-		\draw[-{>[scale=2]},dark2-1] (0,9.5) -- (2,9)
-		node[at start,anchor=east] {a}
-		node[midway,anchor=south] {b};
-		\draw[-{>[scale=2]},dark2-2] (0,8.5) -- (2,8)
-		node[at start,anchor=east] {\texttt{h}}
-		node[midway,anchor=south] {i};
-
-		% from Q
-		\draw[-{>[scale=2]},dark2-1] (2,9) -- (4,8.5)
-		node[at end,anchor=west] {\texttt{d}}
-		node[midway,anchor=south] {c};
-		\draw[-{>[scale=2]},dark2-2] (2,7.5) -- (4,7)
-		node[at end,anchor=west] {\texttt{k}}
-		node[midway,anchor=north] {j};
-
-		% from S
-		\draw[very thick,dark2-1] (4,8.5) -- (4,7.5)
-		node[midway,anchor=west] {e};
-		\draw[-{>[scale=2]},dark2-1] (4,7.5) -- (2,7.5)
-		node[at start,anchor=west] {\texttt{f}}
-		node[midway,anchor=south] {g};
-		\draw[-{>[scale=2]},very thick,dark2-2] (4,7) -- (4,5)
-		node[midway,anchor=west] {l};
-	\end{tikzpicture}
+	\input{img/race-cond.tex}
 	\caption{\label{fig:counterex}A simple failure example to demonstrate a race condition in the model.}
 \end{figure}
 

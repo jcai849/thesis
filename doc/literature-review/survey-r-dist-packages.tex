@@ -66,11 +66,24 @@ processing, with the mcapply function. multicore creates forked R
 sessions, which is very resource-efficient, but not supported by
 windows.
 
-From snow, distributed computing is enabled for multiple nodes.
+Support for distributed computing over a simple network of computers is provided by \textbf{SNOW}.
+The general architecture of \textbf{SNOW} makes use of a master process that holds the data and launches the cluster, pushing the data to worker processes that operate upon it and return the results to the master.
+This is represented in Figure~\ref{fig:snow}
 
-multicore was developed by Simon Urbanek (!). snow was developed by Luke
+\begin{figure}[H]
+\input{img/snow.tex}
+\caption{\label{fig:snow} \textbf{SNOW} architecture with four chunks}
+\end{figure}
+
+Several different communications mechanisms are made use of by \textbf{SNOW}, including \texttt{ssh} and user-created sockets.
+Its greatest shortcoming is the lack of persistent data, and the mechanism of distribution employed disallows the usage of very large datasets.
+
+multicore was developed by Simon Urbanek. snow was developed by Luke
 Tierney, a professor at the University of Iowa, who also originated the
 byte-compiler for R
+
+Several different communications mechanisms are made use of by \textbf{SNOW}, including \texttt{ssh} and user-created sockets.
+It's greatest shortcoming is the lack of persistent data, and the mechanism of distribution employed disallows the usage of very large datasets.
 
 \hypertarget{pbdr}{%
     \subsection{pbdR}\label{pbdr}}

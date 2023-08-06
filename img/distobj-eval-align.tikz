@@ -1,0 +1,77 @@
+	\begin{tikzpicture}
+		% distobjrefs
+		\node[object] (cn) {\(c_n\)};
+		\node[object,right=\blockdist of cn] (cndot) {\(\dots\)};
+		\node[object,right=\blockdist of cndot] (cm) {\(c_m\)};
+		\node[object,right={5*\blockdist} of cm] (ci) {\(c_i\)};
+		\node[object,right=\blockdist of ci] (cidot) {\(\dots\)};
+		\node[object,right=\blockdist of cidot] (cj) {\(c_j\)};
+		\path (cm.east) -- (ci.west) node(midclient) [midway] {};
+
+		% client args
+		\node[proc,below=of midclient] (dcdor) {\texttt{do.call.distObjRef}};
+		\node[proc,below=of dcdor] (ft) {\texttt{findTarget}};
+		\node[proc,below=of ft] (dccr) {\texttt{do.call.chunkRef}};
+		\node[below=of dccr] (midlowcl) {};
+		\node[proc,left=\blockdist of midlowcl] (dor) {\texttt{distObjRef}};
+		\node[proc,right=\blockdist of midlowcl] (sendreq) {\texttt{send}};
+
+		\node[object,below=2 of dor] (cpdot) {\(\dots\)};
+		\node[object,left=\blockdist of cpdot] (cp) {\(c_p\)};
+		\node[object,right=\blockdist of cpdot] (cq) {\(c_q\)};
+
+		% chunk queues
+		\node[queue,right={1.5*\commdist} of dccr] (cmq) {\(c_m\)};
+		\node[queue,above=of cmq] (cmdotq) {\(\dots\)};
+		\node[queue,above=of cmdotq] (cnq) {\(c_n\)};
+		\node[queue,right={5*\blockdist} of cmdotq] (cmdotqdot) {\(\dots\)};
+		\node[queue,right={5*\blockdist} of cmq] (cmqdot) {\(\dots\)};
+
+		% server args
+		\node[proc,right={1.5*\commdist} of cmq] (dc) {\texttt{do.call}};
+		\node[proc,above=of dc] (alignment) {\texttt{alignment}};
+		\node[proc,above=of alignment] (r2r) {\texttt{refToRec}};
+		\node[proc,above=of r2r] (dcm) {\texttt{do.call.msg}};
+		\node[proc,below=of dc] (set) {\texttt{set}};
+
+		% metadata
+		\node[object,below=of cmq] (cns) {\(c_n\) size};
+		\node[object,below=of cns] (cdots) {\(\dots\)};
+
+		\begin{pgfonlayer}{categories}
+			\node[category,fit=(cn)(cndot)(cm),label={[name=dnl] \texttt{distObjRef x}}] (dn) {};
+			\node[category,fit=(ci)(cidot)(cj),label={[name=dil] \texttt{distObjRef y}}] (di) {};
+			\node[category,fit=(cp)(cpdot)(cq),label={[name=dql]\texttt{distObjRef z}}] (dq) {};
+		\end{pgfonlayer}
+
+		\begin{pgfonlayer}{units}
+			\node[unit,fit=(dnl)(dil)(dor)(sendreq)(dq)(dql),label={[name=cl] Client}] (c) {};
+			\node[unit,fit=(cmq)(cnq),label={[name=qsl] Queue Server}] (qs) {};
+			\node[unit,fit=(cns)(cdots),label={[name=setsl] Distributed Keys}] (sets) {};
+			\node[unit,fit=(dcm)(set),label={[name=sl] Server}] (s) {};
+		\end{pgfonlayer}
+
+		\draw[mypath] (dn) -- (dcdor);
+		\draw[mypath] (di) -- (dcdor);
+		\draw[mypath] (dcdor) -- (ft);
+		\draw[mypath] (ft) -- (dccr);
+		\draw[mypath] (dccr) -- (dor);
+		\draw[mypath] (dccr) -- (sendreq);
+		\draw[mypath] (dor) -- (dql);
+
+		\draw[mypath] (sendreq.east) -- (cmq.west);
+		\draw[mypath] (sendreq.east) -- (cmdotq.west);
+		\draw[mypath] (sendreq.east) -- (cnq.west);
+
+		\draw[mypath] (cnq.east) -- (dcm);
+		\draw[mypath] (cmdotq) -- (cmdotqdot);
+		\draw[mypath] (cmq) -- (cmqdot);
+		
+		\draw[mypath] (dcm) -- (r2r);
+		\draw[mypath] (r2r) -- (alignment);
+		\draw[mypath] (alignment) -- (dc);
+		\draw[mypath] (dc) -- (set);
+
+		\draw[mypath] (set) -- (cns);
+		\draw[mypath] (set) -- (cdots);
+	\end{tikzpicture}

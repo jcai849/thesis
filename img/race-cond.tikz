@@ -1,0 +1,30 @@
+	\begin{tikzpicture}
+		\draw[very thin,-{>[scale=2]}] (0,10) -- (0,5.5) node[at start,anchor=south] {\(K\)};
+		\draw[very thin,-{>[scale=2]}] (2,10) -- (2,5.5) node[at start, anchor=south] {Q};
+		\draw[very thin] (4,10) -- (4,5) node[at start, anchor=south] {\(S\)};
+
+		% from K
+		\draw[-{>[scale=2]},dark2-1] (0,9.5) -- (2,9)
+		node[at start,anchor=east] {a}
+		node[midway,anchor=south] {b};
+		\draw[-{>[scale=2]},dark2-2] (0,8.5) -- (2,8)
+		node[at start,anchor=east] {\texttt{h}}
+		node[midway,anchor=south] {i};
+
+		% from Q
+		\draw[-{>[scale=2]},dark2-1] (2,9) -- (4,8.5)
+		node[at end,anchor=west] {\texttt{d}}
+		node[midway,anchor=south] {c};
+		\draw[-{>[scale=2]},dark2-2] (2,7.5) -- (4,7)
+		node[at end,anchor=west] {\texttt{k}}
+		node[midway,anchor=north] {j};
+
+		% from S
+		\draw[very thick,dark2-1] (4,8.5) -- (4,7.5)
+		node[midway,anchor=west] {e};
+		\draw[-{>[scale=2]},dark2-1] (4,7.5) -- (2,7.5)
+		node[at start,anchor=west] {\texttt{f}}
+		node[midway,anchor=south] {g};
+		\draw[-{>[scale=2]},very thick,dark2-2] (4,7) -- (4,5)
+		node[midway,anchor=west] {l};
+	\end{tikzpicture}

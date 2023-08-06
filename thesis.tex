@@ -1,66 +1,5 @@
 \documentclass[11pt,a4paper,partial,examcopy]{aucklandthesis} % remove "examcopy" for final, use "doublespace" if needed
-
-\usepackage{fancyvrb}
-\usepackage{float}
-\usepackage[x11names, svgnames, rgb]{xcolor}
-\usepackage[utf8]{inputenc}
-\usepackage[newzealand]{babel}
-\usepackage[pdflang=en-NZ,hidelinks,draft=false]{hyperref}
-\usepackage{microtype}
-\usepackage{minted}
-\usepackage{biblatex}
-\usepackage{tikz}
-\usetikzlibrary{decorations,quotes,graphs,fit,positioning,backgrounds,shapes,arrows,arrows.meta}
-\pgfdeclarelayer{units}
-\pgfdeclarelayer{categories}
-\pgfsetlayers{units,categories,main}
-\tikzstyle{object}=[rectangle,fill=white,draw=black]
-\tikzstyle{node}=[circle,fill=white,draw=black]
-\tikzstyle{proc}=[rectangle,fill=white,draw=black]
-\tikzstyle{queue}=[rectangle,fill=white,draw=black]
-\tikzstyle{counter}=[rectangle,fill=white,draw=black]
-\tikzstyle{unit}=[fill=blue!10,rounded corners,draw=black]
-\tikzstyle{category}=[fill=green!10,rounded corners,draw=black]
-\tikzstyle{table}=[fill=yellow!10,rounded corners,draw=black]
-\tikzstyle{mypath}=[-{>[scale=2]}]
-\def\commdist{1.5}
-\def\blockdist{0.1}
-\usepackage{amsfonts,amsmath,amssymb,amsthm}
-\usepackage{amsthm}
-\newtheorem{definition}{Definition} 
-\usepackage{csquotes}
-\usepackage{longtable}
-\usepackage{booktabs}
-\usepackage{setspace}
-\usepackage{multicol}
-\usepackage{color}
-\definecolor{mygreen}{HTML}{099A07}
-\definecolor{mymauve}{HTML}{98079A}
-\definecolor{myorange}{HTML}{F1A340}
-\definecolor{mybrown}{HTML}{9A4E07}
-\definecolor{mynavy}{HTML}{07539A}
-\definecolor{mypurple}{HTML}{998EC3}
-\definecolor{mygray}{gray}{0.5}
-\definecolor{Base3}{HTML}{FDF6E3}
-\definecolor{diffstart}{named}{mygray}
-\definecolor{diffincl}{named}{mygreen}
-\definecolor{diffrem}{named}{myorange}
-\definecolor{set2-1}{HTML}{66C2A5}
-\definecolor{set2-2}{HTML}{FC8D62}
-\definecolor{set2-3}{HTML}{8DA0CB}
-\definecolor{set2-4}{HTML}{E78AC3}
-\definecolor{set2-5}{HTML}{A6D854}
-\definecolor{dark2-1}{HTML}{1B9E77}
-\definecolor{dark2-2}{HTML}{D95F02}
-\definecolor{dark2-3}{HTML}{7570B3}
-\definecolor{dark2-4}{HTML}{E7298A}
-\definecolor{dark2-5}{HTML}{66A61E}
-\definecolor{dark2-6}{HTML}{E6AB02}
-\usepackage{todonotes}
-\let\code\texttt
-\let\proglang\textsf
-\newcommand{\pkg}[1]{{\fontshape{it}\selectfont #1}}
-
+\usepackage{header}
 \addbibresource{bibliography.bib}
 
 \title{A Platform for Large Scale Statistical Modelling Using R}
@@ -71,95 +10,27 @@
 
 \begin{document}
 
-\maketitle
-
-\pagenumbering{roman}
-
-\begin{abstract}
-    \todo{Planning to expand this to tie in with general thesis structure}
-    With the growing scale of big datasets, fitting novel statistical models on larger-than-memory datasets becomes correspondingly challenging.
-    A variety of techniques exist in an attempt to solve this problem in a general case, with generally subpar results in practice among statisticians.
-    In the absence of a sound interface and conceptual structure for designing statistical algorithms for large scale data, the large-scale statistical modelling field has lacked the accessibility and results that it otherwise may have possessed.
-    This thesis outlines the development and use of a platform created specifically for the development of statistical models for big datasets.
-    Requirements for such a platform are constructed and justified, including a formally specified interface.
-    The delivered platform satisfies satisfies such requirements, and serves as a functioning example of what form a large scale statistical modelling platform backed by sound conceptual requirements may take.
-\end{abstract}
-\addcontentsline{toc}{chapter}{Abstract}
-
-\thesisdedication{
-    Dedication here
-}
-
-\chapter*{Acknowledgements}
-\textsc{ACK}
-
-\newpage
-\settocdepth{subsection}
-\tableofcontents
-\newpage
-\listoffigures
-\newpage
-\listoftables
-\newpage
-\listoflistings
-\addcontentsline{toc}{chapter}{List of Listings}
+\input{doc/front-matter}
 
 \chapter{Introduction}
-\todo{Planning to expand this to tie in with general thesis structure}
 \pagenumbering{arabic}
-\input{doc/introduction.tex}
+\input{doc/introduction}
 
 \chapter{Literature Review}
-\input{doc/lit-review-intro.tex}
-\section{Strategies for Handling Large Scale Data}
-\input{doc/lit-review-strategies.tex}
-\section{Common Features of Large Scale Data Platforms}
-\input{doc/large-scale-features.tex}
-\section{A Survey of Distributed Computing Systems}
-\input{doc/survey-dist-comp-sys.tex}
-\section{A Survey of R Packages for Local Large-Scale Computing}
-\input{doc/survey-r-local-packages.tex}
-\section{A Survey of R Packages for Distributed Large-Scale Computing}
-\input{doc/survey-r-dist-packages.tex}
-\section{A Survey of R Derivatives for Large-Scale Computing}
-\input{doc/survey-r-deriv.tex}
-\section{A Survey of R Packages for Large-Scale Statistical Modelling}
-\input{doc/survey-r-stat-model-packages.tex}
-\section{A Review of Iteration with sparklyr}
-\input{doc/review-iteration-sparklyr.tex}
-\section{A Detail of future}
-\input{doc/future-detail.tex}
-\section{A Review of foreach}
-\input{doc/review-foreach.tex}
-\section{A Disk.Frame Case Study}
-\input{doc/disk-frame-study.tex}
+\input{doc/literature-review/literature-review}
 
 \chapter{Constructive Platform Description}
-\section{Illustrative Problem}
-\input{doc/illustrative-problem.tex}
-\section{Aspect: Object System}\label{sec:object-system}
-\input{doc/object-system.tex}
-\section{Aspect: Computation}\label{sec:computation}
-\input{doc/computation.tex}
-\section{Aspect: Concurrency}\label{sec:concurrency}
-\input{doc/concurrency.tex}
-\section{Aspect: Reference}\label{sec:reference}
-\input{doc/reference.tex}
+\input{doc/constructive-description/constructive-description}
 
 \chapter{Initial Experiments in Platform Implementation}
-\section{Introduction}\label{sec:intro-init-experiment}
-\input{doc/init-experiment-intro.tex}
-\section{The Master-Worker System}\label{sec:mw}
-\todo{Needing to remove some sections and correct references. Change of tense needed for some that was written earlier. Probably too low-level in detail for most of this. Whatever remains seems good though}
-\input{doc/master-worker.tex}
-\section{The Message-Queue System}\label{sec:mq}
-\todo{Needing to remove some sections and correct references. Change of tense needed for some that was written earlier. Probably too low-level in detail for most of this. Whatever remains seems good though}
-\input{doc/message-queue.tex}
+\input{doc/initial-experiments/initial-experiments}
 
 \chapter{Platform User Interface}
-\input{doc/ui.tex}
+\input{doc/ui}
+
 \chapter{User Interface Case Study: Distributed GLM}
-\input{doc/glm.tex}
+\input{doc/glm}
+
 \chapter{Platform Implementation}
 \chapter{Discussion on Delivered Platform}
 \chapter{Conclusion}

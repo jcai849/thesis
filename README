@@ -1,3 +1,5 @@
 Thesis
 
-Dependencies: latexmk lualatex biber plantuml graphviz dot2tex python3-pygments
+Dependencies: bmake latexmk lualatex biber plantuml graphviz dot2tex python3-pygments
+
+Run: bmake thesis

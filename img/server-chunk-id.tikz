@@ -1,0 +1,92 @@
+	\begin{tikzpicture}
+		% nodes
+		\draw[very thin,-{>[scale=2]}] (0,10) -- (0,0) 
+			node[at start,anchor=south] {C};
+		\draw[very thin,-{>[scale=2]}] (2,10) -- (2,0) 
+			node[at start,anchor=south] {Q};
+		\draw[very thin,-{>[scale=2]}] (4,10) -- (4,0) 
+			node[at start,anchor=south] {S};
+
+		% listeners
+		\draw[color=mygray] (4,9.5) -- (2,9.5) 
+			node[midway,anchor=south] {b};
+		\draw[color=dark2-3] (0,8.5) -- (2,8.5) 
+			node[midway,anchor=south] {d};
+		\draw[color=mygray] (4,7.5) -- (2,7.5) 
+			node[midway,anchor=south] {e};
+		\draw[color=dark2-5] (0,5.5) -- (2,5.5) 
+			node[midway,anchor=south] {j};
+		\draw[color=mygray] (4,4.5) -- (2,4.5) 
+			node[midway,anchor=south] {k};
+		\draw[color=mygray] (4,1.5) -- (2,1.5) 
+			node[midway,anchor=south] {p};
+
+		% y <- f(x)
+		\draw[-{>[scale=2]},dark2-1] (0,9.5) -- (2,9) 
+			node[at start,anchor=east] {\texttt{y <- f(x)}}
+			node[midway,anchor=south] {a};
+		\draw[-{>[scale=2]},dark2-1] (2,9) -- (4,8.5)
+			node[midway,anchor=south] {c};
+		\draw[very thick,dark2-1] (4,8.5) -- (4,7.5) 
+			node[midway,anchor=west] {\texttt{C2 <- f(C1)}};
+		\draw[-{>[scale=2]},dark2-1] (4,7.5) -- (2,7) 
+			node[midway,anchor=north] {f};
+		\draw[-{>[scale=2]},dark2-1] (2,7) -- (0,6.5)
+			node[midway,anchor=south] {g};
+
+		% f(i)
+		\draw[very thick,dark2-2] (0,9.5) -- (0,8.5)
+			node[midway,anchor=east] {\texttt{f(i)}};
+
+		% z <- f(y)
+		\node[anchor=east,color=dark2-3] at (0,8.5) {\texttt{z <- f(y)}};
+		\draw[-{>[scale=2]},dark2-3] (0,6.5) -- (2,6) 
+			node[midway,anchor=south] {h};
+		\draw[-{>[scale=2]},dark2-3] (2,6) -- (4,5.5)
+			node[midway,anchor=south] {i};
+		\draw[very thick,dark2-3] (4,5.5) -- (4,4.5) 
+			node[midway,anchor=west] {\texttt{C3 <- f(C2)}};
+		\draw[-{>[scale=2]},dark2-3] (4,4.5) -- (2,4) 
+			node[midway,anchor=north] {l};
+		\draw[-{>[scale=2]},dark2-3] (2,4) -- (0,3.5)
+			node[midway,anchor=south] {m};
+
+		% f(j)
+		\draw[very thick,dark2-4] (0,6.5) -- (0,5.5)
+			node[midway,anchor=east] {\texttt{f(j)}};
+			
+		% f(z)
+		\node[anchor=east,color=dark2-5] at (0,5.5) {\texttt{f(z)}};
+		\draw[-{>[scale=2]},dark2-5] (0,3.5) -- (2,3) 
+			node[midway,anchor=south] {n};
+		\draw[-{>[scale=2]},dark2-5] (2,3) -- (4,2.5)
+			node[midway,anchor=south] {o};
+		\draw[very thick,dark2-5] (4,2.5) -- (4,1.5) 
+			node[midway,anchor=west] {\texttt{f(C3)}};
+		\draw[-{>[scale=2]},dark2-5] (4,1.5) -- (2,1) 
+			node[midway,anchor=north] {q};
+		\draw[-{>[scale=2]},dark2-5] (2,1) -- (0,0.5)
+			node[midway,anchor=south] {r};
+	\end{tikzpicture}
+	\begin{multicols}{2}
+		\begin{description}
+			\item [\textcolor{dark2-1}{a}] Push \texttt{<f, jobID=J1>} to queue \texttt{C1}
+			\item [\textcolor{mygray}{b}] Listen to queue \texttt{C1}
+			\item [\textcolor{dark2-1}{c}] Pop \texttt{<f, jobID=J1>} from queue \texttt{C1}
+			\item [\textcolor{dark2-3}{d}] Listen to queue \texttt{J1}
+			\item [\textcolor{mygray}{e}] Listen to queues \texttt{C1, C2}
+			\item [\textcolor{dark2-1}{f}] Push \texttt{<chunkID=C2>} to queue \texttt{J1}
+			\item [\textcolor{dark2-1}{g}] Pop \texttt{<chunkID=C2>} from queue \texttt{J1}
+			\item [\textcolor{dark2-3}{h}] Push \texttt{<f, jobID=J2>} to queue \texttt{C2}
+			\item [\textcolor{dark2-3}{i}] Pop \texttt{<f, jobID=J2>} from queue \texttt{C2}
+			\item [\textcolor{dark2-5}{j}] Listen to queue \texttt{J2}
+			\item [\textcolor{mygray}{k}] Listen to queues \texttt{C1, C2, C3}
+			\item [\textcolor{dark2-3}{l}] Push \texttt{<chunkID=C3>} to queue \texttt{J2}
+			\item [\textcolor{dark2-3}{m}] Pop \texttt{<chunkID=C3>} from queue \texttt{J2}
+			\item [\textcolor{dark2-5}{n}] Push \texttt{<f, jobID=J3>} to queue \texttt{C3}
+			\item [\textcolor{dark2-5}{o}] Pop \texttt{<f, jobID=J3>} from queue \texttt{C3}
+			\item [\textcolor{mygray}{p}] Listen to queues \texttt{C1, C2, C3}
+			\item [\textcolor{dark2-5}{q}] Push \texttt{<val>} to queue \texttt{J3}
+			\item [\textcolor{dark2-5}{r}] Pop \texttt{<val>} from queue \texttt{J3}
+		\end{description}
+	\end{multicols}
