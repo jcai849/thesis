@@ -13,4 +13,5 @@ clean:
 	rm -f *.lol
 	rm -f *.tdo
 	rm -f *.run.xml
+	rm -rf _minted*
 	cd img && $(MAKE) clean

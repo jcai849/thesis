@@ -6,11 +6,10 @@
 \usepackage{lmodern}
 \usepackage{microtype}
 
-\usepackage{fancyvrb}
 \usepackage{float}
 \usepackage[x11names, svgnames, rgb]{xcolor}
 \usepackage[pdflang=en-NZ,hidelinks,draft=false]{hyperref}
-\usepackage{minted}
+
 \usepackage{biblatex}
 \usepackage{amsfonts,amsmath,amssymb,amsthm}
 \usepackage{amsthm}
@@ -22,6 +21,7 @@
 \usepackage{import}
 
 \usepackage{tikz}
+\usepackage{drawstack}
 \usetikzlibrary{decorations,quotes,graphs,fit,positioning,backgrounds,shapes,arrows,arrows.meta}
 \pgfdeclarelayer{units}
 \pgfdeclarelayer{categories}
@@ -62,6 +62,13 @@
 \definecolor{dark2-4}{HTML}{E7298A}
 \definecolor{dark2-5}{HTML}{66A61E}
 \definecolor{dark2-6}{HTML}{E6AB02}
+
+\usepackage{fancyvrb}
+\usepackage{minted}
+\usemintedstyle{bw}
+\usepackage{clrscode3e}
+\newfloat{srcclrs}{thpb}{lol}
+\floatname{srcclrs}{Listing}
 
 \let\code\texttt
 \let\proglang\textsf

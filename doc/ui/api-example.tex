@@ -1,35 +1,5 @@
-\pkg{largescaler} serves as a functioning system, capable of performing complex statistical analyses over datasets spanning many nodes.
-The implementation of this system makes use of a layered approach, wherein each layer targets a different category of user.
-The \pkg{largescaler} interface is the principal new contribution by this project, delivering a novel means of interacting with distributed data through meaningful primitives defined at every level of abstraction.
-A key offering of the layered approach is the ease by which a user of the package can traverse the levels as needed, with irrelevant information remaining hidden until required.
-The levels of abstraction correspond to users of the package, given as the following:
-
-\begin{description}
-    \item[Analyst] A user solely interested in using the provided models and statistical functions in order to attain insight into some larger-than-memory data, typically a distributed data frame. All details of distribution are abstracted away.
-    \item[Researcher] A user seeking to develop their own distributed statistical models. Distributed objects are to be considered as singular cohesive objects.
-    \item[Developer] A user seeking greater expressivity in the definition of statistical models. Chunks are considered a relevant concern to be manipulated directly.
-    \item[Architect] A user intending to directly modify the network topology of the distributed system, mainly in order to attain major efficiency gains.
-\end{description}
-
-Each of the users are served by the aforementioned packages making up the framework, in turn serving a logical layer of abstraction.
-This mapping is given in Table \ref{tab:layer}.
-
-\begin{table}[h!]
-\centering
-\caption{A mapping of logical layers, users and the respective packages provided by the \pkg{largescaler} framework to enable the use.}
-\label{tab:layer}
-\begin{tabular}{@{}lll@{}}
-\toprule
-Layer & User & Package \\ \midrule
-Model Usage & Analyst & \pkg{largescalemodelr} \\
-Model Description & Researcher & \pkg{largescaler} \\
-Cluster Interaction & Developer & \pkg{chunknet} \\
-Communication & Architect & \pkg{orcv} \\ \bottomrule
-\end{tabular}
-\end{table}
-
-Owing to considerations of space, this description of the user interface will focus solely on the key offerings of the \pkg{largescaler} user interface, with descriptions of other components and packages having a fuller treatment in \cite{cairns2023}.
-Use of the API is given by way of example below.
+This section walks through the usage of the API of the \lsr module to perform basic operations, with the intention of granting intuitive familiarity with the system in small steps.
+The practical use of the API as illustrated is delivered in Chapter \ref{sec:glm}.
 
 Consider first a simple operation of summation.
 Given some vector $x$ that is broken up into $j$ chunks, yielding $j$ subvectors of length $i$.
@@ -92,3 +62,4 @@ This is put to use for cumulative sum by \pkg{largescaler} by the following code
 \code{ dReduce(cumsum, x) |> emerge() }
 
 A distributed object is returned that by default just holds the final accumulation, consisting of one single chunk.
+
