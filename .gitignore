@@ -18,3 +18,4 @@ _minted-thesis
 *.run.xml
 *.tdo
 *.swp
+*.pyg

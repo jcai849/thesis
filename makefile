@@ -1,10 +1,13 @@
+DOCS != find doc -name '*.tex'
 .PHONY: thesis clean
 .SUFFIXES: .pdf .tex
+.ORDER: images thesis.pdf
 .tex.pdf:
 	latexmk -shell-escape ${.IMPSRC}
 
-thesis: thesis.pdf
-thesis.tex: images
+thesis: images thesis.pdf
+thesis.pdf: $(DOCS)
+
 images:
 	cd img && $(MAKE) images
 clean:

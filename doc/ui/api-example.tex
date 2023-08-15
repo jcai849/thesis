@@ -1,7 +1,26 @@
 This section walks through the usage of the API of the \lsr module to perform basic operations, with the intention of granting intuitive familiarity with the system in small steps.
 The practical use of the API as illustrated is delivered in Chapter \ref{sec:glm}.
 
-Consider first a simple operation of summation.
+Consider the highest level first: \pkg{largescalemodelr}.
+How would a pre-made model fit larger than memory data?
+There is no simpler form: Load the data, then fit the model with a given function.
+This assumes a running cluster, which is described later on, due to the additional details required for a cluster setup.
+Load the data with some function provided by \lsr to read distributed data in as a distributed object, with some \code{read.d*()} function.
+\lsr provides the \code{read.dcsv()} function to read \texttt{csv} files distributed across various hosts and filesystems.
+This may be stored as in:
+
+\code{ddf <- read.dcsv(c("host1:/filepath/to/file1.csv", "host2:/filepath/to/file2.csv", "host3:/filepath/to/file3.csv")) }
+
+Following this, a model function may be run over the distributed object; with a GLM as an example:
+
+\code{mod.glm <- dglm(formula, ddf)}
+
+And the distributed model has been fit.
+This is the topmost interface that all lower layers of abstraction aim to support.
+The primary novelty provided is of easy definition of custom models, so let's consider one layer down, examining some of the provided functionality which aids the creation of custom models.
+Actual implementation of a custom model is given in the below Section \ref{glm}.
+
+In our exploration of \lsr, consider first a simple operation of summation.
 Given some vector $x$ that is broken up into $j$ chunks, yielding $j$ subvectors of length $i$.
 Due to associativity the sum of the whole is the sum of the sum of the parts, as shown in Equation \ref{eqn:sum}.
 
@@ -62,4 +81,3 @@ This is put to use for cumulative sum by \pkg{largescaler} by the following code
 \code{ dReduce(cumsum, x) |> emerge() }
 
 A distributed object is returned that by default just holds the final accumulation, consisting of one single chunk.
-
