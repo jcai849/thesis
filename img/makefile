@@ -1,5 +1,5 @@
 .PHONY: images clean
-.SUFFIXES: .puml .tex .gv .tikz
+.SUFFIXES: .puml .tex .gv .tikz .tab
 .puml.tex:
 	plantuml -p -tlatex:nopreamble >${.TARGET} <${.IMPSRC} 
 .gv.tex:

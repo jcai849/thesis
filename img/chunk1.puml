@@ -1,4 +1,8 @@
 @startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam style strictuml
+
 abstract data {
 	{abstract} -id
 	{abstract} +data() : <data>
