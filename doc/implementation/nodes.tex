@@ -1,0 +1,142 @@
+The middle layer \pkg{chunknet} defines the nodes and interactions between them, using an emulated HTTP, with the lower \pkg{orcv} layer as its mechanism of communication.
+The three nodes defined by this layer are the client, the worker, and the locator.
+
+The client is the master node that the user interfaces with directly, and the main task of the client is to push individual chunks as data, to request remote calls on that data, and to pull the results of remote calls.
+In order to push, remote compute, and pull, it connects to worker nodes, relaying the message for them to work on.
+In order to connect to worker nodes, it has to know where they are located, given by their address and port.
+
+Managing the knowledge of locations is the role of the locator service, which serves as a singular central database of addresses.
+Existence as a node in the distributed system is synonymous with having a location stored in the locator service.
+The locator service also performs the slightly orthogonal task of determining which chunks of data exist at what locations.
+
+Worker nodes are the nodes that store data (chunks) and run computations upon them.
+They respond to client requests, but importantly can communicate amongst themselves, particularly in the case of data being available on one worker node, with the data required for a computation taking place on a different worker node - the worker running the computation will request the data directly, thus functioning in a hybrid peer-to-peer fashion.
+Communication among workers is dependent on the location service, in similar fashion to clients.
+
+Both worker and locator nodes follow a similar architecture.
+They both follow the same basic pattern of first initialising, (Figure \ref{fig:node-init}), then running some initialisation function and endlessly repeating a check for the next event and handling that event.
+The check for the next incoming event, as well as any response to the event, is the point of connection with the lower orcv layer.
+The nodes differ only in their core database schema, as well as the handlers associated with the HTTP requests sent to them as events.
+
+The worker database schema is given in Tables \ref{tbl:wstore}, \ref{tbl:wstage}, and \ref{tbl:waudience}, with an Entity Relationship Diagram given by Figure \ref{fig:workerdb}
+
+\begin{figure}
+\input{img/node-init}
+\caption{Initialisation of a node from a parent}
+\end{figure}
+
+\begin{table}[]
+\caption{Worker Store Table}
+\label{tbl:wstore}
+\begin{tabular}{@{}ll@{}}
+\toprule
+data\_href & value \\ \midrule
+character  & Any   \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[]
+\caption{Worker Stage Table}
+\label{tbl:wstage}
+\begin{tabular}{@{}ll@{}}
+\toprule
+unaccounted\_prereq\_href & pending\_computation\_href \\ \midrule
+character                 & character                  \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[]
+\caption{Worker Audience Table}
+\label{tbl:waudience}
+\begin{tabular}{@{}ll@{}}
+\toprule
+fd      & data\_href \\ \midrule
+integer & character  \\ \bottomrule
+\end{tabular}
+\end{table}
+
+
+\begin{figure}
+\input{img/workerdb}
+\caption{ER Diagram of worker entities}
+\label{fig:workerdb}
+\end{figure}
+
+The locator database schema is given in Tables \ref{tbl:lnodes} and \ref{tbl:ldata} with an Entity Relationship Diagram given by Figure \ref{fig:locatordb}
+
+
+\begin{table}[]
+\caption{Locator Nodes Table}
+\label{tbl:lnodes}
+\begin{tabular}{@{}llll@{}}
+\toprule
+node\_href & address   & port    & loading \\ \midrule
+character  & character & integer & integer \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[]
+\caption{Locator Data Table}
+\label{tbl:ldata}
+\begin{tabular}{@{}ll@{}}
+\toprule
+node\_href & data\_href \\ \midrule
+character  & character  \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}
+\input{img/locatordb}
+\caption{ER Diagram of locator entities}
+\label{fig:locatordb}
+\end{figure}
+
+The worker handlers are given by Table \ref{tbl:whandler}
+
+\begin{table}[]
+\caption{Worker handlers for requests}
+\label{tbl:whandler}
+\begin{tabular}{@{}ll@{}}
+\toprule
+HTTP Request             & Handle                                                                         \\ \midrule
+POST /data/*             & Add given data to the Store (non-responding)                                   \\
+GET /data/*              & Search Store for data; hold connection until available and send when available \\
+PUT /computation/* & Add computation to Store and Stage, to check prerequisite availability (non-responding) \\
+PUT /computation-ready/* & Computation declared ready; begin computation (non-responding)                 \\ \bottomrule
+\end{tabular}
+\end{table}
+
+The locator handlers are given by \ref{tbl:lhandler}
+
+\begin{table}[]
+\caption{Locator handlers for requests}
+\label{tbl:lhandler}
+\begin{tabular}{@{}ll@{}}
+\toprule
+HTTP Request & Handle                                                        \\ \midrule
+POST /node   & Add given connection to table of Nodes (non-responding)       \\
+GET /nodes   & Respond with dump of Nodes table                              \\
+POST /data/* & Add data href to given node in table of Data (non-responding) \\
+GET /data/*  & Respond with table of Nodes where data resides                \\ \bottomrule
+\end{tabular}
+\end{table}
+
+HTTP is used as the communication protocol, because HTTP provides a reasonable constraint on remote calls, and is fairly universal.
+Actual HTTP is not used currently; rather, it is emulated with an R list composed of header and message body elements.
+
+\subsubsection{Worker operation in detail}
+
+An activity diagram demonstrating the main operation of the worker is given in Figure \ref{fig:workerops}.
+This is seen in use in an example interaction in Figure \ref{fig:sysinteract}
+
+\begin{figure}
+\input{img/workerops}
+\caption{Activity diagram of main worker operation}
+\label{fig:workerops}
+\end{figure}
+
+\begin{figure}
+\input{img/sysinteract}
+\caption{Sequence diagram of example interaction between client, workers, and locator}
+\label{fig:sysinteract}
+\end{figure}

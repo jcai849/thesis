@@ -1,0 +1,16 @@
+digraph garbage_collection {
+	rankdir="LR";
+	c1[label="Chunk 1"];
+	c2[label="Chunk 2"];
+	c3[label="Chunk 3"];
+	c4[label="Chunk 4"];
+	c5[label="Chunk 5"];
+	
+	comp1[label="Computation 1",shape=box];
+	comp2[label="Computation 2",shape=box];
+	comp3[label="Computation 3",shape=box];
+	
+	c5 -> comp3 -> {c4 c3 c2};
+	c4 -> comp1 -> c1;
+	c3 -> comp2 -> {c2 c2};
+}

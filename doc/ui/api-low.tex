@@ -1,9 +1,61 @@
-\subsection{Chunk Movement}
-push, pull, async\_pull
-\subsection{Nodes}
-Worker node, locator node
+The lower level of the \lsr framework would typically be unused by the standard user.
+However, for more complex design of statistical algorithms, where for instance individual chunks are of concern, or specific routing of chunk locations for the purposes of optimisation, a lower level of the framework is exposed.
+Here, the main concepts of this lower level API are described.
+As this is lower level, it is getting proximate to implementation details.
+As such, the dividing line is often unclear, so this section remains as abstract as possible, with more detail provided in Chapter \ref{sec:implementation}.
+The core concepts to be described are the movement and direction of individual chunks as controlled and specified by the user, in Subsection~\ref{sec:cm}, and the control of the computational nodes which independently manage the chunks, as given in Subsection~\ref{sec:node}
 
-... REST API?
+\subsection{Chunk Movement}\label{sec:cm}
 
+The movement of chunks from one location to another can be described similarly to movement of any data from one location to another, and is classified based on the initiator of the movement: whether origin or destination.
+If the origin of a chunk, where it is currently located, seeks to move the chunk to some other compute destination, this is classified as a \code{push()}.
+Alternatively, if some destination location seeks to move a chunk to itself, with that chunk located elsewhere, this is classified as a \code{pull()}.
 
-orcv?
+The \code{push()} is very straightforward: as the origin location already has the chunk, it is a simple network transfer, and, barring system errors such as network breakdown or full memory, is guaranteed to complete successfully.
+Conversely, the \code{pull()} is slightly more nuanced.
+Due to the distributed nature of the system, availability is not necessarily guaranteed, as per the CAP theorem\cite{gilbert2002brewer}.
+Specifically, due to the asynchronous demands imposed by the higher level API, it is possible that the chunk that has been requested to be pulled is not yet available, due to it still being computed.
+There are then different means by which a remote chunk may be requested.
+
+It may be requested through a blocking \code{pull()}, where a requesting location waits until it is available, not progressing to any further computation until the chunk has been made available and is sent; such a pattern may lead to race conditions, however, as the requested chunk may in turn depend on the result of a computation intended to take place on the requesting node, and blocking may lead to the non-fulfillment of such a computation as it waits indefinitely, with both origin and destination waiting on the availability of each other's chunks.
+
+With this in mind, there are two other possibilities:
+
+A \code{pull()} that returns with failure if the requested chunk is unavailable; while this negates the described race condition, it requires auxiliary hedging logic for each pull in the case of failure.
+Furthermore, if the requested chunk is immediately depended upon, the \code{pull()}-with-failure will have to be used in a continuous loop until the requested chunk is available and able to be pulled.
+Such a pattern of repeated checking until availability is known as busy-waiting, or spinning, and is commonly treated as a computational anti-pattern, due to the additional traffic and load that is placed on the system\cite{corbet2023}.
+
+The alternative to failing \code{pull()} that still allows for potential non-availability is an \code{async\_pull()}, wherein a request is sent from on location to another, with the requesting node able to continue operation immediately after sending the request without waiting for a chunk response, including making further asynchronous requests to the same and other nodes, with the chunks to be sent as they become available.
+How does the requesting location eventually gain access to the requested chunks?
+The provided API in \lsr is that each location has what can be thought of as a queue of messages which asynchronously accumulates whatever data is sent from other chunks.
+At any point, this queue may be waited upon for messages.
+Thus, the asynchronous pattern in \lsr is to send many asynchronous requests, then upon the completion of all necessary computation, wait upon the queue for any responses, performing computation with each response as required, and repeating.
+
+In this way, \lsr provides several means for the movement of chunks across the distributed system, with provisions given to minimise race conditions and allow for data non-availability.
+
+\subsection{Nodes}\label{sec:node}
+
+Some description is given here to flesh out what the vague notion of ``location'' for chunks.
+A chunk must be stored and computed upon within the space of a computational process, as instantiated and executed on a computer.
+In the context of a distributed system, where multiple processes interact, each storing and computing on separate chunks, these processes are referred to as nodes.
+The use of such terminology is abstract from the relationship of the processes to the underlying computers, as a computer may host several processes, or the processes may exist over separate computers -- for our purposes the underlying computers are not important, and may be set up in any arbitrary configuration  that makes best use of available resources by the end user.
+The entity that serves as the location by which chunks are held is therefore the node, which in \lsr may take several different forms.
+
+At heart is the notion of the worker node, and the master node, which is a common communication pattern known as master-slave\cite{rfc2136}.
+The reality of node treatment in \lsr is more complex than this, but ultimately all communication follows a ``master'' making a non-refusable request from some ``worker'', which is to provide the appropriate response.
+The user operates an \R session which itself serves as a master node.
+This master session is the one that interacts with other nodes, the workers, in order for them to perform work on chunks.
+Between the worker nodes, chunks can be transferred directly, without any intervention or specific ordering from the master node -- this is what tips the communication pattern from master-slave, to a hybrid peer-to-peer pattern.
+This ability for the worker nodes to communicate amongst themselves is a major component in many of the implementation decisions underpinning the API, and has been advanced as a favourable pattern for the fact that it minimises the total size of data moved across the distributed system, with chunks being moved directly to the nodes that require them without needing any intermediaries.
+
+In \lsr, a node is any process that takes part in communication activities of a distributed system.
+The master node mainly gives direction, and occasionally pulls groups of chunks as distributed objects, at the specification of the user, which may be live and interactive.
+The worker node follows a loop of running computations on chunks that it has stored, followed by checking for any new computation requests and alternatively requesting any chunks from other worker nodes that it doesn't have stored and that a computation depends upon, and upon receipt of all necessary chunks, storing them running the relevant computation.
+
+It is also worth describing one variation on a node, that while implementation-specific, does shed some light on how nodes may be put to use.
+For nodes to communicate directly between themselves, they require information on which node holds the chunk that is under request.
+This could be provided by a variety of forms, including a node-less peer-to-peer setup as described in Section \ref{sec:p2p}, but \lsr's implementation made use of a variation of a node termed a location service.
+The role of a location service is to keep track of which chunks exist on which nodes, updated by the worker nodes and providing this information when requested by a worker node looking to make a request of a particular chunk.
+
+This suffices for an overview of the concepts underpinning nodes in the API.
+Further details are implementation-specific, and are not essential to the interface as presented; they are elaborated upon in Section \ref{sec:nodes}.

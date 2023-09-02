@@ -1,0 +1,14 @@
+Chunks and computations on those chunks are represented as very simple S3 classes based on lists, with their structure given in Figure \ref{fig:largerscale}
+
+\begin{figure}
+\input{img/largerscale}
+\caption{UML Diagram of Chunk and Computation classes}
+\label{fig:largerscale}
+\end{figure}
+
+Every chunk and computation has an identifier (``href'' in HTTP-language) - this is a uuid that allows for unambiguous specification of objects within the system.
+Chunks contain an additional identifier of their generating process, that is, the identifier of the computation that is is the result of.
+Computations stored as data are typically a lot in a lot smaller than the data that results from them.
+This implies that every single computation that takes place in the system can be stored as data and replicated across several notes far more simply than their resulting data.
+What this leads to is that if a node unexpectedly crashes with some important data on it, the chunk referring to the data on that node maintains a reference to the generator of the data.
+This generator will hopefully exist on another that is still live, and thus can the data can in theory be regenerated.

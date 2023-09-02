@@ -1,0 +1,138 @@
+Possibly the most important aspect of controlling chunks is keeping track of their lineage.
+This section describes the graph of dependencies taken by chunks upon each other by way of computation, and the means used by the \pkg{chunknet} package to track and control these dependencies.
+The relevant considerations include the availability of chunks, determination of their mutability, and garbage collection of chunks no longer referenced.
+
+\subsubsection{Availability}
+
+For chunks to be used in a computation, they must be made available to the computing node.
+In an asynchronous system, chunks may exist in varying states of temporal and spatial availability.
+There are four possible relational states that a dependent chunk may exist in with respect to a worker node.
+The states include:
+
+\begin{itemize}
+\item Prerequisite locally available (Figure \ref{fig:comm-la}).
+\item Prerequisite locally pending (Figure \ref{fig:comm-lp}).
+\item Prerequisite externally available.
+\item Prerequisite externally pending (Figure \ref{fig:comm-ep}).
+\end{itemize}
+
+\begin{figure}
+\input{img/comm-la}
+\label{fig:comm-la}
+\end{figure}
+
+\begin{figure}
+\input{img/comm-lp}
+\label{fig:comm-lp}
+\end{figure}
+
+\begin{figure}
+\input{img/comm-ep}
+\label{fig:comm-ep}
+\end{figure}
+
+\subsubsection{Mutability}
+
+A reasonable question may be asked of why chunks are implemented using lists, rather than a mutable object such as an environment.
+This section attempts to grant some direction for this, by considering the result of using a mutable object.
+
+Taking the replacement operation as an example of modification, given in \R{} as \code{\$<-}, a distributed chunk may be alternatively modified through creating a copy of the data on the worker holding it, then performing the modification on that copy, and replacing the master reference to the original chunk with one to the modified copy; if there are no more references to the original, garbage collection will trigger a deletion of the distributed chunk, thereby preventing memory leaks.
+This operation is depicted as a diagram in Figure \ref{fig:modifyref}.
+
+\begin{figure}
+\input{img/modifyref}
+\caption{Reference modification as an emulation of object modification as is currently able to be implemented.}
+\label{fig:modifyref}
+\end{figure}
+
+A significant benefit of this emulation of mutability is that chunk descriptors will always refer to the same version of the data, which has major ramifications for the integrity of future redundancy features - reference objects such as environments excluded.
+
+However, the final step of replacing the master reference to a modified copy is not possible to take place in a manner maintaining a transparent representation of standard (immutable) \R{} objects.
+This is due to references themselves here being implemented as mutable, so changes to any shallow copy of a reference is reflected among all shallow copies of that reference.
+An illustration is given in the context of local variables, with Listing \ref{lst:mutability-expected.R} giving an example \R{} session of expected behaviour, and Listing \ref{lst:mutability-actual.R} displaying the actual behaviour.
+
+\begin{listing}
+\begin{minted}{r}
+> x <- distribute(mtcars)
+> x$mpg <- 1
+> emerge(x$mpg)
+ [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+{ function(x) { x$mpg <- 2; emerge(x$mpg) }(x)
+ [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+> emerge(x$mpg)
+ [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+\end{minted}
+\caption{Expected result of object modification.}
+\label{lst:mutability-expected.R}
+\end{listing}
+
+\begin{listing}
+\begin{minted}{r}
+> x <- distribute(mtcars)
+> x$mpg <- 1
+> emerge(x$mpg)
+ [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+{ function(x) { x$mpg <- 2; emerge(x$mpg) }(x)
+ [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+> emerge(x$mpg)
+ [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+\end{minted}
+\caption{Result of object modification when using mutable reference.}
+\label{lst:mutability-actual.R}
+\end{listing}
+
+
+This behaviour can be led to an acceptable change by inverting the mutability of distributed object references and their contents, as depicted in Figure \ref{fig:modifyrefprop}.
+
+\begin{figure}
+\input{img/modifyrefprop}
+\caption{Reference modification as an emulation of object modification as proposed.}
+\label{fig:modifyrefprop}
+\end{figure}
+
+This forces on-modify copies of the distributed objects when they are used as local variables, thereby keeping changes to them local to a particular scope.
+What isn't copied is the descriptor, which is now mutable.
+The mutability isn't essential for any attributes other than connection to \R{}'s garbage collector, which can only be explicitly registered to collect mutable objects such as environments or external pointers.
+The modification maintains the same conceptual flow of mutability emulation, including a replacement of the descriptor, rather than modification.
+As it currently stands, there is no \lsr{} dependency on mutable distributed object references, so there are no changes to be made in that respect.
+
+Granting only immutable chunks to the \lsr{} system gains both guarantees and challenges for it.
+The guarantees involve easier reasoning about the system and consistency of chunk-related transactions\cite{goetz2006java}.
+Challenges grow alongside additional memory usage from copying of data, as compared to in-place data modification.
+Much of the memory growth of immutable objects is optimised away within \R{}, but this is difficult to rely upon once the system becomes distributed\cite{rcore2020lang}.
+
+This has lead to the development of a further component, which has positive implications for backup/checkpointing, as well as solving the memory problem, and it may gain the system fault-tolerance.
+The component is a reification of dependencies between chunks as an abstract Directed Acyclic Graph (DAG).
+Each chunk comes into being either from manipulation of other chunks, or direct reading from external system such as a read from HDFS.
+In this fashion, a graph of dependencies can be defined over the set of chunks that exist as a part of the system at any one point in time.
+Each node in this graph may represent a single chunk, with directed edges pointing from each node to the nodes representing that chunk's prerequisites.
+This can be represented as a diagram, or in textual notation, with makefile rules being a popular example\cite{shal2009build}.
+The terminology of makefiles will be used in this document for clarity, with 'target' referring to a node representing some chunk that depends on any number of chunks, themselves represented by 'prerequisite' nodes. 
+The connection with the diagram has 'target' nodes pointing back to their 'prerequisite' nodes.
+A 'prerequisite' may also be referred to as a 'dependency'.
+
+An explicit graph that can be queried and modified by the system grants especial utility as it may store further information on the system's chunks.
+This information may be relayed in turn to update the graph.
+Importantly, the graph is modular; while the system is dependent upon the graph, and queries and updates it, it remains a distinct and separate entity.
+
+\subsubsection{Garbage Collection}\label{sec:gc}
+
+A valuable use of the graph is to relate referencing information to nodes on the graph as an aid to distributed garbage collection.
+If a chunk is referenced in the system, that is reflected by some default marking on the graph.
+Upon garbage collection of a chunk in the relevant R process referring to it, the node may be marked as unreferenced, in turn triggering the global deletion of all data relating to a chunk in the system.
+
+From the above descriptions, a simple method for garbage collection necessarily falls out:
+Chunk operations generate new references, and there may be multiple references to a single mutable object.
+Garbage collection of a chunk reference, implying non-necessity of the chunk, should lead to garbage collection of the underlying chunk.
+This may be implemented very simply through the following manner: the chunk generation DAG, as iteratively created with each computation step, is stored with the chunk reference.
+An example of such a DAG is given in Figure \ref{fig:gc}
+
+\begin{figure}
+\input{img/gc}
+\caption{Chunk lineage as stored with individual chunks. Once chunk has proven existence, the lineage may be cleared and garbage collected.}
+\label{fig:gc}
+\end{figure}
+
+When the chunks have been proven computed, as through an \code{emerge()}, the graph may be cleared.
+The nodes in the graph which are no longer accessible are cleared by \R's garbage collector, and are directly tied to a deletion method of the underlying chunks.
+This means that iteration is perfectly acceptable, as long as there are sufficiently regular \code{emerge()}'s, as the older chunks are cleared away.

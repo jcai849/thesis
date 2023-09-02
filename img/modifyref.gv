@@ -1,0 +1,26 @@
+digraph modref {
+	subgraph cluster_dobjref {
+		label="Distributed Object Reference (mutable)";
+
+		subgraph cluster_chunkref {
+			label="Chunk Reference (mutable)";
+
+			x[label="chunk descriptor (immutable, int)"];
+			xd[label="chunk descriptor (immutable, int)"];
+
+		}
+	}
+
+	subgraph cluster_worker {
+		label="worker";
+
+		xc[label="original chunk data (immutable)"];
+		xdc[label="modified copy (immutable)"];
+
+	}
+
+	x -> xc [label="refers to"];
+	xd -> xdc [label="refers to"];
+	x -> xd [label="replaced with"];
+	xc-> xdc [label="copied to"];
+}

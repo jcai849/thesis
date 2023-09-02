@@ -890,17 +890,22 @@
   year      = {2003}
 }
 @article{gilbert2002brewer,
-  title     = {Brewer’s conjecture and the feasibility of consistent, available, partition-tolerant web services},
-  volume    = {33},
-  url       = {http://dx.doi.org/10.1145/564585.564601},
-  doi       = {10.1145/564585.564601},
-  number    = {2},
-  journal   = {ACM SIGACT News},
-  publisher = {Association for Computing Machinery (ACM)},
-  author    = {Gilbert, Seth and Lynch, Nancy},
-  year      = {2002},
-  month     = 6,
-  pages     = {51–59}
+author = {Gilbert, Seth and Lynch, Nancy},
+title = {Brewer's Conjecture and the Feasibility of Consistent, Available, Partition-Tolerant Web Services},
+year = {2002},
+issue_date = {June 2002},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {33},
+number = {2},
+issn = {0163-5700},
+url = {https://doi.org/10.1145/564585.564601},
+doi = {10.1145/564585.564601},
+abstract = {When designing distributed web services, there are three properties that are commonly desired: consistency, availability, and partition tolerance. It is impossible to achieve all three. In this note, we prove this conjecture in the asynchronous network model, and then discuss solutions to this dilemma in the partially synchronous model.},
+journal = {SIGACT News},
+month = {jun},
+pages = {51–59},
+numpages = {9}
 }
 @book{goetz2006java,
   author    = {Goetz, Brian},
@@ -2777,4 +2782,26 @@
   author={Nichols, Bradford and Buttlar, Dick and Farrell, Jacqueline},
   year={1996},
   publisher={" O'Reilly Media, Inc."}
+}
+@online{corbet2023,
+  author = {Jonathan Corbet},
+  title = {Why the "volatile" type class should not be used — The Linux Kernel  documentation},
+  year = 2023,
+  url = {https://www.kernel.org/doc/html/latest/process/volatile-considered-harmful.html},
+  urldate = {2023-09-02}
+}
+@misc{rfc2136,
+    series =    {Request for Comments},
+    number =    2136,
+    howpublished =  {RFC 2136},
+    publisher = {RFC Editor},
+    doi =       {10.17487/RFC2136},
+    url =       {https://www.rfc-editor.org/info/rfc2136},
+        author =    {Paul A. Vixie and Dr. Susan Thomson and Yakov Rekhter and Jim Bound},
+    title =     {{Dynamic Updates in the Domain Name System (DNS UPDATE)}},
+    pagetotal = 26,
+    year =      1997,
+    month =     apr,
+    day =       1,
+    abstract =  {Using this specification of the UPDATE opcode, it is possible to add or delete RRs or RRsets from a specified zone. Prerequisites are specified separately from update operations, and can specify a dependency upon either the previous existence or nonexistence of an RRset, or the existence of a single RR. {[}STANDARDS-TRACK{]}},
 }
