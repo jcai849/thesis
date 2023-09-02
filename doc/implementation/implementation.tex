@@ -1,13 +1,12 @@
 This chapter provides implementation details supporting the system delivered and described by the API as given in Chapter \ref{sec:ui}.
 Different implementation decisions could have been alternatively formed, to support the same API; as such, this is an as-built record of the decisions that were made in implementation, and are secondary to the principle offering of this project, which is the API.
-The structure given is to work from the top-down, with demonstrations of each layer being composed by its undergirding layer.
-This involves a case-study form of walkthrough of another construction of a distributed statistical model here a \code{Reduce()}-based Linear Model, followed by a descent along each system layer, rounding off with a description of the \proglang{C}-level networking architecture underpinning the entire system.
+The structure given is to work from the bottom-up, with demonstrations of each layer being composed by its undergirding layer.
 
-\section{Largescalemodelr: Reduce-based Linear Model}
-\input{doc/implementation/lm}
-\section{Largescaler}
-\input{doc/implementation/lsr}
-\section{Chunknet}
-\input{doc/implementation/chunknet}
 \section{Orcv}
 \input{doc/implementation/orcv}
+\section{Chunknet}
+\input{doc/implementation/chunknet}
+\section{Largescaler}
+\input{doc/implementation/lsr}
+\section{Largescalemodelr: Reduce-based Linear Model}
+\input{doc/implementation/lm}
