@@ -122,7 +122,7 @@ The values are to be mutable, at the very least in order to allow marking, as pa
 Upon chunk creation, a chunk is assigned a random 128 bit ID, which is sufficient to uniquely identify it.
 References to other chunks in the dependency graph describe the chunk ID of the prerequisites/targets, and these can be looked up directly.
 
-\section{Relation to \lsr System}
+\subsection{Relation to \lsr{} System}
 
 The dependency graph and DHT hosting it would be separate, though depended upon, by the working \lsr{} system.
 For all intents, the DHT may be accessed through a simple \code{read()} and \code{execute()} interface at the top level, with perhaps some middle layer communicating storage details and garbage collection information to the DHT.
@@ -131,7 +131,7 @@ For instance, should the DHT return the address of a chunk when queried, or go b
 Initial inclination is toward the DHT returning the address, with some thin adaptor returning the value, and the system having no further knowledge than the bare minimum of the adaptor's interface.
 This information hiding aids in modularity and will hopefully result in less code changes necessary when changing out components in the future\cite{gamma1995design}.
 
-\section{Extensions and Variations}
+\subsection{Extensions and Variations}
 
 In-memory replication, redundancy, or caching, is the standard means by which DHT's prevent data loss.
 A challenge this brings is to the consistency mutable values if replicated across nodes;
