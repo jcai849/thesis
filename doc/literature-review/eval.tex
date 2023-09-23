@@ -40,18 +40,18 @@ The manner of implementation for call-by-need typically requires a data structur
 A thunk is a variation on a closure, keeping reference to the passed expression and an environment in which to evaluate the expression upon the thunk being accessed in the body of the procedure.
 Upon evaluation, the thunk is effectively replaced by its computed value, with further references accessing that value directly.
 R makes use of this form of processing, with thunks being referred to as ``promises'', with the term ``promise'' not bearing any relation to the standard usage of ``promise'' to refer to the concurrent data structures associated with futures\cite{rcore2020lang:promise}.
-A promise in R encapsulates pointers to the value, expression, and environment.
-Promises are introduced in R through a list of promises replacing the argument list upon a call to a closure.
+A promise in \R encapsulates pointers to the value, expression, and environment.
+Promises are introduced in \R through a list of promises replacing the argument list upon a call to a closure.
 A new environment is constructed for the evaluation of the closure, and the promises are matched to the names of the formal parameters.
 Evaluation of promises in a function is performed in the evaluation frame of the calling function, rather than the evaluation frame of the function, as default arguments are.
 Upon evaluation of a promise, the value pointer is set to the resulting value, the environment is set to NULL, and the header of the SEXP underlying the promise has the ``PRSEEN'' flag set to indicate that it has been accessed, in order to avoid recursive loops.
-In R nomenclature, the evaluation of a promise is known is ``forcing'' the promise, and from this point on in the evaluation of the closure, the promise serves the value only, with no further evaluation.
+In \R nomenclature, the evaluation of a promise is known is ``forcing'' the promise, and from this point on in the evaluation of the closure, the promise serves the value only, with no further evaluation.
 As hinted at above, the expression is still capable of being accessed through the \lstinline[language=R]{substitute()} function.
 Evaluation of a promise only takes place when the value is needed, and promises may themselves refer to other promises, such as when unevaluated arguments are passed through calling functions, and these promises are recursively forced in turn.
 
 Promises are used beyond function calls in R, including use for loading code from packages; loading packages attaches a namespace populated with promises which only evaluate upon access.
 
-An exception to the evaluation strategy described here for R is that the ``builtin'' functions in R are evaluated strictly, with parameters being evaluated before being passed to the underlying C code.
+An exception to the evaluation strategy described here for \R is that the ``builtin'' functions in \R are evaluated strictly, with parameters being evaluated before being passed to the underlying C code.
 
 \subsection{Alternative Methods of Evaluation}
 
@@ -76,7 +76,7 @@ Another optimisation in lazy evaluation is given by graph reduction.
 Graph reduction involves treating expressions not only as abstract syntax trees, but as directed acyclic graphs, where multiple invocations of the same expression are depicted once only in the graph and linked together to avoid re-evaluation of the same expression\cite{hudak1989functional}.
 An equivalency exists with graph reduction and the memoisation of call-by-need.
 
-\subsection{Evaluation in R Distributed Systems}\label{sec:rdisteval}
+\subsection{Evaluation in \R Distributed Systems}\label{sec:rdisteval}
 
 Given that distributing computation necessitates a rearrangement of evaluative computation, a question arises: How does evaluation proceed in a distributed system for R?
 
@@ -84,7 +84,7 @@ The \pkg{SNOW} package may be considered first for its pedigree.
 One of the fundamental procedures in \pkg{SNOW} is \lstinline[language=R]{clusterCall()}\cite{tierney2018snow}.
 The evaluation of this procedure consists in first evaluating arguments on the master, with their values sent to slave nodes which execute the function call.
 This corresponds to a strict evaluation strategy, being an effective call-by-value.
-There is some nuance though, in that within the function being called on the slave node, a call-by-need strategy is still taking place, due to being applied by the R evaluator, but in practice with all arguments having been evaluated prior to function application, the ``strict'' classification is dominant.
+There is some nuance though, in that within the function being called on the slave node, a call-by-need strategy is still taking place, due to being applied by the \R evaluator, but in practice with all arguments having been evaluated prior to function application, the ``strict'' classification is dominant.
 Other functions in \pkg{SNOW} follow a similar form.
 
 Prior prototypes in the largescaleR project developed herein follow a similar form.
@@ -111,7 +111,7 @@ Beyond the above point regarding call creation,this leads to a missing capacity 
 
 \subsection{Alternatives to Prior Evaluation Strategies}
 
-In order to bring prototypes of the project closer in line with standard R evaluation, a radically different evaluation mechanism is required.
+In order to bring prototypes of the project closer in line with standard \R evaluation, a radically different evaluation mechanism is required.
 The evaluation or collection of the arguments to a function on a node would have to take place only upon those arguments being accessed in the evaluation of the function body.
 This implies a necessity to take advantage of promise objects.
 Such a capacity is already inherent in R, with \lstinline[language=R]{delayedAssign()} from the base package granting direct access to promise creation.
@@ -123,7 +123,7 @@ This may be able to be overcome if such local arguments were placed as promises 
 All of this remains highly complex -- one of the original points of opposition to thunks \cite{ingerman1961thunks}among compiler constructors was the difficulty and complexity introduced through their usage, with the dearth of debuggers originally available as testament to this notion.
 
 Another point to consider is that lazy evaluation is capable of being emulated in strict languages supporting closures or generators, through caching of values upon the constructs being called.
-However, this is less relevant to the case under consideration here, as it would require explicit calling of arguments in the definitions of functions to be evaluated in a distributed manner, which is undesirable when aiming for an API with greater conformance to standard R usage.
+However, this is less relevant to the case under consideration here, as it would require explicit calling of arguments in the definitions of functions to be evaluated in a distributed manner, which is undesirable when aiming for an API with greater conformance to standard \R usage.
 
 An argument can be made for leaving distributed evaluation as it is, for the potential efficiency gains in parallel pre-computation over call-by-need, which is serial in the naive case.
 

@@ -25,12 +25,12 @@ This particular system answers that necessarily through it's context and
 aims; that it is currently intended to exist as a largely transparent
 platform within R, which necessitates interactivity and other standard R
 development practices. Thus, a centralised structure must be chosen for
-the system, with the node associated with the user's R session acting as
+the system, with the node associated with the user's \R session acting as
 the master. This is the form of operation of other distributed packages
 currently existing in R, such as \texttt{sparklyr} and \texttt{SNOW}
 \cite{luraschi20}\cite{tierney18}. This can be contrasted with a
 decentralised system as in \texttt{pbdR} and it's underlying
-\texttt{MPI} implementation \cite{pbdR2012}, which requires R programs
+\texttt{MPI} implementation \cite{pbdR2012}, which requires \R programs
 to be written in a manner agnostic to the nodes in which they are
 executed upon, resulting in the same program being distributed to all
 nodes in the system. In this way, the program is not capable of being
@@ -162,10 +162,10 @@ that channel itself may then be closed and removed.
 \hypertarget{sec:localrel}{%
 \subsubsection{Relation to Existing Systems}\label{sec:localrel}}
 
-Most other distributed systems in R require manual specification of a
+Most other distributed systems in \R require manual specification of a
 cluster that then operates either in the background or as an object that
 must be retained and manipulated. What is described here bears closer
-resemblance to a file system than any particular distributed R package,
+resemblance to a file system than any particular distributed \R package,
 with particular relation to the \texttt{UNIX} file system
 \cite{ritchie1979evolution}\cite{thompson1974unix}. In the \texttt{UNIX}
 file system, files contain no additional information beyond what is
@@ -201,11 +201,11 @@ garbage collection, in conjunction with reference counting
 System}\label{description-and-motivation-for-current-system}}
 
 The remote end of the system is the simplest component of the entire
-setup. Currently, each remote R process is hosted through
+setup. Currently, each remote \R process is hosted through
 \texttt{RServe}, and accessed through \texttt{RSclient} on the local
-end. The remote R process holds chunks of data in it's global
+end. The remote \R process holds chunks of data in it's global
 environment, and performs whichever operations on that data as are
-directed to it from the master R session. The data possesses no more
+directed to it from the master \R session. The data possesses no more
 structure than what was already in the chunk following reading,
 operation upon, or reception by the node. This has again been due to
 reasons of simplicity, as no presuppositions of structure suggested
@@ -216,7 +216,7 @@ themselves at the outset.
 Structures}\label{insufficiency-of-current-structures-1}}
 
 The system works very well for something general purpose. However, it
-ignores much of the structure inherent in common primitive R objects
+ignores much of the structure inherent in common primitive \R objects
 such as vectors. For example, to numerically index elements of a
 distributed vector, an indexing algorithm currently translates the index
 numbers into node-specific indices, and forwards those translated
@@ -269,7 +269,7 @@ associated issues with further work on distributed computations using R.
 \hypertarget{method}{%
 \subsubsection{Method}\label{method}}
 
-NOTE: R code located in
+NOTE: \R code located in
 \href{github.com/jcai89/phd/src/experiment-eager-dist-obj.R}{experiment-eager-dist-obj.R}
 
 Using the nectar cluster, the \texttt{hdp} node was used as a master
@@ -353,9 +353,9 @@ place. Consideration should be given to forms of distribution that
 minimise data movement, perhaps through maximisation of correspondence
 with existing vectors, while still avoiding misbalancing node memory.
 
-Memory leaks, not much of a problem at the R level with garbage
+Memory leaks, not much of a problem at the \R level with garbage
 collection, return to a potential problem with assignment of distributed
-objects being fixed to their local R processes. For example, with the
+objects being fixed to their local \R processes. For example, with the
 following code consisting of distributed vectors:
 \texttt{c\ \textless{}-\ a\ +\ b}, what occurs is that on every node
 \texttt{a} and \texttt{b} exist on, they are summed together, with the
@@ -382,7 +382,7 @@ point-to-point communication. The alternative is to have each node
 channel data through the master and then on to the appropriate node,
 which would be a massive waste of resources. This point-to-point
 communication is not so easy to perform in reality, as RServe forks a
-fresh R session at every new connection, so objects that exist in a
+fresh \R session at every new connection, so objects that exist in a
 particular node in connection with the master are not able to be
 referenced in any other connection.
 
@@ -406,7 +406,7 @@ smoothly. This would lead naturally to the definition of
 \texttt{distributed.data.frame} objects and the like. Furthermore, a
 means of reading data from distributed storage to their local R
 processes would likely yield very worthwhile insights to the process of
-creation of a distributed R system. Porting to S4 may be worthwhile, but
+creation of a distributed \R system. Porting to S4 may be worthwhile, but
 it can be performed later. And finally, a closer literature review on
 the issues raised and other solutions will prove very valuable.
 
@@ -443,12 +443,12 @@ akin to the \emph{SNOW} cluster object, serves as a reference with which
 to declare distributed objects upon. Distributed objects exist
 conceptually as the actual data split across RServe instances, and a
 reference containing the minimum of necessary information existing on
-the users R session. The users R session thus serves as the master node
+the users \R session. The users \R session thus serves as the master node
 in this distributed system. Importantly, the object references are
 registered with \texttt{reg.finalize} to run a cleanup on the hosts of
 the data when being garbage collected themselves. Distributed objects
 are formed from two possible sources; master side, or slave side.
-Formation on the master side involves taking an existing R object,
+Formation on the master side involves taking an existing \R object,
 splitting it up according to some function (currently splitting
 according to most even element distribution), and sending the splits to
 their associated RServe instances, described in a supplied cluster
@@ -463,7 +463,7 @@ most of the arguments to server-side \texttt{read.csv} functions. The
 nodes then measure the number of rows on their chunk, sending back the
 information to inform the creation of a reference. Beyond the storage of
 data larger than the user-end memory, distributed objects can mimic
-standard R objects, with an example being distributed vectors having
+standard \R objects, with an example being distributed vectors having
 \texttt{Ops} defined. Operations between vecto \#forwarded on to the
 hosts, along with the names of their associated chunks, for the hosts to
 perform at the distributed end.\} The results are assigned to a provided
@@ -492,14 +492,14 @@ other.
 Functions returning distributed vectors are arguably the more
 transparent among the functions acting on distributed vectors, in the
 sense that they return the same degree of distributution as their input,
-as regular R functions implicitly do. Such functions include the
+as regular \R functions implicitly do. Such functions include the
 \texttt{head} function as well as simple surjective functions.
 
 Data often requires a secondary function acting in a reductive capacity
 over combined data resulting from initial node-specific operations. The
 resultant algorithms are typically not possible to entirely parallelise,
 and the reductive locus in this distributed system is set to be the
-user-side master R session. As an example, the \texttt{unique} function
+user-side master \R session. As an example, the \texttt{unique} function
 attains the unique elements within an array; it is implemented in
 MapReduce form of \texttt{unique} operations within each node, followed
 by a \texttt{unique} over their combined output within the master node.
@@ -594,7 +594,7 @@ with operations and reductive functions such as \texttt{table} run upon
 it.
 
 In close second to this success is the transparency inherent in the
-system. Every single operation exactly mirrors the standard R syntax for
+system. Every single operation exactly mirrors the standard \R syntax for
 equivalent operations, beyond the cluster setup and act of distribution.
 
 There still remain some important issues to solve before claiming any

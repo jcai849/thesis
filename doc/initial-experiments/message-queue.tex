@@ -152,9 +152,9 @@ almost certain to occur if not dealt with. This specific instance may be
 helped through careful implementation and more processing on the
 initiator node (bringing it closer to a master node), but a possibly
 superior extension is to have queue-adjacent servers on each node that
-are able to operate concurrently with the main R session that has as
+are able to operate concurrently with the main \R session that has as
 it's sole purpose the transfer of chunks, leaving everything else to the
-main R session. These servers would also be ideal vertices at which to
+main \R session. These servers would also be ideal vertices at which to
 implement data-duplication as a feature enabling redundancy in the
 system
 
@@ -219,7 +219,7 @@ the message, and sends the serialised results through.
 
 A problem with this approach is the fickle aspect of creating and removing
 sockets for every request; beyond the probability of missed connections and
-high downtime due to client waiting on a response, R only has a very limited
+high downtime due to client waiting on a response, \R only has a very limited
 number of connections available to it, so it is impossible to scale beyond that
 limit.
 
@@ -941,7 +941,7 @@ This may be overcome by removing the concept of a local chunk table, and
 storing all objects in the local \texttt{osrv} server, which, being a separate
 process, would not be forked itself. 
 A potential problem in this solution is in the memory management of
-\texttt{osrv}, and what would be done if references to the R objects are forked
+\texttt{osrv}, and what would be done if references to the \R objects are forked
 away, but the data is intended to remain on the server.
 
 \subsection{Asynchronous Server-Side Resolution Monitoring}

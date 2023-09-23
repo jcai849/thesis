@@ -77,7 +77,7 @@ future is initialised with access to cores through the wrapper function,
 This sets up the correct number of workers, with the minimum of workers
 and chunks being processed in parallel.
 An important aspect to parallelisation through \pkg{future} is that, for
-purposes of cross-platform compatibility, new R processes are started
+purposes of cross-platform compatibility, new \R processes are started
 for each worker\cite{zj19:_using}.
 Each process will possess its own environment, and \pkg{disk.frame} makes use
 of future's detection capabilities to capture external variables

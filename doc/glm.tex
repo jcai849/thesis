@@ -52,14 +52,14 @@ Of note is the complexity, the presence of iteration, and the interactions betwe
     \end{aligned} 
 \end{equation}
 
-\subsection{Distributed LASSO R Description}\label{sec:rlasso}
+\subsection{Distributed LASSO \R Description}\label{sec:rlasso}
 
-This subsection gives both base R syntax for working with a local chunked dataset, as well as the minimal changes that are required when using \pkg{largescaler} to transform the expressions to handle distributed data.
+This subsection gives both base \R syntax for working with a local chunked dataset, as well as the minimal changes that are required when using \pkg{largescaler} to transform the expressions to handle distributed data.
 The core substance of this subsection is to demonstrate the ease with which \proglang{R} is able to meet a mathematical definition, and the successive ease by which \pkg{largescaler} is able to turn that into a truly distributed algorithm.
 As in Subsection \cref{sec:mathlasso}, the working example is given of distributed LASSO.
 Consider first some chunked data, given as a diff below.
 In the diff, semantic differences are demarcated through underlining, with shared code given centrally, with no dividing line.
-On the left of the diff we have how the LASSO as described might be encoded in the absence of the API, assuming that the data fit into memory, and on the right, we make use of large scale R with no such constraining assumption.
+On the left of the diff we have how the LASSO as described might be encoded in the absence of the API, assuming that the data fit into memory, and on the right, we make use of large scale \R with no such constraining assumption.
 
 In the \pkg{largescaler} code, distributed data may come from multiple files and multiple hosts holding the chunks, and this is easily provided for.
 The distribution comes with the necessity to carefully differentiate between the reference of the distributed object, and the distributed object itself.

@@ -119,7 +119,7 @@ Importantly, the graph is modular; while the system is dependent upon the graph,
 
 A valuable use of the graph is to relate referencing information to nodes on the graph as an aid to distributed garbage collection.
 If a chunk is referenced in the system, that is reflected by some default marking on the graph.
-Upon garbage collection of a chunk in the relevant R process referring to it, the node may be marked as unreferenced, in turn triggering the global deletion of all data relating to a chunk in the system.
+Upon garbage collection of a chunk in the relevant \R process referring to it, the node may be marked as unreferenced, in turn triggering the global deletion of all data relating to a chunk in the system.
 
 From the above descriptions, a simple method for garbage collection necessarily falls out:
 Chunk operations generate new references, and there may be multiple references to a single mutable object.

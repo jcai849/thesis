@@ -3,7 +3,7 @@
 
 Given that iteration is cited by a principal author of \pkg{Spark} as a
 motivating factor in it's development when compared to \pkg{Hadoop}, it is
-reasonable to consider whether the most popular R interface to \pkg{Spark},
+reasonable to consider whether the most popular \R interface to \pkg{Spark},
 sparklyr, has support for iteration\cites{zaharia2010spark,luraschi20}.
 One immediate hesitation to the suitability of \pkg{sparklyr} to iteration is
 the syntactic rooting in \pkg{dplyr}; \pkg{dplyr} is a ``Grammar of Data
@@ -11,7 +11,7 @@ Manipulation'' and part of the tidyverse, which in turn is an ecosystem
 of packages with a shared philosophy\cite{wickham2019welcome}\cite{wickham2016r}.
 
 The promoted paradigm is functional in nature, with iteration using for
-loops in R being described as ``not as important'' as in other
+loops in \R being described as ``not as important'' as in other
 languages; map functions from the tidyverse purrr package are instead
 promoted as providing greater abstraction and taking much less time to
 solve iteration problems. Maps do provide a simple abstraction for
@@ -22,7 +22,7 @@ loops or generators allow\cite{cousineau1998functional}. A common
 functional strategy for handling a changing state is to make use of
 recursion, with tail-recursive functions specifically referred to as a
 form of iteration in \cite{abelson1996structure}. Reliance on recursion
-for iteration is naively non-optimal in R however, as it lacks tail-call
+for iteration is naively non-optimal in \R however, as it lacks tail-call
 elimination and call stack optimisations\cite{rcore2020lang}; at present
 the elements for efficient, idiomatic functional iteration are not
 present in R, given that it is not as functional a language as the
@@ -46,7 +46,7 @@ forcing evaluation then caching; performed in \pkg{sparklyr} through
 \mintinline{r}{sdf_persist()}.
 
 The Babylonian method for calculating a square root is a simple
-iterative procedure, used here as an example. A standard form in R with
+iterative procedure, used here as an example. A standard form in \R with
 non-optmimised initial value is given in \cref{lst:basicbab}.
 
 \begin{listing}
@@ -108,7 +108,7 @@ difference between two seperate Data Frames
 	\begin{minted}{r}
 show_query(mutate(S, S = S - x)
 \end{minted}
-	\caption{Attempt in R to form new column from the difference between two separate \pkg{Spark} data frames S and x}
+	\caption{Attempt in \R to form new column from the difference between two separate \pkg{Spark} data frames S and x}
 	\label{lst:bad}
 \end{listing}
 
@@ -207,7 +207,7 @@ Wickham\cite{luraschi2019mastering}\cite{wickham2016r}. None of such
 references connect with iterated functions.
 
 Thus, it is fair to conclude that \pkg{sparklyr} is incapable of sensible
-iteration of arbitrary R code beyond what maps directly to SQL; even
+iteration of arbitrary \R code beyond what maps directly to SQL; even
 with mutate, it is a very convoluted interface for attempting any
 iteration more complex than the Babylonian Method. Implementation of a
 GLM function with \pkg{sparklyr} iteration was initially planned, but the

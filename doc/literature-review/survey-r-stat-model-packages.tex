@@ -10,7 +10,7 @@ It consists mainly of wrapper functions, designed to follow it's
 philosophy of ``keep it distributed''.
 
 It is authored by Norm Matloff, a professor at UC, Davis and current
-Editor-in-Chief of the R Journal.
+Editor-in-Chief of the \R Journal.
 
 In more detail, \cite{matloff15} and \cite{matloff17} presents the
 motivation behind \pkg{partools} with reference to \pkg{Hadoop} and \pkg{Spark}. Matloff
@@ -18,14 +18,14 @@ describes \pkg{partools} as more ``sensible'' for large data sets than \pkg{Hado
 and \pkg{Spark}, due to their difficulty of setup, abstract programming
 paradigms, and the overhead caused by their fault tolerance. The
 alternative approach favoured by \pkg{partools}, termed ``software alchemy'',
-is to use base R to split the data into distributed chunks, run analyses
+is to use base \R to split the data into distributed chunks, run analyses
 on each chunk, then average the results. This is proven to have
 asymptotic equivalence to standard analyses under certain assumptions,
 such as iid data. Effectively, it is a map-reduce, with map being some
 analysis, and reduce being an average.
 
 The analyses amenable to software alchemy have bespoke functions for
-them in the package, typically consisting of their base R name with the
+them in the package, typically consisting of their base \R name with the
 prefix ``ca'' alluding to ``chunk averaging'', such as
 \mintinline{r}{calm()}. Other functions in which it
 doesn't make sense to average are also supported, such as column sums,

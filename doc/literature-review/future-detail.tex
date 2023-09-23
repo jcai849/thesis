@@ -5,7 +5,7 @@ future is introduced with the following summary:
 
 \begin{displayquote}
     The purpose of this package is to provide a lightweight and unified
-    future API for sequential and parallel processing of R expression via
+    future API for sequential and parallel processing of \R expression via
     futures.
 \end{displayquote}
 
@@ -13,7 +13,7 @@ The simplest way to evaluate an expression in parallel is to use
 \mintinline{r}{x %<-% { expression }}
 with \mintinline{r}{plan(multiprocess)}. This package
 implements sequential, multicore, multisession, and cluster futures.
-With these, R expressions can be evaluated on the local machine, in
+With these, \R expressions can be evaluated on the local machine, in
 parallel a set of local machines, or distributed on a mix of local and
 remote machines. Extensions to this package implement additional
 backends for processing futures via compute cluster schedulers etc.
@@ -32,7 +32,7 @@ futures find their greatest use when run asynchronously. The future
 package has the inbuilt capacity to resolve futures asynchronously,
 including in parallel and through a cluster, making use of the parallel
 package. This typically runs a separate process for each future,
-resolving separately to the current R session and modifying the object
+resolving separately to the current \R session and modifying the object
 state and value according to it's resolution status.
 
 \hypertarget{sec:comparison-with-non}{%
@@ -40,7 +40,7 @@ state and value according to it's resolution status.
         Quoting}\label{sec:comparison-with-non}}
 
 R lays open a powerful set of metaprogramming functions, which bear
-similarity to future. R expressions can be captured in a
+similarity to future. \R expressions can be captured in a
 \mintinline{r}{quote()}, then evaluated in an
 environment with \mintinline{r}{eval()} at some point
 in the future. Additionally,
@@ -56,7 +56,7 @@ to background computation of an expression instead.
 \hypertarget{sec:examples}{%
     \subsection{Example Usage}\label{sec:examples}}
 
-Through substitution and quoting, R can, for example, run a console
+Through substitution and quoting, \R can, for example, run a console
 within the language. Futures allows the extension of this to a parallel
 evaluation scheme. Listing \cref{lst:console} gives a simple
 implementation of this idea: a console that accepts basic expressions,
@@ -139,8 +139,8 @@ multicore.console()
     \item[future.callr]
         \cite{bengtsson19callr} provides a callr\cite{csardi20} backend to
         future, with all of the associated advantages and overhead. Callr
-        ``calls R from R''. It provides functions to run expressions in a
-        background R process, beginning a new session. An advantage of callr is
+        ``calls \R from R''. It provides functions to run expressions in a
+        background \R process, beginning a new session. An advantage of callr is
         that it allows more than 125 connections, due to not making use of
         R-specific connections. Additionally, no ports are made use of, unlike
         the SOCKcluster provided by the \pkg{SNOW} component of parallel.
@@ -174,6 +174,6 @@ inspection, and allows a \mintinline{r}{global} parameter to have manual
 variable specification.
 
 It seems likely that the future package will have some value to it's
-use, especially if asynchronous processing is required on the R end; it
-is the simplest means of enabling asynchrony in R without having to
+use, especially if asynchronous processing is required on the \R end; it
+is the simplest means of enabling asynchrony in \R without having to
 manipulate networks or threads.

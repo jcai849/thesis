@@ -1,7 +1,7 @@
 \hypertarget{sec:distributedr}{%
     \subsection{DistributedR}\label{sec:distributedr}}
 
-DistributedR offers cluster access for various R data structures,
+DistributedR offers cluster access for various \R data structures,
 particularly arrays, and providing S3 methods for a fair range of
 standard functions. It has no regular cluster access interface, such as
 with \pkg{Hadoop} or MPI, being made largely from scratch.
@@ -30,7 +30,7 @@ I have written more on future in \cref{sec:review-foreach}
 \hypertarget{sec:future-furrr}{%
     \subsection{future}\label{sec:future-furrr}}
 
-future captures R expressions for evaluation, allowing them to be passed
+future captures \R expressions for evaluation, allowing them to be passed
 on for parallel and ad-hoc cluster evaluation, through the parallel
 package\cite{bengtsson20}. Such parallelisation uses the standard MPI or
 SOCK protocols.
@@ -55,7 +55,7 @@ RStudio.
 
 Parallel is a package included with R, born from the merge of the
 packages \pkg{SNOW} and \pkg{multicore}\cite{core:_packag}. Parallel enables
-various means of performing computations in R in parallel, allowing not
+various means of performing computations in \R in parallel, allowing not
 only multiple cores in a node, but multiple nodes through \pkg{SNOW}'s
 interfaces to MPI and SOCK\cite{tierney18}.
 
@@ -104,7 +104,7 @@ Some selected packages of interest include the following:
     \item[\pkg{pbdDMAT}]
         Higher level classes and methods for distributed matrices, including
         manipulation, linear algebra, and statistics routines. Uses the same
-        syntax as base R through S4\cite{pbdDMATpackage}.
+        syntax as base \R through S4\cite{pbdDMATpackage}.
     \item[pbdMPI]
         Offers a high-level interface to MPI, using the S4 system to program in
         the SPMD style, with no ``master'' nodes\cite{Chen2012pbdMPIpackage}.
@@ -165,7 +165,7 @@ user connects to \pkg{Spark} and accumulates instructions for the manipulation
 of a \pkg{Spark} DataFrame object using \pkg{dplyr} commands, then executing the
 request on the \pkg{Spark} cluster.
 
-Of particular interest is the capacity to execute arbitrary R functions
+Of particular interest is the capacity to execute arbitrary \R functions
 on the \pkg{Spark} cluster. This can be performed directly, with the
 \mintinline{r}{spark_apply()} function, taking a
 user-defined function as a formal parameter. It can also be used as part
@@ -204,7 +204,7 @@ explained in \cite{venkataraman2016sparkr}.
 
 hmr is an interface to MapReduce from R\cite{urbanek20}. It runs super
 fast, making use of chunked data. Much of the process is handled by the
-package, with automatic R object conversion. hmr integrates with
+package, with automatic \R object conversion. hmr integrates with
 iotools, of which it is based upon. The author, like that of iotools, is
 Simon Urbanek.
 

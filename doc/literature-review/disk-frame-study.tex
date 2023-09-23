@@ -20,7 +20,7 @@ single monolithic file\cite{zj19:_inges_data}.
 
 Fst is a means of serialising dataframes, as an alternative to RDS
 files\cite{klik19}. It makes use of an extremely fast compression
-algorithm developed at facebook, with the R package enabling fst written
+algorithm developed at facebook, with the \R package enabling fst written
 on in \textbf{survey-r-packages-for-local-large-scale-computing.html}{R
     Packages for Local Large-Scale Computing}.
 
@@ -36,7 +36,7 @@ theoretically remain ignorant of chunking. In R, the disk.frame object
 serves as a reference to the chunk files. Operations on disk.frame
 objects are by default lazy, waiting until the
 \mintinline{r}{collect()} command to perform the
-collected operations and pull the chunks into R as a single data.table.
+collected operations and pull the chunks into \R as a single data.table.
 As noted in \cite{zj19:_simpl_verbs_lazy_evaluat}, this form of lazy
 evaluation is similar to the implementation of \pkg{sparklyr}.
 
@@ -73,7 +73,7 @@ breaking up data into chunks is referred to by \pkg{disk.frame} as
 After creating a disk.frame object, functions can be applied directly to
 all chunks invisibly through using the
 \mintinline{r}{cmap()} family of functions in a form
-similar to base R \mintinline{r}{*apply()}
+similar to base \R \mintinline{r}{*apply()}
 
 A highly publicised aspect of \pkg{disk.frame} is the functional
 cross-compatibility with \pkg{dplyr} verbs. These operate on disk.frame
@@ -157,7 +157,7 @@ This sets up the correct number of workers, with the minimum of workers
 and chunks being processed in parallel.
 
 An important aspect to parallelisation through future is that, for
-purposes of cross-platform compatibility, new R processes are started
+purposes of cross-platform compatibility, new \R processes are started
 for each worker\cite{zj19:_using}. Each process will possess it's own
 environment, and \pkg{disk.frame} makes use of future's detection capabilities
 to capture external variables referred to in calls, and send them to
