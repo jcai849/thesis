@@ -21,7 +21,7 @@ intermittent. Some of the main extension packages:
 
     \item[biganalytics]
         Extends bigmemory with matrix summary statistics such as
-        \mintinline{r}{colmeans}, \mintinline{r}{apply}, as well as integration with the biglm
+        \mintinline{r}{colmeans}, \mintinline{r}{apply}, as well as integration with the \pkg{biglm}
         package\cite{emerson16}. Biganalytics is authored by the same creators
         of the main bigmemory package.
     \item[bigtabulate]
@@ -63,13 +63,13 @@ systems\cite{choi1992scalapack}.
 \hypertarget{sec:disk.frame}{%
     \subsection{disk.frame}\label{sec:disk.frame}}
 
-The package description outlines disk.frame with the following:
+The package description outlines \pkg{disk.frame} with the following:
 
 \begin{displayquote}
     A disk-based data manipulation tool for working with large-than-RAM
     datasets. Aims to lower the barrier-to-entry for manipulating large
     datasets by adhering closely to popular and familiar data manipulation
-    paradigms like dplyr verbs and data.table syntax.
+    paradigms like \pkg{dplyr} verbs and \pkg{data.table} syntax.
 \end{displayquote}
 
 disk.frame provides a disk.frame class and derivatives, which model a
@@ -88,7 +88,7 @@ disk.frame in the document, \textbf{case-study-disk.frame.html}{A
 data.table is another dataframe alternative, focussing on speed through
 multithreading and well-tuned database algorithms\cite{dowle19}. The
 package has introduced a unique syntax for data.table manipulation,
-which is also made available in disk.frame. data.table objects are held
+which is also made available in \pkg{disk.frame}. data.table objects are held
 in RAM, so big data processing is not easily enabled, however the
 package allows for serialisation of data.tables, and chunking is
 possible through splitting via the \mintinline{r}{shard} function. The package
@@ -99,11 +99,11 @@ available in \cite{dowle19:_bench}.
 \hypertarget{sec:fst}{%
     \subsection{fst}\label{sec:fst}}
 
-fst is a means of serialising dataframes, as an alternative to RDS
+\pkg{fst} is a means of serialising dataframes, as an alternative to RDS
 files\cite{klik19}. Serialisation takes place extremely fast, using
 compression to minimise disk usage. The package speed is increased
 through parallel computation. Author Mark Klik and Yann Collet, of
-Facebook, Inc. fst is a dependency of disk.frame, performing some of the
+Facebook, Inc. \pkg{fst} is a dependency of \pkg{disk.frame}, performing some of the
 background functionality.
 
 \hypertarget{sec:iotools}{%
@@ -142,6 +142,6 @@ mid-2018.
         objects. The package is still actively maintained. The package has been
         the subject of several talks, most notably the author's overview,
         \cite{wijffels13}. The package is currently being revised for a second
-        version that provides generics functionality for dplyr on ff objects,
+        version that provides generics functionality for \pkg{dplyr} on ff objects,
         under the title, ``ffbase2''\cite{jonge15}.
 \end{description}

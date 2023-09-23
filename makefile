@@ -1,5 +1,5 @@
 DOCS != find doc -name '*.tex'
-.PHONY: thesis clean
+.PHONY: thesis clean full-clean
 .SUFFIXES: .pdf .tex
 .ORDER: extern thesis.pdf
 .tex.pdf:
@@ -20,9 +20,11 @@ clean:
 	rm -f *.bbl
 	rm -f *.lol
 	rm -f *.tdo
-	rm -f *.pyg
 	rm -f *.run.xml
+full-clean: clean
 	rm -rf _minted*
+	rm -f *.pyg
+	rm -f tikz-cache
 	cd img && $(MAKE) clean
 	cd eq && $(MAKE) clean
 	cd tab && $(MAKE) clean

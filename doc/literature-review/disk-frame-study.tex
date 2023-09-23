@@ -1,5 +1,4 @@
-\hypertarget{introduction}{%
-    \subsection{Introduction}\label{sec:disk-frame-introduction}}
+\subsection{Introduction}\label{sec:disk-frame-introduction}
 
 disk.frame works through two main principles: chunking, and generic
 function implementation (alongside special functions). Another component
@@ -27,19 +26,19 @@ on in \textbf{survey-r-packages-for-local-large-scale-computing.html}{R
 
 From inspection of the source code, data.table manipulations are enabled
 directly through transformations of each chunk to data.tables through
-the fst backend.
+the \pkg{fst} backend.
 
 \hypertarget{sec:making-chunks}{%
     \subsubsection{Chunk Usage}\label{sec:making-chunks}}
 
-Chunks are created transparently by disk.frame; the user can
+Chunks are created transparently by \pkg{disk.frame}; the user can
 theoretically remain ignorant of chunking. In R, the disk.frame object
 serves as a reference to the chunk files. Operations on disk.frame
 objects are by default lazy, waiting until the
 \mintinline{r}{collect()} command to perform the
 collected operations and pull the chunks into R as a single data.table.
 As noted in \cite{zj19:_simpl_verbs_lazy_evaluat}, this form of lazy
-evaluation is similar to the implementation of sparklyr.
+evaluation is similar to the implementation of \pkg{sparklyr}.
 
 Chunks are by default assigned rows through hashing the source rows, but
 can be composed of individual levels of some source column, which can
@@ -67,7 +66,7 @@ multiple csv files through
 files holding csv files. Time can be saved later on through the
 application of functions to the data during the conversion, as well as
 specifying what to chunk by, keeping like data together. The process of
-breaking up data into chunks is referred to by disk.frame as
+breaking up data into chunks is referred to by \pkg{disk.frame} as
 ``sharding'', enabled for data.frames and data.tables through the
 \mintinline{r}{shard()} function.
 
@@ -76,39 +75,39 @@ all chunks invisibly through using the
 \mintinline{r}{cmap()} family of functions in a form
 similar to base R \mintinline{r}{*apply()}
 
-A highly publicised aspect of disk.frame is the functional
-cross-compatibility with dplyr verbs. These operate on disk.frame
-objects lazily, and are applied through translation by disk.frame; they
+A highly publicised aspect of \pkg{disk.frame} is the functional
+cross-compatibility with \pkg{dplyr} verbs. These operate on disk.frame
+objects lazily, and are applied through translation by \pkg{disk.frame}; they
 are just S3 methods defined for the disk.frame class. They are fully
 functioning, with the exception of \mintinline{r}{group_by()} (and its
 data.table cognate, \mintinline{r}{[by=]}, considered in more detail in
 subsection \cref{sec:spec-cons-group-by}).
 
-Beyond higher-order functions and dplyr or data.table analogues for data
+Beyond higher-order functions and \pkg{dplyr} or \pkg{data.table} analogues for data
 manipulation, the direct modelling function of
 \mintinline{r}{dfglm()} is implemented to allow for
 fitting glms to the data. From inspection of the source code, the
-function is a utility wrapper for streaming disk.frame data by default
-into bigglm, a biglm derivative.
+function is a utility wrapper for streaming \pkg{disk.frame} data by default
+into \pkg{bigglm}, a \pkg{biglm} derivative.
 
 \hypertarget{sec:spec-cons-group-by}{%
     \subsubsection{Grouping}\label{sec:spec-cons-group-by}}
 
-For a select set of functions, disk.frame offers a transparent grouped
+For a select set of functions, \pkg{disk.frame} offers a transparent grouped
 \mintinline{r}{summarise()}. These are mainly composed
 of simple statistics such as \mintinline{r}{mean()},
 \mintinline{r}{min()}, etc.
 
 For other grouped functions, there is more complexity involved, due to
-the chunked nature of disk.frame. When functions are applied, they are
+the chunked nature of \pkg{disk.frame}. When functions are applied, they are
 by default applied to each chunk. If groups don't correspond injectively
 to chunks, then the syntactic chunk-wise summaries and their derivatives
 may not correspond to the semantic group-wise summaries expected. For
 example, summarising the median is performed by using a
 median-of-medians method; finding the overall median of all chunks'
-respective medians. Therefore, computing grouped medians in disk.frame
+respective medians. Therefore, computing grouped medians in \pkg{disk.frame}
 result in estimates only -- this is also true of other software, such
-as spark, as noted in \cite{zj19:_group_by}.
+as \pkg{Spark}, as noted in \cite{zj19:_group_by}.
 
 Grouped functions are thereby divided into one-stage and two-stage;
 one-stage functions ``just work'' with the
@@ -129,7 +128,7 @@ the forms
 \mintinline{r}{fn_df.chunk_agg.disk.frame()} and
 \mintinline{r}{fn_df.collected_agg.disk.frame()}
 respectively, where ``\mintinline{r}{fn}'' is used as the name of the function,
-and appended to the defined name by disk.frame, through
+and appended to the defined name by \pkg{disk.frame}, through
 meta-programming.
 
 To de-complicate the situation, but add one-off computational overhead,
@@ -141,7 +140,7 @@ computations of group medians.
 \hypertarget{sec:parallelisation}{
     \subsection{Parallelism}\label{sec:parallelisation}}
 
-An essential component of disk.frame's speed is parallelisation; as
+An essential component of \pkg{disk.frame}'s speed is parallelisation; as
 chunks are conceptually separate entities, function application to each
 can take place with no side effects to other chunks, and can therefore
 be trivially parallelised.
@@ -160,7 +159,7 @@ and chunks being processed in parallel.
 An important aspect to parallelisation through future is that, for
 purposes of cross-platform compatibility, new R processes are started
 for each worker\cite{zj19:_using}. Each process will possess it's own
-environment, and disk.frame makes use of future's detection capabilities
+environment, and \pkg{disk.frame} makes use of future's detection capabilities
 to capture external variables referred to in calls, and send them to
 each worker.
 

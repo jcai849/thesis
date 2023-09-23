@@ -13,11 +13,11 @@ It is authored by Norm Matloff, a professor at UC, Davis and current
 Editor-in-Chief of the R Journal.
 
 In more detail, \cite{matloff15} and \cite{matloff17} presents the
-motivation behind partools with reference to Hadoop and Spark. Matloff
-describes partools as more ``sensible'' for large data sets than Hadoop
-and Spark, due to their difficulty of setup, abstract programming
+motivation behind \pkg{partools} with reference to \pkg{Hadoop} and \pkg{Spark}. Matloff
+describes \pkg{partools} as more ``sensible'' for large data sets than \pkg{Hadoop}
+and \pkg{Spark}, due to their difficulty of setup, abstract programming
 paradigms, and the overhead caused by their fault tolerance. The
-alternative approach favoured by partools, termed ``software alchemy'',
+alternative approach favoured by \pkg{partools}, termed ``software alchemy'',
 is to use base R to split the data into distributed chunks, run analyses
 on each chunk, then average the results. This is proven to have
 asymptotic equivalence to standard analyses under certain assumptions,
@@ -31,7 +31,7 @@ prefix ``ca'' alluding to ``chunk averaging'', such as
 doesn't make sense to average are also supported, such as column sums,
 which also have specific functions made for them. Complex cases such as
 fitting LASSO models, in which each chunk may have settled on different
-explanatory variables, are catered for in partools through subsetting
+explanatory variables, are catered for in \pkg{partools} through subsetting
 them. Finally, aggregate functions, akin to R's aggregate function,
 provide for arbitrary functions to be applied to distributed data.
 

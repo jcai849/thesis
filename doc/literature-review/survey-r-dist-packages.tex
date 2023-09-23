@@ -4,7 +4,7 @@
 DistributedR offers cluster access for various R data structures,
 particularly arrays, and providing S3 methods for a fair range of
 standard functions. It has no regular cluster access interface, such as
-with Hadoop or MPI, being made largely from scratch.
+with \pkg{Hadoop} or MPI, being made largely from scratch.
 
 The package creators have ceased development as of December 2015. The
 company, Vertica, has moved on to offering an enterprise database
@@ -13,20 +13,19 @@ platform\cite{vertica:_distr}.
 \hypertarget{sec:foreach-doc}{%
     \subsection{foreach and doX}\label{sec:foreach-doc}}
 
-foreach offers a high-level looping construct compatible with a variety
+\pkg{foreach} offers a high-level looping construct compatible with a variety
 of backends\cite{microsoft20}. The backends are provided by other
 packages, typically named with some form of ``Do\emph{X}''.
 Parallelisation is enabled by some backends, with doParallel allowing
-parallel computations\cite{corporation19}, doSNOW enabling cluster
+parallel computations\cite{corporation19}, \pkg{doSNOW} enabling cluster
 access through the SNOW package\cite{dosnow19}, and doMPI allowing for
 direct MPI access\cite{weston17}.
 
-foreach is managed by Revolution Analytics, with many of the Do\emph{X}
+\pkg{foreach} is managed by Revolution Analytics, with many of the Do\emph{X}
 corollary packages also being produced by them. Further information of
 foreach is given in \cite{weston19:_using}.
 
-I have written more on future in \href{review-foreach.html}{A Detail of
-    foreach}
+I have written more on future in \cref{sec:review-foreach}
 
 \hypertarget{sec:future-furrr}{%
     \subsection{future}\label{sec:future-furrr}}
@@ -39,8 +38,7 @@ SOCK protocols.
 The author of future is Henrik Bengtsson, Associate Professor at UCSF.
 Development on the package remains strong, with Dr.~Bengtsson possessing
 a completely full commit calendar and 81,328 contributions on GitHub. I
-have written more on future in the document, \href{review-future.html}{A
-    Detail of future}. future has many aspects to it, captured in it's
+have written more on future in \cref{sec:review-future}. future has many aspects to it, captured in it's
 extensive series of vignettes\cite{bengtsson20:_futur_r}\cite{bengtsson20:_futur_r2}
 \cite{bengtsson20:_futur_r3}\cite{bengtsson20:_futur_r4}\cite{bengtsson20:_futur_r5}\cite{bengtsson20:_futur_r6}.
 
@@ -56,9 +54,9 @@ RStudio.
     \subsection{Parallel, snow, and multicore}\label{sec:parall-snow-mult}}
 
 Parallel is a package included with R, born from the merge of the
-packages snow and multicore\cite{core:_packag}. Parallel enables
+packages \pkg{SNOW} and \pkg{multicore}\cite{core:_packag}. Parallel enables
 various means of performing computations in R in parallel, allowing not
-only multiple cores in a node, but multiple nodes through snow's
+only multiple cores in a node, but multiple nodes through \pkg{SNOW}'s
 interfaces to MPI and SOCK\cite{tierney18}.
 
 Parallel takes from multicore the ability to perform multicore
@@ -66,24 +64,21 @@ processing, with the mcapply function. multicore creates forked R
 sessions, which is very resource-efficient, but not supported by
 windows.
 
-Support for distributed computing over a simple network of computers is provided by \textbf{SNOW}.
-The general architecture of \textbf{SNOW} makes use of a master process that holds the data and launches the cluster, pushing the data to worker processes that operate upon it and return the results to the master.
+Support for distributed computing over a simple network of computers is provided by \pkg{SNOW}.
+The general architecture of \pkg{SNOW} makes use of a master process that holds the data and launches the cluster, pushing the data to worker processes that operate upon it and return the results to the master.
 This is represented in Figure~\cref{fig:snow}
 
 \begin{figure}[H]
-\input{img/snow.tex}
-\caption{\label{fig:snow} \textbf{SNOW} architecture with four chunks}
+\input{img/snow}
+\caption{\label{fig:snow}\pkg{SNOW} architecture with four chunks}
 \end{figure}
 
-Several different communications mechanisms are made use of by \textbf{SNOW}, including \texttt{ssh} and user-created sockets.
+Several different communications mechanisms are made use of by \pkg{SNOW}, including \pkg{PSOCK} and user-created sockets.
 Its greatest shortcoming is the lack of persistent data, and the mechanism of distribution employed disallows the usage of very large datasets.
 
-multicore was developed by Simon Urbanek. snow was developed by Luke
+\pkg{multicore} was developed by Simon Urbanek. \pkg{SNOW} was developed by Luke
 Tierney, a professor at the University of Iowa, who also originated the
 byte-compiler for R
-
-Several different communications mechanisms are made use of by \textbf{SNOW}, including \texttt{ssh} and user-created sockets.
-It's greatest shortcoming is the lack of persistent data, and the mechanism of distribution employed disallows the usage of very large datasets.
 
 \hypertarget{pbdr}{%
     \subsection{pbdR}\label{pbdr}}
@@ -106,7 +101,7 @@ Some selected packages of interest include the following:
         Includes the base utilities for distributed matrices used in the
         project, including bindings and extensions to
         ScaLAPACK\cite{pbdBASEpackage}.
-    \item[pbdDMAT]
+    \item[\pkg{pbdDMAT}]
         Higher level classes and methods for distributed matrices, including
         manipulation, linear algebra, and statistics routines. Uses the same
         syntax as base R through S4\cite{pbdDMATpackage}.
@@ -114,7 +109,7 @@ Some selected packages of interest include the following:
         Offers a high-level interface to MPI, using the S4 system to program in
         the SPMD style, with no ``master'' nodes\cite{Chen2012pbdMPIpackage}.
     \item[pbdCS]
-        A client/server framework for pbdR
+        A client/server framework for \pkg{pbdR}
         packages\cite{Schmidt2015pbdCSpackage}.
     \item[pbdML]
         Offers machine learning algorithms, consisting at present of only PCA
@@ -139,25 +134,25 @@ More detail is given in \cite{pbdBASEvignette}.
 \hypertarget{sec:rhadoop}{%
     \subsection{RHadoop}\label{sec:rhadoop}}
 
-RHadoop is a collection of five packages to run Hadoop directly from
+ \pkg{RHadoop} is a collection of five packages to run \pkg{Hadoop} directly from
 R\cite{analytics:_rhadoop_wiki}. The packages are divided by logical
-function, including rmr2, which runs MapReduce jobs, and rhdfs, which
-can access the HDFS. The packages also include plyrmr, which makes
+function, including \pkg{rmr2}, which runs MapReduce jobs, and \pkg{rhdfs}, which
+can access the HDFS. The packages also include \pkg{plyrmr}, which makes
 available plyr-like data manipulation functions, in a similar vein to
-sparklyr.
+{sparklyr}.
 
 It is offered and developed by Revolution Analytics.
 
 \hypertarget{sec:rhipe-deltarho}{%
     \subsection{RHIPE and DeltaRho}\label{sec:rhipe-deltarho}}
 
-RHIPE is a means of ``using Hadoop from R''\cite{deltarho:_rhipe}. The
+RHIPE is a means of ``using \pkg{Hadoop} from R''\cite{deltarho:_rhipe}. The
 provided functions primarily attain this through interfacing and
 manipulating HDFS, with a function, rhwatch, to submit MapReduce jobs.
-The easiest means of setup for it is to use a VM, and for all Hadoop
+The easiest means of setup for it is to use a VM, and for all \pkg{Hadoop}
 computation, MapReduce is directly programmed for by the user.
 
-There is currently no support for the most recent version of Hadoop, and
+There is currently no support for the most recent version of \pkg{Hadoop}, and
 it doesn't appear to be under active open development, with the last
 commit being 2015. RHIPE has mostly been subsumed into the backend of
 DeltaRho, a simple frontend.
@@ -165,41 +160,41 @@ DeltaRho, a simple frontend.
 \hypertarget{sparklyr}{%
     \subsection{sparklyr}\label{sparklyr}}
 
-sparklyr is an interface to Spark from within R\cite{luraschi20}. The
-user connects to spark and accumulates instructions for the manipulation
-of a Spark DataFrame object using dplyr commands, then executing the
-request on the Spark cluster.
+\pkg{sparklyr} is an interface to \pkg{Spark} from within R\cite{luraschi20}. The
+user connects to \pkg{Spark} and accumulates instructions for the manipulation
+of a \pkg{Spark} DataFrame object using \pkg{dplyr} commands, then executing the
+request on the \pkg{Spark} cluster.
 
 Of particular interest is the capacity to execute arbitrary R functions
-on the Spark cluster. This can be performed directly, with the
+on the \pkg{Spark} cluster. This can be performed directly, with the
 \mintinline{r}{spark_apply()} function, taking a
 user-defined function as a formal parameter. It can also be used as part
-of a dplyr chain through the \mintinline{r}{mutate()}
-function. Extending these, Spark-defined hive functions and windowing
+of a \pkg{dplyr} chain through the \mintinline{r}{mutate()}
+function. Extending these, \pkg{Spark}-defined hive functions and windowing
 functions are enabled for use in
 \mintinline{r}{mutate()} calls. Limitations to
 arbitrary code execution include the lack of support for global
-references due to the underlying lack in the \mintinline{r}{serialize} package.
+references due to the underlying lack in the \pkg{serialize} package.
 
 Some support for graphs and graph manipulation is enabled via usage with
-the \emph{graphframes} package, which follows the Tidyverse pattern of
+the \pkg{graphframes} package, which follows the Tidyverse pattern of
 working solely with dataframes and dataframe derivatives\cite{kuo18}.
-This binds to the GraphX component of Spark, enabling manipulation of
-graphs in Spark through pre-defined commands.
+This binds to the GraphX component of \pkg{Spark}, enabling manipulation of
+graphs in \pkg{Spark} through pre-defined commands.
 
 sparklyr is managed and maintained by RStudio, who also manage the rest
-of the Tidyverse (including dplyr).
+of the Tidyverse (including \pkg{dplyr}).
 
 \hypertarget{sec:sparklyr}{%
     \subsection{SparkR}\label{sec:sparklyr}}
 
-SparkR provides a front-end to Spark from
-R\cite{venkataraman20:_spark}. Like sparklyr, it provides the DataFrame
+SparkR provides a front-end to \pkg{Spark} from
+R\cite{venkataraman20:_spark}. Like \pkg{sparklyr}, it provides the DataFrame
 as the primary object of interest. However, there is no support for the
 dplyr model of programming, with functions closer resembling base R
 being provided by the package instead.
 
-SparkR is maintained directly by Apache Spark, with ongoing regular
+SparkR is maintained directly by Apache \pkg{Spark}, with ongoing regular
 maintenance provided. Usage of the package is described in the vignette,
 \cite{venktaraman19:_spark_pract_guide}, with implementation
 explained in \cite{venkataraman2016sparkr}.
@@ -216,12 +211,12 @@ Simon Urbanek.
 \hypertarget{sec:big.data.table}{%
     \subsection{big.data.table}\label{sec:big.data.table}}
 
-big.data.table runs data.table over many nodes in an ad-hoc
+\pkg{big.data.table} runs \pkg{data.table} over many nodes in an ad-hoc
 cluster\cite{gorecki16}. This allows for big data manipulation using a
 data.table interface. The package makes use of Rserve (authored by Simon
 Urbanek) to facilitate communication between nodes when running from R.
 Alternatively, the nodes can be run as docker services, for fast remote
 environment setup, using RSclient for connections. Beyond greater
 storage capacity, speed is increased through manipulations on
-big.data.tables occurring in parallel. The package is authored by Jan
+\pkg{big.data.table}s occurring in parallel. The package is authored by Jan
 Gorecki, but hasn't been actively developed since mid-2016.

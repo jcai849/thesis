@@ -9,7 +9,7 @@ processors available on the system.
 
 \pkg{data.table} also makes use of multi-processor systems, with many
 operations involving threading in order to rapidly perform operations on
-its dataframe equivalent, the data.table.
+its dataframe equivalent, the \pkg{data.table}.
 
 In spite of all of these potential solutions, a major constraint remains
 in that only a single machine is used. As long as there is only one
@@ -65,7 +65,7 @@ For example, summarising the median is performed by using a
 median-of-medians method; finding the overall median of all chunks'
 respective medians.
 
-Therefore, computing grouped medians in disk.frame result in estimates
+Therefore, computing grouped medians in \pkg{disk.frame} result in estimates
 only --- this is also true of other software, such as \pkg{spark}, as noted in
 \cite{zj19:_group_by}.
 For parallelisation, \pkg{future} is used as the backend package, with most
@@ -79,7 +79,7 @@ and chunks being processed in parallel.
 An important aspect to parallelisation through \pkg{future} is that, for
 purposes of cross-platform compatibility, new R processes are started
 for each worker\cite{zj19:_using}.
-Each process will possess its own environment, and disk.frame makes use
+Each process will possess its own environment, and \pkg{disk.frame} makes use
 of future's detection capabilities to capture external variables
 referred to in calls, and send them to each worker.
 The strategy taken by \pkg{disk.frame} has several inherent

@@ -112,7 +112,7 @@ Given that iteration is cited by a principal author of \pkg{Spark} as a
 motivating factor in its development when compared to \pkg{Hadoop}, it is
 reasonable to consider whether the most popular \R interface to \pkg{Spark},
 \pkg{sparklyr}, has support for
-iteration\cite{zaharia2010spark}\cite{luraschi20}. One immediate
+iteration\cites{zaharia2010spark,luraschi20}. One immediate
 hesitation to the suitability of \pkg{sparklyr} to iteration is the syntactic
 rooting in \pkg{dplyr}; \pkg{dplyr} is a ``Grammar of Data Manipulation'' and part
 of the \pkg{tidyverse}, which in turn is an ecosystem of packages with a
@@ -141,8 +141,8 @@ elements are in place.
 Iteration takes place in \pkg{Spark} through caching results in memory,
 allowing faster access speed and decreased data movement than
 MapReduce\cite{zaharia2010spark}.
-\pkg{Sparklyr} can use this functionality through the \ccode{tbl-cache} function to cache Spark dataframes in memory, as well as caching upon import with \ccode{memory-true} as a formal parameter to \ccode{sdf-copy-to}.
-Iteration can also make use of persisting Spark Dataframes to memory, forcing evaluation then caching; performed in sparklyr through \ccode{sdf-persist}.
+\pkg{Sparklyr} can use this functionality through the \ccode{tbl-cache} function to cache \pkg{Spark} dataframes in memory, as well as caching upon import with \ccode{memory-true} as a formal parameter to \ccode{sdf-copy-to}.
+Iteration can also make use of persisting \pkg{Spark} Dataframes to memory, forcing evaluation then caching; performed in \pkg{sparklyr} through \ccode{sdf-persist}.
 
 An important aspect of consideration is that \pkg{sparklyr} methods for \pkg{dplyr} generics execute through a translation of the formal parameters to \proglang{Spark SQL}.
 This is particularly relevant in that separate \pkg{Spark} Data Frames can't be accessed together as in a multivariable function. 
@@ -156,7 +156,7 @@ made available through the official \pkg{SparkR} interface.
 in the form of an iterated function, does not appear to be part of this
 design.
 
-Furthermore, all references to ``iteration'' in the primary sparklyr
+Furthermore, all references to ``iteration'' in the primary \pkg{sparklyr}
 literature refer either to the iteration inherent in the inbuilt \pkg{Spark
 ML} functions, or the ``wrangle-visualise-model'' process popularised by
 Hadley Wickham\cites{luraschi2019mastering,wickham2016r}. None of such

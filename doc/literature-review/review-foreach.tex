@@ -1,15 +1,14 @@
-\hypertarget{sec:introduction}{%
-	\subsection{Introduction}\label{sec:foreach-introduction}}
+\subsection{Introduction}\label{sec:foreach-introduction}
 
 foreach introduces itself on CRAN with the following description:
 
 \begin{displayquote}
-	Support for the foreach looping construct. Foreach is an idiom that
+	Support for the \pkg{foreach} looping construct. Foreach is an idiom that
 	allows for iterating over elements in a collection, without the use of
 	an explicit loop counter. This package in particular is intended to be
 	used for its return value, rather than for its side effects. In that
 	sense, it is similar to the standard lapply function, but doesn't
-	require the evaluation of a function. Using foreach without side effects
+	require the evaluation of a function. Using \pkg{foreach} without side effects
 	also facilitates executing the loop in parallel.
 \end{displayquote}
 
@@ -37,7 +36,7 @@ backends require registration by the user, typically with a single
 function as in the registration for doParallel,
 \mintinline{r}{registerDoParallel()}.
 
-The syntax of foreach consists of a
+The syntax of \pkg{foreach} consists of a
 \mintinline{r}{foreach()} function call next to a
 \mintinline{r}{%do%} operator, and some expression to the
 right\cite{weston19:_using}. Without loss in generality, the syntactic
@@ -47,7 +46,7 @@ form is given in \cref{lst:syntax}.
 	\begin{minted}{r}
 foreach(i=1:n) %do% {expr}
 \end{minted}
-	\caption{Standard foreach syntax}
+	\caption{Standard \pkg{foreach} syntax}
 	\label{lst:syntax}
 \end{listing}
 
@@ -59,16 +58,16 @@ of environmental variables and packages to each iteration instance.
 In addition to \mintinline{r}{%do%}, other binary operators can be appended
 or substituted. Parallel iteration is performed by simply replacing
 \mintinline{r}{%do%} with \mintinline{r}{%dopar%}. Nested loops can be created by
-inserting \mintinline{r}{%:%} between main and nested foreach functions,
+inserting \mintinline{r}{%:%} between main and nested \pkg{foreach} functions,
 prior to the \mintinline{r}{%do%} call\cite{weston19:_nestin_loops}. The
-last step to composition of foreach as capable of list comprehension is
+last step to composition of \pkg{foreach} as capable of list comprehension is
 the filtering function \mintinline{r}{%when%}, which filters iterables based
 on some predicate to control evaluation.
 
 \hypertarget{sec:implementation}{%
 	\subsection{Implementation}\label{sec:implementation}}
 
-The mechanism of action in foreach is often forgotten in the face of the
+The mechanism of action in \pkg{foreach} is often forgotten in the face of the
 atypical form of the standard syntax. Going one-by-one, the
 \mintinline{r}{foreach()} function returns an iterable
 object, \mintinline{r}{%do%} and derivatives are binary functions operating
@@ -107,13 +106,13 @@ The name of the package and function interface refer to the
 languages. By definition, the \mintinline{r}{foreach} construct performs
 traversal over some collection, not necessarily requiring any traversal
 order. In this case, the collection is an iterator object or an object
-coercible to one, but in other languages with foreach as part of the
-core language, such as python (whose for loop is actually only a foreach
+coercible to one, but in other languages with \pkg{foreach} as part of the
+core language, such as python (whose for loop is actually only a \pkg{foreach}
 loop), collections can include sets, lists, and a variety of other
 classes which have an \mintinline{r}{__iter__} and
 \mintinline{r}{__next__} defined\cite{python2020iter}.
 
-Due to the constraints imposed by a foreach construct, loop optimisation
+Due to the constraints imposed by a \pkg{foreach} construct, loop optimisation
 is simplified relative to a for loop, and the lack of explicit traversal
 ordering permits parallelisation, which is the primary reason for usage
 of the \mintinline{r}{foreach} package. The constraints are not insignificant
@@ -126,7 +125,7 @@ coherent state, as in iterated functions, the two concepts are mutually
 exclusive.
 
 In spite of the constraints, iterated functions can actually be emulated
-in foreach through the use of destructive reassignment within the passed
+in \pkg{foreach} through the use of destructive reassignment within the passed
 expression, or through the use of stateful iterators. Examples of both
 are given in \cref{lst:serial}\cref{lst:serial-iter}.
 
@@ -190,20 +189,20 @@ foreach(i = addsone(10, 15), .combine = c) %dopar% i
 
 \subsection*{Extensions}
 
-The key point of success in foreach is it's backend extensibility,
-without which, foreach would lack any major advantages over a standard
+The key point of success in \pkg{foreach} is it's backend extensibility,
+without which, \pkg{foreach} would lack any major advantages over a standard
 \mintinline{r}{for} loop.
 
 Other parallel backends are enabled through specific functions made
-available by the foreach package. The packages define their parallel
+available by the \pkg{foreach} package. The packages define their parallel
 evaluation procedures with reference to the iterator and accumulator
-methods from foreach.
+methods from \pkg{foreach}.
 
 Numerous backends exist, most notably:
 
 \begin{description}
 	\item[doParallel]
-		the primary parallel backend for foreach, using the parallel
+		the primary parallel backend for \pkg{foreach}, using the parallel
 		package\cite{corporation19}.
 	\item[doRedis]
 		provides a Redis backend, through the redux package\cite{lewis20}.
@@ -220,7 +219,7 @@ Numerous backends exist, most notably:
 		iterations, using L'Ecuyer's method; provides
 		\mintinline{r}{%dorng%}\cite{gaujoux20}.
 	\item[doSNOW]
-		provides an ad-hoc cluster backend, using the snow
+		provides an ad-hoc cluster backend, using the \pkg{SNOW}
 		package\cite{dosnow19}.
 \end{description}
 
@@ -230,5 +229,5 @@ Numerous backends exist, most notably:
 foreach serves as an example of a well-constructed package supported by
 it's transparency and extensibility.
 
-For packages looking to provide any parallel capabilities, a foreach
+For packages looking to provide any parallel capabilities, a \pkg{foreach}
 extension would certainly aid it's potential usefulness and visibility.

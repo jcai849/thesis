@@ -23,7 +23,7 @@ cs <- split(iris, cumsum((seq(nrow(iris)) - 1) %% nc == 0)) # split to chunks
 model <- Reduce(f = update, x = cs[-1],
 		init = biglm(Petal.Length ~ Sepal.Width * Sepal.Length, cs[[1]]))
 \end{minted}
-\caption{Splitting the iris dataframe into 15 chunks stored as elements of a list and reducing over the list with the biglm update function.}
+\caption{Splitting the iris dataframe into 15 chunks stored as elements of a list and reducing over the list with the \pkg{biglm} update function.}
 \label{lst:lm-reduce}
 \end{listing}
 
@@ -61,7 +61,7 @@ This implementation includes several important aspects.
 Mapping to the list of chunks, an existing distributed object must be transformed to a list of chunks for the reduce function.
 The reduce function itself is accessed through a light wrapper \code{dreduce()}, with all of the internal code operating transparently on chunks without concern for the type of object.
 A major divergence is given in the generation of the initial reduction object.
-This uses a \code{do.ccall} function to create the initial biglm linear model object, which is then passed to the \code{dreduce()} function.
+This uses a \code{do.ccall} function to create the initial \pkg{biglm} linear model object, which is then passed to the \code{dreduce()} function.
 
 \subsection{The Special Case of Call Capturing}
 

@@ -15,7 +15,7 @@ Communication among workers is dependent on the location service, in similar fas
 
 Both worker and locator nodes follow a similar architecture.
 They both follow the same basic pattern of first initialising, (Figure \cref{fig:node-init}), then running some initialisation function and endlessly repeating a check for the next event and handling that event.
-The check for the next incoming event, as well as any response to the event, is the point of connection with the lower orcv layer.
+The check for the next incoming event, as well as any response to the event, is the point of connection with the lower \orcv layer.
 The nodes differ only in their core database schema, as well as the handlers associated with the HTTP requests sent to them as events.
 
 The worker database schema is given in Tables \cref{tbl:wstore}, \cref{tbl:wstage}, and \cref{tbl:waudience}, with an Entity Relationship Diagram given by Figure \cref{fig:workerdb}

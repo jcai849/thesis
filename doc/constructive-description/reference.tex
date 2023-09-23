@@ -71,7 +71,7 @@ pointer is not completely transparent - it is an object in it's own
 right, something we will have to consider in greater detail when it
 comes to the references in our distributed system.
 
-Let's look at a system closer to our use-case: pbdR. Specifically,
+Let's look at a system closer to our use-case: \pkg{pbdR}. Specifically,
 consider the distributed matrix class, \mintinline{r}{ddmatrix}, provided by
 the pdDMAT package. Here is a more complex reference than a pointer,
 where each \mintinline{r}{ddmatrix} reference may relate to an arbitrary number
@@ -95,13 +95,13 @@ comm.print(y)
 
 finalize()
     \end{minted}
-    \caption{Proxying of matrix operations in pbdDMAT}
+    \caption{Proxying of matrix operations in \pkg{pbdDMAT}}
     \label{lst:proxy-pbddmat}
 \end{listing}
 
-A subtlety of pbdR is given in the point of view taken for the
+A subtlety of \pkg{pbdR} is given in the point of view taken for the
 specification of code. Rather than writing from the standpoint of a
-single location directing others, as a pointer is, pbdR code is written
+single location directing others, as a pointer is, \pkg{pbdR} code is written
 to be run identically across all nodes on the cluster. The entire script
 is sent to all nodes, which run it in communication with each other. A
 \mintinline{r}{ddmatrix} object thereby refers both to the local block held by
@@ -138,13 +138,13 @@ block local to a particular node:
         
         finalize()
     \end{minted}
-    \caption{The difference between dim and ldim in pbdDMAT}
+    \caption{The difference between dim and ldim in \pkg{pbdDMAT}}
     \label{lst:dim-ldim}
 \end{listing}
 
 In general, \mintinline{r}{submatrix()} returns the local storage for the
-\mintinline{r}{ddmatrix} local referent. We have with pbdR a converse of
-pointer syntax: the default with pbdR is to pass through to the
+\mintinline{r}{ddmatrix} local referent. We have with \pkg{pbdR} a converse of
+pointer syntax: the default with \pkg{pbdR} is to pass through to the
 referent, with special syntax required to access the local reference.
 
 With these examples considered, let's abstract somewhat, and then see
@@ -213,7 +213,7 @@ With this in place, we might now consider what semantics for reference
 and referent are optimal with respect to distributed object reference
 and distributed object.
 
-First, it is clear from the example of pbdR that having the reference as
+First, it is clear from the example of \pkg{pbdR} that having the reference as
 a mostly-transparent proxy yields very clear code. It seems a reasonable
 starting point to base defaults on. With passing through most operations
 to the referent through the reference, there is minimal overhead in
@@ -264,7 +264,7 @@ take place through wrapping the relevant functions manually, perhaps
 through some higher-order wrapper provided by the system, that may
 output a function which proxies the distributed object reference. Common
 methods may have this already provided. Reference interactions may take
-several different forms. Like pbdR, they may have some special encoding
+several different forms. Like \pkg{pbdR}, they may have some special encoding
 in function names, is in \mintinline{r}{ddim}. This is similar to C's
 \mintinline{r}{\#}-directive pre-processing, though it requires an additional
 modest burden on the developer. Alternatively, functions may be provided

@@ -6,5 +6,5 @@ The receiver that picks up the connection in turn reads from it, passing on what
 The event queue consists of a basic thread-safe queue complete with a file descriptor that has a byte written to it upon an \code{enqueue()}, and a byte read at a \code{dequeue()}.
 The inclusion of a file descriptor allows for efficient multiplexing on the queue via \code{poll()}ing.
 
-So orcv provides initial network communication capabilities, as well as event queues that can be monitored, with events themselves able to be replied to directly by way of their included file descriptor.
+So \orcv provides initial network communication capabilities, as well as event queues that can be monitored, with events themselves able to be replied to directly by way of their included file descriptor.
 Much of the package structure is related to existing work by Urbanek, with much of the networking architecture taking direct inspiration from \textcite{stevens1997network}.

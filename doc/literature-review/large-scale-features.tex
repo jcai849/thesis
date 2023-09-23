@@ -27,7 +27,7 @@ A list of features and their descriptions follows:
     The ability to make use of user-specified code in processing. Most \R
     packages for large-scale computing interact well with arbitrary code,
     however they typically have some limitations, such as an inability to
-    recognise global variables, as is the case with sparklyr and to a lesser
+    recognise global variables, as is the case with \pkg{sparklyr} and to a lesser
     extent future \cites{sparklyr2020limitations,microsoft20}.
   \item[Native Support for Iteration]
     The ability to process user-specified code involving iteration over the
@@ -44,14 +44,14 @@ A list of features and their descriptions follows:
     in data movement, which serves to slow down processing enormously
     through forcing programs to be I/O bound. In-memory persistence is
     closely related to the capacity for iterative code evaluation in a
-    distributed system, and was similarly referenced by the Spark developers
+    distributed system, and was similarly referenced by the \pkg{Spark} developers
     as an apparent benefit of \pkg{Spark}\cite{zaharia2010spark}.
   \item[Support for Distributed File Systems]
     Capacity to work with data and computation on distributed file systems,
-    with a particular target of Hadoop Distributed File System (HDFS). As a
+    with a particular target of \pkg{Hadoop} Distributed File System (HDFS). As a
     well-established distributed file system, HDFS is targeted by a number
     of \R packages, as well as serving as a file system base for other
-    platforms such as spark \cite{analytics:_rhadoop_wiki}
+    platforms such as \pkg{Spark} \cite{analytics:_rhadoop_wiki}
     \cite{deltarho:_rhipe}\cite{urbanek20}\cite{zaharia2016apache}. HDFS offers
     several features that make it particularly attractive as a filesystem
     for a large-scale statistical analysis; being distributed and capable of

@@ -119,7 +119,7 @@ multicore.console()
 
 \begin{description}
     \item[doFuture]
-        \cite{bengtsson20do} provides an adapter for foreach\cite{microsoft20}
+        \cite{bengtsson20do} provides an adapter for \pkg{foreach}\cite{microsoft20}
         that works on a future-based backend. Note that this does does not
         return \mintinline{r}{foreach()} calls as futures. The multicore features enabled with
         future are redundant over the existing parallel package, but because
@@ -143,7 +143,7 @@ multicore.console()
         background R process, beginning a new session. An advantage of callr is
         that it allows more than 125 connections, due to not making use of
         R-specific connections. Additionally, no ports are made use of, unlike
-        the SOCKcluster provided by the snow component of parallel.
+        the SOCKcluster provided by the \pkg{SNOW} component of parallel.
     \item[furrr]
         \cite{vaughan18} allows the use of future as a backend to purrr
         functions. purrr is a set of functional programming tools for R,
