@@ -117,7 +117,7 @@ processor. Were the client performing operations on regular, non-chunk
 objects, the processing would bind up the client, and it would block
 until the operation completed.
 
-\ref{fig:work-request} shows a an example of this, where a client issues
+\cref{fig:work-request} shows a an example of this, where a client issues
 a request for work, and is entirely free to do whatever other processing
 is desired while the worker is blocked in managing the request.
 
@@ -178,7 +178,7 @@ How may a potentially non-existent chunk be handled?
 The straightforward, potentially naive strategy is to simply wait until
 a chunk exists, upon issuing an emerge request from the client. The
 client blocks until emergence, returns the result, and continues. An
-example is given in a modified version of the previous diagram as \ref{fig:work-emergence}
+example is given in a modified version of the previous diagram as \cref{fig:work-emergence}
 
 \begin{figure}
   \centering
@@ -197,7 +197,7 @@ chunk, with the potential to use the blocking emerge when the chunk is
 available - which, given that it is available, wouldn't block any more
 than is necessary over the details of the chunk transfer.
 
-An example is given in figure \ref{fig:work-request-checking}
+An example is given in figure \cref{fig:work-request-checking}
 
 \begin{figure}
   \centering
@@ -225,7 +225,7 @@ issuing requests for chunks to be sent only when they are ready, and
 returning to their main event loop, keeping a handle in memory of which
 chunks relate to which operations.
 
-This is depicted in diagram \ref{fig:argument-attain}:
+This is depicted in diagram \cref{fig:argument-attain}:
 
 \begin{figure}
   \centering

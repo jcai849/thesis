@@ -14,16 +14,13 @@ They respond to client requests, but importantly can communicate amongst themsel
 Communication among workers is dependent on the location service, in similar fashion to clients.
 
 Both worker and locator nodes follow a similar architecture.
-They both follow the same basic pattern of first initialising, (Figure \ref{fig:node-init}), then running some initialisation function and endlessly repeating a check for the next event and handling that event.
+They both follow the same basic pattern of first initialising, (Figure \cref{fig:node-init}), then running some initialisation function and endlessly repeating a check for the next event and handling that event.
 The check for the next incoming event, as well as any response to the event, is the point of connection with the lower orcv layer.
 The nodes differ only in their core database schema, as well as the handlers associated with the HTTP requests sent to them as events.
 
-The worker database schema is given in Tables \ref{tbl:wstore}, \ref{tbl:wstage}, and \ref{tbl:waudience}, with an Entity Relationship Diagram given by Figure \ref{fig:workerdb}
+The worker database schema is given in Tables \cref{tbl:wstore}, \cref{tbl:wstage}, and \cref{tbl:waudience}, with an Entity Relationship Diagram given by Figure \cref{fig:workerdb}
 
-\begin{figure}
-\input{img/node-init}
-\caption{Initialisation of a node from a parent}
-\end{figure}
+\widefig{node-init}{Initialisation of a node from a parent}
 
 \begin{table}[]
 \caption{Worker Store Table}
@@ -62,7 +59,7 @@ integer & character  \\ \bottomrule
 \label{fig:workerdb}
 \end{figure}
 
-The locator database schema is given in Tables \ref{tbl:lnodes} and \ref{tbl:ldata} with an Entity Relationship Diagram given by Figure \ref{fig:locatordb}
+The locator database schema is given in Tables \cref{tbl:lnodes} and \cref{tbl:ldata} with an Entity Relationship Diagram given by Figure \cref{fig:locatordb}
 
 
 \begin{table}[]
@@ -91,7 +88,7 @@ character  & character  \\ \bottomrule
 \label{fig:locatordb}
 \end{figure}
 
-The worker handlers are given by Table \ref{tbl:whandler}
+The worker handlers are given by Table \cref{tbl:whandler}
 
 \begin{table}[]
 \caption{Worker handlers for requests}
@@ -106,7 +103,7 @@ PUT /computation-ready/* & Computation declared ready; begin computation (non-re
 \end{tabular}
 \end{table}
 
-The locator handlers are given by \ref{tbl:lhandler}
+The locator handlers are given by \cref{tbl:lhandler}
 
 \begin{table}[]
 \caption{Locator handlers for requests}
@@ -126,8 +123,8 @@ Actual HTTP is not used currently; rather, it is emulated with an R list compose
 
 \subsubsection{Worker operation in detail}
 
-An activity diagram demonstrating the main operation of the worker is given in Figure \ref{fig:workerops}.
-This is seen in use in an example interaction in Figure \ref{fig:sysinteract}
+An activity diagram demonstrating the main operation of the worker is given in Figure \cref{fig:workerops}.
+This is seen in use in an example interaction in Figure \cref{fig:sysinteract}
 
 \begin{figure}
 \input{img/workerops}

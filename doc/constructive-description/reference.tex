@@ -39,7 +39,7 @@ value at the stored address is retrieved. Here, there is a subtle
 additional piece of indirection, where a pointer references a memory
 address which references the value, but assuming the transitivity of
 reference, we can skip over such details. The syntax for the declaration
-of a pointer in the C language takes the form in Listing \ref{lst:declare-int-pointer}:
+of a pointer in the C language takes the form in Listing \cref{lst:declare-int-pointer}:
 
 \begin{listing}
     \begin{minted}{c}
@@ -52,7 +52,7 @@ of a pointer in the C language takes the form in Listing \ref{lst:declare-int-po
 Where in this example, we have a pointer (itself the object of reference
 of the symbol \mintinline{r}{p}), which points to memory holding some integer.
 Assuming that this piece of memory exists and has a value, the pointer
-may be dereferenced using the \mintinline{r}{*} operator as in listing \ref{lst:deref-c}
+may be dereferenced using the \mintinline{r}{*} operator as in listing \cref{lst:deref-c}
 
 \begin{listing}
     \begin{minted}{c}
@@ -77,7 +77,7 @@ the pdDMAT package. Here is a more complex reference than a pointer,
 where each \mintinline{r}{ddmatrix} reference may relate to an arbitrary number
 of matrix blocks distributed across potentially disparate memory space.
 Operations over \mintinline{r}{ddmatrix} objects are directly reflected as
-operations on the referent blocks, as demonstrated in the listing \ref{lst:proxy-pbddmat},
+operations on the referent blocks, as demonstrated in the listing \cref{lst:proxy-pbddmat},
 where mathematical operations are passed on indirectly through
 the \mintinline{r}{ddmatrix} reference to the underlying matrix blocks:
 
@@ -121,7 +121,7 @@ simultaneously.
 The abstraction of reference can be equally cleanly broken, however,
 with the user capable of commanding the reference to engage only with
 the local block, through functions encoded with an \mintinline{r}{l} for
-``local'' prefix. The example given by listing \ref{lst:dim-ldim} demonstrates the difference in
+``local'' prefix. The example given by listing \cref{lst:dim-ldim} demonstrates the difference in
 pbdR between \mintinline{r}{dim}, which gives the total dimensions of the
 entire matrix, and \mintinline{r}{ldim}, which gives only the dimensions of the
 block local to a particular node:
@@ -182,7 +182,7 @@ above example may have been equivalently quoted using
 more selective manner, where some symbols are used, and others just
 mentioned, with the ``backquote'' operator of quasiquotation. Here,
 \mintinline{r}{\textasciigrave{}} is used to quote, with \mintinline{r}{,} used to
-unquote. For example, listing \ref{lst:quoted}
+unquote. For example, listing \cref{lst:quoted}
 
 \begin{listing}
     \begin{minted}{lisp}
@@ -193,7 +193,7 @@ unquote. For example, listing \ref{lst:quoted}
 \end{listing}
 
 
-evaluates to listing \ref{lst:unquoted}
+evaluates to listing \cref{lst:unquoted}
 
 \begin{listing}
     \begin{minted}{lisp}

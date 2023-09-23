@@ -60,8 +60,8 @@ it a more general request of addition between distributed objects, and
 the node will have to determine for itself which chunks to pull to it,
 if any.
 
-A very simple example is given by \ref{lst:msg-q-master}
-\ref{lst:msg-q-worker}, demonstrating the master and worker node routines
+A very simple example is given by \cref{lst:msg-q-master}
+\cref{lst:msg-q-worker}, demonstrating the master and worker node routines
 respectively.
 
 \hypertarget{lst:msg-q-master}{%
@@ -196,12 +196,12 @@ Regardless of performing the actual function, some means of returning the value
 of a function must be provided; this section focuses on getting a function to
 be performed on a server node, with the result send back to the client.
 Listings of an implementation of these concepts are given by listings
-\ref{src:vr-client} and \ref{src:vr-server}.
+\cref{src:vr-client} and \cref{src:vr-server}.
 
 To this end, the client node has a function defined as \texttt{doFunAt(fun,
 chunk)}, which takes in any function, and the ID of a chunk to perform the
 function on.
-An implementation is given by listing \ref{src:vr-client}.
+An implementation is given by listing \cref{src:vr-client}.
 \texttt{doFunAt} first composes a message to send to the chunk's queue, being a
 list consisting of the function, the chunk name, and a return address, which
 contains sufficient information for the node performing the operation on the
@@ -213,7 +213,7 @@ On the server node end, it sits waiting on it's preassigned queues, each of
 which correspond to a chunk that it holds. 
 Upon a message coming through, it runs a \texttt{doFun} function on the
 message, which in turn runs the function on the chunk named in the message. 
-An implementation is given by listing \ref{src:vr-server}.
+An implementation is given by listing \cref{src:vr-server}.
 It then creates a socket connected to the clients location as advertised in
 the message, and sends the serialised results through.
 
@@ -249,7 +249,7 @@ ID that is globally unique.
 The name origination and option of blocking until a chunk is formed will
 dictate different algorithms in the creation of the distributed chunk object,
 as well as the structure of the distributed chunk object.
-Table \ref{tab:name-orig-block} shows potential forms these may take.
+Table \cref{tab:name-orig-block} shows potential forms these may take.
 In addition, the ``job ID'' referred to in the table may
 take the concrete form of a simple key-value store, with the key being passed
 and monitored by the client node.
@@ -311,16 +311,16 @@ parallel operations.
 
 The logic of the client in assigning the result of a distributed operation on a
 chunk is largely encapsulated in a new function, \texttt{assignFunAt}, as
-demonstrated in listing \ref{src:ro-ass-client}.
+demonstrated in listing \cref{src:ro-ass-client}.
 The function attains a chunk ID, generates a unique return address, sends a
 message to the operand chunk queue, and waits for a reply, before returning the
 id as a string belonging to the ``chunk'' class.
 There is more information in the message relative the the function-only
-message of section \ref{sec:val-ret}; the chunk ID, request for acknowledgement
+message of section \cref{sec:val-ret}; the chunk ID, request for acknowledgement
 of completion, return address, as well as an operation specifier to direct the
 intent of the message.
 
-The server, as shown in listing \ref{src:ro-ass-server}, consists in a loop of
+The server, as shown in listing \cref{src:ro-ass-server}, consists in a loop of
 reading the message and performing an operation dependent on the operation
 specifier of the message.
 For an operation of \texttt{DOFUN}, all that is run is a \texttt{do.call} on
@@ -333,13 +333,13 @@ acknowledgement back to the client node.
 
 \subsubsection{Server-Originated chunk ID}
 
-By this point the client (listing \ref{src:wo-ass-client}) and server (listing
-\ref{src:wo-ass-server}) come to increasingly resemble each other, and most of
-the functions are shared, as in listings \ref{src:wo-ass-chunk},
-\ref{src:wo-ass-shared}, and \ref{src:wo-ass-messages}.
+By this point the client (listing \cref{src:wo-ass-client}) and server (listing
+\cref{src:wo-ass-server}) come to increasingly resemble each other, and most of
+the functions are shared, as in listings \cref{src:wo-ass-chunk},
+\cref{src:wo-ass-shared}, and \cref{src:wo-ass-messages}.
 
 The principal mechanism of action is best demonstrated via a logical time
-diagram, given by figure \ref{fig:w-o-td}, following a Lamport form of
+diagram, given by figure \cref{fig:w-o-td}, following a Lamport form of
 event ordering\cite{lamport1978ordering}.
 The first message, shown by the \textbf{a} arrow in the diagram, involves a
 client sending a message to a server regarding the request, including the job
@@ -378,7 +378,7 @@ that aims at overcoming the limitations involved in the models.
 
 The models consist of communication over time between a client and a server,
 intermediated by a queue server.
-The client runs the pseudo-program described in listing \ref{src:client-p},
+The client runs the pseudo-program described in listing \cref{src:client-p},
 where variables \texttt{x}, \texttt{y}, and \texttt{z} are chunk references,
 and variables \texttt{i} and \texttt{j} are local. 
 Every action on distributed chunk references entails pushing a  message to the
@@ -414,7 +414,7 @@ colours aim to make each job more distinct.
 \subsubsection{Client-Originated Chunk ID}
 
 In the client-originated chunk ID  model, in addition to the generic model
-description posed in section \ref{sec:cid-model}, the client sends a chunk ID
+description posed in section \cref{sec:cid-model}, the client sends a chunk ID
 as part of its messages if the result of the function on the distributed object
 includes assignment.
 If there is no assignment, the message includes a job ID instead, naming a job
@@ -423,7 +423,7 @@ If the server receives a job ID, it sends the value of the computed function to
 the queue with that job ID as it's key, sending no messages otherwise.
 
 A space-time diagram of the client-originated chunk ID model is given in figure
-\ref{fig:mci}.
+\cref{fig:mci}.
 
 \begin{figure}
 	\input{img/client-chunk-id.tex}
@@ -441,7 +441,7 @@ The server correspondingly sends chunk IDs of each newly assigned chunk to the
 job ID queue specified in the request, sending values instead if not directed
 to perform assignment.
 
-A diagram of the server-originated chunk ID model is given in figure \ref{fig:msi}.
+A diagram of the server-originated chunk ID model is given in figure \cref{fig:msi}.
 
 \setlength{\columnsep}{50pt}
 \begin{figure}
@@ -450,7 +450,7 @@ A diagram of the server-originated chunk ID model is given in figure \ref{fig:ms
 	\caption{\label{fig:msi} Space-Time Diagram of Server-Originated Chunk ID}
 \end{figure}
 
-An important aspect of figure \ref{fig:msi} is the fact that the client has to
+An important aspect of figure \cref{fig:msi} is the fact that the client has to
 wait to get the chunk ID's of the chunk references \texttt{y} and \texttt{z}
 before it can push requests to their relevent queues, hence the delay between
 the communications labelled in the diagram as \textcolor{dark2-3}{\textbf{d}}
@@ -481,7 +481,7 @@ error being exceedingly difficult to trace.
 \subsubsection{Proposal}
 
 A potential solution to the problems of the models posed in section
-\ref{sec:mod-eval} is to treat chunk reference objects somewhat like futures,
+\cref{sec:mod-eval} is to treat chunk reference objects somewhat like futures,
 which have a state of \texttt{resolved} or \texttt{unresolved}, with failures
 also encapsulated in the object upon resolution\cite{bengtsson19:_futur_r}.
 
@@ -503,7 +503,7 @@ but the use of \texttt{resolved()} and it's associated barrier procedure,
 and allow tracing of errors back to their source in a more reliable manner.
 
 A diagram of the proposed model, along with an additional \texttt{resolved(x)}
-step, is given in \ref{fig:masi}
+step, is given in \cref{fig:masi}
 
 \begin{figure}
 	\centering
@@ -535,15 +535,15 @@ and it's prerequisites, and, with a running \texttt{redis-server}, evaluating
 process, and \mintinline{r}{demo("chunk-client", package="distObj")} in
 another process on the same host, stepping through the ``chunk-client'' demo to
 control operation, with the results appearing similar to those recorded in
-table \ref{tab:chunk-comm}.
+table \cref{tab:chunk-comm}.
 
 The full source code of the implementation is given in section
-\ref{sec:listings} as listings \ref{src:chunk-client}-\ref{src:chunk-util}.
+\cref{sec:listings} as listings \cref{src:chunk-client}-\cref{src:chunk-util}.
 
 \subsubsection{Overview}
 
 The central units of this distributed system are a client, a queue server, and
-a chunk server, as demonstrated in figure \ref{fig:chunk-arch}.
+a chunk server, as demonstrated in figure \cref{fig:chunk-arch}.
 
 The client contains chunk references, which can be passed as arguments to
 \texttt{do.call.chunkRef}, alongside some function, in order to begin the
@@ -614,9 +614,9 @@ Response:
 
 \subsubsection{Demonstration of Communication}
 
-The table \ref{tab:chunk-comm} shows a demonstration of verbose communication
+The table \cref{tab:chunk-comm} shows a demonstration of verbose communication
 between a client and a server, corresponding to the listings
-\ref{src:chunk-client} and \ref{src:chunk-server} respectively.
+\cref{src:chunk-client} and \cref{src:chunk-server} respectively.
 In this demo, the server was started immediately prior to the client, being
 backgrounded, and initial setup was performed in both as per the listings
 referred to prior.
@@ -724,7 +724,7 @@ implementation.
 
 \subsubsection{Model Description}
 
-Following definition \ref{distobj}, as well as the existing infrastructure
+Following definition \cref{distobj}, as well as the existing infrastructure
 provided and outlined in \href{chunk-report.pdf}{Chunk Report}, the distributed
 object reference consists of an environment containing a list of chunk
 references.
@@ -791,7 +791,7 @@ This is a sufficiently common task that the system should provide it by default
 when moving data.
 
 With these problems stated, a fuller description of the base model can now be
-entered into, with figure \ref{fig:distobj} accompanying.
+entered into, with figure \cref{fig:distobj} accompanying.
 
 \begin{figure}
 	\centering
@@ -857,7 +857,7 @@ completing the evaluation of the current \mintinline{r}{do.call.msg}.
 
 
 Formulated as a counter example, with the correspondence to the diagram in
-figure \ref{fig:counterex} denoted with the coloured letters in brackets:
+figure \cref{fig:counterex} denoted with the coloured letters in brackets:
 
 Consider some distributed object containing fully resolved chunks belonging to
 a set \({c_1, c_2, \dots, c_n}\) for some finite \(n\), all of which reside on

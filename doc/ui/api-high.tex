@@ -11,7 +11,7 @@ For example, in the case of a \code{+} operation over a list of values drawn fro
 The \code{Reduce()} is provided in the base \proglang{R} distribution as part of the \pkg{funprog} group of common higher-order functions.
 It serves as a standard means of performing a rolling operation over some container without resorting to explicit looping.
 The functional programming paradigm in turn makes heavy use of \code{Reduce()} for the succinct encapsulation of the concept.
-The \code{Reduce} referred to in the \pkg{MapReduce} paradigm is a similar, though distinct, operation, serving closer to a grouped summary\cite{dean2004mapreduce}, as demonstrated in Figure~\ref{fig:mapreduce}.
+The \code{Reduce} referred to in the \pkg{MapReduce} paradigm is a similar, though distinct, operation, serving closer to a grouped summary\cite{dean2004mapreduce}, as demonstrated in Figure~\cref{fig:mapreduce}.
 \pkg{MapReduce} is thus able to stay largely embarrassingly parallel, while a \code{Reduce()} is necessarily serial.
 A \code{map\_reduce()} function is exposed by \lsr to perform a \pkg{MapReduce} operation, taking both a means of mapping and combination.
 
@@ -27,7 +27,7 @@ To create a distributed reduce using the \lsr{} system is actually mostly solved
 The only additional effort is to ensure that the operant binary function is capable of operating on distributed objects.
 This can be guaranteed by making use of a \code{dreducable()} wrapper functional around a regular function, which returns the original function modified to operate in distributed fashion. 
 
-The program flow of a standard distributed reduce is depicted in Figure \ref{fig:dreduce}.
+The program flow of a standard distributed reduce is depicted in Figure \cref{fig:dreduce}.
 Assuming a distributed object split consecutively over processes 1, 2, and 3, with a single master node containing the reference to this object, a distributed reduce takes place as follows:
 \begin{enumerate}
 	\item Upon invocation of the distributed reduce, the master sends requests to all queues associated with the chunks composing the distributed object. These requests contain (unresolved) references to the chunks resulting from the distributed reduce, alongside the function to be performed over them. As these chunk references are not yet resolved, the processes popping the requests from the queues will block, except for the initial queue, which should be only referencing resolved chunks. The master process continues processing asynchronously, only blocking when the result of the distributed reduce operation is requested.
@@ -53,7 +53,7 @@ The mechanism of dispatch is based on the class of the emerged chunks.
 
 Most default \code{combine()} methods provide a variation of a union; for example, vectors are by default \code{c()}'ed together, dataframes \code{rbind()}'ed.
 If a user seeks some variation on the means of combination, the chunks may simply be subclassed to a user-defined class which provides a \code{combine()} method for their combination.
-Such a strategy is made use of in the model implementation in Section \ref{glm}.
+Such a strategy is made use of in the model implementation in Section \cref{glm}.
 The extensibility which this allows can't be under-emphasised; by describing how chunks combine based on their class, the entire distributed object is thereby defined in structure by the chunk classes.
 This allows for infinitely many variations on chunking structure.
 Row-wise splits are natural for most $n<<p$ dataframes, but if they are wider than they are long, splits along columns may be necessitated, and can be defined purely based on the classes of the chunks at emergence.
@@ -81,7 +81,7 @@ When called with a distributed object and a goal vector, \code{shuffle()} return
 For fluid encoding of a distributed algorithm, it is an unnecessary effort to regularly describe addition between distributed objects along the lines of, \code{d(`+`)(x1, x2)}.
 \R provides a means of overloading operators, with entire groups having generics defined.
 \lsr takes advantage of this, allowing for arithmetic and logic operations to take place transparently through the use of the overloaded operators to dispatch their equivalent distributed operations, such that the unwieldy code described earlier may instead be composed as \code{x1 + x2}.
-The pattern here is heavy use of polymorphism in order to minimise the amount of direct distributed calls required from the user and to provide a clean interface which does what is expected of it, in a similar manner to the combinations described in Section \ref{sec:combine}
+The pattern here is heavy use of polymorphism in order to minimise the amount of direct distributed calls required from the user and to provide a clean interface which does what is expected of it, in a similar manner to the combinations described in Section \cref{sec:combine}
 
 Additional methods include those for the functions \code{table}, \code{subset}, \code{solve}, among others.
 
@@ -89,7 +89,7 @@ As a further demonstration of the value of such polymorphism, the core set of \p
 Most of these are straightforward wrappers using the \code{d()} function on the respective \pkg{dplyr} functions, with the exception of \code{group\_by()}.
 The \code{group\_by()} function serves to place an attribute on a data frame (``tibble'' in \pkg{tidyverse} discourse) which relegates successive operations to be performed based on a partitioned group structure, equivalent to the \proglang{SQL} \code{GROUP BY} statement.
 Given the underlying chunks which compose a distributed object, the partitioning needs to be considered at the chunk level, with an actual physical repartitioning of the chunk elements.
-As such, the \code{shuffle()} function as described in Section \ref{sec:shuffle} is used internally to relocate elements to allow for true grouped operations.
+As such, the \code{shuffle()} function as described in Section \cref{sec:shuffle} is used internally to relocate elements to allow for true grouped operations.
 The use of these methods match a common pattern among analysts using \pkg{dplyr} in place of base \R functions for data manipulation.
 In this case, it is beneficial, as the limited means of expression by \pkg{dplyr} prevents the user from facing the difficulties associated with index-based subsetting for distributed objects.
 
@@ -123,7 +123,7 @@ At this point, it is best to leave a recommendation agains numeric index-based s
 
 \subsection{Reference}
 
-As described in great detail in Section \ref{sec:reference}, the illusion of direct interaction with a distributed object, absent a proxy, is often valuable to break.
+As described in great detail in Section \cref{sec:reference}, the illusion of direct interaction with a distributed object, absent a proxy, is often valuable to break.
 As such, functions to interact with the reference \textit{per se} are provided.
 The \code{materialise()} function renders a reference tangible, thus allowing for its direct manipulation without fear of it transparently passing through any calls to its referent chunks, having been at least temporarily neutered.
 The complement functiion \code{dematerialise()} returns the reference semantics of the distributed object, including all of the implicit pass-through functinality.

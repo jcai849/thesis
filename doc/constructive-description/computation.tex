@@ -16,7 +16,7 @@ details being discussed later.
 
 We may continue with the \mintinline{r}{max} example as raised in the preceding
 section, with greater focus on the computational aspects. Starting
-again, we have some chunk referenced through \mintinline{r}{d1} in \ref{lst:chunk-d1}:
+again, we have some chunk referenced through \mintinline{r}{d1} in \cref{lst:chunk-d1}:
 
 \begin{listing}
     \begin{minted}{r}
@@ -32,7 +32,7 @@ print(d1)
 We want to attain the maximum of this chunk. As given before, we may run
 the \mintinline{r}{max()} function over it, returning another chunk reference to
 a chunk representing the \mintinline{r}{max()} of \mintinline{r}{d1}, and emerge the
-result to attain the max as a local, standard, object in \ref{lst:emerge-max}:
+result to attain the max as a local, standard, object in \cref{lst:emerge-max}:
 
 \begin{listing}
     \begin{minted}{r}
@@ -91,7 +91,7 @@ to be applied as it's first argument, with the remaining arguments chunk
 references to have the function remotely applied to, and returns a
 single chunk reference to the result. For example, we have a potential
 implementation of remote \mintinline{r}{max} at a low level using
-\mintinline{r}{chunk.call} in \ref{lst:chunk-call}
+\mintinline{r}{chunk.call} in \cref{lst:chunk-call}
 
 \begin{listing}
     \begin{minted}{r}
@@ -139,7 +139,7 @@ ten thousand equally-sized chunks, with the chunks labelled according to
 vector \mintinline{r}{i} and chunk \mintinline{r}{j}, as \mintinline{r}{d\_i\_j}, so that the
 third chunk of the first vector is referred to as \mintinline{r}{d\_1\_3}. Then
 each \(j\)th chunk of the vectors can be compared across with
-\mintinline{r}{pmax}, using \mintinline{r}{chunk.call}, with the \ref{lst:call-along-chunks}
+\mintinline{r}{pmax}, using \mintinline{r}{chunk.call}, with the \cref{lst:call-along-chunks}
 comparing the first chunk of each of the vectors:
 
 \begin{listing}
@@ -156,7 +156,7 @@ print(pmax_1)
 
 Were each vector to be taken to the user level, as described in the
 previous section, they would be treated as distributed objects. The
-first vector \mintinline{r}{d\_1} may look something like the \ref{lst:distobj}:
+first vector \mintinline{r}{d\_1} may look something like the \cref{lst:distobj}:
 
 \begin{listing}
     \begin{minted}{r}
@@ -175,7 +175,7 @@ arguments, though the remainder of arguments in this case are to be
 distributed objects. With the example given above, we may label this
 function \mintinline{r}{distributedObject.call}, and run it with \mintinline{r}{pmax}
 over the distributed object vectors \mintinline{r}{d\_1}, \mintinline{r}{d\_2}, and
-\mintinline{r}{d\_3} like \ref{lst:distobj-call}:
+\mintinline{r}{d\_3} like \cref{lst:distobj-call}:
 
 \begin{listing}
     \begin{minted}{r}
@@ -204,7 +204,7 @@ the end worker, among others - none are to be specified at this stage.
 
 One situation that would have to be considered is the mixing of local
 and remote arguments. For instance, returning to our earlier, simpler
-example in listing \ref{lst:earlier-example}:
+example in listing \cref{lst:earlier-example}:
 
 \begin{listing}
     \begin{minted}{r}
@@ -248,7 +248,7 @@ a vector. Recycling is not always intended, and when comparing
 distributed objects of differing length, different functions may require
 different strategies.
 
-Figure \ref{fig:chunk-recycle} shows precisely this example. Here, \mintinline{r}{x} is a
+Figure \cref{fig:chunk-recycle} shows precisely this example. Here, \mintinline{r}{x} is a
 chunk containing a single integer, \mintinline{r}{1}, and \mintinline{r}{y} is a
 distributed object composed of three chunks, each holding a section from
 \mintinline{r}{1:3E9}. In all chunk computations with \mintinline{r}{max(x,\ y)},
@@ -375,7 +375,7 @@ that the result should be a chunk, with the returned value on the client
 a chunk reference. With this consistency, it can be seen inductively
 that indefinitely long chains of remote operations can take place
 without need for continual data movement between client and workers. For
-example, listing \ref{lst:type-annotated} gives an annotation of the type of each
+example, listing \cref{lst:type-annotated} gives an annotation of the type of each
 object as it may exist relative to the client node:
 
 \begin{listing}

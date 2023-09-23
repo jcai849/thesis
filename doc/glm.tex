@@ -1,14 +1,14 @@
 We now move to the central problem that prompted this work; defining a novel distributed statistical algorithm.
 Rather than detour with a truly novel algorithm, it is prefereable to engage with something that is familiar, but holds a fairly generic form that novel analyses often share.
 Let's consider distributed LASSO regression, using the Alternating Direction Method of Multipliers, as described by \textcite{mateos2010}.
-We begin by assessing the mathematical form in Subsection \ref{sec:mathlasso}, followed by the ``standard R'' means of writing a chunked algorithm in contraposition with the \pkg{largescaler} manner in Subsection \ref{sec:rlasso}.
+We begin by assessing the mathematical form in Subsection \cref{sec:mathlasso}, followed by the ``standard R'' means of writing a chunked algorithm in contraposition with the \pkg{largescaler} manner in Subsection \cref{sec:rlasso}.
 
 \subsection{Distributed LASSO Mathematical Definition}\label{sec:mathlasso}
 
-This section seeks to give a brief taste of what a mathematical formulation for a distributed statistical model takes, in order to demonstrate the semantic and syntactic similarity to \pkg{largescaler} in Subsection \ref{sec:rlasso}.
+This section seeks to give a brief taste of what a mathematical formulation for a distributed statistical model takes, in order to demonstrate the semantic and syntactic similarity to \pkg{largescaler} in Subsection \cref{sec:rlasso}.
 A richer description, with significant background, is given in \textcite{boyd2011}.
 
-We begin with a description of the input data, as given in Equation \ref{eqn:mathlassodata}
+We begin with a description of the input data, as given in Equation \cref{eqn:mathlassodata}
 
 \begin{equation}
 \begin{aligned}\label{eqn:mathlassodata}
@@ -31,7 +31,7 @@ This is equivalent to a distributed object consisting of $N$ chunks.
 Here, each chunk is of the standard form where rows are individual observations and columns are variables.
 We also have a block matrix $b$ of the same number of chunks, with each chunk being the column vector of response variables to the corresponding $A$ chunks.
 
-The standard form of the LASSO as an optimisation problem is expressed in Equation \ref{eqn:mathlassointention}.
+The standard form of the LASSO as an optimisation problem is expressed in Equation \cref{eqn:mathlassointention}.
 
 \begin{equation}\label{eqn:mathlassointention}
     \begin{aligned}
@@ -41,7 +41,7 @@ The standard form of the LASSO as an optimisation problem is expressed in Equati
     \end{aligned} 
 \end{equation}
 
-The body of the ADMM loop is given by Equation \ref{eqn:mathlassoloop}.
+The body of the ADMM loop is given by Equation \cref{eqn:mathlassoloop}.
 Of note is the complexity, the presence of iteration, and the interactions between sets of chunks getting reduced and emerged.
 
 \begin{equation}\label{eqn:mathlassoloop}
@@ -56,7 +56,7 @@ Of note is the complexity, the presence of iteration, and the interactions betwe
 
 This subsection gives both base R syntax for working with a local chunked dataset, as well as the minimal changes that are required when using \pkg{largescaler} to transform the expressions to handle distributed data.
 The core substance of this subsection is to demonstrate the ease with which \proglang{R} is able to meet a mathematical definition, and the successive ease by which \pkg{largescaler} is able to turn that into a truly distributed algorithm.
-As in Subsection \ref{sec:mathlasso}, the working example is given of distributed LASSO.
+As in Subsection \cref{sec:mathlasso}, the working example is given of distributed LASSO.
 Consider first some chunked data, given as a diff below.
 In the diff, semantic differences are demarcated through underlining, with shared code given centrally, with no dividing line.
 On the left of the diff we have how the LASSO as described might be encoded in the absence of the API, assuming that the data fit into memory, and on the right, we make use of large scale R with no such constraining assumption.

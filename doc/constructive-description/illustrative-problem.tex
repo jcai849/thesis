@@ -84,7 +84,7 @@ massive_data_crash_r <- read.csv(tlc_data)
     \label{lst:massive-crash}
 \end{listing}
 
-\ref{lst:massive-crash} simply won't work. The object in memory will crash even high-end
+\cref{lst:massive-crash} simply won't work. The object in memory will crash even high-end
 PC's, at its 60Gb+ size. There must be a better means of representing
 the data than its direct form as standard R objects. Conversely, such a
 representation can't possibly stray too far from what the statistician
@@ -104,7 +104,7 @@ how might we determine the largest tip given?
 \end{listing}
 
 
-\ref{lst:max-tip} is the standard means of interaction, but this operation is highly
+\cref{lst:max-tip} is the standard means of interaction, but this operation is highly
 dependent on the means of data representation, and will require some
 discussion of the scaffolding required to make it work. And based on
 this, what are the operations that can be depended upon in order to
@@ -127,7 +127,7 @@ a set of chunks are treated as a cohesive object, and the underlying
 data of the object is sought, how best to retain the shape of the
 dataset cohesively, without leaving any distortion from the chunks? For
 example, given that at a high level, chunks are to be forgotten, how
-best to avoid artifacts of subset formation? Consider \ref{lst:chunk-object}
+best to avoid artifacts of subset formation? Consider \cref{lst:chunk-object}
 where \mintinline{r}{d1} refers to a group of three chunks treated as one
 object:
 
@@ -151,7 +151,7 @@ sequentially within one computer. Each chunk holds only one single
 integer for the sake of simplicity of example. When the integers are
 unmarshalled out of each chunk, or ``\textbf{emerged}'', it may be
 expected that a cohesive integer vector of length three should result,
-here given as variable \mintinline{r}{l1} in \ref{lst:emerged-chunks}. In this case, \mintinline{r}{l} stands for
+here given as variable \mintinline{r}{l1} in \cref{lst:emerged-chunks}. In this case, \mintinline{r}{l} stands for
 ``\textbf{local}''; that is, local to the operating environment, as any
 regular object, without the indirection created by chunks.
 
@@ -171,7 +171,7 @@ object, this is the desired behaviour. Failing this, without a means of
 defined relation between a group of chunks, without any manner of
 combination, the following behaviour may result instead, where a group
 of emerged chunks retains the structure imposed by chunking, as a list
-or similar, as in \ref{lst:emerged-chunks-structured}:
+or similar, as in \cref{lst:emerged-chunks-structured}:
 
 \begin{listing}
     \begin{minted}{r}
@@ -189,4 +189,4 @@ print(l1)
 
 These requirements can be summarised as the considerations concerning an
 object system, and are therefore described in greater detail in
-\ref{sec:object-system}.
+\cref{sec:object-system}.

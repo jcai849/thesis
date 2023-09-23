@@ -55,8 +55,8 @@ such an ordering having no means of imposition.
 An example of non-termination can be given by constructing a directed acyclic
 graph of dependencies, then having the stack filled in such a manner that the
 ability to move to a state of evaluation is impossible.
-This is given in the diagram of dependencies in figure \ref{fig:deps}, and the
-stack diagram in figure \ref{fig:deps-block-stack}.
+This is given in the diagram of dependencies in figure \cref{fig:deps}, and the
+stack diagram in figure \cref{fig:deps-block-stack}.
 
 \begin{figure}
 	\centering
@@ -117,7 +117,7 @@ these described states, will never occur.
 \subsection{Inbox List Controlling Finite State Machine}
 \label{inbox-list}
 
-The example issue given in section \ref{recurs-stack} is intrinsic to the use
+The example issue given in section \cref{recurs-stack} is intrinsic to the use
 of the call stack as a data structure.
 Were this to be replaced with an alternative, such as a list, ideally circular,
 there is the potential for overcoming the problem.
@@ -125,9 +125,9 @@ For example, if popped messages were placed on a list and paired with an
 associated procedure which iterates along them, checking their resolution
 status and evaluating if possible, returning eventually to read the queues,
 then assuming finite messages, there will be no issues as in section
-\ref{recurs-stack}.
-Server pseudocode is given in listing \ref{src:q-state}, with the associated
-state transition diagram in figure \ref{fig:q-state}.
+\cref{recurs-stack}.
+Server pseudocode is given in listing \cref{src:q-state}, with the associated
+state transition diagram in figure \cref{fig:q-state}.
 
 \begin{srcclrs}
 \begin{codebox}
@@ -263,11 +263,11 @@ unbounded - making the poll particularly inefficient.
 	\caption{\label{src:two-part-sol-res}Pseudocode for resolution lookup
 	of references, called as part of dependency checking in
 	\texttt{UpdateDependencies} of the \texttt{Server} function at listing
-	\ref{src:two-part-sol-serv}. Returns the resolution status to allow
+	\cref{src:two-part-sol-serv}. Returns the resolution status to allow
 	marking of inbox items for the \texttt{evalResolvedMsgs} function.}
 \end{srcclrs}
 
-An amendment to the solution proferred in section \ref{inbox-list} is to have
+An amendment to the solution proferred in section \cref{inbox-list} is to have
 the resolution status of chunks propagated to every relevant node while they
 were listening to queues already.
 This may take several forms.
@@ -284,8 +284,8 @@ This has the cost of a large number of messages moving back and forth, as well
 as the forced serialisation of one node strictly popping after another, waiting
 for every round-trip.
 
-Alternatively, a two-part solution, as per figure \ref{fig:two-part-sol} and
-listings \ref{src:two-part-sol-serv} and \ref{src:two-part-sol-res} for the
+Alternatively, a two-part solution, as per figure \cref{fig:two-part-sol} and
+listings \cref{src:two-part-sol-serv} and \cref{src:two-part-sol-res} for the
 server and resolution lookup respectively, could be performed with all
 interested nodes posting their interest to some queue, and upon resolution the
 server first posts the resolution status as a key for all interested future

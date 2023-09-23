@@ -1,6 +1,3 @@
-\hypertarget{introduction}{%
-    \subsection{Introduction}\label{introduction}}
-
 Statistics is concerned with the analysis of datasets, which are
 continually growing bigger, and at a faster rate; the global datasphere
 is expected to grow from 33 zettabytes in 2018 to 175 zettabytes by
@@ -54,7 +51,7 @@ performance of the processing unit. This is less significant in
 large-scale applications than memory-bound, but remains an important
 design consideration when the number of computations scale with the
 dataset size in any nontrivial algorithm with greater than
-\(\mathcal{O}(1)\) complexity.
+\bigO{1} complexity.
 
 The solution to both memory- and computation-bound problems has largely
 been that of using more hardware; more memory, and more CPU cores. Even
@@ -77,6 +74,6 @@ package, which is a mechanism for extending R and sharing functions. As
 of March 2021, the Comprehensive R Archive Network (CRAN) hosts over
 17000 available packages\cite{team20:_r}. Several of these packages are
 oriented towards managing large datasets, and will be assessed in
-\ref{sec:local}\ref{sec:dist} below. This project aims to develop an R
+\cref{sec:survey-r-local-packages,sec:survey-r-dist-packages} below. This project aims to develop an R
 package that provides a means for writing software to analyse very large
 data on clusters consisting of multiple general-purpose computers.

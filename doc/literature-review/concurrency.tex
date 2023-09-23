@@ -24,7 +24,7 @@ Chains of \code{then()}s are then used to cleanly compose concurrent operations.
 R has a \pkg{promises} package, clearly influenced by JavaScript's A+ promises\cite{cheng2021promises}.
 If it can do as \textit{promised}, much of the problem of concurrency is solved in R.
 
-An initial test is given in \ref{lst:promise-work}.
+An initial test is given in \cref{lst:promise-work}.
 Note in this listing that there is a very mild race condition in that the prompt is printed in the final line, with the operation of the \code{then()} immediately following.
 So far it looks like it is functioning.
 
@@ -41,7 +41,7 @@ So far it looks like it is functioning.
 \label{lst:promise-work}
 \end{listing}
 
-Attempting a simple equivalent outside of an empty stack leads to problems, as shown in \ref{lst:promise-not-work}.
+Attempting a simple equivalent outside of an empty stack leads to problems, as shown in \cref{lst:promise-not-work}.
 Here, as long as there are frames on the stack, the \code{then()} callback is never triggered.
 This may make sense in the avoidance of re-entrancy problems, though it is hardly very well advertised.
 
@@ -71,7 +71,7 @@ If it were possible to explicitly state where evaluation may be safe to take pla
 Analysis of the *promises* source code reveals a dependency on the \pkg{later} package for asynchronous execution, and this is what has lead to the leaky abstraction \cite{chang2021later}.
 The central \code{later()} function offered by the package is equivalent to JavaScript's \code{setTimout()} function, and also only executes when there is no other R code on the execution stack.
 Operations may be forced in \pkg{later} with \code{run\_now()}, however, and this may serve as an appropriate mechanism for forcing evaluation.
-This is shown in Listing \ref{lst:promise-forced}.
+This is shown in Listing \cref{lst:promise-forced}.
 
 \begin{listing}
 \begin{minted}{r}
@@ -106,7 +106,7 @@ An initial attempt at a solution was to use continuations in R to implement prom
 Unfortunately, continuations in R are downwards-only, and so can't be relied upon for proper coroutine or promise implementation.
 
 I attempted a solution without continuations: replicate promises, but have the \code{then()} run at any point, without needing to force it or be on the top level.
-This involved the creation of a package that was mostly written in \proglang{C}, to create Promise types, as given in \ref{lst:promise-struct}, and perform their evaluation.
+This involved the creation of a package that was mostly written in \proglang{C}, to create Promise types, as given in \cref{lst:promise-struct}, and perform their evaluation.
 
 \begin{listing}
 \begin{minted}{c}
@@ -164,7 +164,7 @@ What takes place is that when a scheduler or event loop encounters an \code{awai
 Key examples, though with very different implementations, include \proglang{Python}'s \pkg{asyncio} and \proglang{JavaScript}'s \pkg{async/await}.
 The async/await paradigm has had massive uptake, with nearly all major programming languages supporting it.
 
-An example of how async/await may appear within R in the context of the node in the distributed system, is given as \ref{lst:aior}
+An example of how async/await may appear within R in the context of the node in the distributed system, is given as \cref{lst:aior}
 
 \begin{listing}
 \begin{minted}{r}
@@ -231,7 +231,7 @@ The rendezvous is therefore a point of synchronisation, a powerful feature that 
 Go has made famous it's goroutines as taking inspiration from CSP\cite{gomem2014}.
 More recently, Java is experimentally overhauling it's threading model to use similar concepts in its \pkg{Project Loom}, and GNU Guile has recently included \pkg{fibers} as a variation on CSP as inspired by Concurrent ML.
 
-An example of how a CSP-based concurrency may appear in a node of the distributed system is given in \ref{lst:csp}.
+An example of how a CSP-based concurrency may appear in a node of the distributed system is given in \cref{lst:csp}.
 Notably, it is the cleanest and clearest of all the concurrency models assessed thus far.
 
 \begin{listing}

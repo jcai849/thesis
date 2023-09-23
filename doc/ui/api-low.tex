@@ -2,8 +2,8 @@ The lower level of the \lsr framework would typically be unused by the standard 
 However, for more complex design of statistical algorithms, where for instance individual chunks are of concern, or specific routing of chunk locations for the purposes of optimisation, a lower level of the framework is exposed.
 Here, the main concepts of this lower level API are described.
 As this is lower level, it is getting proximate to implementation details.
-As such, the dividing line is often unclear, so this section remains as abstract as possible, with more detail provided in Chapter \ref{sec:implementation}.
-The core concepts to be described are the movement and direction of individual chunks as controlled and specified by the user, in Subsection~\ref{sec:cm}, and the control of the computational nodes which independently manage the chunks, as given in Subsection~\ref{sec:node}
+As such, the dividing line is often unclear, so this section remains as abstract as possible, with more detail provided in Chapter \cref{sec:implementation}.
+The core concepts to be described are the movement and direction of individual chunks as controlled and specified by the user, in Subsection~\cref{sec:cm}, and the control of the computational nodes which independently manage the chunks, as given in Subsection~\cref{sec:node}
 
 \subsection{Chunk Movement}\label{sec:cm}
 
@@ -54,8 +54,8 @@ The worker node follows a loop of running computations on chunks that it has sto
 
 It is also worth describing one variation on a node, that while implementation-specific, does shed some light on how nodes may be put to use.
 For nodes to communicate directly between themselves, they require information on which node holds the chunk that is under request.
-This could be provided by a variety of forms, including a node-less peer-to-peer setup as described in Section \ref{sec:p2p}, but \lsr's implementation made use of a variation of a node termed a location service.
+This could be provided by a variety of forms, including a node-less peer-to-peer setup as described in Section \cref{sec:p2p}, but \lsr's implementation made use of a variation of a node termed a location service.
 The role of a location service is to keep track of which chunks exist on which nodes, updated by the worker nodes and providing this information when requested by a worker node looking to make a request of a particular chunk.
 
 This suffices for an overview of the concepts underpinning nodes in the API.
-Further details are implementation-specific, and are not essential to the interface as presented; they are elaborated upon in Section \ref{sec:nodes}.
+Further details are implementation-specific, and are not essential to the interface as presented; they are elaborated upon in Section \cref{sec:nodes}.

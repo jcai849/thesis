@@ -1,0 +1,93 @@
+
+While not specifically engaging with larger-than-memory data, a number
+of packages take advantage of various parallel strategies in order to
+process large datasets efficiently. \pkg{multicore} is one such
+package, now subsumed into the \pkg{parallel} package, that grants
+functions that can make direct use of multiprocessor systems, thereby
+reducing the processing time in proportionality to the number of
+processors available on the system.
+
+\pkg{data.table} also makes use of multi-processor systems, with many
+operations involving threading in order to rapidly perform operations on
+its dataframe equivalent, the data.table.
+
+In spite of all of these potential solutions, a major constraint remains
+in that only a single machine is used. As long as there is only one
+machine available, bottlenecks form and no redundancy protection is
+offered in real-time in the event of a crash or power outage.
+
+The first steps typically taken to manage larger-than-memory data is to
+shift part of the data into secondary storage, which generally possesses
+significantly more space than main memory.
+
+This is the approach taken by the \pkg{disk.frame} package, developed
+by Dai ZJ. \pkg{disk.frame} provides an eponymously named dataframe
+replacement class, which is able to represent a dataset far larger than
+RAM, constrained now only by disk size\cite{zj20}.
+
+The mechanism of \pkg{disk.frame} is introduced on its homepage with the
+following explanation:
+
+\qu{zj20}
+
+It works through two main principles: chunking, and an array of methods
+taking advantage of data.frame generics, including \pkg{dplyr} and
+\pkg{data.table} functions.
+
+Another component that isn't mentioned in the explanation, but is
+crucial to performance, is the parallelisation offered transparently by
+the package.
+
+disk.frames are actually references to numbered \file{fst} files in a
+folder, with each file serving as a chunk.
+This is made use of through manipulation of each chunk separately,
+sparing RAM from dealing with a single monolithic
+file\cite{zj19:_inges_data}.
+Fst is a means of serialising dataframes, as an alternative to RDS
+files\cite{klik19}.
+It makes use of an extremely fast compression algorithm developed at
+facebook.
+Functions are usually mapped over chunks using some functional, but more
+complex functions such as those implementing a glm require custom
+solutions; as an example the direct modelling function of
+\ccode{dfglm} is implemented to allow
+for fitting glms to the data.
+From inspection of the source code, the function is a utility wrapper
+for streaming \pkg{disk.frame} data by default into \pkg{bigglm}, a \pkg{biglm}
+derivative.
+For grouped or aggregated functions, there is more complexity involved,
+due to the chunked nature of \pkg{disk.frame}.
+When functions are applied, they are by default applied to each chunk.
+If groups don't correspond injectively to chunks, then the syntactic
+chunk-wise summaries and their derivatives may not correspond to the
+semantic group-wise summaries expected.
+For example, summarising the median is performed by using a
+median-of-medians method; finding the overall median of all chunks'
+respective medians.
+
+Therefore, computing grouped medians in disk.frame result in estimates
+only --- this is also true of other software, such as \pkg{spark}, as noted in
+\cite{zj19:_group_by}.
+For parallelisation, \pkg{future} is used as the backend package, with most
+function mappings on chunks making use of
+\ccode{future-lapply}
+to have each chunk mapped with the intended function in parallel.
+future is initialised with access to cores through the wrapper function,
+\ccode{setup-disk-frame}\cite{zj19:_key}.
+This sets up the correct number of workers, with the minimum of workers
+and chunks being processed in parallel.
+An important aspect to parallelisation through \pkg{future} is that, for
+purposes of cross-platform compatibility, new R processes are started
+for each worker\cite{zj19:_using}.
+Each process will possess its own environment, and disk.frame makes use
+of future's detection capabilities to capture external variables
+referred to in calls, and send them to each worker.
+The strategy taken by \pkg{disk.frame} has several inherent
+limitations, however. \pkg{disk.frame} allows only embarassingly
+parallel operations for custom operations as part of a
+split-apply-combine (MapReduce) pattern.
+While there may theoretically be future provision for non-embarrassingly
+parallel operations, a significant limitation to real-time operation is
+the massive slowdown brought by the data movement from disk to RAM and
+back.
+

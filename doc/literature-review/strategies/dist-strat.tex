@@ -1,0 +1,44 @@
+
+The specs of a single contemporary commodity computer are higher than
+those that were used in the Apollo lunar landing, yet the management of
+large datasets still creates major issues, driven by a simple lack of
+capacity to hold them in memory. Supercomputers can surmount this by
+holding orders of magnitude higher memory, though only a few
+organisations or individuals can bear the financial costs of purchasing
+and maintaining a supercomputer.
+
+In a similar form, cloud computing is not a universal solution, owing to
+expense, security issues, and data transportation problems. Despite
+this, systems rivalling supercomputers can be formed through combining
+many commodity computers. An amusing illustration of this was given in
+2004, when a flash mob connected hundreds of laptops to attempt running
+the linpack benchmark, achieving 180 gigaflops in processing
+output\cite{perry2004flashcomp}.
+
+The combination of multiple independent computers to form one cohesive
+computing system forms part of what is known as distributed computing.
+More serious efforts to connect multiple commodity computers into a
+larger computational system is now standard, with software such as
+Hadoop and Spark being commonplace in large companies for the purpose of
+creating distributed systems.
+
+Distributed systems make possible the real-time manipulation of datasets
+larger than a single computer's RAM, by splitting up data and holding it
+in the RAM of multiple computers. A factor strongly serving in favour of
+distributed computing is that commodity hardware exists in large
+quantities in most offices, oftentimes completely unused. This means
+that many organisations already have the necessary base infrastructure
+to create a distributed system, likely only requiring some software and
+configuration to set it all up. Beyond the benefit of pre-existing
+infrastructure, a major feature commonly offered by distributed systems,
+and lacking in high-powered single computer systems, is that of fault
+tolerance - when one computer goes down, as does happen, another
+computer in the system had redundant copies of much of the information
+of the crashed computer, and computation can resume with very little
+inconvenience. A single computer, even very high-powered, doesn't
+usually offer fault-tolerance to this degree.
+
+All of the packages examined the above \cref{subsec:local} have no
+immediate capability to create a distributed system, and have all of the
+ease-of-use benefits and all of the drawbacks as discussed.
+

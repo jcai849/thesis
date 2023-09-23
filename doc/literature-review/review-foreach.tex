@@ -41,7 +41,7 @@ The syntax of foreach consists of a
 \mintinline{r}{foreach()} function call next to a
 \mintinline{r}{%do%} operator, and some expression to the
 right\cite{weston19:_using}. Without loss in generality, the syntactic
-form is given in \ref{lst:syntax}.
+form is given in \cref{lst:syntax}.
 
 \begin{listing}
 	\begin{minted}{r}
@@ -128,7 +128,7 @@ exclusive.
 In spite of the constraints, iterated functions can actually be emulated
 in foreach through the use of destructive reassignment within the passed
 expression, or through the use of stateful iterators. Examples of both
-are given in \ref{lst:serial}\ref{lst:serial-iter}.
+are given in \cref{lst:serial}\cref{lst:serial-iter}.
 
 \begin{listing}
 	\begin{minted}{r}
@@ -163,7 +163,7 @@ foreach(i = addsone(10, 15), .combine = c) %do% i
 \end{listing}
 
 As alluded to earlier, the functionality breaks down when attempting to
-run them in parallel. \ref{lst:parallel}\ref{lst:parallel-iter}
+run them in parallel. \cref{lst:parallel}\cref{lst:parallel-iter}
 demonstrate attempts to evaluate these iterated functions in parallel.
 They only return a list of 5 repetitions of the same ``next'' number,
 not iterating beyond it.

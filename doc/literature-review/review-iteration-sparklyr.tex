@@ -47,7 +47,7 @@ forcing evaluation then caching; performed in sparklyr through
 
 The Babylonian method for calculating a square root is a simple
 iterative procedure, used here as an example. A standard form in R with
-non-optmimised initial value is given in \ref{lst:basicbab}.
+non-optmimised initial value is given in \cref{lst:basicbab}.
 
 \begin{listing}
 	\begin{minted}{r}
@@ -100,8 +100,8 @@ to combine two Spark Data Frames in a single query without joining them,
 Frame that is referenced through the \mintinline{r}{.data} variable is
 translated, but the other Data Frame has it's list representation passed
 through, which Spark SQL doesn't have the capacity to parse; an example
-is given in \ref{lst:computer-no} (generated through listing
-\ref{lst:bad}), showing an attempt to create a new column from the
+is given in \cref{lst:computer-no} (generated through listing
+\cref{lst:bad}), showing an attempt to create a new column from the
 difference between two seperate Data Frames
 
 \begin{listing}
@@ -134,7 +134,7 @@ SELECT `S` - list(con = list(master = "yarn", method = "shell", app_name =
 
 Global variables that evaluate to SQL-friendly objects can be passed and
 are evaluated prior to translation. An example is given through
-\ref{lst:global-ok}, generated through \ref{lst:ok-generator}, where
+\cref{lst:global-ok}, generated through \cref{lst:ok-generator}, where
 the difference between a variable holding a numeric and a Spark Data
 Frame is translated into the evaluation of the variable, transformed to
 a float for Spark SQL, and its difference with the Spark Data Frame,

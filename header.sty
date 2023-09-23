@@ -19,6 +19,7 @@
 \usepackage{booktabs}
 \usepackage{setspace}
 \usepackage{import}
+\usepackage{cleveref}
 
 \usepackage{tikz}
 \usetikzlibrary{external}
@@ -41,6 +42,8 @@
 \def\blockdist{0.1}
 
 \usepackage{multicol}
+\usepackage{rotating}
+\usepackage{tablefootnote}
 \usepackage{color}
 \definecolor{mygreen}{HTML}{099A07}
 \definecolor{mymauve}{HTML}{98079A}
@@ -75,8 +78,71 @@
 
 \let\code\texttt
 \let\proglang\textsf
+\let\file\texttt
 \newcommand{\pkg}[1]{{\fontshape{it}\selectfont #1}}
 \newcommand{\R}{\proglang{R}}
 \newcommand{\tbb}[1][R]{$\mathbb{#1}$}
 \newcommand{\lsr}{\pkg{largescaler}}
 \newcommand{\bigO}[1]{$\mathcal{O}(#1)$}
+
+\newcommand\ccode[2][R]{%
+  \begingroup\everyeof{}%
+  \CatchFileDef\temp{src/#2.#1}{}%
+  \scantokens\expandafter{%
+    \expandafter\processinputmintinline\expandafter{\temp}{#1}%
+  }\unskip
+  \endgroup
+}
+\newcommand{\processinputmintinline}[2]{\mintinline{#2}{#1}}
+
+\newcommand{\fig}[3][h]{
+\begin{figure}[#1]
+\centering
+\input{img/#2}
+\caption{\label{fig:#2}#3}
+\end{figure}}
+
+\newcommand{\widefig}[3][h]{
+\begin{figure}[#1]
+\centering
+\resizebox{\linewidth}{!}{\input{img/#2}}
+\caption{\label{fig:#2}#3}
+\end{figure}}
+
+\newcommand{\longfig}[3][h]{
+\begin{figure}[#1]
+\centering
+\resizebox{!}{\textheight}{\input{img/#2}}
+\caption{\label{fig:#2}#3}
+\end{figure}}
+
+\newcommand{\eq}[1]{
+\begin{equation}\label{eq:#1}
+\input{eq/#1}
+\end{equation}}
+
+\newcommand{\mathfrom}[1]{\(\input{eq/#1}\)}
+
+\newcommand{\qu}[1]{
+\blockcquote{#1}{\input{quote/#1}}}
+
+\newcommand{\src}[3][R]{
+\begin{listing}
+\inputminted{#1}{src/#2.#1}
+\caption{\label{lst:#2}#3}
+\end{listing}
+}
+
+\newcommand{\tab}[2]{
+\begin{table}[htbp]
+\centering
+\input{tab/#1}
+\caption{\label{tab:#1}#2}
+\end{table}}
+
+\newcommand{\widetab}[2]{
+\begin{sidewaystable}[htbp]
+\centering
+\input{tab/#1}
+\caption{\label{tab:#1}#2}
+\end{sidewaystable}}

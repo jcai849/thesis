@@ -1,0 +1,19 @@
+\begin{tabular}{llllll}
+\toprule
+Feature & \pkg{RHadoop} & \pkg{sparklyr} & \pkg{pbdR} & \pkg{disk.frame} & \pkg{foreach} \\
+\midrule
+Distributed Computation & yes (\ref{itm:x1}) & yes (\ref{itm:x2}) & yes (\ref{itm:x3}) & no & yes (\ref{itm:x4}) \\
+Evaluation of User-Specified Code & yes (\ref{itm:x5}) & mostly (\ref{itm:x6}) & mostly (\ref{itm:x7}) & some (\ref{itm:x8}) & mostly (\ref{itm:x9}) \\
+Native Support for Iteration & no & no (\ref{itm:x10}) & yes & no & no (\ref{itm:x11}) \\
+Object Persistence at Nodes & no & yes & yes & NA & no \\
+Support for Distributed File Systems & yes (\ref{itm:x12}) & yes (\ref{itm:x13}) & no & no & yes (\ref{itm:x14}) \\
+Ease of Setup & mediocre (\ref{itm:x15}) & acceptable (\ref{itm:x16}) & acceptable (\ref{itm:x17}) & simple & simple \\
+Inter-Node Communication & no & no & yes (\ref{itm:x18}) & NA & no \\
+Interactive Usage & yes & yes & no & yes & yes \\
+Backend Decoupling & no (\ref{itm:x19}) & no (\ref{itm:x20}) & no (\ref{itm:x21}) & no & yes \\
+Evaluation of Arbitrary Classes & yes (\ref{itm:x22}) & some (\ref{itm:x23}) & yes (\ref{itm:x24}) & no & yes (\ref{itm:x25}) \\
+Package-specific API & yes (\ref{itm:x26}) & yes & yes (\ref{itm:x27}) & no & yes \\
+Methods for Standard Generics & no & no & some (\ref{itm:x28}) & no & no \\
+Methods for dplyr Generics & no (\ref{itm:x29}) & yes (\ref{itm:x30}) & no & yes & no \\
+\bottomrule
+\end{tabular}
