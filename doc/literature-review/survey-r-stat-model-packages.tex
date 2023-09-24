@@ -1,7 +1,6 @@
-\hypertarget{sec:partools}{%
-    \subsection{partools}\label{sec:partools}}
+\subsection{partools}\label{subsec:partools}
 
-partools provides utilities for the parallel
+\pkg{partools} provides utilities for the parallel
 package\cite{matloff16softw_alchemy}. It offers functions to split
 files and process the splits across nodes provided by parallel, along
 with bespoke statistical functions.
@@ -9,10 +8,10 @@ with bespoke statistical functions.
 It consists mainly of wrapper functions, designed to follow it's
 philosophy of ``keep it distributed''.
 
-It is authored by Norm Matloff, a professor at UC, Davis and current
+It is authored by Norm Matloff, a professor at UC, Davis and previous
 Editor-in-Chief of the \R Journal.
 
-In more detail, \cite{matloff15} and \cite{matloff17} presents the
+In more detail, \textcite{matloff15} and \textcite{matloff17} presents the
 motivation behind \pkg{partools} with reference to \pkg{Hadoop} and \pkg{Spark}. Matloff
 describes \pkg{partools} as more ``sensible'' for large data sets than \pkg{Hadoop}
 and \pkg{Spark}, due to their difficulty of setup, abstract programming
@@ -27,7 +26,7 @@ analysis, and reduce being an average.
 The analyses amenable to software alchemy have bespoke functions for
 them in the package, typically consisting of their base \R name with the
 prefix ``ca'' alluding to ``chunk averaging'', such as
-\mintinline{r}{calm()}. Other functions in which it
+\ccode{calm}. Other functions in which it
 doesn't make sense to average are also supported, such as column sums,
 which also have specific functions made for them. Complex cases such as
 fitting LASSO models, in which each chunk may have settled on different
@@ -37,24 +36,20 @@ provide for arbitrary functions to be applied to distributed data.
 
 In terms of applications of the package, it is difficult to estimate the
 usage of it; as it has a more complex setup than a simple
-\mintinline{r}{library} call, it won't be included in many other packages.
+\ccode{library} call, it won't be included in many other packages.
 Similarly, the nature of the work skews towards interactive usage, and
 custom business-specific programs that are difficult to attain data on.
 The reverse dependencies/imports have all been authored by Matloff, so
 aren't entirely informative, but their usage is interesting: one package
-(cdparcoord) to plot coordinates for large datasets in parallel, and one
-(polyreg) to form and evaluate polynomial regression models.
+(\pkg{cdparcoord}) to plot coordinates for large datasets in parallel, and one
+(\pkg{polyreg}) to form and evaluate polynomial regression models.
 
-\hypertarget{sec:biglm}{%
-    \subsection{biglm}\label{sec:biglm}}
+\subsection{biglm}\label{subsec:biglm}
 
-biglm is described succinctly as
+\pkg{biglm} is described succinctly in its package description as:
 
-\begin{displayquote}
-    bounded memory linear and generalized linear
-    models\cite{lumley2013biglm}.
-\end{displayquote}
+\cqu{lumley2013biglm}.
 
-biglm has been extended by other packages, and can integrate with
-bigmemory matrices through biganalytics. The package is developed by
+\pkg{biglm} has been extended by other packages, and can integrate with
+\pkg{bigmemory} matrices through \pkg{biganalytics}. The package is developed by
 Dr.Thomas Lumley of the University of Auckland.

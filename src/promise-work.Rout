@@ -1,0 +1,6 @@
+> library(promises)
+> p <- promise(function(resolve, reject) resolve(TRUE))
+> print(p)
+<Promise [fulfilled: logical]>
+> then(p, onFulfilled = function(value) print(value))
+> [1] TRUE

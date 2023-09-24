@@ -1,0 +1,6 @@
+    The ff package provides atomic data structures that are stored on disk
+    but behave (almost) as if they were in RAM by mapping only a subsection
+    (pagesize) into main memory (the effective main memory consumption per
+    ff object). Several access optimization techniques such as Hyrid Index
+    Preprocessing (as.hi, update.ff) and Virtualization (virtual, vt, vw)
+    are implemented to achieve good performance even with large datasets.

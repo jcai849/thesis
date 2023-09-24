@@ -1,0 +1,2 @@
+SELECT `S` - 3.0 AS `S`
+FROM `S`

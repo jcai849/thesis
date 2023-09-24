@@ -78,7 +78,7 @@
 \let\code\texttt
 \let\proglang\textsf
 \let\file\texttt
-\newcommand{\pkg}[1]{{\fontshape{it}\selectfont #1}}
+\let\pkg\textit
 \newcommand{\R}{\proglang{R}}
 \newcommand{\tbb}[1][R]{$\mathbb{#1}$}
 \newcommand{\lsr}{\pkg{largescaler}}
@@ -86,7 +86,7 @@
 \newcommand{\lso}{\pkg{largescaleobjects}}
 \newcommand{\chunknet}{\pkg{chunknet}}
 \newcommand{\orcv}{\pkg{orcv}}
-\newcommand{\bigO}[1]{$\mathcal{O}(#1)$}
+\newcommand{\bigO}[1]{\ensuremath{\mathcal{O}(#1)}}
 
 \newcommand\ccode[2][R]{%
   \begingroup\everyeof{}%
@@ -126,8 +126,11 @@
 
 \newcommand{\mathfrom}[1]{\(\input{eq/#1}\)}
 
-\newcommand{\qu}[1]{
+\newcommand{\cqu}[1]{
 \blockcquote{#1}{\input{quote/#1}}}
+
+\newcommand{\qu}[1]{
+blockquote{\input{quote/#1}}}
 
 \newcommand{\src}[3][R]{
 \begin{listing}

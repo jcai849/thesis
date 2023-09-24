@@ -1,7 +1,6 @@
-\hypertarget{sec:bigmemory-collection}{%
-    \subsection{Bigmemory Collection}\label{sec:bigmemory-collection}}
+\subsection{\pkg{Bigmemory} Collection}\label{subsec:bigmemory-collection}
 
-The bigmemory package enables the creation of ``massive matrices''
+The \pkg{bigmemory} package enables the creation of ``massive matrices''
 through a ``big.matrix'' S4 class with a similar interface to
 `matrix'\cite{kane13:bigmemory}. These matrices may take up gigabytes of
 memory, typically larger than RAM, and have simple operations defined
@@ -18,72 +17,57 @@ is still active, however it is stable enough that updates are
 intermittent. Some of the main extension packages:
 
 \begin{description}
-
-    \item[biganalytics]
-        Extends bigmemory with matrix summary statistics such as
-        \mintinline{r}{colmeans}, \mintinline{r}{apply}, as well as integration with the \pkg{biglm}
-        package\cite{emerson16}. Biganalytics is authored by the same creators
-        of the main bigmemory package.
-    \item[bigtabulate]
-        Extends bigmemory with tabulation functions and \mintinline{r}{tapply},
+    \item[\pkg{biganalytics}]
+        Extends \pkg{bigmemory} with matrix summary statistics such as
+        \ccode{colmeans}, \ccode{apply}, as well as integration with the \pkg{biglm}
+        package\cite{emerson16}. \pkg{biganalytics} is authored by the same creators
+        of the main \pkg{bigmemory} package.
+    \item[\pkg{bigtabulate}]
+        Extends \pkg{bigmemory} with tabulation functions and \mintinline{r}{tapply},
         allowing for contingency tables and \mintinline{r}{summary} of big.matrix
         objects \cite{kane16}.
-    \item[biglasso]
-        Extends bigmemory matrices to allow for lasso, ridge and elastic-net
+    \item[\pkg{biglasso}]
+        Extends \pkg{bigmemory} matrices to allow for lasso, ridge and elastic-net
         model fitting. It can be take advantage of multicore machines, with the
-        ability to be run in parallel. Biglasso is authored by Yaohui Zeng, and
-        described in detail in \cite{zeng2017biglasso}.
-    \item[bigalgebra]
-        Provides BLAS routines for bigmemory and native \R matrices. Linear
+        ability to be run in parallel. \pkg{biglasso} is authored by Yaohui Zeng, and
+        described in detail in \textcite{zeng2017biglasso}.
+    \item[\pkg{bigalgebra}]
+        Provides \pkg{BLAS} routines for \pkg{bigmemory} and native \R matrices. Linear
         Algebra functionality is given through matrix arithmetic methods, such
-        as the standard \mintinline{r}{\%*\%}. The package is archived
+        as the standard \ccode{matrix-multiply}. The package is archived
         on CRAN as of February 2020, only being accessible through R-Forge. This
-        is likely due to a merger with the main bigmemory package.
-    \item[bigstatsr]
+        is likely due to a merger with the main \pkg{bigmemory} package.
+    \item[\pkg{bigstatsr}]
         Was originally a set of functions for complex statistical analyses on
         big.matrices, having since implemented and provided it's own
         ``filebacked big matrices''\cite{prive2018efficient}. The provided
         functions include matrix operations particularly relating to
         bioinformatics, such as PCA, sparse linear supervised models, etc.
-        Bigstatsr is described in detail in \cite{prive2018efficient}.
+        \pkg{bigstatsr} is described in detail in \textcite{prive2018efficient}.
 \end{description}
 
-\hypertarget{sec:blas-lapack}{%
-    \subsubsection{LAPACK, BLAS, ATLAS}\label{sec:blas-lapack}}
+\subsubsection{\pkg{LAPACK}, \pkg{BLAS}, ATLAS}\label{subsec:blas-lapack}
 
-BLAS is a specification for a set of low-level ``building block'' linear
+\pkg{BLAS} is a specification for a set of low-level ``building block'' linear
 algebra routines\cite{lawson1979basic}. Most linear algebra libraries
-conform to the BLAS specifications, including the most prominent linear
-algebra library, LAPACK, with it's own set of
-extensions\cite{demmel1989lapack}. LAPACK has been extended in turn to
-support a variety of systems, with implementations such as ScaLAPACK
+conform to the \pkg{BLAS} specifications, including the most prominent linear
+algebra library, \pkg{LAPACK}, with it's own set of
+extensions\cite{demmel1989lapack}. \pkg{LAPACK} has been extended in turn to
+support a variety of systems, with implementations such as \pkg{ScaLAPACK}
 being introduced to attend to distributed memory
 systems\cite{choi1992scalapack}.
 
-\hypertarget{sec:disk.frame}{%
-    \subsection{disk.frame}\label{sec:disk.frame}}
+\subsection{disk.frame}\label{subsec:disk.frame}
 
-The package description outlines \pkg{disk.frame} with the following:
-
-\begin{displayquote}
-    A disk-based data manipulation tool for working with large-than-RAM
-    datasets. Aims to lower the barrier-to-entry for manipulating large
-    datasets by adhering closely to popular and familiar data manipulation
-    paradigms like \pkg{dplyr} verbs and \pkg{data.table} syntax.
-\end{displayquote}
-
-disk.frame provides a disk.frame class and derivatives, which model a
+\pkg{disk.frame} provides a disk.frame class and derivatives, which model a
 data.frame. The primary functional difference is that disk.frames can be
 far larger than total RAM. This is enabled through the disk.frame
 objects being allocated to shared memory, rather than working memory as
 in data.frames. The transparency offered by the class is well-known to
 be at a very high level, with most standard manipulations of dataframes
-being applicable to disk.frame objects. I have written more on
-disk.frame in the document, \textbf{case-study-disk.frame.html}{A
-    disk.frame Case Study}
+being applicable to disk.frame objects. \pkg{disk.frame} is expanded upon in \cref{subsec:disk.frame-review}.
 
-\hypertarget{sec:data.table}{%
-    \subsection{data.table}\label{sec:data.table}}
+\subsection{data.table}\label{subsec:data.table}
 
 data.table is another dataframe alternative, focussing on speed through
 multithreading and well-tuned database algorithms\cite{dowle19}. The
@@ -91,13 +75,12 @@ package has introduced a unique syntax for data.table manipulation,
 which is also made available in \pkg{disk.frame}. data.table objects are held
 in RAM, so big data processing is not easily enabled, however the
 package allows for serialisation of data.tables, and chunking is
-possible through splitting via the \mintinline{r}{shard} function. The package
+possible through splitting via the \ccode{shard} function. The package
 is authored by Matt Dowle, currently an employee at H2O.ai. An overview
 is given in \cite{dowle19:_introd}, with extensive benchmarking
 available in \cite{dowle19:_bench}.
 
-\hypertarget{sec:fst}{%
-    \subsection{fst}\label{sec:fst}}
+\subsection{fst}\label{subsec:fst}
 
 \pkg{fst} is a means of serialising dataframes, as an alternative to RDS
 files\cite{klik19}. Serialisation takes place extremely fast, using
@@ -106,42 +89,32 @@ through parallel computation. Author Mark Klik and Yann Collet, of
 Facebook, Inc. \pkg{fst} is a dependency of \pkg{disk.frame}, performing some of the
 background functionality.
 
-\hypertarget{sec:iotools}{%
-    \subsection{iotools}\label{sec:iotools}}
+\subsection{iotools}\label{subsec:iotools}
 
-iotools is a set of tools for managing big I/O, with an emphasis on
+\pkg{iotools} is a set of tools for managing big I/O, with an emphasis on
 speed and efficiency for big data through chunking\cite{urbanek20b}. The
 package provides several functions for creating and manipulating chunks
 directly. Authored by Simon Urbanek and Taylor Arnold.
 
-\hypertarget{sec:ff}{%
-    \subsection{ff}\label{sec:ff}}
+\subsection{ff}\label{subsec:ff}
 
-The package description outlines ff with the following:
+The package description outlines \pkg{ff} with the following:
 
-\begin{displayquote}
-    The ff package provides atomic data structures that are stored on disk
-    but behave (almost) as if they were in RAM by mapping only a subsection
-    (pagesize) into main memory (the effective main memory consumption per
-    ff object). Several access optimization techniques such as Hyrid Index
-    Preprocessing (as.hi, update.ff) and Virtualization (virtual, vt, vw)
-    are implemented to achieve good performance even with large datasets.
-\end{displayquote}
+qu{adler18}
 
-The package provides a disk-based storage for most base types in R. This
-also enables sharing of objects between different \R processes. ff is
+The package provides a disk-based storage for most base types in \R. This
+also enables sharing of objects between different \R processes. \pkg{ff} is
 authored by a German-based team, and maintained by Jens Oehlschlägel,
 the author of True Cluster. First introduced in
 2008\cite{adler08:_large_r}, there have been no updates since
 mid-2018.
 
 \begin{description}
-
-    \item[ffbase\cite{jonge20}]
-        is an extension to ff, providing standard statistical methods for ff
+\item[\pkg{ffbase}\cite{jonge20}]
+        is an extension to \pkg{ff}, providing standard statistical methods for ff
         objects. The package is still actively maintained. The package has been
         the subject of several talks, most notably the author's overview,
         \cite{wijffels13}. The package is currently being revised for a second
         version that provides generics functionality for \pkg{dplyr} on ff objects,
-        under the title, ``ffbase2''\cite{jonge15}.
+        under the title, \pkg{ffbase2}\cite{jonge15}.
 \end{description}

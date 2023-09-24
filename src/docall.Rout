@@ -1,0 +1,6 @@
+> x = function(...) match.call()
+> y = 1
+> x(y)
+x(y)
+> do.call(x, list(y))
+(function(...) match.call())(1)

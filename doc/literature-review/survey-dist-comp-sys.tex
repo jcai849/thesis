@@ -1,38 +1,36 @@
-\hypertarget{sec:hadoop-1}{%
-    \subsection{Hadoop}\label{sec:hadoop-1}}
+\subsection{\pkg{Hadoop}}\label{sec:hadoop-1}
 
 Apache \pkg{Hadoop} is a collection of utilities that facilitates cluster
 computing. Jobs can be sent for parallel processing on the cluster
-directly to the utilities using .jar files, ``streamed'' using any
+directly to the utilities using \file{.jar} files, ``streamed'' using any
 executable file, or accessed through language-specific APIs.
 
 The project began in 2006, by Doug Cutting, a Yahoo employee, and Mike
 Cafarella. The inspiration for the project was a paper from Google
 describing the Google File System (described in
-\cite{ghemawat2003google}, which was followed by another Google paper
-detailing the MapReduce programming model, \cite{dean2004mapreduce}.
+\textcite{ghemawat2003google}, which was followed by another Google paper
+detailing the MapReduce programming model, \textcite{dean2004mapreduce}.
 
 Hadoop consists of a memory part, known as \pkg{Hadoop} Distributed File
 System (HDFS), described in subsection\cref{sec:hdfs},
 and a processing part, known as MapReduce, described in
-subsection\cref{sec:mapreduce}.
+\cref{sec:mapreduce}.
 
 In operation, \pkg{Hadoop} splits files into blocks, then distributes them
 across nodes in a cluster, where they are then processed by the node.
 This creates the advantage of data locality, wherein data is processed
 by the node they exist in.
 
-Hadoop has seen extensive industrial use as the premier big data
+\pkg{Hadoop} has seen extensive industrial use as the premier big data
 platform upon it's release. In recent years it has been overshadowed by
-Spark, due to the greater speed gains offered by \pkg{Spark}. The key reason
-Spark is so much faster than \pkg{Hadoop} comes down to their different
+\pkg{Spark}, due to the greater speed gains offered by \pkg{Spark}. The key reason
+\pkg{Spark} is so much faster than \pkg{Hadoop} comes down to their different
 processing approaches: \pkg{Hadoop} MapReduce requires reading from disk and
 writing to it, for the purposes of fault-tolerance, while \pkg{Spark} can run
 processing entirely in-memory. However, in-memory MapReduce is provided
-by another Apache project, Ignite\cite{zheludkov2017high}.
+by another Apache project, \pkg{Ignite}\cite{zheludkov2017high}.
 
-\hypertarget{sec:hdfs}{%
-    \subsubsection{Hadoop Distributed File System}\label{sec:hdfs}}
+\subsubsection{Hadoop Distributed File System}\label{sec:hdfs}
 
 The file system has 5 primary services.
 
@@ -57,11 +55,9 @@ The file system has 5 primary services.
         code at the location. The slave node for the job tracker.
 \end{description}
 
-HDFS is written in Java and C. It is described in more detail in
-\cite{shvachko2010hadoop}
+HDFS is written in \proglang{Java} and \proglang{C}. It is described in more detail in \cite{shvachko2010hadoop}
 
-\hypertarget{sec:mapreduce}{%
-    \subsubsection{MapReduce}\label{sec:mapreduce}}
+\subsubsection{MapReduce}\label{sec:mapreduce}
 
 MapReduce is a programming model consisting of map and reduce staps,
 alongside making use of keys.
@@ -95,46 +91,35 @@ originally did, using stream processing technologies such as MillWheel,
 rather than the standard batch processing enabled by
 MapReduce\cite{akidau2013millwheel}.
 
-\hypertarget{sec:spark}{%
-    \subsection{Spark}\label{sec:spark}}
+\subsection{\pkg{Spark}}\label{sec:spark}
 
 \pkg{Spark} is a framework for cluster computing\cite{zaharia2010spark}. Much
 of it's definition is in relation to \pkg{Hadoop}, which it intended to
 improve upon in terms of speed and usability for certain tasks.
 
-It's fundamental operating concept is the Resiliant Distributed Dataset
+Its fundamental operating concept is the Resiliant Distributed Dataset
 (RDD), which is immutable, and generated through external data, as well
 as actions and transformations on prior RDD's. The RDD interface is
-exposed through an API in various languages, including R.
+exposed through an API in various languages, including \R.
 
-Spark requires a distributed storage system, as well as a cluster
+\pkg{Spark} requires a distributed storage system, as well as a cluster
 manager; both can be provided by \pkg{Hadoop}, among others.
 
-Spark is known for possessing a fairly user-friendly API, intended to
+\pkg{Spark} is known for possessing a fairly user-friendly API, intended to
 improve upon the MapReduce interface. Another major selling point for
-Spark is the libraries available that have pre-made functions for RDD's,
+\pkg{Spark} is the libraries available that have pre-made functions for RDD's,
 including many iterative algorithms. The availability of broadcast
 variables and accumulators allow for custom iterative programming.
 
-Spark has seen major use since it's introduction, with effectively all
+\pkg{Spark} has seen major use since it's introduction, with effectively all
 major big data companies having some use of \pkg{Spark}. It's features and
-implementations are outlined in \cite{zaharia2016apache}.
+implementations are outlined in \textcite{zaharia2016apache}.
 
-\hypertarget{sec:h2o}{%
-    \subsection{H2O}\label{sec:h2o}}
+\subsection{H2O}\label{sec:h2o}
 
 The \pkg{H2O} software bills itself as,
 
-\begin{displayquote}
-    an in-memory platform for distributed, scalable machine learning. \pkg{H2O}
-    uses familiar interfaces like R, Python, Scala, Java, JSON and the Flow
-    notebook/web interface, and works seamlessly with big data technologies
-    like \pkg{Hadoop} and \pkg{Spark}. \pkg{H2O} provides implementations of many popular
-    algorithms such as GBM, Random Forest, Deep Neural Networks, Word2Vec
-    and Stacked Ensembles. \pkg{H2O} is extensible so that developers can add data
-    transformations and custom algorithms of their choice and access them
-    through all of those clients.
-\end{displayquote}
+\cqu{h2ointro}
 
 H2O typically runs on HDFS, along with \pkg{Spark} for computation and bespoke
 data structures serving as the backbone of the architecture.

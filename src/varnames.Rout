@@ -1,0 +1,12 @@
+> do.call2 <- function(what, ..., envir = parent.frame()) {
++     outer_frame <- new.env(parent = envir)
++     assign(deparse(substitute(what)), what, pos=outer_frame)
++     parameters <- as.list(match.call())[-1]
++     args <- parameters[!names(parameters) %in% c("what", "envir")]
++     mapply(assign, sapply(args, deparse), list(...),
++            MoreArgs = list(pos=outer_frame))
++     constructed_call <- as.call(c(substitute(what), args))
++     eval(constructed_call, envir=outer_frame)
++ }
+> do.call2(x, y)
+x(y)

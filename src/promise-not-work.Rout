@@ -1,0 +1,10 @@
+> {function() {
++     p <- promise(function(resolve, reject) resolve(TRUE))
++     print(p)
++     then(p, onFulfilled = function(value) print(value))
++     repeat {}
++ }}()
+<Promise [fulfilled: logical]>
+
+^C
+> [1] TRUE
