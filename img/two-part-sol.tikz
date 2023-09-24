@@ -1,0 +1,40 @@
+	\begin{tikzpicture}
+		\node[queue] (q1) {\(q1\)};
+		\node[queue,below=\blockdist of q1] (dots) {\(\dots\)};
+		\node[queue,below=\blockdist of dots] (qn) {\(qn\)};
+
+		\begin{pgfonlayer}{categories}
+			\node[category,fit=(q1)(dots)(qn),label={below:Resolution Queues}] (resq) {};
+		\end{pgfonlayer}{categories}
+
+		\node[queue,above=of resq] (interest) {Job Interest Queue};
+		\node[queue,below=of resq] (resk) {Resolution Key};
+
+		\begin{pgfonlayer}{units}
+			\node[unit,fit=(interest)(resk),label={Distributed Information Space}] (infsp) {};
+		\end{pgfonlayer}{units}
+
+		\node[unit,right=\commdist of infsp] (server) {Server processing the job};
+		\node[left=\commdist of infsp] (null) {};
+		\node[unit,above=\blockdist of null] (pre) {node \texttt{pre}};
+		\node[unit,below=\blockdist of null] (post) {node \texttt{post}};
+
+		\draw[mypath,dark2-1] (pre.north) -- (interest.west)
+		node[midway,anchor=south] {1};
+		\draw[mypath,dark2-1] (interest.east) -- (server.north)
+		node[midway,anchor=south] {2};
+		\draw[mypath,dark2-1] (server) -- (q1)
+		node[pos=0.4,anchor=south] {3};
+		\draw[mypath,mygray] (server) -- (dots);
+		\draw[mypath,mygray] (server) -- (qn);
+		\draw[mypath,mygray] (server) -- (resk);
+		\draw[mypath,dark2-1] (q1) -- (pre)
+		node[midway,anchor=north] {4};
+
+		\draw[mypath,dark2-2] (post) -- (interest.south)
+		node[midway,anchor=south] {1};
+		\draw[mypath,dark2-2] (post) -- (resk.166)
+		node[midway,anchor=south] {2};
+		\draw[mypath,dark2-2] (resk.west) -- (post.south) 
+		node[midway,anchor=north] {3};
+	\end{tikzpicture}

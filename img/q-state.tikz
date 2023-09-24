@@ -1,0 +1,11 @@
+	\begin{tikzpicture}
+		\node[node] (m) {\(m\)};
+		\node[right=of m] (dots) {\(\dots\)};
+		\node[node,right=of dots] (n) {\(n\)};
+		\node[node,right=of n] (s) {\(s\)};
+
+		\draw[mypath] (m) to[bend left] (dots);
+		\draw[mypath] (dots) to[bend left] (n);
+		\draw[mypath] (n) to[bend left] (s);
+		\draw[mypath] (s) to[bend left] (m);
+	\end{tikzpicture}

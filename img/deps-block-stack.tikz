@@ -1,0 +1,15 @@
+	\begin{tikzpicture}
+		\startframe
+		\cell{Evaluating reference: \(d\)}
+		\cell{Prerequisite evaluation: \(c\)}
+		\finishframe{\texttt{server()}}
+		\startframe
+		\cell{Evaluating reference: \(b\)}
+		\cell{Prerequisite evaluation: \(a\)}
+		\finishframe{\texttt{server()}}
+		\startframe
+		\cell{Evaluating reference: \(c\)}
+		\cell{Prerequisite evaluation: \(b\)}
+		\finishframe{\texttt{server()}}
+		\stackbottom{}
+	\end{tikzpicture}

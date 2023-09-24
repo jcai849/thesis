@@ -1,0 +1,15 @@
+ \begin{tikzpicture}
+                \node[node] (d) {\(d\)};
+                \node[node,right=of d] (c) {\(c\)};
+                \node[node,right=of c] (b) {\(b\)};
+                \node[node,right=of b] (a) {\(a\)};
+
+                \begin{pgfonlayer}{categories}
+                        \node[category,fit=(b)(c)(d),label={Node \(A\)}] (nodea) {};
+                        \node[category,fit=(a),label={Node \(B\)}] (nodeb) {};
+                \end{pgfonlayer}{categories}
+
+                \draw[mypath] (d) -- (c);
+                \draw[mypath] (c) -- (b);
+                \draw[mypath] (b) -- (a);
+\end{tikzpicture}

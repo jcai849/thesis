@@ -1,0 +1,52 @@
+	\def\clientcolour{mybrown}
+	\def\servercolour{mynavy}
+	\begin{tabularx}{\textwidth}{lX}
+		\toprule
+		Time (secs)  & Message/\texttt{expression} (\textcolor{\clientcolour}{client}/\textcolor{\servercolour}{server}) \\
+		\midrule
+		0        & \textcolor{\servercolour}{Assigned chunk to ID: chunk1 in chunk table} \\
+			 & \textcolor{\clientcolour}{\texttt{x <- do.call.chunkRef(what="expm1", chunkArg=chunk1)} } \\
+		0.001664 & \textcolor{\clientcolour}{Attained job ID:  J1} \\
+		0.002719 & \textcolor{\clientcolour}{Attained Chunk ID:  C1} \\
+		0.00292  & \textcolor{\clientcolour}{Requesting to perform function expm1 on chunk chunk1 with assignment} \\
+		0.003521 & \textcolor{\clientcolour}{writing message: ASSIGN expm1 <environment: 0x55cc164cb8c8> NULL NULL J1 C1 to queue belonging to chunk" chunk1 "} \\
+		0.0051   & \textcolor{\clientcolour}{Producing new chunk reference with chunk ID: C1 and job ID: J1} \\
+			 & \textcolor{\clientcolour}{\texttt{y <- do.call.chunkRef("as.Date", x)}} \\
+		0.005679 & \textcolor{\clientcolour}{Attained job ID:  J2} \\
+		0.005986 & \textcolor{\clientcolour}{Attained Chunk ID:  C2} \\
+		0.006159 & \textcolor{\clientcolour}{Requesting to perform function as.Date on chunk C1 with assignment} \\
+		0.006622 & \textcolor{\clientcolour}{writing message: ASSIGN as.Date <environment: 0x55cc165d0808> NULL NULL J2 C2 to queue belonging to chunk" C1 "} \\
+		0.007351 & \textcolor{\clientcolour}{Producing new chunk reference with chunk ID: C2 and job ID: J2} \\
+			 & \textcolor{\clientcolour}{\texttt{expm1(1:10)}} \\
+			 & \textcolor{\clientcolour}{\texttt{x}} \\
+		0.007811 & \textcolor{\clientcolour}{Chunk not yet resolved. Resolving...} \\
+		0.008025 & \textcolor{\clientcolour}{Awaiting message on queues: J1} \\
+		0.028962 & \textcolor{\servercolour}{Awaiting message on queues: chunk1} \\
+		0.029668 & \textcolor{\servercolour}{Received message: ASSIGN expm1 <environment: 0x55a7a47917e0> NULL NULL J1 C1} \\
+		0.030912 & \textcolor{\servercolour}{Requested to perform function expm1} \\
+		0.031777 & \textcolor{\servercolour}{writing message: RESOLVED 1.718282, 6.389056, ..., to queue belonging to chunk" J1 "} \\
+		0.03237  & \textcolor{\servercolour}{Assigned chunk to ID: C1 in chunk table} \\
+		0.032679 & \textcolor{\servercolour}{Awaiting message on queues: C1     chunk1} \\
+		0.032695 & \textcolor{\clientcolour}{Received message: RESOLVED 1.718282, 6.389056, ... } \\
+		0.033206 & \textcolor{\servercolour}{Received message: ASSIGN as.Date <environment: 0x55a7a4863308> NULL NULL J2 C2} \\
+			 & \textcolor{\clientcolour}{\texttt{do.call.chunkRef("identity", x, assign=FALSE)}} \\
+		0.033662 & \textcolor{\clientcolour}{Attained job ID:  J3} \\
+		0.033825 & \textcolor{\servercolour}{Requested to perform function as.Date} \\
+		0.033893 & \textcolor{\clientcolour}{Requesting to perform function identity on chunk C1 with no assignment} \\
+		0.034363 & \textcolor{\clientcolour}{writing message: DOFUN identity <environment: 0x55cc165d0808> NULL NULL J3 NULL to queue belonging to chunk" C1 "} \\
+		0.034363 & \textcolor{\servercolour}{Error occured: 'origin' must be supplied} \\
+		0.034655 & \textcolor{\servercolour}{writing message: 'origin' must be supplied, as.Date.numeric(c(...)) to queue belonging to chunk" J2 "} \\
+		0.03519  & \textcolor{\clientcolour}{Awaiting message on queues: J3} \\
+		0.035544 & \textcolor{\servercolour}{Assigned chunk to ID: C2 in chunk table} \\
+		0.035747 & \textcolor{\servercolour}{Awaiting message on queues: C1     C2     chunk1} \\
+		0.036224 & \textcolor{\servercolour}{Received message: DOFUN identity <environment: 0x55a7a48ed380> NULL NULL J3 NULL} \\
+		0.036737 & \textcolor{\servercolour}{Requested to perform function identity} \\
+		0.037004 & \textcolor{\servercolour}{writing message: 1.718282, 6.389056, ..., to queue belonging to chunk" J3 "} \\
+		0.03742  & \textcolor{\servercolour}{Awaiting message on queues: C1     C2     chunk1} \\
+		0.037675 & \textcolor{\clientcolour}{Received message: 1.718282, 6.389056, ... } \\
+			 & \textcolor{\clientcolour}{\texttt{resolve(y)}} \\
+		0.038197 & \textcolor{\clientcolour}{Chunk not yet resolved. Resolving...} \\
+		0.038325 & \textcolor{\clientcolour}{Awaiting message on queues: J2} \\
+		0.038825 & \textcolor{\clientcolour}{Received message: 'origin' must be supplied, as.Date.numeric(c(...))} \\
+		\bottomrule
+	\end{tabularx}

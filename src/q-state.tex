@@ -1,0 +1,18 @@
+\begin{codebox}
+	\Procname{\proc{Server}()}
+	\li \(\id{inbox} \gets \proc{list()}\)
+	\li \(i \gets 1\)
+	\li \Repeat
+	\li \(n \gets \proc{Length}(\id{inbox})\)
+	\li \If \(i \isequal n + 1\)
+	\li \Then
+	\(\id{inbox}[i] \gets \proc{Select}(\proc{Queues}(), \id{timeout}=0)\)
+	\End
+	\li \If \(\proc{Resolved?}(\id{inbox}[i])\)
+	\li \Then
+	\(\proc{Evaluate}(\id{inbox}[i])\)
+	\li \(\id{inbox}[i] \gets \const{NIL}\)
+	\End
+	\li \(i \gets i + 1 \mod n + 1\)
+	\End
+\end{codebox}

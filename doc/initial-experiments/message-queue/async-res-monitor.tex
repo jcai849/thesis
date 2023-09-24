@@ -1,6 +1,5 @@
 The advantages of asynchrony in the system come with significant costs, with an
-example of a race condition arising from asynchrony examined in
-\href{ini-distobj-exp.pdf}{Initial Distributed Object Experiments}.
+example of a race condition arising from asynchrony examined in \cref{fig:race-cond}
 The correctness of this system is not altered by asynchrony in itself, but the
 object models and the state of resolution in particular are clear derivatives
 of errors.
@@ -14,10 +13,9 @@ another node for generating a resolution, a deadlock situation arises.
 This document shows some potential solutions to the issues associated with the
 model in asynchronous flow.
 
-\subsection{Alternating Recursive Blocking Pop and Evaluation}
-\label{recurs-stack}
+\subsection{Alternating Recursive Blocking Pop and Evaluation} \label{recurs-stack}
 Rather than blocking and waiting for resolution of distributed references, an
-alternative model recurses on the \mintinline{r}{server} function upon
+alternative model recurses on the \ccode{server} function upon
 encountering unresolved references, returning upon an evaluation which possibly
 serves to resolve the relevant distributed reference.
 Given that resolution dependencies form a directed acyclic graph, due to
@@ -58,47 +56,9 @@ ability to move to a state of evaluation is impossible.
 This is given in the diagram of dependencies in figure \cref{fig:deps}, and the
 stack diagram in figure \cref{fig:deps-block-stack}.
 
-\begin{figure}
-	\centering
-	\begin{tikzpicture}
-		\node[node] (d) {\(d\)};
-		\node[node,right=of d] (c) {\(c\)};
-		\node[node,right=of c] (b) {\(b\)};
-		\node[node,right=of b] (a) {\(a\)};
+\fig{deps}{DAG of dependencies, with arcs indicating direction of dependence.}
 
-		\begin{pgfonlayer}{categories}
-			\node[category,fit=(b)(c)(d),label={Node \(A\)}] (nodea) {};
-			\node[category,fit=(a),label={Node \(B\)}] (nodeb) {};
-		\end{pgfonlayer}{categories}
-
-		\draw[mypath] (d) -- (c);
-		\draw[mypath] (c) -- (b);
-		\draw[mypath] (b) -- (a);
-	\end{tikzpicture}
-	\caption{\label{fig:deps}DAG of dependencies, with arcs indicating
-	direction of dependence.}
-\end{figure}
-
-\begin{figure}
-	\centering
-	\begin{tikzpicture}
-		\startframe
-		\cell{Evaluating reference: \(d\)}
-		\cell{Prerequisite evaluation: \(c\)}
-		\finishframe{\texttt{server()}}
-		\startframe
-		\cell{Evaluating reference: \(b\)}
-		\cell{Prerequisite evaluation: \(a\)}
-		\finishframe{\texttt{server()}}
-		\startframe
-		\cell{Evaluating reference: \(c\)}
-		\cell{Prerequisite evaluation: \(b\)}
-		\finishframe{\texttt{server()}}
-		\stackbottom{}
-	\end{tikzpicture}
-	\caption{\label{fig:deps-block-stack}Stack causing non-termination if
-	no further messages are sent under the weak recursive model.} 
-\end{figure}
+\fig{deps-block-stack}{Stack causing non-termination if no further messages are sent under the weak recursive model.} 
 
 As can be seen, some message identified in the figure by \(d\) depends on the
 evaluation of message \(c\) for resolution, but is barred from it by message
@@ -126,50 +86,12 @@ associated procedure which iterates along them, checking their resolution
 status and evaluating if possible, returning eventually to read the queues,
 then assuming finite messages, there will be no issues as in section
 \cref{recurs-stack}.
-Server pseudocode is given in listing \cref{src:q-state}, with the associated
+Server pseudocode is given in \cref{alg:q-state}, with the associated
 state transition diagram in figure \cref{fig:q-state}.
 
-\begin{srcclrs}
-\begin{codebox}
-	\Procname{\proc{Server}()}
-	\li \(\id{inbox} \gets \proc{list()}\)
-	\li \(i \gets 1\)
-	\li \Repeat
-	\li \(n \gets \proc{Length}(\id{inbox})\)
-	\li \If \(i \isequal n + 1\)
-	\li \Then
-	\(\id{inbox}[i] \gets \proc{Select}(\proc{Queues}(), \id{timeout}=0)\)
-	\End
-	\li \If \(\proc{Resolved?}(\id{inbox}[i])\)
-	\li \Then
-	\(\proc{Evaluate}(\id{inbox}[i])\)
-	\li \(\id{inbox}[i] \gets \const{NIL}\)
-	\End
-	\li \(i \gets i + 1 \mod n + 1\)
-	\End
-\end{codebox}
-	\caption{\label{src:q-state}Pseudocode for server using elements of an
-	\textit{inbox} list to control program flow.}
-\end{srcclrs}
+{\alg{q-state}{Pseudocode for server using elements of an \textit{inbox} list to control program flow.}
 
-\begin{figure}
-	\centering
-	\begin{tikzpicture}
-		\node[node] (m) {\(m\)};
-		\node[right=of m] (dots) {\(\dots\)};
-		\node[node,right=of dots] (n) {\(n\)};
-		\node[node,right=of n] (s) {\(s\)};
-
-		\draw[mypath] (m) to[bend left] (dots);
-		\draw[mypath] (dots) to[bend left] (n);
-		\draw[mypath] (n) to[bend left] (s);
-		\draw[mypath] (s) to[bend left] (m);
-	\end{tikzpicture}
-	\caption{\label{fig:q-state}States of the \texttt{server}, with nodes
-	\(m \dots n\) representing resolution checking and possible evaluation
-	of elements on an \textit{inbox} list, and \(s\) representing a
-	non-blocking \texttt{select}.}
-\end{figure}
+\fig{q-state}{States of the \texttt{server}, with nodes \(m \dots n\) representing resolution checking and possible evaluation of elements on an \textit{inbox} list, and \(s\) representing a non-blocking \texttt{select}.}
 
 One very obvious issue with such an approach is the huge inefficiency of
 polling, which this solution relies upon.
@@ -179,93 +101,12 @@ unbounded - making the poll particularly inefficient.
 
 \subsection{Job Completion Queues}
 
-\begin{figure}
-	\centering
-	\begin{tikzpicture}
-		\node[queue] (q1) {\(q1\)};
-		\node[queue,below=\blockdist of q1] (dots) {\(\dots\)};
-		\node[queue,below=\blockdist of dots] (qn) {\(qn\)};
+\fig{two-part-sol}{Activity between nodes and a server through the distributed information space, with numbering following the logical order of communication events for each node. The node named '\texttt{pre}' seeks resolution prior to processing of the job, while the node '\texttt{post}' seeks resolution after the job has completed processing.}
 
-		\begin{pgfonlayer}{categories}
-			\node[category,fit=(q1)(dots)(qn),label={below:Resolution Queues}] (resq) {};
-		\end{pgfonlayer}{categories}
 
-		\node[queue,above=of resq] (interest) {Job Interest Queue};
-		\node[queue,below=of resq] (resk) {Resolution Key};
+\alg{two-part-sol-serv}{Pseudocode for server scanning queues for both job messages and resolution messages, and updating local inbox accordingly.}
 
-		\begin{pgfonlayer}{units}
-			\node[unit,fit=(interest)(resk),label={Distributed Information Space}] (infsp) {};
-		\end{pgfonlayer}{units}
-
-		\node[unit,right=\commdist of infsp] (server) {Server processing the job};
-		\node[left=\commdist of infsp] (null) {};
-		\node[unit,above=\blockdist of null] (pre) {node \texttt{pre}};
-		\node[unit,below=\blockdist of null] (post) {node \texttt{post}};
-
-		\draw[mypath,dark2-1] (pre.north) -- (interest.west)
-		node[midway,anchor=south] {1};
-		\draw[mypath,dark2-1] (interest.east) -- (server.north)
-		node[midway,anchor=south] {2};
-		\draw[mypath,dark2-1] (server) -- (q1)
-		node[pos=0.4,anchor=south] {3};
-		\draw[mypath,mygray] (server) -- (dots);
-		\draw[mypath,mygray] (server) -- (qn);
-		\draw[mypath,mygray] (server) -- (resk);
-		\draw[mypath,dark2-1] (q1) -- (pre)
-		node[midway,anchor=north] {4};
-
-		\draw[mypath,dark2-2] (post) -- (interest.south)
-		node[midway,anchor=south] {1};
-		\draw[mypath,dark2-2] (post) -- (resk.166)
-		node[midway,anchor=south] {2};
-		\draw[mypath,dark2-2] (resk.west) -- (post.south) 
-		node[midway,anchor=north] {3};
-	\end{tikzpicture}
-	\caption{\label{fig:two-part-sol}Activity between nodes and a server
-	through the distributed information space, with numbering following the
-	logical order of communication events for each node. The node named
-	'\texttt{pre}' seeks resolution prior to processing of the job, while
-	the node '\texttt{post}' seeks resolution after the job has completed
-	processing.}
-\end{figure}
-
-\begin{srcclrs}
-\begin{codebox}
-	\Procname{\proc{Server}()}
-	\li \(\id{inbox} \gets \proc{List}()\)
-	\li \Repeat
-	\li \(\id{msg} \gets \proc{Select}(\proc{Queues}(), \id{timeout}=\const{Inf})\)
-	\li \If \(\proc{isJobMsg?}(\id{msg})\)
-	\li \Then
-	\(\id{inbox}[\proc{Length}(\id{inbox})+1] \gets \id{msg}\)
-	\End
-	\li \(\id{inbox} \gets \proc{UpdateDependencies}(\id{inbox},\id{msg})\)
-	\li \(\id{inbox} \gets \proc{evalResolvedMsgs}(\id{inbox})\)
-\end{codebox}
-	\caption{\label{src:two-part-sol-serv}Pseudocode for server scanning
-	queues for both job messages and resolution messages, and updating
-	local inbox accordingly.}
-\end{srcclrs}
-
-\begin{srcclrs}
-\begin{codebox}
-	\Procname{\proc{ResolutionLookup}(\(\id{chunkRef}\))}
-	\li \(\id{toMonitor} \gets \proc{GetReturnQueue}()\)
-	\li \(\proc{PushInterest}(\id{chunkRef}, \id{toMonitor})\)
-	\li \If \(\proc{CheckResKey}(\id{chunkRef})\)
-	\li \Then
-	\(\proc{Cleanup}()\)
-	\li \(\Return 0\)
-	\li \Else
-	\proc{AddToResQueues}(\id{toMonitor})
-	\li \(\Return 1\)
-\end{codebox}
-	\caption{\label{src:two-part-sol-res}Pseudocode for resolution lookup
-	of references, called as part of dependency checking in
-	\texttt{UpdateDependencies} of the \texttt{Server} function at listing
-	\cref{src:two-part-sol-serv}. Returns the resolution status to allow
-	marking of inbox items for the \texttt{evalResolvedMsgs} function.}
-\end{srcclrs}
+\alg{two-part-sol-res}{Pseudocode for resolution lookup of references, called as part of dependency checking in \texttt{UpdateDependencies} of the \texttt{Server} function at listing \cref{alg:two-part-sol-serv}. Returns the resolution status to allow marking of inbox items for the \texttt{evalResolvedMsgs} function.}
 
 An amendment to the solution proferred in section \cref{inbox-list} is to have
 the resolution status of chunks propagated to every relevant node while they
@@ -285,7 +126,7 @@ as the forced serialisation of one node strictly popping after another, waiting
 for every round-trip.
 
 Alternatively, a two-part solution, as per figure \cref{fig:two-part-sol} and
-listings \cref{src:two-part-sol-serv} and \cref{src:two-part-sol-res} for the
+ \cref{alg:two-part-sol-serv,alg:two-part-sol-res} for the
 server and resolution lookup respectively, could be performed with all
 interested nodes posting their interest to some queue, and upon resolution the
 server first posts the resolution status as a key for all interested future

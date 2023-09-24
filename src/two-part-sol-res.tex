@@ -1,0 +1,12 @@
+\begin{codebox}
+	\Procname{\proc{ResolutionLookup}(\(\id{chunkRef}\))}
+	\li \(\id{toMonitor} \gets \proc{GetReturnQueue}()\)
+	\li \(\proc{PushInterest}(\id{chunkRef}, \id{toMonitor})\)
+	\li \If \(\proc{CheckResKey}(\id{chunkRef})\)
+	\li \Then
+	\(\proc{Cleanup}()\)
+	\li \(\Return 0\)
+	\li \Else
+	\proc{AddToResQueues}(\id{toMonitor})
+	\li \(\Return 1\)
+\end{codebox}

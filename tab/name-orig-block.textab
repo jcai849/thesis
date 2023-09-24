@@ -1,0 +1,33 @@
+	\begin{tabularx}{\textwidth}{l|XX}
+	\toprule
+	& Client-Originated chunk ID & Server-Originated chunk ID \\
+	\midrule
+	Blocking Algorithm & 
+		client attains chunk ID, sends operation request with
+		chunk ID to server, creating chunk reference concurrently,
+		blocking until direct signal of completion from server. & 
+		client sends operation request with reference to some common
+		information repository and the job ID to server. server attains
+		chunk ID, performs operation, and sends chunk chunk ID to the
+		job ID at the common information repository, which client
+		watches, releasing chunk object after attaining chunk ID from
+		repository. \\
+	Blocking Structure & 
+		String name of chunk. & 
+		String name of chunk. \\
+	Non-Blocking Algorithm & 
+		client attains chunk ID, sends operation request with
+		chunk ID to server, creating chunk reference concurrently. No
+		waiting for server signal of completion. & 
+		client sends operation request with reference to some common
+		information repository and the job ID to server. server attains chunk ID, performs
+		operation, and sends chunk ID to the job ID at common information
+		repository. Before server completion, client releases chunk
+		object, not waiting for reception of chunk information. \\
+	Non-Blocking Structure & 
+		String name of chunk &
+		Initially, reference to common information repository. Mutable;
+		can become string name of chunk upon accessing that information
+		in the common information repository. \\
+	\bottomrule
+\end{tabularx}

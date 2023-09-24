@@ -1,0 +1,12 @@
+\begin{codebox}
+	\Procname{\proc{Server}()}
+	\li \(\id{inbox} \gets \proc{List}()\)
+	\li \Repeat
+	\li \(\id{msg} \gets \proc{Select}(\proc{Queues}(), \id{timeout}=\const{Inf})\)
+	\li \If \(\proc{isJobMsg?}(\id{msg})\)
+	\li \Then
+	\(\id{inbox}[\proc{Length}(\id{inbox})+1] \gets \id{msg}\)
+	\End
+	\li \(\id{inbox} \gets \proc{UpdateDependencies}(\id{inbox},\id{msg})\)
+	\li \(\id{inbox} \gets \proc{evalResolvedMsgs}(\id{inbox})\)
+\end{codebox}
