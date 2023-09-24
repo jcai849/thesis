@@ -1,0 +1,4 @@
+> print(d1)
+
+# Distributed Object composed of 10,000 chunks
+# int [1:1E12] 109230 1938 34234 ...

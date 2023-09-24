@@ -1,0 +1,5 @@
+> d2 <- max(d1, na.rm=TRUE)
+> print(d2)
+
+# 1 chunk:
+# int 109230

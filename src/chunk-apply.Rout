@@ -1,0 +1,7 @@
+> dmaxes <- chunk.apply(d3, max)
+> print(dmaxes)
+
+# 3 chunks
+# chunk 1: int 2397885392
+# chunk 2: int 2347234
+# chunk 3: int 28346324

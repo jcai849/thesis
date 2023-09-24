@@ -76,13 +76,7 @@ one.
 For example, consider that we have the data as it's raw form directly
 from the TLC website, as a collated csv file on disk. How do we begin?
 
-\begin{listing}
-    \begin{minted}{r}
-massive_data_crash_r <- read.csv(tlc_data)
-\end{minted}
-    \caption{Naive read of larger than memory data guaranteeing a crash}
-    \label{lst:massive-crash}
-\end{listing}
+\src{massive-crash}{Naive read of larger than memory data guaranteeing a crash}
 
 \cref{lst:massive-crash} simply won't work. The object in memory will crash even high-end
 PC's, at its 60Gb+ size. There must be a better means of representing
@@ -90,19 +84,12 @@ the data than its direct form as standard \R objects. Conversely, such a
 representation can't possibly stray too far from what the statistician
 is familiar with in the language. Assume, however, that it does somehow
 exist, and can be treated like a regular object. For example, we may
-have it represented as a dataframe named \mintinline{r}{nyc\_taxi.df}, with
-columns to be accessed through the \mintinline{r}{\$} operator and the name of
+have it represented as a dataframe named \ccode{nyc-taxi}, with
+columns to be accessed through the \ccode{dollar} operator and the name of
 the column. How do we perform basic operations upon it? For instance,
 how might we determine the largest tip given?
 
-\begin{listing}
-    \begin{minted}{r}
-        max(nyc_taxi.df$tips)
-\end{minted}
-    \caption{Typical determination of maximum in R}
-    \label{lst:max-tip}
-\end{listing}
-
+\src{max-tip}{Typical determination of maximum in R}
 
 \cref{lst:max-tip} is the standard means of interaction, but this operation is highly
 dependent on the means of data representation, and will require some
@@ -128,43 +115,23 @@ data of the object is sought, how best to retain the shape of the
 dataset cohesively, without leaving any distortion from the chunks? For
 example, given that at a high level, chunks are to be forgotten, how
 best to avoid artifacts of subset formation? Consider \cref{lst:chunk-object}
-where \mintinline{r}{d1} refers to a group of three chunks treated as one
+where \ccode{d1} refers to a group of three chunks treated as one
 object:
 
-\begin{listing}
-    \begin{minted}{r}
-print(d1)
+\src[Rout]{chunk-object}{Group of chunks in a collection as a single object}
 
-# 3 chunks
-# chunk 1: int 304
-# chunk 2: int 12348
-# chunk 3: int -5899
-\end{minted}
-    \caption{Group of chunks in a collection as a single object}
-    \label{lst:chunk-object}
-\end{listing}
-
-The \mintinline{r}{d} stands for ``\textbf{distributed}''; chunks must not
+The \ccode{d} stands for ``\textbf{distributed}''; chunks must not
 occupy memory all together, otherwise memory will run out -- therefore,
 they must be distributed across a set of computers, or accessed
 sequentially within one computer. Each chunk holds only one single
 integer for the sake of simplicity of example. When the integers are
 unmarshalled out of each chunk, or ``\textbf{emerged}'', it may be
 expected that a cohesive integer vector of length three should result,
-here given as variable \mintinline{r}{l1} in \cref{lst:emerged-chunks}. In this case, \mintinline{r}{l} stands for
+here given as variable \ccode{l1} in \cref{lst:emerged-chunks}. In this case, \ccode{l} stands for
 ``\textbf{local}''; that is, local to the operating environment, as any
 regular object, without the indirection created by chunks.
 
-\begin{listing}
-    \begin{minted}{r}
-l1 <- emerge(d1)
-print(l1)
-
-# int [1:3] 304 12348 -5899
-\end{minted}
-    \caption{Chunks emerged to a cohesive small object}
-    \label{lst:emerged-chunks}
-\end{listing}
+\src[Rout]{emerged-chunks}{Chunks emerged to a cohesive small object}
 
 Were the chunks to be treated as mere containers for a single underlying
 object, this is the desired behaviour. Failing this, without a means of
@@ -173,19 +140,7 @@ combination, the following behaviour may result instead, where a group
 of emerged chunks retains the structure imposed by chunking, as a list
 or similar, as in \cref{lst:emerged-chunks-structured}:
 
-\begin{listing}
-    \begin{minted}{r}
-l1 <- emerge(d1)
-print(l1)
-
-# List of 3
-#  $ subset1: int 304
-#  $ subset2: int 12348
-#  $ subset3: int -5899
-\end{minted}
-    \caption{Chunks emerged to a small object which retains the chunked structure}
-    \label{lst:emerged-chunks-structured}
-\end{listing}
+\src[Rout]{emerged-chunks-structured}{Chunks emerged to a small object which retains the chunked structure}
 
 These requirements can be summarised as the considerations concerning an
 object system, and are therefore described in greater detail in

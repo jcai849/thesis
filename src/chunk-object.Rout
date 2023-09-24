@@ -1,0 +1,6 @@
+print(d1)
+
+# 3 chunks
+# chunk 1: int 304
+# chunk 2: int 12348
+# chunk 3: int -5899

@@ -1,0 +1,15 @@
+> print(d1)
+
+# 1 chunk:
+# int [1:1E9] 304 12348 -5899 ...
+
+> d2 <- max(d1)
+> print(d2)
+
+# 1 chunk:
+# int 109230
+
+> l2 <- emerge(d2)
+> print(l2)
+
+# int 109230

@@ -96,7 +96,7 @@ symbol, as any other object. The reference serves as a means of
 indirection, and takes many forms; for instance, the hyperlink, or the
 pointer. References may be ``dereferenced'' in order to access the other
 object that it leads to as a value - clicking the hyperlink, or
-\mintinline{r}{*}ing the pointer.
+\ccode{star}ing the pointer.
 
 On a system where referents do not necessarily exist in the same memory
 space as the reference, we may say that the reference is \textbf{local},
@@ -149,19 +149,13 @@ chunking. Assuming that the dataset is stored somewhere on disk, at the
 low level it would have to be read in as chunks. This may take the form of
 \cref{lst:read-chunks}:
 
-\begin{listing}
-    \begin{minted}{r}
-nyc_taxi_chunk_collection <- read.chunks(nyc_connection, chunksize=x_mB)
-    \end{minted}
-    \caption{An example syntax for reading in chunks}
-    \label{lst:read-chunks}
-\end{listing}
+\src{read-chunks}{An example syntax for reading in chunks}
 
 All of the chunks can't simultaneously exist in memory on one single
 computer, for the same reason that the entire dataset can't. Thus this
 collection of chunks will be a set of pointers to pieces of the dataset
 across time or space. This low-level form may be abstracted over in a
-\mintinline{r}{read.csv}, or \mintinline{r}{dbConnect}, serving as just one particular
+\ccode{read-csv}, or \ccode{dbconnect}, serving as just one particular
 method which allows for chunks.
 
 The key result of such objects, beyond the multiple audiences allowed
@@ -183,8 +177,8 @@ means of access to the data underlying chunks. While it is not possible
 to access the full dataset directly, each chunk may be summarised to a
 degree sufficiently small enough to read in and use as a regular object,
 through some massive dimensionality reducing operation, such as a
-\mintinline{r}{max} or \mintinline{r}{sum}. For example, when looking for a
-\mintinline{r}{max}, a chunk consisting of a billion integers is transformed
+\ccode{max} or \ccode{sum}. For example, when looking for a
+\ccode{max}, a chunk consisting of a billion integers is transformed
 into a chunk of a single integer. This single integer may be pulled out
 of the chunk and managed as a regular integer, through some read
 operation, which we name an \textbf{emerge}. The operation is equivalent
@@ -193,36 +187,18 @@ though in this case the important distinction is the movement of the
 value from remote to local memory space. Take the example code of \cref{lst:chunk-container}
 as illustration:
 
-\begin{listing}
-    \begin{minted}{r}
-print(d1)
+\src[Rout]{chunk-container}{An example of chunk as container}
 
-# 1 chunk:
-# int [1:1E9] 304 12348 -5899 ...
-    \end{minted}
-    \caption{An example of chunk as container}
-    \label{lst:chunk-container}
-\end{listing}
-
-Here, we have the symbol \mintinline{r}{d1} specifying a reference to some
+Here, we have the symbol \ccode{d1} specifying a reference to some
 chunk, which is a subset of some unspecified greater whole. The chunk is
 an integer vector of length one billion and exists remotely, while the
 reference to the chunk is local and immediately accessible through the
-symbol \mintinline{r}{d1}. To interact with the integer vector directly, it may
+symbol \ccode{d1}. To interact with the integer vector directly, it may
 be emerged, which pulls the vector into local memory space as a
 standard, regular, integer vector. In the \cref{lst:assign-emerge}, we assign
-the emerged vector to \mintinline{r}{l1}; that is, ``local''\mintinline{r}{1}.
+the emerged vector to \ccode{l1}; that is, ``local''\ccode{1}.
 
-\begin{listing}
-    \begin{minted}{r}
-l1 <- emerge(d1)
-print(l1)
-
-# int [1:1E9] 304 12348 -5899 ...
-    \end{minted}
-    \caption{Reading chunk value through an emerge}
-    \label{lst:assign-emerge}
-\end{listing}
+\src[Rout]{assign-emerge}{Reading chunk value through an emerge}
 
 The write operation is the more general complement of actually
 transforming a chunk in some manner. It will be discussed in greater
@@ -230,38 +206,18 @@ detail in the following chapter, though an example of how some
 interaction may be stated syntactically is given in the following
 listing; \cref{lst:write-chunk}, the act of maximisation is shown at a high level, with
 implicit write operations, and an explicit read operation using
-\mintinline{r}{emerge}.
+\ccode{emerge}.
 
-\begin{listing}
-    \begin{minted}{r}
-print(d1)
+\src[Rout]{write-chunk}{Writing new chunk through chunk-capable function}
 
-# 1 chunk:
-# int [1:1E9] 304 12348 -5899 ...
-
-d2 <- max(d1)
-print(d2)
-
-# 1 chunk:
-# int 109230
-
-l2 <- emerge(d2)
-print(l2)
-
-# int 109230
-    \end{minted}
-    \caption{Writing new chunk through chunk-capable function}
-    \label{lst:write-chunk}
-\end{listing}
-
-Note that if run in a functional manner, the object \mintinline{r}{d2} is
-entirely distinct and separate from \mintinline{r}{d1}. The mechanism of such a
+Note that if run in a functional manner, the object \ccode{d2} is
+entirely distinct and separate from \ccode{d1}. The mechanism of such a
 transformation is described further in the following chapter.
-Importantly, \mintinline{r}{d2} is also a chunk reference, with no emerges
+Importantly, \ccode{d2} is also a chunk reference, with no emerges
 having taken place. The chunk referred to may exist in a separate memory
-space to the reference, just like \mintinline{r}{d1}. No specification is given
+space to the reference, just like \ccode{d1}. No specification is given
 as to whether it necessarily exists in the same memory space as
-\mintinline{r}{d1} however, only that both are remote to the reference.
+\ccode{d1} however, only that both are remote to the reference.
 
 The above is interaction purely at the pure chunk level. When
 considering collections of chunks, or abstracting over them as the user
@@ -275,93 +231,52 @@ considered as a whole. One example was hinted at before, where chunk
 references are held together in an array, with a defined underlying
 datastructure making up the chunks as pointed to. Operations over a
 group of chunks may take a similar form to operations over a collection
-of other objects, which are commonly referred to as \textbf{apply}
+of other objects, which are commonly referred to as \ccode{apply}
 functions, both in \R and in the wider computer science world. A means of
-operating over a group of chunks may be given in a \mintinline{r}{chunk.apply}
+operating over a group of chunks may be given in a \ccode{chunk-apply}
 function, acting as a higher-order function that orders the running of
 whatever function argument is given, over the set of chunk arguments.
-Take the earlier example of maximisation in listing \cref{lst:chunk-collection}, with new object \mintinline{r}{d3}
+Take the earlier example of maximisation in listing \cref{lst:chunk-collection}, with new object \ccode{d3}
 standing for a collection of chunks, being three chunk references, each
 pointing to it's own chunk of length one billion; The distributed object
 is therefore a three billion length integer.
 
-\begin{listing}
-    \begin{minted}{r}
-print(d3)
+\src[Rout]{chunk-collection}{Collecting chunks into one object}
 
-# 3 chunks
-# chunk 1: int [1:1E9] 304 12348 -5899 ...
-# chunk 2: int [1:1E9] 3284 23984 8932 ...
-# chunk 3: int [1:1E9] -589 238 239874 ...
-    \end{minted}
-    \caption{Collecting chunks into one object}
-    \label{lst:chunk-collection}
-\end{listing}
-
-In \cref{lst:chunk-apply}, over each chunk, send the \mintinline{r}{max} function, to be performed
+In \cref{lst:chunk-apply}, over each chunk, send the \ccode{max} function, to be performed
 remotely - this is distinct from the earlier example of pulling in the
 data locally first and then operating, with the order here being
 reversed. The maximisation takes place in the separate memory spaces
 where each chunk resides, possibly on other nodes. The result of the
-operation, \mintinline{r}{dmaxes}, consists of the remote results of the
+operation, \ccode{dmaxes}, consists of the remote results of the
 operations, itself being a distributed object of three chunks. Each
-chunk in \mintinline{r}{dmaxes} is the maximum value of each of the respective
-\mintinline{r}{d3} chunks, as one scalar integer each, equivalently a
+chunk in \ccode{dmaxes} is the maximum value of each of the respective
+\ccode{d3} chunks, as one scalar integer each, equivalently a
 distributed object of three integers.
 
-\begin{listing}
-    \begin{minted}{r}
-dmaxes <- chunk.apply(d3, max)
-print(dmaxes)
-
-# 3 chunks
-# chunk 1: int 2397885392
-# chunk 2: int 2347234
-# chunk 3: int 28346324
-    \end{minted}
-    \caption{Application of function over chunks}
-    \label{lst:chunk-apply}
-\end{listing}
+\src[Rout]{chunk-apply}{Application of function over chunks}
 
 Each chunk is now sufficiently small to bring into local memory, and may
 be emerged as a single cohesive vector, stored in the local variable
-\mintinline{r}{lmaxes}, as in \cref{lst:chunk-summarised}
+\ccode{lmaxes}, as in \cref{lst:chunk-summarised}
 
-\begin{listing}
-    \begin{minted}{r}
-lmaxes <- emerge(dmaxes)
-print(lmaxes)
+\src[Rout]{chunk-summarised}{Emergence of summarised chunks}
 
-# int [1:3] 2397885392 2347234 28346324
-    \end{minted}
-    \caption{Emergence of summarised chunks}
-    \label{lst:chunk-summarised}
-\end{listing}
+With \ccode{max} being a transitive operation, the max of
+\ccode{lmaxes} may be taken in turn, with the operation being performed
+as normal, locally, in \cref{lst:total-max}. This resulting value, assigned as \ccode{lmax}, is
+equivalently the maximum of the entire distributed object \ccode{d3}.
 
-With \mintinline{r}{max} being a transitive operation, the max of
-\mintinline{r}{lmaxes} may be taken in turn, with the operation being performed
-as normal, locally, in \cref{lst:total-max}. This resulting value, assigned as \mintinline{r}{lmax}, is
-equivalently the maximum of the entire distributed object \mintinline{r}{d3}.
-
-\begin{listing}
-    \begin{minted}{r}
-lmax <- max(lmaxes)
-print(lmax)
-
-# int 2397885392
-    \end{minted}
-    \caption{The maximum of chunk maxima}
-    \label{lst:total-max}
-\end{listing}
+\src[Rout]{total-max}{The maximum of chunk maxima}
 
 Thus, an operation was performed over a distributed object without the
 entire object existing in local memory at any one point in time. It is
 clear to see that such behaviour is generalisable to all other
 transitive functions that result in sufficiently small summaries that
-may be read as a set out of chunks. The \mintinline{r}{chunk.apply} function
+may be read as a set out of chunks. The \ccode{chunk-apply} function
 would sit as a valuable tool for the power-user layer, while
-\mintinline{r}{max} may have some method defined for distributed objects that
-uses \mintinline{r}{chunk.apply} in its implementation, and sits at the user
+\ccode{max} may have some method defined for distributed objects that
+uses \ccode{chunk-apply} in its implementation, and sits at the user
 layer.
 
 Let's pursue this further though, with respect to non-singular
@@ -373,22 +288,7 @@ consider some function that returns a sample with replacement of a set
 of chunks holding numeric data. At the high level, a user for whom
 chunks are out of the realm of concern, may simply wish for \cref{lst:high-level} to take place:
 
-\begin{listing}
-    \begin{minted}{r}
-print(d3)
-
-# 3 chunks
-# chunk 1: int [1:1E9] 304 12348 -5899 ...
-# chunk 2: int [1:1E9] 3284 23984 8932 ...
-# chunk 3: int [1:1E9] -589 238 239874 ...
-
-sample(d3, 3)
-
-# int [1:3] 245 -1619364 -1918
-    \end{minted}
-    \caption{High level functional interaction with chunks}
-    \label{lst:high-level}
-\end{listing}
+\src[Rout]{high-level}{High level functional interaction with chunks}
 
 Here, the results of the operation are automatically emerged from
 chunks, and the output of the chunks is combined automatically.
@@ -414,18 +314,7 @@ Consider in \cref{lst:varying-sizes} a different distributed object, with chunks
 chunks split from the greater whole differently, at lengths
 \(1 \times 10^7\) and \(9.9 \times 10^8\) respectively.
 
-\begin{listing}
-    \begin{minted}{r}
-print(d4)
-
-# 3 chunks
-# chunk 1: int [1:1E9] 304 12348 -5899 ...
-# chunk 2: int [1:1E7] 3284 23984 8932 ...
-# chunk 3: int [1:9.9E8] 3874 8392 2398 ...
-    \end{minted}
-    \caption{A distributed object composed of chunks of varying sizes}
-    \label{lst:varying-sizes}
-\end{listing}
+\src[Rout]{varying-sizes}{A distributed object composed of chunks of varying sizes}
 
 To sample \(n\) elements from this distributed object, each chunk will
 have to be sampled from. However, in this case with the lengths of the
@@ -441,23 +330,15 @@ chunk numbers, and probability of selection for each element in a chunk,
 \(p_i\), is proportional to the length \(x_i\) of each chunk. Given the
 assumed fungibility of elements in the distributed object, this is
 equivalent to a probability-proportional-to-size sampling process, where
-the specific probability of selection in each draw is given by \cref{eqn:prob-prop}:
+the specific probability of selection in each draw is given by \cref{eq:prob-prop}:
 
-\begin{equation}\label{eqn:prob-prop}
-    p_i = \frac{x_i}{\sum_{i=1}^{N}x_i}
-\end{equation}
+\eq{prob-prop}
 
 For this particular example, we have the probability density
-function \cref{eqn:prob-dens}
+function \cref{eq:prob-dens}
 
 
-\begin{equation}\label{eqn:prob-dens}
-    p_i = \begin{cases}
-        0.5   & i=1 \\
-        0.005 & i=2 \\
-        0.495 & i=3
-    \end{cases}
-\end{equation}
+\eq{prob-dens}
 
 
 Which, for \(n=3\) draws, may yield the following series:
@@ -469,74 +350,35 @@ Which, for \(n=3\) draws, may yield the following series:
 This implies the first element of the output must be a a sample from the
 first chunk, the second element a sample from the third chunk, and the
 third element another sample from the first chunk. With the counts of
-the series above given as the variable \mintinline{r}{chunk\_count}, we have
+the series above given as the variable \ccode{chunk-count}, we have
 the contingency table \cref{lst:example-sample}, with counts labelled by their
 corresponding chunk:
 
-\begin{listing}
-    \begin{minted}{r}
-print(chunk_count)
+\src[Rout]{example-sample}{Example contingency table of samples}
 
-# chunk1 chunk2 chunk3 
-#      2      0      1 
-    \end{minted}
-    \caption{Example contingency table of samples}
-    \label{lst:example-sample}
-\end{listing}
-
-Treating the table as a vector, we may use \mintinline{r}{chunk.apply}, to run
-a sample over each chunk, using \mintinline{r}{chunk\_count} as the \(n\) for
+Treating the table as a vector, we may use \ccode{chunk-apply}, to run
+a sample over each chunk, using \ccode{chunk-count} as the \(n\) for
 each chunk, as in \cref{lst:sample-apply}. Therefore, the first chunk will run a sample with \(n=2\),
 the second chunk will run a sample with \(n=0\), and the third will run
 a sample with \(n=1\).
 
-\begin{listing}
-    \begin{minted}{r}
-d5 <- chunk.apply(d4, sample, n=chunk_count)
-print(d5)
-
-# 3 chunks
-# chunk 1: int [1:2] 283 9823
-# chunk 2: int(0)
-# chunk 3: int -9237
-    \end{minted}
-    \caption{Chunkwise sample application}
-    \label{lst:sample-apply}
-\end{listing}
+\src[Rout]{sample-apply}{Chunkwise sample application}
 
 This may then be emerged as a local object as in \cref{lst:emerge-sample}:
 
-\begin{listing}
-    \begin{minted}{r}
-l3 <- emerge(d5)
-print(l3)
-
-# int [1:3] 283 9823 -9237
-    \end{minted}
-    \caption{Locally emerged sample}
-    \label{lst:emerge-sample}
-\end{listing}
+\src[Rout]{emerge-sample}{Locally emerged sample}
 
 And assuming the existence of some function to rearrange into the order
-as given in the original series, perhaps named \mintinline{r}{rearrange}, with
-the series given as the variable \mintinline{r}{series}, we are left with a
+as given in the original series, perhaps named \ccode{rearrange}, with
+the series given as the variable \ccode{series}, we are left with a
 random sample with replacement from a distributed object, and none of
 the sampling of each chunk necessarily coinciding within the same memory
 space as any other chunk, in \cref{lst:random-sample}:
 
-\begin{listing}
-    \begin{minted}{r}
-l4 <- rearrange(l3, to=series)
-print(l4)
-
-# int [1:3] 283 -9237 9823
-    \end{minted}
-    \caption{The final random sample}
-    \label{lst:random-sample}
-\end{listing}
+\src[Rout]{random-sample}{The final random sample}
 
 Some considerations that were brushed over relate to what it actually
 means to run a computation remotely. How can local arguments be mixed
 with distributed, and what does a distributed argument actually mean?
 These questions and considerations will be considered in further detail
-in the following section on computation.
+in the following \cref{sec:computation}, on computation.

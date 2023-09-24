@@ -1,0 +1,7 @@
+> d5 <- chunk.apply(d4, sample, n=chunk_count)
+> print(d5)
+
+# 3 chunks
+# chunk 1: int [1:2] 283 9823
+# chunk 2: int(0)
+# chunk 3: int -9237

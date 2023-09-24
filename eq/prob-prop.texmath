@@ -1,0 +1,1 @@
+    p_i = \frac{x_i}{\sum_{i=1}^{N}x_i}

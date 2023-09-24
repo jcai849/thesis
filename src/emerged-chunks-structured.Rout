@@ -1,0 +1,7 @@
+l1 <- emerge(d1)
+print(l1)
+
+# List of 3
+#  $ subset1: int 304
+#  $ subset2: int 12348
+#  $ subset3: int -5899

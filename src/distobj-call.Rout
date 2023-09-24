@@ -1,0 +1,5 @@
+> dpmax <- distributedObject.call(pmax, d_1, d_2, d_3)
+> print(dpmax)
+
+# Distributed Object composed of 10,000 chunks
+# int [1:1E12] 109230 2374 83874 ...

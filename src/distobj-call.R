@@ -1,0 +1,1 @@
+distributedObject.call()

@@ -1,0 +1,5 @@
+> d2 <- chunk.call(max, d1)
+> print(d2)
+
+# 1 chunk:
+# int 109230

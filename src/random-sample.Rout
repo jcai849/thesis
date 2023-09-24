@@ -1,0 +1,4 @@
+l4 <- rearrange(l3, to=series)
+print(l4)
+
+# int [1:3] 283 -9237 9823

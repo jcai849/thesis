@@ -121,12 +121,7 @@ until the operation completed.
 a request for work, and is entirely free to do whatever other processing
 is desired while the worker is blocked in managing the request.
 
-\begin{figure}
-  \centering
-  \input{img/work-request.tex}
-  \caption{Communication diagram showing order of events for the requestof work}
-  \label{fig:work-request}
-\end{figure}
+\fig{work-request}{Communication diagram showing order of events for the requestof work}
 
 The fact that the client is not blocked by operations on chunks opens up
 a broad mix of possibilities and complications. In terms of
@@ -180,12 +175,7 @@ a chunk exists, upon issuing an emerge request from the client. The
 client blocks until emergence, returns the result, and continues. An
 example is given in a modified version of the previous diagram as \cref{fig:work-emergence}
 
-\begin{figure}
-  \centering
-  \input{img/work-emergence.tex}
-  \caption{Communication diagram showing order of events for the emergence of work}
-  \label{fig:work-emergence}
-\end{figure}
+\fig{work-emergence}{Communication diagram showing order of events for the emergence of work}
 
 Were it not to block, and continue with program flow, the returned value
 from the emerge would not correspond to the chunk value, and corruption
@@ -199,13 +189,8 @@ than is necessary over the details of the chunk transfer.
 
 An example is given in figure \cref{fig:work-request-checking}
 
-\begin{figure}
-  \centering
-  \input{img/work-request-checking.tex}
-  \caption{Communication diagram showing order of events for the emergence
+\fig{work-request-checking}{Communication diagram showing order of events for the emergence
     of work}
-  \label{fig:work-request-checking}
-\end{figure}
 
 Further alternatives, such as promises, are described in greater detail
 in the appendix.
@@ -227,12 +212,7 @@ chunks relate to which operations.
 
 This is depicted in diagram \cref{fig:argument-attain}:
 
-\begin{figure}
-  \centering
-  \input{img/argument-attain.tex}
-  \caption{Communication diagram showing manner of attaining arguments}
-  \label{fig:argument-attain}
-\end{figure}
+\widefig{argument-attain}{Communication diagram showing manner of attaining arguments}
 
 It may also be a case of checking on existence of all needed chunks in
 an alternation with the main event loop, and emerging those that show as
