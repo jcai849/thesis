@@ -1,7 +1,7 @@
-
-\pkg{largescaler} serves as a functioning system, capable of performing complex statistical analyses over datasets spanning many nodes.
+\lsr is the proof-of-concept framework, not intended for performance, but merely a vehicle for the ideas expressed up to this point.
+Nevertheless, it does serve as a functioning system, capable of performing complex statistical analyses over datasets spanning many nodes.
 The implementation of this system makes use of a layered approach, wherein each layer targets a different category of user.
-The \pkg{largescaler} interface is the principal new contribution by this project, delivering a novel means of interacting with distributed data through meaningful primitives defined at every level of abstraction.
+The \lsr interface is the principal new contribution by this project, delivering a novel means of interacting with distributed data through meaningful primitives defined at every level of abstraction.
 A key offering of the layered approach is the ease by which a user of the package can traverse the levels as needed, with irrelevant information remaining hidden until required.
 The levels of abstraction correspond to users of the package, given as the following:
 
@@ -13,19 +13,6 @@ The levels of abstraction correspond to users of the package, given as the follo
 \end{description}
 
 Each of the users are served by the aforementioned packages making up the framework, in turn serving a logical layer of abstraction.
-This mapping is given in Table \cref{tab:layer}.
+This mapping is given in \cref{tab:logical-layers}.
 
-\begin{table}[h!]
-\centering
-\caption{A mapping of logical layers, users and the respective packages provided by the \pkg{largescaler} framework to enable the use.}
-\label{tab:layer}
-\begin{tabular}{@{}lll@{}}
-\toprule
-Layer & User & Package \\ \midrule
-Model Usage & Analyst & \pkg{largescalemodelr} \\
-Model Description & Researcher & \pkg{largescaler} \\
-Cluster Interaction & Developer & \pkg{chunknet} \\
-Communication & Architect & \pkg{orcv} \\ \bottomrule
-\end{tabular}
-\end{table}
-
+\tab{logical-layers}{A mapping of logical layers, users and the respective packages provided by the \lsr framework to enable their use.}

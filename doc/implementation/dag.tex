@@ -10,10 +10,10 @@ There are four possible relational states that a dependent chunk may exist in wi
 The states include:
 
 \begin{itemize}
-\item Prerequisite locally available (Figure \cref{fig:comm-la}).
-\item Prerequisite locally pending (Figure \cref{fig:comm-lp}).
+\item Prerequisite locally available (\cref{fig:comm-la}).
+\item Prerequisite locally pending (\cref{fig:comm-lp}).
 \item Prerequisite externally available.
-\item Prerequisite externally pending (Figure \cref{fig:comm-ep}).
+\item Prerequisite externally pending (\cref{fig:comm-ep}).
 \end{itemize}
 
 \begin{figure}
@@ -37,7 +37,7 @@ A reasonable question may be asked of why chunks are implemented using lists, ra
 This section attempts to grant some direction for this, by considering the result of using a mutable object.
 
 Taking the replacement operation as an example of modification, given in \R{} as \code{\$<-}, a distributed chunk may be alternatively modified through creating a copy of the data on the worker holding it, then performing the modification on that copy, and replacing the master reference to the original chunk with one to the modified copy; if there are no more references to the original, garbage collection will trigger a deletion of the distributed chunk, thereby preventing memory leaks.
-This operation is depicted as a diagram in Figure \cref{fig:modifyref}.
+This operation is depicted as a diagram in \cref{fig:modifyref}.
 
 \begin{figure}
 \input{img/modifyref}
@@ -49,7 +49,7 @@ A significant benefit of this emulation of mutability is that chunk descriptors 
 
 However, the final step of replacing the master reference to a modified copy is not possible to take place in a manner maintaining a transparent representation of standard (immutable) \R{} objects.
 This is due to references themselves here being implemented as mutable, so changes to any shallow copy of a reference is reflected among all shallow copies of that reference.
-An illustration is given in the context of local variables, with Listing \cref{lst:mutability-expected.R} giving an example \R{} session of expected behaviour, and Listing \cref{lst:mutability-actual.R} displaying the actual behaviour.
+An illustration is given in the context of local variables, with \cref{lst:mutability-expected.R} giving an example \R{} session of expected behaviour, and \cref{lst:mutability-actual.R} displaying the actual behaviour.
 
 \begin{listing}
 \begin{minted}{r}
@@ -82,7 +82,7 @@ An illustration is given in the context of local variables, with Listing \cref{l
 \end{listing}
 
 
-This behaviour can be led to an acceptable change by inverting the mutability of distributed object references and their contents, as depicted in Figure \cref{fig:modifyrefprop}.
+This behaviour can be led to an acceptable change by inverting the mutability of distributed object references and their contents, as depicted in \cref{fig:modifyrefprop}.
 
 \begin{figure}
 \input{img/modifyrefprop}
@@ -125,7 +125,7 @@ From the above descriptions, a simple method for garbage collection necessarily 
 Chunk operations generate new references, and there may be multiple references to a single mutable object.
 Garbage collection of a chunk reference, implying non-necessity of the chunk, should lead to garbage collection of the underlying chunk.
 This may be implemented very simply through the following manner: the chunk generation DAG, as iteratively created with each computation step, is stored with the chunk reference.
-An example of such a DAG is given in Figure \cref{fig:gc}
+An example of such a DAG is given in \cref{fig:gc}
 
 \begin{figure}
 \input{img/gc}

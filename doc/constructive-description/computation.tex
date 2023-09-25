@@ -138,7 +138,7 @@ the end worker, among others - none are to be specified at this stage.
 
 One situation that would have to be considered is the mixing of local
 and remote arguments. For instance, returning to our earlier, simpler
-example in listing \cref{lst:earlier-example}:
+example in \cref{lst:earlier-example}:
 
 \src[Rout]{earlier-example}{Finding the maximum of a distributed object}
 
@@ -172,7 +172,7 @@ a vector. Recycling is not always intended, and when comparing
 distributed objects of differing length, different functions may require
 different strategies.
 
-Figure \cref{fig:scalar-index} shows precisely this example. Here, \ccode{x} is a
+\cref{fig:scalar-index} shows precisely this example. Here, \ccode{x} is a
 chunk containing a single integer, \ccode{1}, and \ccode{y} is a
 distributed object composed of three chunks, each holding a section from
 \ccode{1up}. In all chunk computations with \ccode{max-x-y},
@@ -292,7 +292,7 @@ that the result should be a chunk, with the returned value on the client
 a chunk reference. With this consistency, it can be seen inductively
 that indefinitely long chains of remote operations can take place
 without need for continual data movement between client and workers. For
-example, listing \cref{lst:type-annotated} gives an annotation of the type of each
+example, \cref{lst:type-annotated} gives an annotation of the type of each
 object as it may exist relative to the client node:
 
 \src[Rout]{type-annotated}{Relative locations of each object}

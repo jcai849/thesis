@@ -1,0 +1,1 @@
+dReduce(cumsum, x) |> emerge()

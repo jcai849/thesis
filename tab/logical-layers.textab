@@ -1,0 +1,8 @@
+\begin{tabular}{@{}lll@{}}
+\toprule
+Layer & User & Package \\ \midrule
+Model Usage & Analyst & \lsm \\
+Model Description & Researcher & \lso \\
+Cluster Interaction & Developer & \chunknet \\
+Communication & Architect & \orcv \\ \bottomrule
+\end{tabular}

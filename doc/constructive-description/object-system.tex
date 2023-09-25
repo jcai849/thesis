@@ -236,7 +236,7 @@ functions, both in \R and in the wider computer science world. A means of
 operating over a group of chunks may be given in a \ccode{chunk-apply}
 function, acting as a higher-order function that orders the running of
 whatever function argument is given, over the set of chunk arguments.
-Take the earlier example of maximisation in listing \cref{lst:chunk-collection}, with new object \ccode{d3}
+Take the earlier example of maximisation in \cref{lst:chunk-collection}, with new object \ccode{d3}
 standing for a collection of chunks, being three chunk references, each
 pointing to it's own chunk of length one billion; The distributed object
 is therefore a three billion length integer.
@@ -351,7 +351,7 @@ This implies the first element of the output must be a a sample from the
 first chunk, the second element a sample from the third chunk, and the
 third element another sample from the first chunk. With the counts of
 the series above given as the variable \ccode{chunk-count}, we have
-the contingency table \cref{lst:example-sample}, with counts labelled by their
+the contingency \cref{lst:example-sample}, with counts labelled by their
 corresponding chunk:
 
 \src[Rout]{example-sample}{Example contingency table of samples}

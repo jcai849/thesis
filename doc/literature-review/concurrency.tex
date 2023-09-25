@@ -41,7 +41,7 @@ If it were possible to explicitly state where evaluation may be safe to take pla
 Analysis of the *promises* source code reveals a dependency on the \pkg{later} package for asynchronous execution, and this is what has lead to the leaky abstraction \cite{chang2021later}.
 The central \ccode{later} function offered by the package is equivalent to \proglang{JavaScript}'s \ccode[js]{set-timeout} function, and also only executes when there is no other \R code on the execution stack.
 Operations may be forced in \pkg{later} with \ccode{run-now}, however, and this may serve as an appropriate mechanism for forcing evaluation.
-This is shown in Listing \cref{lst:promise-forced}.
+This is shown in \cref{lst:promise-forced}.
 
 \src[Rout]{promise-forced}{A forced promise}
 

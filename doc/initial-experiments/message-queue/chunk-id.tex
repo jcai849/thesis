@@ -12,7 +12,7 @@ that aims at overcoming the limitations involved in the models.
 
 The models consist of communication over time between a client and a server,
 intermediated by a queue server.
-The client runs the pseudo-program described in listing \cref{src:client-p},
+The client runs the pseudo-program described in \cref{src:client-p},
 where variables \ccode{x}, \ccode{y}, and \ccode{z} are chunk references,
 and variables \ccode{i} and \ccode{j} are local. 
 Every action on distributed chunk references entails pushing a  message to the
@@ -39,7 +39,7 @@ colours aim to make each job more distinct.
 \subsubsection{Client-Originated Chunk ID}
 
 In the client-originated chunk ID  model, in addition to the generic model
-description posed in section \cref{sec:cid-model}, the client sends a chunk ID
+description posed in \cref{sec:cid-model}, the client sends a chunk ID
 as part of its messages if the result of the function on the distributed object
 includes assignment.
 If there is no assignment, the message includes a job ID instead, naming a job
@@ -63,11 +63,11 @@ The server correspondingly sends chunk IDs of each newly assigned chunk to the
 job ID queue specified in the request, sending values instead if not directed
 to perform assignment.
 
-A diagram of the server-originated chunk ID model is given in figure \cref{fig:server-chunk-id}.
+A diagram of the server-originated chunk ID model is given in \cref{fig:server-chunk-id}.
 
 \fig{server-chunk-id}{Space-Time Diagram of Server-Originated Chunk ID}
 
-An important aspect of figure \cref{fig:server-chunk-id} is the fact that the client has to
+An important aspect of \cref{fig:server-chunk-id} is the fact that the client has to
 wait to get the chunk ID's of the chunk references \ccode{y} and \ccode{z}
 before it can push requests to their relevent queues, hence the delay between
 the communications labelled in the diagram as \textcolor{dark2-3}{\textbf{d}}

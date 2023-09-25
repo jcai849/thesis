@@ -1,0 +1,1 @@
+\sum_i x_i= \sum_{j,i}x_{ij} = \sum_j\sum_i x_{ij}

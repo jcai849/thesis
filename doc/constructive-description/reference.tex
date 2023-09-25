@@ -39,14 +39,14 @@ value at the stored address is retrieved. Here, there is a subtle
 additional piece of indirection, where a pointer references a memory
 address which references the value, but assuming the transitivity of
 reference, we can skip over such details. The syntax for the declaration
-of a pointer in the \proglang{C} language takes the form in Listing \cref{lst:declare-int-pointer}:
+of a pointer in the \proglang{C} language takes the form in \cref{lst:declare-int-pointer}:
 
 \src[c]{declare-int-pointer}{Declaration of an integer pointer in C}
 
 Where in this example, we have a pointer (itself the object of reference
 of the symbol \ccode[c]{p}), which points to memory holding some integer.
 Assuming that this piece of memory exists and has a value, the pointer
-may be dereferenced using the \ccode[c]{star} operator as in listing \cref{lst:deref-c}
+may be dereferenced using the \ccode[c]{star} operator as in \cref{lst:deref-c}
 
 \src[c]{deref-c}{Dereference of a pointer in C}
 
@@ -65,7 +65,7 @@ the pdDMAT package. Here is a more complex reference than a pointer,
 where each \ccode{ddmatrix} reference may relate to an arbitrary number
 of matrix blocks distributed across potentially disparate memory space.
 Operations over \ccode{ddmatrix} objects are directly reflected as
-operations on the referent blocks, as demonstrated in the listing \cref{lst:proxy-pbddmat},
+operations on the referent blocks, as demonstrated in the \cref{lst:proxy-pbddmat},
 where mathematical operations are passed on indirectly through
 the \ccode{ddmatrix} reference to the underlying matrix blocks:
 
@@ -93,7 +93,7 @@ simultaneously.
 The abstraction of reference can be equally cleanly broken, however,
 with the user capable of commanding the reference to engage only with
 the local block, through functions encoded with an \ccode{l} for
-``local'' prefix. The example given by listing \cref{lst:dim-ldim} demonstrates the difference in
+``local'' prefix. The example given by \cref{lst:dim-ldim} demonstrates the difference in
 pbdR between \ccode{dim}, which gives the total dimensions of the
 entire matrix, and \ccode{ldim}, which gives only the dimensions of the
 block local to a particular node:

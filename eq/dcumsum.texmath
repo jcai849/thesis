@@ -1,0 +1,5 @@
+\begin{gathered}
+    S_i = S_{i-1}+x_i, \quad S_0 = 0\\
+    \iff S_{i,j} = S_{i-1,j} + x_{i,j}, \quad S_{0,j} = S_{n_i,j-1},\\
+    \qquad S_{0,0} = 0
+\end{gathered}

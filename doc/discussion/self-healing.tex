@@ -1,4 +1,4 @@
-As described in Section \cref{sec:dag}, a lineage for each chunk is stored alongside it.
+As described in \cref{sec:dag}, a lineage for each chunk is stored alongside it.
 What this may imply for checkpointing is explored in this section.
 
 In order to back up data, which may be later restored in the face of machine failure, checkpoints of individual chunks may be taken\cite{elnozahy2002recovery}.
@@ -34,7 +34,7 @@ Restoration from checkpoints serves effectively for enabling fault-tolerance in 
 Up to this point, the graph as described has been append-only.
 With such a description, it will grow excessively large, creating memory and traversal issues.
 In conjunction with checkpointing, I consider a means of pruning the graph, keeping it to the minimum size necessary for recovery of the current state of the system.
-While the checkpointing has not been implemented, the pruning has been implemented in a more brute-force manner (given in Section \cref{sec:gc}) than described in this section.
+While the checkpointing has not been implemented, the pruning has been implemented in a more brute-force manner (given in \cref{sec:gc}) than described in this section.
 
 First, it is necessary to recognise that nodes representing unreferenced chunks still serve the bare purpose of delineating an intermediate (delta) transformation to target referenced chunks at some point further along the dependency path\cite{mogul2002deltahttp}.
 If some checkpointed nodes are placed in the path of one of these unreferenced delta nodes and all of the delta's target referenced chunks, the unreferenced delta node is no longer necessary, and may be pruned.

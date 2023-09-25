@@ -25,7 +25,7 @@ Call-by-need is effectively an optimisation of call-by-name; while call-by-name 
 Interestingly, call-by-need is more prevalent among functional programming languages, including Haskell, having roots in the lambda calculus, though it has been introduced more recently than other more common evaluation strategies\cite{nita2017haskell}.
 Call-by-need gains unique abilities; most notably, the capacity for non-evaluation of parameters may bring performance improvements.
 In the extreme case, a function evaluated in a call-by-need manner may terminate in circumstances where strict evaluation will prevent termination.
-An example is given in Listing \cref{lst:call-need}.
+An example is given in \cref{lst:call-need}.
 
 \src{call-need}{Evaluation of this program will terminate under call-by-need but not terminate under strict evaluation}
 
@@ -93,11 +93,11 @@ This subtlety leads to a somewhat orthogonal side-point; the form of generation 
 Promises are still used in the function call, so the originating expression is still in theory attainable.
 However, early \lsr prototypes have been generating function calls through the \ccode{do-call} function, which constructs a call from a function and a list, then evaluates the call.
 This results in a mismatch in the original call and the actual call.
-An example of such a mismatch is given in listing \cref{lst:docall}
+An example of such a mismatch is given in \cref{lst:docall}
 
 \src[Rout]{docall}{A mismatch in an actual call and one generated with do.call}
 
-Beyond the above point regarding call creation,this leads to a missing capacity for procedures taking advantage of lazy evaluation, including the termination mechanism discussed in Section \cref{sec:evalinr} and illustrated in Listing \cref{lst:eval}.
+Beyond the above point regarding call creation,this leads to a missing capacity for procedures taking advantage of lazy evaluation, including the termination mechanism discussed in \cref{sec:evalinr} and illustrated in \cref{lst:eval}.
 
 \subsection{Alternatives to Prior Evaluation Strategies}
 
@@ -117,9 +117,9 @@ However, this is less relevant to the case under consideration here, as it would
 
 An argument can be made for leaving distributed evaluation as it is, for the potential efficiency gains in parallel pre-computation over call-by-need, which is serial in the naive case.
 
-The side-point made about call construction in Section \cref{sec:rdisteval}, and illustrated in Listing \cref{lst:docall} may be met through capturing the original call and sending it along with references to the values to the executing node.
+The side-point made about call construction in \cref{sec:rdisteval}, and illustrated in \cref{lst:docall} may be met through capturing the original call and sending it along with references to the values to the executing node.
 Upon reception by the executing node, it may construct an outer evaluation frame with the passed variable names given as arguments in the captured expression being bound to their associated values (or distributed thunks)\cite{ingerman1961thunks}, and the expression evaluated within this outer evaluation frame.
-Variable names of passed parameters may be accessed for binding through code similar to the example given in Listing \cref{lst:varnames}.
+Variable names of passed parameters may be accessed for binding through code similar to the example given in \cref{lst:varnames}.
 A drawback of the approach is evaluation of parameters prior to function application, but this may be sidestepped through the \proglang{C} API in a similar manner to the definition of \ccode{dots-length}\cite{abelson1996sicp:order}.
 
-\src[Rout]{varnames}{Access to variable names given as formal parameters to a function call using x and y as defined in Listing \cref{lst:docall}}
+\src[Rout]{varnames}{Access to variable names given as formal parameters to a function call using x and y as defined in \cref{lst:docall}}

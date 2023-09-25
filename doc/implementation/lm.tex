@@ -1,7 +1,7 @@
 \subsection{Overview}
 
 Following from the implementation of the GLM given in Chapter \cref{sec:glm}, a description is provided here of another model, using a decidedly different and straightforward process.
-Here, a Linear Regression model is defined, using the operators provided by \lsr, as detailed in Section \cref{sec:api-high}
+Here, a Linear Regression model is defined, using the operators provided by \lsr, as detailed in \cref{sec:api-high}
 
 While simple to derive the mathematics detailing a linear model, the naive method doesn't map straightforwardly to a distributed system.
 This is due to matrix inversion and multiplication operations requiring more than isolated chunkwise information.
@@ -14,7 +14,7 @@ Using the \textit{iris} dataset as an example, a linear model of the form,
 
 $$ Petal.Length_i = Sepal.Width_i + Sepal.Length_i + Sepal.Width \times Sepal.Length + \epsilon_i$$
 
-is fitted using \pkg{biglm} as part of a demonstrative non-distributed \code{Reduce()} in listing \cref{lst:lm-reduce}.
+is fitted using \pkg{biglm} as part of a demonstrative non-distributed \code{Reduce()} in \cref{lst:lm-reduce}.
 
 \begin{listing}
 	\begin{minted}{r}
@@ -31,7 +31,7 @@ The \code{dReduce} is therefore to be used as an equivalent structural backbone 
 
 \subsection{Implementation Details}
 
-The implementation of the distributed linear model is succinct enough to be given in it's entireity (with error-checking and boilerplate removed for clarity) in listing \cref{lst:dlm} .
+The implementation of the distributed linear model is succinct enough to be given in it's entireity (with error-checking and boilerplate removed for clarity) in \cref{lst:dlm} .
 
 \begin{listing}
 	\begin{minted}{r}
@@ -76,7 +76,7 @@ This object may very well have a larger memory footprint than all of the argumen
 The solution to this is twofold: allow new insertion environments to be inserted to the requested function on the worker for the purpose of non-destructive masking; and capture the call on the master end, wrapped into a function returning the call, and insert into the new insertion environment to take the place of the previous call capture function.
 
 An insertion environment follows the simple concept of being placed between some function and the function's original enclosing environment for the purpose of having it's objects first on the search path, for masking or perhaps making previously global variables available.
-Its form is given in the diagram at Figure \cref{fig:ins-env}.
+Its form is given in the diagram at \cref{fig:ins-env}.
 
 \begin{figure}
 \input{img/ins-env}
