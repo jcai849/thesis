@@ -1,0 +1,5 @@
+    \begin{aligned}
+        f(x) &= \frac{1}{2} \left\| A_i x_i - b_i \right\|^2_2 \\
+        g(z) &= \lambda \left| z \right|_1 \\
+        \text{minimise} \quad f(x) + g(z) &\quad \text{subject to} \quad x = z
+    \end{aligned} 

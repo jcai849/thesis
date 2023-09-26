@@ -13,7 +13,7 @@ Consideration of evaluation strategies only became a major research topic upon d
 It becomes more relevant upon engaging in computation with side-effects, where the order of operations may be the inverse of expectations.
 Furthermore, the creation of ad-hoc control structures is only possible with non-strict binding strategies, as well as infinite data structures and avoidance of certain error conditions\cite{okasaki1998functional}.
 
-\subsection{Evaluation in \R}\label{sec:evalinr}
+\subsection{Evaluation in R}\label{sec:evalinr}
 
 R possesses an evaluation system which is unusual among most programming languages.
 Of the discussed parameter passing strategies, it is non-strict, in that arguments are not evaluated before the function they are passed to is applied\cite{rcore2020ints:argeval}.
@@ -73,7 +73,7 @@ Another optimisation in lazy evaluation is given by graph reduction.
 Graph reduction involves treating expressions not only as abstract syntax trees, but as directed acyclic graphs, where multiple invocations of the same expression are depicted once only in the graph and linked together to avoid re-evaluation of the same expression\cite{hudak1989functional}.
 An equivalency exists with graph reduction and the memoisation of call-by-need.
 
-\subsection{Evaluation in \R Distributed Systems}\label{sec:rdisteval}
+\subsection{Evaluation in R Distributed Systems}\label{sec:rdisteval}
 
 Given that distributing computation necessitates a rearrangement of evaluative computation, a question arises: How does evaluation proceed in a distributed system for R?
 

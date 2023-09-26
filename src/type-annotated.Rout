@@ -1,5 +1,10 @@
-n <- 99999                               # Integer on client
-y <- read.chunk(distributed_data_source) # chunk reference on client pointing to an integer chunk on some worker
-z <- x + y                               # chunk reference on client pointing to an integer chunk on some worker
-a <- z + 1 + 2 + ... + n                 # chunk reference on client pointing to an integer chunk on some worker
-b <- emerge(a)                           # Integer on client
+# Integer on client: 
+> n <- 99999
+# chunk reference on client pointing to an integer chunk on some worker:
+> y <- read.chunk(distributed_data_source)
+# chunk reference on client pointing to an integer chunk on some worker:
+> z <- x + y
+# chunk reference on client pointing to an integer chunk on some worker:
+a <- z + 1 + 2 + ... + n 
+# Integer on client:
+b <- emerge(a)

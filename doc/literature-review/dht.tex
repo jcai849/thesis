@@ -122,7 +122,7 @@ The values are to be mutable, at the very least in order to allow marking, as pa
 Upon chunk creation, a chunk is assigned a random 128 bit ID, which is sufficient to uniquely identify it.
 References to other chunks in the dependency graph describe the chunk ID of the prerequisites/targets, and these can be looked up directly.
 
-\subsection{Relation to \lsr{} System}
+\subsection{Relation to largescaler System}
 
 The dependency graph and DHT hosting it would be separate, though depended upon, by the working \lsr{} system.
 For all intents, the DHT may be accessed through a simple \ccode{read} and \ccode{execute} interface at the top level, with perhaps some middle layer communicating storage details and garbage collection information to the DHT.

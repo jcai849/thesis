@@ -1,0 +1,5 @@
+\begin{tabular}{@{}llll@{}}
+\toprule
+node\_href & address   & port    & loading \\ \midrule
+character  & character & integer & integer \\ \bottomrule
+\end{tabular}

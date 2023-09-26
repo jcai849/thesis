@@ -1,0 +1,13 @@
+\begin{aligned}
+    A = \begin{bmatrix}
+        A_1\\
+        \vdots \\
+        A_N
+    \end{bmatrix},&
+    \quad b=\begin{bmatrix}
+        b_1\\
+        \vdots \\
+        b_N
+    \end{bmatrix}\\
+    A_i \in \mathbb{R}^{m_i\times n},& \quad b_i \in \mathbb{R}^{m_i}
+\end{aligned}

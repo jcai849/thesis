@@ -1,0 +1,8 @@
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+HTTP Request & Handle                                                        \\ \midrule
+POST /node   & Add given connection to table of Nodes (non-responding)       \\
+GET /nodes   & Respond with dump of Nodes table                              \\
+POST /data/* & Add data href to given node in table of Data (non-responding) \\
+GET /data/*  & Respond with table of Nodes where data resides                \\ \bottomrule
+\end{tabularx}

@@ -7,7 +7,7 @@ main <- async(function() repeat {
 
 process_request <- async(function(request) {
     args <- await_lapply(prereqs(request), emerge)
-    result <- tryCatch(do.call(computation(request), args), error=identity) # todo: parallel optimisation
+    result <- tryCatch(do.call(computation(request), args), error=identity)
     if (response_needed(request))
         send(address(request),result)
 })

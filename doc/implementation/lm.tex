@@ -1,76 +1,45 @@
 \subsection{Overview}
 
 Following from the implementation of the GLM given in Chapter \cref{sec:glm}, a description is provided here of another model, using a decidedly different and straightforward process.
-Here, a Linear Regression model is defined, using the operators provided by \lsr, as detailed in \cref{sec:api-high}
+Here, a Linear Regression model is defined, using the operators provided by \lso, as detailed in \cref{sec:api-high}
 
 While simple to derive the mathematics detailing a linear model, the naive method doesn't map straightforwardly to a distributed system.
 This is due to matrix inversion and multiplication operations requiring more than isolated chunkwise information.
 Conveniently, the common method of decomposing a matrix, typically for computationally simplified inversion, is given in a chunked form as part of Algorithm AS274\cite{miller1992as274}.
 This algorithm is in turn implemented and wrapped through the \pkg{biglm} package in \R{} with several additional features such as such as sandwiching\cite{lumley2013biglm}.
-The \pkg{biglm} package creates a linear model object from some initial row-wise chunk of data with a space complexity of \bigO{p^2} for $p$ variables.
+The \pkg{biglm} package creates a linear model object from some initial row-wise chunk of data with a space complexity of \mathfrom{o-p-2} for $p$ variables.
 The linear model object is then updated sequentially with further chunks of the data, until all of the data has been read, yielding a final linear model object with methods available for standard linear model object inspection, including summaries and predictions.
-This sequential rolling update over chunked data is able to be captured succinctly in a \code{Reduce()} pattern typical of the functional programming paradigm.
+This sequential rolling update over chunked data is able to be captured succinctly in a \ccode{Reduce} pattern typical of the functional programming paradigm.
 Using the \textit{iris} dataset as an example, a linear model of the form, 
 
-$$ Petal.Length_i = Sepal.Width_i + Sepal.Length_i + Sepal.Width \times Sepal.Length + \epsilon_i$$
+\eq{iris-form}
 
-is fitted using \pkg{biglm} as part of a demonstrative non-distributed \code{Reduce()} in \cref{lst:lm-reduce}.
+is fitted using \pkg{biglm} as part of a demonstrative non-distributed \ccode{Reduce} in \cref{lst:lm-reduce}.
 
-\begin{listing}
-	\begin{minted}{r}
-nc <- 15
-cs <- split(iris, cumsum((seq(nrow(iris)) - 1) %% nc == 0)) # split to chunks
-model <- Reduce(f = update, x = cs[-1],
-		init = biglm(Petal.Length ~ Sepal.Width * Sepal.Length, cs[[1]]))
-\end{minted}
-\caption{Splitting the iris dataframe into 15 chunks stored as elements of a list and reducing over the list with the \pkg{biglm} update function.}
-\label{lst:lm-reduce}
-\end{listing}
+\src{lm-reduce}{Splitting the iris dataframe into 15 chunks stored as elements of a list and reducing over the list with the \pkg{biglm} update function.}
 
-The \code{dReduce} is therefore to be used as an equivalent structural backbone for the implementation of a distributed linear model.
+The \ccode{dreduce} is therefore to be used as an equivalent structural backbone for the implementation of a distributed linear model.
 
 \subsection{Implementation Details}
 
 The implementation of the distributed linear model is succinct enough to be given in it's entireity (with error-checking and boilerplate removed for clarity) in \cref{lst:dlm} .
 
-\begin{listing}
-	\begin{minted}{r}
-dlm <- function(formula, data, weights=NULL, sandwich=FALSE) {
-	init <- dbiglm(formula, as.list(data)[[1]], weights, sandwich)
-	if (length(as.list(data)) != 1L)
-		largescaler::dReduce(f=update,
-				     x=as.list(data)[-1],
-				     init=init)
-	else largescaler::DistributedObject(init)
-}
-
-dbiglm <- function(formula, data, weights=NULL, sandwich=FALSE) {
-	chunknet::do.ccall(biglm,
-		           list(list(formula=formula,
-				     data=data,
-				     weights=weights,
-				     sandwich=sandwich)),
-			    target=data)[[1]]
-}
-\end{minted}
-\caption{Full listing of distributed linear model implementation.}
-\label{lst:dlm}
-\end{listing}
+\src{dlm}{Full listing of distributed linear model implementation.}
 
 This implementation includes several important aspects.
 Mapping to the list of chunks, an existing distributed object must be transformed to a list of chunks for the reduce function.
-The reduce function itself is accessed through a light wrapper \code{dreduce()}, with all of the internal code operating transparently on chunks without concern for the type of object.
+The reduce function itself is accessed through a light wrapper \ccode{dreduce}, with all of the internal ccode operating transparently on chunks without concern for the type of object.
 A major divergence is given in the generation of the initial reduction object.
-This uses a \code{do.ccall} function to create the initial \pkg{biglm} linear model object, which is then passed to the \code{dreduce()} function.
+This uses a \ccode{do-ccall} function to create the initial \pkg{biglm} linear model object, which is then passed to the \ccode{dreduce} function.
 
 \subsection{The Special Case of Call Capturing}
 
 A more significant divergence than different initialisation, with severe performance implications, is shown through the intercept and insertion of the function call.
 This is made necessary by the fact that \pkg{biglm} captures the call it was called with, and stores it as part of the model object -- this is not unique to \pkg{biglm}, and this behaviour is common to most modelling functions in \R{}.
-Due to actually enacting the call to construct the inital \pkg{biglm} linear model object on the worker process, rather than the master process, with worker processes evaluating requests through construction with the \code{do.call()} function, rather than exact replication of the initial call, the call as seen by the function is not necessarily the same as that issued on the master process.
+Due to actually enacting the call to construct the inital \pkg{biglm} linear model object on the worker process, rather than the master process, with worker processes evaluating requests through construction with the \ccode{do-call} function, rather than exact replication of the initial call, the call as seen by the function is not necessarily the same as that issued on the master process.
 This presents two problems: inaccuracy, and unbounded call sizes.
 Inaccuracy is not an enormous problem, as the call isn't typically used for anything other than rendering a portion of the string representation of the model object.
-The greater issue is that as calls are constructed on the worker, all arguments are evaluated, and the captured call will include fully expanded objects in a \code{dump()}-like form.
+The greater issue is that as calls are constructed on the worker, all arguments are evaluated, and the captured call will include fully expanded objects in a \ccode{dump}-like form.
 This object may very well have a larger memory footprint than all of the arguments to the call combined, and will lead to memory limitations and slowdowns, particularly when transferring the model object from process to process.
 
 The solution to this is twofold: allow new insertion environments to be inserted to the requested function on the worker for the purpose of non-destructive masking; and capture the call on the master end, wrapped into a function returning the call, and insert into the new insertion environment to take the place of the previous call capture function.
@@ -78,13 +47,10 @@ The solution to this is twofold: allow new insertion environments to be inserted
 An insertion environment follows the simple concept of being placed between some function and the function's original enclosing environment for the purpose of having it's objects first on the search path, for masking or perhaps making previously global variables available.
 Its form is given in the diagram at \cref{fig:ins-env}.
 
-\begin{figure}
-\input{img/ins-env}
-\caption{Newly inserted environment mimicking the insertion procedure of a linked list, with pointers given by arrows, and the old pointer in dashed line.}
-\end{figure}
+\fig{ins-env}{Newly inserted environment mimicking the insertion procedure of a linked list, with pointers given by arrows, and the old pointer in dashed line.}
 
 
-The call is captured on the master end, with a function constructed to return this call, given by the \lsr{}-provided \code{currCallFun()}, and this is then sent to the worker to be inserted as \code{sys.call()} in the insertion environment, thus effectively masking the call capture function at the top level of the requested \pkg{biglm} function.
+The call is captured on the master end, with a function constructed to return this call, given by the \lso{}-provided \ccode{curr-call-fun}, and this is then sent to the worker to be inserted as \code{sys.call()} in the insertion environment, thus effectively masking the call capture function at the top level of the requested \pkg{biglm} function.
 Depending on perspective, the fact that this only works at the top level can be a feature, as it doesn't messily mask further along the call stack, however it has the associated limitation.
 
 Worth noting is that call capture is notoriously messy, with \pkg{biglm} itself featuring source code directly manipulating the call as part of some functions.

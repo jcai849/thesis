@@ -1,9 +1,12 @@
 	\def\clientcolour{mybrown}
 	\def\servercolour{mynavy}
-	\begin{tabularx}{\textwidth}{lX}
+\begin{xltabular}{\textwidth}{lX}
+\caption{\label{tab:chunk-comm}Communication as recorded between a client and server}\\
 		\toprule
 		Time (secs)  & Message/\texttt{expression} (\textcolor{\clientcolour}{client}/\textcolor{\servercolour}{server}) \\
 		\midrule
+\endfirsthead
+\endhead
 		0        & \textcolor{\servercolour}{Assigned chunk to ID: chunk1 in chunk table} \\
 			 & \textcolor{\clientcolour}{\texttt{x <- do.call.chunkRef(what="expm1", chunkArg=chunk1)} } \\
 		0.001664 & \textcolor{\clientcolour}{Attained job ID:  J1} \\
@@ -49,4 +52,4 @@
 		0.038325 & \textcolor{\clientcolour}{Awaiting message on queues: J2} \\
 		0.038825 & \textcolor{\clientcolour}{Received message: 'origin' must be supplied, as.Date.numeric(c(...))} \\
 		\bottomrule
-	\end{tabularx}
+\end{xltabular}

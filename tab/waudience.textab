@@ -1,0 +1,5 @@
+\begin{tabular}{@{}ll@{}}
+\toprule
+fd      & data\_href \\ \midrule
+integer & character  \\ \bottomrule
+\end{tabular}

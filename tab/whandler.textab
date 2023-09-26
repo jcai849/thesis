@@ -1,0 +1,8 @@
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+HTTP Request             & Handle                                                                         \\ \midrule
+POST /data/*             & Add given data to the Store (non-responding)                                   \\
+GET /data/*              & Search Store for data; hold connection until available and send when available \\
+PUT /computation/* & Add computation to Store and Stage, to check prerequisite availability (non-responding) \\
+PUT /computation-ready/* & Computation declared ready; begin computation (non-responding)                 \\ \bottomrule
+\end{tabularx}

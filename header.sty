@@ -16,6 +16,7 @@
 \newtheorem{definition}{Definition} 
 \usepackage{csquotes}
 \usepackage{longtable}
+\usepackage{xltabular}
 \usepackage{booktabs}
 \usepackage{setspace}
 \usepackage{import}
@@ -68,9 +69,15 @@
 \definecolor{dark2-6}{HTML}{E6AB02}
 
 \usepackage{fancyvrb}
+\usepackage{verbatimbox}
 \usepackage{listings}
 \usepackage{minted}
 \usemintedstyle{bw}
+\makeatletter
+\newcommand{\currentfontsize}{\fontsize{\f@size}{\f@baselineskip}\selectfont}
+\makeatother
+\setminted{fontsize=\footnotesize,autogobble=true}
+\setmintedinline{fontsize=\currentfontsize}
 \usepackage{clrscode3e}
 \newfloat{srcclrs}{thpb}{lol}
 \floatname{srcclrs}{Listing}
@@ -98,21 +105,21 @@
 }
 \newcommand{\processinputmintinline}[2]{\mintinline{#2}{#1}}
 
-\newcommand{\fig}[3][h]{
+\newcommand{\fig}[3][H]{
 \begin{figure}[#1]
 \centering
 \input{img/#2}
 \caption{\label{fig:#2}#3}
 \end{figure}}
 
-\newcommand{\widefig}[3][h]{
+\newcommand{\widefig}[3][H]{
 \begin{figure}[#1]
 \centering
 \resizebox{\linewidth}{!}{\input{img/#2}}
 \caption{\label{fig:#2}#3}
 \end{figure}}
 
-\newcommand{\longfig}[3][h]{
+\newcommand{\longfig}[3][H]{
 \begin{figure}[#1]
 \centering
 \resizebox{!}{\textheight}{\input{img/#2}}
@@ -130,7 +137,7 @@
 \blockcquote{#1}{\input{quote/#1}}}
 
 \newcommand{\qu}[1]{
-blockquote{\input{quote/#1}}}
+\blockquote{\input{quote/#1}}}
 
 \newcommand{\src}[3][R]{
 \begin{listing}
@@ -139,19 +146,31 @@ blockquote{\input{quote/#1}}}
 \end{listing}
 }
 
+\newcommand{\srcnc}[2][R]{
+\inputminted[autogobble=false]{#1}{src/#2.#1}
+}
+\newcommand{\srcnccentre}[1]{
+\multicolumn{2}{c}{
+\begin{minipage}{\textwidth}
+\srcnc{#1}
+\end{minipage}}}
+
 \newcommand{\tab}[2]{
-\begin{table}[htbp]
+\begin{table}[H]
 \caption{\label{tab:#1}#2}
 \centering
 \input{tab/#1}
 \end{table}}
 
 \newcommand{\widetab}[2]{
-\begin{sidewaystable}[htbp]
+\begin{sidewaystable}[H]
 \caption{\label{tab:#1}#2}
 \centering
 \input{tab/#1}
 \end{sidewaystable}}
+
+\newcommand{\longtab}[1]{
+\input{tab/#1}}
 
 \newcommand{\alg}[2]{
 \begin{srcclrs}

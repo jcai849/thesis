@@ -7,11 +7,11 @@ There is no simpler form: Load the data, then fit the model with a given functio
 This assumes a running cluster, which is described later on, due to the additional details required for a cluster setup.
 Load the data with some function provided by \lso to read distributed data in as a distributed object, with some \ccode{read-dist} function.
 \lso provides the \ccode{read-dcsv} function to read \file{csv} files distributed across various hosts and filesystems.
-This may be stored as in:
+This may be stored as in \cref{lst:read-dcsv-ex}.
 
-\ccode{read-csv-ex}{Example distributed \file{csv} read}
+\src{read-dcsv-ex}{Example distributed \file{csv} read}
 
-Following this, a model function may be run over the distributed object; with a GLM as an example:
+Following this, a model function may be run over the distributed object; with a GLM as an example in \cref{lst:dglm-ex}.
 
 \src{dglm-ex}{Example distributed GLM}
 
@@ -26,7 +26,7 @@ Due to associativity the sum of the whole is the sum of the sum of the parts, as
 
 \eq{sum}
 
-In an effort to maintain as close proximity as possible between the mathematical description and the provided interface, this may be written in \lso as in the following \R code:
+In an effort to maintain as close proximity as possible between the mathematical description and the provided interface, this may be written in \lso as in \cref{lst:dsum}
 
 \src{dsum}{Example distributed summation}
 
@@ -41,9 +41,9 @@ Again, a chunked mathematical description is given in \cref{eq:dmean}
 
 \eq{dmean}
 
-A related means of specification through \lso is possible, given in the following code:
+A related means of specification through \lso is possible, given in \cref{dmean}
 
-\ccode{dmean}
+\src{dmean}{Distributed mean definition}
 
 Here we build on the distributed sum introduced above, but the total length of The distributed object is relevent as the denominator.
 Assuming a \ccode{sum} method for distributed objects as described, and the math group generic defined in a similar fashion, the denominator is defined using the same \ccode{d} function that sends a \ccode{length} computation to all of the chunks.
@@ -60,8 +60,8 @@ An example of a reduce operation is given in \cref{fig:dreduce}.
 
 \fig{dreduce}{Example distributed reduce pattern from controlling process.}
 
-This is put to use for cumulative sum by \lso by the following code:
+This is put to use for cumulative sum by \lso by \cref{dcumsum}.
 
-\ccode{dcumsum}
+\ccode{dcumsum}{Distributed cumulative sum definition.
 
 A distributed object is returned that by default just holds the final accumulation, consisting of one single chunk.

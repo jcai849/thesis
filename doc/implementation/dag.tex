@@ -16,34 +16,19 @@ The states include:
 \item Prerequisite externally pending (\cref{fig:comm-ep}).
 \end{itemize}
 
-\begin{figure}
-\input{img/comm-la}
-\label{fig:comm-la}
-\end{figure}
-
-\begin{figure}
-\input{img/comm-lp}
-\label{fig:comm-lp}
-\end{figure}
-
-\begin{figure}
-\input{img/comm-ep}
-\label{fig:comm-ep}
-\end{figure}
+\widefig{comm-la}{Prerequisite locally available}
+\widefig{comm-lp}{Prerequisite locally pending}
+\widefig{comm-ep}{Prerequisite externally pending}
 
 \subsubsection{Mutability}
 
 A reasonable question may be asked of why chunks are implemented using lists, rather than a mutable object such as an environment.
 This section attempts to grant some direction for this, by considering the result of using a mutable object.
 
-Taking the replacement operation as an example of modification, given in \R{} as \code{\$<-}, a distributed chunk may be alternatively modified through creating a copy of the data on the worker holding it, then performing the modification on that copy, and replacing the master reference to the original chunk with one to the modified copy; if there are no more references to the original, garbage collection will trigger a deletion of the distributed chunk, thereby preventing memory leaks.
+Taking the replacement operation as an example of modification, given in \R as \ccode{assignment}, a distributed chunk may be alternatively modified through creating a copy of the data on the worker holding it, then performing the modification on that copy, and replacing the master reference to the original chunk with one to the modified copy; if there are no more references to the original, garbage collection will trigger a deletion of the distributed chunk, thereby preventing memory leaks.
 This operation is depicted as a diagram in \cref{fig:modifyref}.
 
-\begin{figure}
-\input{img/modifyref}
-\caption{Reference modification as an emulation of object modification as is currently able to be implemented.}
-\label{fig:modifyref}
-\end{figure}
+\widefig{modifyref}{Reference modification as an emulation of object modification as is currently able to be implemented.}
 
 A significant benefit of this emulation of mutability is that chunk descriptors will always refer to the same version of the data, which has major ramifications for the integrity of future redundancy features - reference objects such as environments excluded.
 
@@ -51,44 +36,14 @@ However, the final step of replacing the master reference to a modified copy is 
 This is due to references themselves here being implemented as mutable, so changes to any shallow copy of a reference is reflected among all shallow copies of that reference.
 An illustration is given in the context of local variables, with \cref{lst:mutability-expected.R} giving an example \R{} session of expected behaviour, and \cref{lst:mutability-actual.R} displaying the actual behaviour.
 
-\begin{listing}
-\begin{minted}{r}
-> x <- distribute(mtcars)
-> x$mpg <- 1
-> emerge(x$mpg)
- [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-{ function(x) { x$mpg <- 2; emerge(x$mpg) }(x)
- [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-> emerge(x$mpg)
- [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-\end{minted}
-\caption{Expected result of object modification.}
-\label{lst:mutability-expected.R}
-\end{listing}
+\src[Rout]{mutability-expected}{Expected result of object modification.}
 
-\begin{listing}
-\begin{minted}{r}
-> x <- distribute(mtcars)
-> x$mpg <- 1
-> emerge(x$mpg)
- [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-{ function(x) { x$mpg <- 2; emerge(x$mpg) }(x)
- [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-> emerge(x$mpg)
- [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-\end{minted}
-\caption{Result of object modification when using mutable reference.}
-\label{lst:mutability-actual.R}
-\end{listing}
+\src[Rout]{mutability-actual}{Result of object modification when using mutable reference.}
 
 
 This behaviour can be led to an acceptable change by inverting the mutability of distributed object references and their contents, as depicted in \cref{fig:modifyrefprop}.
 
-\begin{figure}
-\input{img/modifyrefprop}
-\caption{Reference modification as an emulation of object modification as proposed.}
-\label{fig:modifyrefprop}
-\end{figure}
+\widefig{modifyrefprop}{Reference modification as an emulation of object modification as proposed.}
 
 This forces on-modify copies of the distributed objects when they are used as local variables, thereby keeping changes to them local to a particular scope.
 What isn't copied is the descriptor, which is now mutable.
@@ -127,12 +82,8 @@ Garbage collection of a chunk reference, implying non-necessity of the chunk, sh
 This may be implemented very simply through the following manner: the chunk generation DAG, as iteratively created with each computation step, is stored with the chunk reference.
 An example of such a DAG is given in \cref{fig:gc}
 
-\begin{figure}
-\input{img/gc}
-\caption{Chunk lineage as stored with individual chunks. Once chunk has proven existence, the lineage may be cleared and garbage collected.}
-\label{fig:gc}
-\end{figure}
+\widefig{gc}{Chunk lineage as stored with individual chunks. Once chunk has proven existence, the lineage may be cleared and garbage collected.}
 
-When the chunks have been proven computed, as through an \code{emerge()}, the graph may be cleared.
+When the chunks have been proven computed, as through an \ccode{emerge}, the graph may be cleared.
 The nodes in the graph which are no longer accessible are cleared by \R's garbage collector, and are directly tied to a deletion method of the underlying chunks.
-This means that iteration is perfectly acceptable, as long as there are sufficiently regular \code{emerge()}'s, as the older chunks are cleared away.
+This means that iteration is perfectly acceptable, as long as there are sufficiently regular \ccode{emerge}'s, as the older chunks are cleared away.

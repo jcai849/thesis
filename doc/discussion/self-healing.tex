@@ -16,7 +16,7 @@ This fact can be taken advantage of in order to implement creation-based checkpo
 
 I suggest a time-to-recover checkpointing scheme, which attempts to checkpoint based on reaching a certain limit for how long it would take for the system to recover in the face of a worst-case fault, such as a total power outage.
 This is performed through recording how long it takes to independently generate each chunk, and recording that information in the node associated with the chunk.
-Each chunk also takes the maximum generation time from each of it's direct prerequisites and adds that to it's own time, in order to create a cumulative generation time, in a similar fashion to a Merkle tree or blockchain where properties of nodes accumulate along references, though without the cryptographic properties\cite{merkle1988tree}\cite{nakamoto2008bitcoin}.
+Each chunk also takes the maximum generation time from each of it's direct prerequisites and adds that to it's own time, in order to create a cumulative generation time, in a similar fashion to a Merkle tree or blockchain where properties of nodes accumulate along references, though without the cryptographic properties\cites{merkle1988tree,nakamoto2008bitcoin}.
 When the pre-defined cumulative generation time limit is reached, the chunk at which the recorded limit is reached is designated for checkpointing, and the cumulative generation time resets (zeroes) for it's dependencies.
 
 Limits on chain length can be placed similarly, where instead of time, a maximum count of nodes forming the path back to the originating checkpoint can be taken, with checkpointing taking place upon reaching the limit.

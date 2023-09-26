@@ -1,0 +1,5 @@
+\begin{tabular}{@{}ll@{}}
+\toprule
+unaccounted\_prereq\_href & pending\_computation\_href \\ \midrule
+character                 & character                  \\ \bottomrule
+\end{tabular}

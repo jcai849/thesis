@@ -1,10 +1,6 @@
 Chunks and computations on those chunks are represented as very simple S3 classes based on lists, with their structure given in \cref{fig:largerscale}
 
-\begin{figure}
-\input{img/largerscale}
-\caption{UML Diagram of Chunk and Computation classes}
-\label{fig:largerscale}
-\end{figure}
+\fig{largerscale}{UML Diagram of Chunk and Computation classes}
 
 Every chunk and computation has an identifier (``href'' in HTTP-language) - this is a uuid that allows for unambiguous specification of objects within the system.
 Chunks contain an additional identifier of their generating process, that is, the identifier of the computation that is is the result of.

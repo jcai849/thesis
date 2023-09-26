@@ -1,0 +1,1 @@
+Petal.Length_i = Sepal.Width_i + Sepal.Length_i + Sepal.Width \times Sepal.Length + \epsilon_i

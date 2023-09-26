@@ -1,0 +1,5 @@
+\begin{tabular}{@{}ll@{}}
+\toprule
+node\_href & data\_href \\ \midrule
+character  & character  \\ \bottomrule
+\end{tabular}
