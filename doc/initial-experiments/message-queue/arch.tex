@@ -9,18 +9,18 @@ The central units of this distributed system are a client, a queue server, and
 a chunk server, as demonstrated in \cref{fig:chunk-arch}.
 
 The client contains chunk references, which can be passed as arguments to
-\ccode{do-call-chunkref}, alongside some function, in order to begin the
+\code{do-call-chunkref}, alongside some function, in order to begin the
 process of evaluation, and if assignment is desired, producing a new chunk
 reference to continue computation with on the client end while the evaluation
 continues on the other units.
 
-\ccode{do-call-chunkref} composes a message based on the request, pushing that
+\code{do-call-chunkref} composes a message based on the request, pushing that
 to the queue identified by the chunk ID contained in the chunk reference, with
 the queue existing on some central queue server.
 
 The chunk server concurrently monitors all queues identified by the chunk ID's
 of the chunks that the chunk server stores in a local chunk table.
-It pops the message off the related queue, and has \ccode{do-call-chunk}
+It pops the message off the related queue, and has \code{do-call-chunk}
 evaluate the function on the chunk, with various options determined by the
 content of the received message.
 
@@ -31,7 +31,7 @@ client later.
 \fig{chunk-arch}{An outline of the architecture of the chunk component in the distributed system}
 
 \subsubsection{Object Formats}
-The fields belonging to a \ccode{chunkRef} object are the following:
+The fields belonging to a \code{chunkRef} object are the following:
 \begin{description}
 	\item[\texttt{CHUNK\_ID}] The name of the queue to post messages to, as
 		well as the name of the chunk existing on the server to perform
@@ -44,7 +44,7 @@ The fields belonging to a \ccode{chunkRef} object are the following:
 		in printing.
 \end{description}
 
-Messages all belong to the \ccode{msg} class, and are currently categorised as
+Messages all belong to the \code{msg} class, and are currently categorised as
 either requests, or responses, with the following fields:\\
 
 Request:

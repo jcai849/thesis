@@ -44,14 +44,14 @@ of a pointer in the \proglang{C} language takes the form in \cref{lst:declare-in
 \src[c]{declare-int-pointer}{Declaration of an integer pointer in C}
 
 Where in this example, we have a pointer (itself the object of reference
-of the symbol \ccode[c]{p}), which points to memory holding some integer.
+of the symbol \code[c]{p}), which points to memory holding some integer.
 Assuming that this piece of memory exists and has a value, the pointer
-may be dereferenced using the \ccode[c]{star} operator as in \cref{lst:deref-c}
+may be dereferenced using the \code[c]{star} operator as in \cref{lst:deref-c}
 
 \src[c]{deref-c}{Dereference of a pointer in C}
 
 And we have assigned the value stored in the address referred to by
-\ccode{p}, to the variable \ccode{x}. The symbol \ccode{x} now stands
+\code{p}, to the variable \code{x}. The symbol \code{x} now stands
 for that value. The pointer itself may also be an object of interaction,
 with the C language allowing arithmetic on pointers in order to shift to
 a different location in memory. This is important to note, as the
@@ -60,14 +60,14 @@ right, something we will have to consider in greater detail when it
 comes to the references in our distributed system.
 
 Let's look at a system closer to our use-case: \pkg{pbdR}. Specifically,
-consider the distributed matrix class, \ccode{ddmatrix}, provided by
+consider the distributed matrix class, \code{ddmatrix}, provided by
 the pdDMAT package. Here is a more complex reference than a pointer,
-where each \ccode{ddmatrix} reference may relate to an arbitrary number
+where each \code{ddmatrix} reference may relate to an arbitrary number
 of matrix blocks distributed across potentially disparate memory space.
-Operations over \ccode{ddmatrix} objects are directly reflected as
+Operations over \code{ddmatrix} objects are directly reflected as
 operations on the referent blocks, as demonstrated in the \cref{lst:proxy-pbddmat},
 where mathematical operations are passed on indirectly through
-the \ccode{ddmatrix} reference to the underlying matrix blocks:
+the \code{ddmatrix} reference to the underlying matrix blocks:
 
 \src{proxy-pbddmat}{Proxying of matrix operations in \pkg{pbdDMAT}}
 
@@ -76,32 +76,32 @@ specification of code. Rather than writing from the standpoint of a
 single location directing others, as a pointer is, \pkg{pbdR} code is written
 to be run identically across all nodes on the cluster. The entire script
 is sent to all nodes, which run it in communication with each other. A
-\ccode{ddmatrix} object thereby refers both to the local block held by
+\code{ddmatrix} object thereby refers both to the local block held by
 the node executing the code, as well as all other blocks held by all
 other nodes. For trivial operations such as the mathematical
 calculations given in the example above, there is no need to reference
-other blocks, with the \ccode{ddmatrix} object being used to refer
+other blocks, with the \code{ddmatrix} object being used to refer
 solely to the local block. In more complex operations, such as singular
-value decomposition, provided by \ccode{svd}, the reference given by
-\ccode{ddmatrix} will access all other blocks - with all of this being
+value decomposition, provided by \code{svd}, the reference given by
+\code{ddmatrix} will access all other blocks - with all of this being
 buried under a clean layer of abstraction. For most cases, the
-referential nature of \ccode{ddmatrix} can be forgotten about, with the
+referential nature of \code{ddmatrix} can be forgotten about, with the
 only adjustment required from the programmer migrating local code to
 distributed being the inversion of writing code for all nodes
 simultaneously.
 
 The abstraction of reference can be equally cleanly broken, however,
 with the user capable of commanding the reference to engage only with
-the local block, through functions encoded with an \ccode{l} for
+the local block, through functions encoded with an \code{l} for
 ``local'' prefix. The example given by \cref{lst:dim-ldim} demonstrates the difference in
-pbdR between \ccode{dim}, which gives the total dimensions of the
-entire matrix, and \ccode{ldim}, which gives only the dimensions of the
+pbdR between \code{dim}, which gives the total dimensions of the
+entire matrix, and \code{ldim}, which gives only the dimensions of the
 block local to a particular node:
 
 \src{dim-ldim}{The difference between dim and ldim in \pkg{pbdDMAT}}
 
-In general, \ccode{submatrix} returns the local storage for the
-\ccode{ddmatrix} local referent. We have with \pkg{pbdR} a converse of
+In general, \code{submatrix} returns the local storage for the
+\code{ddmatrix} local referent. We have with \pkg{pbdR} a converse of
 pointer syntax: the default with \pkg{pbdR} is to pass through to the
 referent, with special syntax required to access the local reference.
 
@@ -127,19 +127,19 @@ interaction.
 
 \proglang{Lisp} possesses an extremely simple syntax, with everything in brackets
 evaluating according to the first element as the operator and the
-following elements as operands. For example, \ccode[lisp]{sum}
-evaluates to \ccode[lisp]{6}, as summation. Values also self-evaluate;
-\ccode[lisp]{6} evaluates to \ccode[lisp]{6}. The evaluation treats everything as
+following elements as operands. For example, \code[lisp]{sum}
+evaluates to \code[lisp]{6}, as summation. Values also self-evaluate;
+\code[lisp]{6} evaluates to \code[lisp]{6}. The evaluation treats everything as
 ``in-use''. Such behaviour can be prevented through quotation
-constructs. For example, \ccode[lisp]{quote-sum} evaluates to
-\ccode[lisp]{sum}, which is just treated as just a list of symbols
+constructs. For example, \code[lisp]{quote-sum} evaluates to
+\code[lisp]{sum}, which is just treated as just a list of symbols
 (mention), ready for evaluation later on. Such a construct is so common,
-it has the abbreviated form of the \ccode[lisp]{tick} - the
+it has the abbreviated form of the \code[lisp]{tick} - the
 above example may have been equivalently quoted using
-\ccode[lisp]{tick-sum} Quotation may also act in a
+\code[lisp]{tick-sum} Quotation may also act in a
 more selective manner, where some symbols are used, and others just
 mentioned, with the ``backquote'' operator of quasiquotation. Here,
-\ccode[lisp]{backquote} is used to quote, with \ccode[lisp]{quasiquote} used to
+\code[lisp]{backquote} is used to quote, with \code[lisp]{quasiquote} used to
 unquote. For example, \cref{lst:quoted}
 
 \src[lisp]{quoted}{Quoted expression in lisp}
@@ -184,8 +184,8 @@ occur directly to the reference until it is again returned to serving as
 a proxy through some \textbf{``dematerialisation''} This special
 operator gets around the need to create special-case functions for
 access that break the consistency of passing through references as proxy
-objects. Proximal to the \ccode[c]{star} operator for the dereferencing
-operation in \proglang{C} is the \ccode[c]{address} operator for accessing the address of
+objects. Proximal to the \code[c]{star} operator for the dereferencing
+operation in \proglang{C} is the \code[c]{address} operator for accessing the address of
 a value, going in the opposite direction. While the semantics don't map
 exactly with the concepts of address and location, something akin to the
 operators may be desirable.
@@ -209,10 +209,10 @@ through some higher-order wrapper provided by the system, that may
 output a function which proxies the distributed object reference. Common
 methods may have this already provided. Reference interactions may take
 several different forms. Like \pkg{pbdR}, they may have some special encoding
-in function names, is in \ccode{ddim}. This is similar to C's
-\ccode[c]{directive}-directive pre-processing, though it requires an additional
+in function names, is in \code{ddim}. This is similar to C's
+\code[c]{directive}-directive pre-processing, though it requires an additional
 modest burden on the developer. Alternatively, functions may be provided
-to \ccode{materialise} and dematerialise the distributed object
+to \code{materialise} and dematerialise the distributed object
 reference, which serve as the only special cases to access the reference
 directly.
 

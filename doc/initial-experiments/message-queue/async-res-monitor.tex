@@ -15,7 +15,7 @@ model in asynchronous flow.
 
 \subsection{Alternating Recursive Blocking Pop and Evaluation} \label{recurs-stack}
 Rather than blocking and waiting for resolution of distributed references, an
-alternative model recurses on the \ccode{server} function upon
+alternative model recurses on the \code{server} function upon
 encountering unresolved references, returning upon an evaluation which possibly
 serves to resolve the relevant distributed reference.
 Given that resolution dependencies form a directed acyclic graph, due to

@@ -14,20 +14,20 @@ Note that the definition of concurrency is followed here in the strict sense, an
 
 Promises are a data structure-based mechanism of handling concurrency\cite{liskov1988promises}.
 Promise objects serve to represent operations that may occur at some point in time, with the completion of the operation marking a change in state of the promise object from "unresolved" to "resolved".
-Most importantly, promise objects posses a \ccode{then} method, which registers a callback to be run at some point following the resolution of the associated promise, itself returning a promise representing the completion of said callback.
-Chains of \ccode{then}s are then used to cleanly compose concurrent operations.
+Most importantly, promise objects posses a \code{then} method, which registers a callback to be run at some point following the resolution of the associated promise, itself returning a promise representing the completion of said callback.
+Chains of \code{then}s are then used to cleanly compose concurrent operations.
 
 \R has a \pkg{promises} package, clearly influenced by \proglang{JavaScript}'s A+ promises\cite{cheng2021promises}.
 If it can do as \textit{promised}, much of the problem of concurrency is solved in R.
 
 An initial test is given in \cref{lst:promise-work}.
-Note in this listing that there is a very mild race condition in that the prompt is printed in the final line, with the operation of the \ccode{then} immediately following.
+Note in this listing that there is a very mild race condition in that the prompt is printed in the final line, with the operation of the \code{then} immediately following.
 So far it looks like it is functioning.
 
 \src[Rout]{promise-work}{A fully-functioning promise}
 
 Attempting a simple equivalent outside of an empty stack leads to problems, as shown in \cref{lst:promise-not-work}.
-Here, as long as there are frames on the stack, the \ccode{then} callback is never triggered.
+Here, as long as there are frames on the stack, the \code{then} callback is never triggered.
 This may make sense in the avoidance of re-entrancy problems, though it is hardly very well advertised.
 
 \src[Rout]{promise-not-work}{A non-functioning promise}
@@ -35,18 +35,18 @@ This may make sense in the avoidance of re-entrancy problems, though it is hardl
 Can this be worked around?
 Promise domains appear to be an immediate answer to this, however it remains unsatisfactory, due to the requirement that they are eventually called at the top level; forcing evaluation on a busy stack isn't what they were designed for.
 Perhaps this can be solved by investigating the reason for this constraint.
-If \ccode{then}s could just be evaluated anywhere in the stack, race conditions far more serious than a prompt mis-print are certain to manifest.
+If \code{then}s could just be evaluated anywhere in the stack, race conditions far more serious than a prompt mis-print are certain to manifest.
 If it were possible to explicitly state where evaluation may be safe to take place, perhaps this could be avoided.
 
 Analysis of the *promises* source code reveals a dependency on the \pkg{later} package for asynchronous execution, and this is what has lead to the leaky abstraction \cite{chang2021later}.
-The central \ccode{later} function offered by the package is equivalent to \proglang{JavaScript}'s \ccode[js]{set-timeout} function, and also only executes when there is no other \R code on the execution stack.
-Operations may be forced in \pkg{later} with \ccode{run-now}, however, and this may serve as an appropriate mechanism for forcing evaluation.
+The central \code{later} function offered by the package is equivalent to \proglang{JavaScript}'s \code[js]{set-timeout} function, and also only executes when there is no other \R code on the execution stack.
+Operations may be forced in \pkg{later} with \code{run-now}, however, and this may serve as an appropriate mechanism for forcing evaluation.
 This is shown in \cref{lst:promise-forced}.
 
 \src[Rout]{promise-forced}{A forced promise}
 
 Jumping down a layer of abstraction does appear to solve this problem.
-However, given that \ccode{run-now} must be manually called, a new problem is added; scheduling of \ccode{then}s is now partially in userspace.
+However, given that \code{run-now} must be manually called, a new problem is added; scheduling of \code{then}s is now partially in userspace.
 At this point it is worth looking at alternatives, because the code is starting to become complex, with manual event-loop cycling guaranteed to lead to bugs.
 
 A layer up is the \pkg{coro} package\cite{henry21coro}.
@@ -60,13 +60,13 @@ At this point, it is worth considering custom solutions.
 An initial attempt at a solution was to use continuations in \R to implement promises, with coroutines as a base in a similar manner to how it may be implemented in scheme.
 Unfortunately, continuations in \R are downwards-only, and so can't be relied upon for proper coroutine or promise implementation.
 
-I attempted a solution without continuations: replicate promises, but have the \ccode{then} run at any point, without needing to force it or be on the top level.
+I attempted a solution without continuations: replicate promises, but have the \code{then} run at any point, without needing to force it or be on the top level.
 This involved the creation of a package that was mostly written in \proglang{C}, to create Promise types, as given in \cref{lst:promise-struct}, and perform their evaluation.
 
 \src[c]{promise-struct}{Internal structure of promises}
 
-The intention was to attach it to \R's event loop, using the \ccode[c]{add-input-handler} function from \file{R\_ext/eventloop.h}.
-This didn't achieve the goal, as \R's event loop only scans the input handlers at the top level (or when \ccode{sys-sleep}ing), leaving us back to where we started.
+The intention was to attach it to \R's event loop, using the \code[c]{add-input-handler} function from \file{R\_ext/eventloop.h}.
+This didn't achieve the goal, as \R's event loop only scans the input handlers at the top level (or when \code{sys-sleep}ing), leaving us back to where we started.
 
 At this point I decided to look at how other languages enabled concurrency, as the options had run dry within \R.
 
@@ -98,8 +98,8 @@ Threads certainly have their place, but can't be depended upon as the central me
 
 Async/await is a recent pattern in many programming languages.
 The name stems from the syntactic constructs which between them enable cooperative multitasking.
-A function defined with an \ccode[py]{async} keyword may be \ccode[py]{await}ed upon in certain contexts.
-What takes place is that when a scheduler or event loop encounters an \ccode[py]{await}, the scheduler may be thought of as ``bookmarking'' the position in program execution, and may jump to any other position that is being \ccode[py]{await}ed, and so on until one of the functions being \ccode[py]{await}ed returns, whereupon execution will continue from that point to the next \ccode[py]{await}.
+A function defined with an \code[py]{async} keyword may be \code[py]{await}ed upon in certain contexts.
+What takes place is that when a scheduler or event loop encounters an \code[py]{await}, the scheduler may be thought of as ``bookmarking'' the position in program execution, and may jump to any other position that is being \code[py]{await}ed, and so on until one of the functions being \code[py]{await}ed returns, whereupon execution will continue from that point to the next \code[py]{await}.
 Key examples, though with very different implementations, include \proglang{Python}'s \pkg{asyncio} and \proglang{JavaScript}'s \pkg{async/await}.
 The async/await paradigm has had massive uptake, with nearly all major programming languages supporting it.
 

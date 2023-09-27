@@ -10,7 +10,7 @@ approximating a functioning prototype via experimentation.
 
 While the RPC-based architecture as described in \cref{sec:earlier-one}
 had significant limitations, a particularly powerful construct was the higher
-order function \ccode{distributed-do-call}, which took functions as arguments
+order function \code{distributed-do-call}, which took functions as arguments
 to be performed on the distributed chunks.
 
 This construct is powerful in that it can serve as the basis for nearly every
@@ -29,10 +29,10 @@ Listings of an implementation of these concepts are given by \cref{lst:vr-client
 
 \src{vr-server}{Value returning server}
 
-To this end, the client node has a function defined as \ccode{do-fun-at}, which takes in any function, and the ID of a chunk to perform the
+To this end, the client node has a function defined as \code{do-fun-at}, which takes in any function, and the ID of a chunk to perform the
 function on.
 An implementation is given by \cref{lst:vr-client}.
-\ccode{do-fun-at} first composes a message to send to the chunk's queue, being a
+\code{do-fun-at} first composes a message to send to the chunk's queue, being a
 list consisting of the function, the chunk name, and a return address, which
 contains sufficient information for the node performing the operation on the
 chunk to send the results back to via socket connection.
@@ -41,7 +41,7 @@ requesting node sits listening on the socket that it has set up and advertised.
 
 On the server node end, it sits waiting on it's preassigned queues, each of
 which correspond to a chunk that it holds. 
-Upon a message coming through, it runs a \ccode{do-fun} function on the
+Upon a message coming through, it runs a \code{do-fun} function on the
 message, which in turn runs the function on the chunk named in the message. 
 An implementation is given by \cref{lst:vr-server}.
 It then creates a socket connected to the clients location as advertised in
@@ -73,7 +73,7 @@ a solution, but something that can be ignored without loss of generality.
 
 The actual creation of a chunk ID in itself demands a system-wide unique
 identifier; this is a solved problem with a central message server, in redis
-providing an \ccode{INCR} operation, which can be used to generate a new chunk
+providing an \code{INCR} operation, which can be used to generate a new chunk
 ID that is globally unique.
 
 The name origination and option of blocking until a chunk is formed will
@@ -93,7 +93,7 @@ ID, with blocking, the opposite will possibly be the most flexible;
 server-originated chunk ID with no blocking.
 This is because the very existence of a chunk is presupposed when a client
 node originates a chunk ID, while that may not be true in reality.
-For instance, the result may be an unexpected \ccode{NULL}, zero-length
+For instance, the result may be an unexpected \code{NULL}, zero-length
 vector, or even an error.
 In addition, the server-originated chunk ID with no blocking has every feature
 common to that of a future, from the future package; it can be checked for
@@ -103,7 +103,7 @@ parallel operations.
 \subsubsection{Client-Originated Chunk ID}
 
 The logic of the client in assigning the result of a distributed operation on a
-chunk is largely encapsulated in a new function, \ccode{assign-fun-at}, as
+chunk is largely encapsulated in a new function, \code{assign-fun-at}, as
 demonstrated in \cref{src:ro-ass-client}.
 
 \src{ro-ass-client}{Assigned result on client implementation}
@@ -119,10 +119,10 @@ intent of the message.
 The server, as shown in \cref{src:ro-ass-server}, consists in a loop of
 reading the message and performing an operation dependent on the operation
 specifier of the message.
-For an operation of \ccode{DOFUN}, all that is run is a \ccode{do-call} on
+For an operation of \code{DOFUN}, all that is run is a \code{do-call} on
 the function and chunk specified, with a message being returned to the
-client with the value of the \ccode{do-call}.
-An operation of \ccode{ASSIGN} runs the same as \ccode{DOFUN}, with the
+client with the value of the \code{do-call}.
+An operation of \code{ASSIGN} runs the same as \code{DOFUN}, with the
 addition of assigning the value to the ID as passed in the message, adding
 the ID to the array of queues to monitor, and potentially sending
 acknowledgement back to the client node.

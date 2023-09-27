@@ -5,7 +5,7 @@
 \cqu{bengtsson20}
 
 The simplest way to evaluate an expression in parallel is to use
-\ccode{future-assign} with \ccode{plan-multiprocess}. This package
+\code{future-assign} with \code{plan-multiprocess}. This package
 implements sequential, multicore, multisession, and cluster futures.
 With these, \R expressions can be evaluated on the local machine, in
 parallel a set of local machines, or distributed on a mix of local and
@@ -32,15 +32,15 @@ state and value according to it's resolution status.
 \subsection{Comparison with Substitution and Quoting}\label{subsec:comparison-with-non}
 
 \R lays open a powerful set of metaprogramming functions, which bear
-similarity to \pkg{future}. \R expressions can be captured in a \ccode{quote}, then evaluated in an
-environment with \ccode{eval} at some point
-in the future. Additionally, \ccode{substitute} substitutes any variables
+similarity to \pkg{future}. \R expressions can be captured in a \code{quote}, then evaluated in an
+environment with \code{eval} at some point
+in the future. Additionally, \code{substitute} substitutes any variables
 in the expression passed to it with the values bound in an environment
 argument, thus allowing ``non-standard evaluation'' in functions.
 
 \pkg{future} offers a delay of evaluation as well, however such a delay is not
 due to manual control of the programmer through
-\ccode{eval} functions and the like, but due
+\code{eval} functions and the like, but due
 to background computation of an expression instead.
 
 \subsection{Example Usage}\label{subsec:examples}
@@ -60,7 +60,7 @@ complete. Error handling and shared variables are not implemented.
     \item[\pkg{doFuture}]
         \textcite{bengtsson20do} provides an adapter for \pkg{foreach}\cite{microsoft20}
         that works on a \pkg{future}-based backend. Note that this does does not
-        return \ccode{foreach} calls as futures. The multicore features enabled with
+        return \code{foreach} calls as futures. The multicore features enabled with
         future are redundant over the existing \pkg{parallel} package, but because
         future backends can include other clusters, such as those provided by
         \pkg{batchtools}, there is some additional functionality, including additional
@@ -72,7 +72,7 @@ complete. Error handling and shared variables are not implemented.
         \pkg{TORQUE}, \pkg{Slurm}, \pkg{Docker Swarm}, as well as custom cluster functions.
     \item[\pkg{future.apply}]
         \textcite{bengtsson20apply} provides equivalent functions to \R's
-        \ccode{apply} procedures, with a future backend enabling parallel,
+        \code{apply} procedures, with a future backend enabling parallel,
         cluster, and other functionality as enabled by backends such as
         \pkg{batchtools} through \pkg{future.batchtools}.
     \item[\pkg{future.callr}]

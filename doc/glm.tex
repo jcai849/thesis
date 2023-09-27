@@ -48,8 +48,8 @@ We make use of a function that operates on distributed objects which we define o
 \tab{loop-comp}{Comparison of the iterative loop}
 
 Note the significantly simplified and reduced logic in switching to \lsr, which bears a far closer resemblance to the mathematical description.
-The \ccode{x-update} function given above is exemplary of the approach provided by \lsr, which allows for the switching of a local to a distributed function through the higher-order \ccode{dist} function, as demonstrated in \cref{tab:x-update}:
+The \code{x-update} function given above is exemplary of the approach provided by \lsr, which allows for the switching of a local to a distributed function through the higher-order \code{dist} function, as demonstrated in \cref{tab:x-update}:
 
-\tab{x-update}{Comparison of the \ccode{x-update} functions}
+\tab{x-update}{Comparison of the \code{x-update} functions}
 
 And this serves to define a distributed LASSO, using ADMM.

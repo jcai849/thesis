@@ -21,7 +21,7 @@ conceptually as the actual data split across RServe instances, and a
 reference containing the minimum of necessary information existing on
 the users \R session. The users \R session thus serves as the master node
 in this distributed system. Importantly, the object references are
-registered with \ccode{reg-finalize} to run a cleanup on the hosts of
+registered with \code{reg-finalize} to run a cleanup on the hosts of
 the data when being garbage collected themselves. Distributed objects
 are formed from two possible sources; master side, or slave side.
 Formation on the master side involves taking an existing \R object,
@@ -34,13 +34,13 @@ reference. It is an unlikely user-end scenario that the big data is
 small enough to fit on the host in order to send it, so reading in data
 on the worker end, then feeding information back to produce a reference,
 is the other means of producing a distributed object. At present, this
-takes the form of a \ccode{read-distributed-csv} call that forwards on
-most of the arguments to server-side \ccode{read-csv} functions. The
+takes the form of a \code{read-distributed-csv} call that forwards on
+most of the arguments to server-side \code{read-csv} functions. The
 nodes then measure the number of rows on their chunk, sending back the
 information to inform the creation of a reference. Beyond the storage of
 data larger than the user-end memory, distributed objects can mimic
 standard \R objects, with an example being distributed vectors having
-\ccode{ops} defined. Operations between vectors are forwarded on to the
+\code{ops} defined. Operations between vectors are forwarded on to the
 hosts, along with the names of their associated chunks, for the hosts to
 perform at the distributed end. The results are assigned to a provided
 UUID, and a distributed vector reference is returned on the master
@@ -69,16 +69,16 @@ Functions returning distributed vectors are arguably the more
 transparent among the functions acting on distributed vectors, in the
 sense that they return the same degree of distributution as their input,
 as regular \R functions implicitly do. Such functions include the
-\ccode{head} function as well as simple surjective functions.
+\code{head} function as well as simple surjective functions.
 
 Data often requires a secondary function acting in a reductive capacity
 over combined data resulting from initial node-specific operations. The
 resultant algorithms are typically not possible to entirely parallelise,
 and the reductive locus in this distributed system is set to be the
-user-side master \R session. As an example, the \ccode{unique} function
+user-side master \R session. As an example, the \code{unique} function
 attains the unique elements within an array; it is implemented in
-MapReduce form of \ccode{unique} operations within each node, followed
-by a \ccode{unique} over their combined output within the master node.
+MapReduce form of \code{unique} operations within each node, followed
+by a \code{unique} over their combined output within the master node.
 In this way, the amount of data moved is minimised through initial
 reduction. As the resulting data exists in a non-distributed form on the
 master, it is returned in that form without forcing distribution. It is
@@ -111,9 +111,9 @@ Local consecutive numeric vectors rely on the consecutive nature of
 object distribution in their subsetting of objects. The elements of the
 vector are compared to the known object indices on each host, then
 translated into the equivalent node-specific indices for each element.
-To illustrate: a host containing elements \ccode{100} to \ccode{150}
-will have the example selection \ccode{100-130} translated to
-\ccode{1-30}, as these are the equivalent elements relative to that
+To illustrate: a host containing elements \code{100} to \code{150}
+will have the example selection \code{100-130} translated to
+\code{1-30}, as these are the equivalent elements relative to that
 specific node.
 
 \subsubsection{Description of System Changes}\label{description-of-system-changes}
@@ -131,7 +131,7 @@ collection. This massively reduces the virtual memory leaks, but some
 issues remain.
 
 Previous operations on chunks took place sequentially within an
-\ccode{lapply}. This has been replaced with a semi-parallel function
+\code{lapply}. This has been replaced with a semi-parallel function
 where the operations are sent as directives to the nodes without waiting
 for the completion of the respective operations. This is then
 immediately followed by a makeshift barrier function which effectively
@@ -146,9 +146,9 @@ implemented.
 Perhaps most significant change in terms of user experience, though only
 a surface-level layer in implementation, manual communication syntax has
 been reduced in favour of new syntax that adheres closer to a
-declarative and more R-like paradigm. Concretely, \ccode{send} and
-\ccode{receive} have been replaced with \ccode{as-distributed} and the
-empty subset function (\ccode{empty-subset}) respectively. This is matched
+declarative and more R-like paradigm. Concretely, \code{send} and
+\code{receive} have been replaced with \code{as-distributed} and the
+empty subset function (\code{empty-subset}) respectively. This is matched
 with an increasing developmental attitude of user-end simplicity.
 
 \subsubsection{Architectural Evaluation}\label{sec:eval}
@@ -162,7 +162,7 @@ actually work. As a case in point, the Bureau of Transportation's
 \emph{flights} \cite{bot2009flights} dataset was loaded in its entireity
 as a distributed data frame, taking up a combined 17Gb and 119 million
 rows. This was able to be manipulated and subset in great speed, along
-with operations and reductive functions such as \ccode{table} run upon
+with operations and reductive functions such as \code{table} run upon
 it.
 
 In close second to this success is the transparency inherent in the
@@ -186,7 +186,7 @@ disconnect through errors or even garbage collection can lead to objects
 still being created on the worker nodes, but no handle returned. This is
 another virtual memory leak, with a possible solution being to
 encapsulate existence of the chunks of an object within its reference,
-with a \pkg{future}-like \ccode{resolve} attribute indicating this.
+with a \pkg{future}-like \code{resolve} attribute indicating this.
 
 Interaction of non-aligned vectors is lacking beyond the few cases
 implemented, such as the recycling of length one vectors. This leaves
@@ -209,17 +209,17 @@ return distributed, but it a potentially unnecessary and costly
 operation.
 
 A very common operation is to check the type of objects in R, including
-related operations such as checking \ccode{is-na} and
-\ccode{all-equal}. When interacting with distributed objects, it is not
+related operations such as checking \code{is-na} and
+\code{all-equal}. When interacting with distributed objects, it is not
 entirely clear how this should be performed. For example, the class of
-every distributed vector is \ccode{distributed-vector}. This is the
+every distributed vector is \code{distributed-vector}. This is the
 case regardless of the class of the underlying chunks that make it up.
-Even if the chunks are all logical, a call to \ccode{is-logical} will
+Even if the chunks are all logical, a call to \code{is-logical} will
 return false on the distributed vector, as it should. However, this
 leads to breaking transparency, as an equivalent non-distributed vector
 will yield true. A possible solution could be to have finer distributed
 vector classes that couple with their underlying types, and inherit from
-a parent \ccode{distributed-vector} class.
+a parent \code{distributed-vector} class.
 
 The nature of the connections to RServe instances have proven
 exceedingly efficient to work with, and have performed extremely well
@@ -248,7 +248,7 @@ improvement. Premature optimisation was very consciously avoided, being
 the root of all evil and all. In spite of this, many operations, such as
 selection and subsetting, take place extremely fast due to the design of
 the system. Some operations are significantly slower, such as
-\ccode{table}. With profiling and optimisation this
+\code{table}. With profiling and optimisation this
 can very likely be significantly improved.
 
 \subsubsection{Conclusion}\label{conclusion}

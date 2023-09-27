@@ -14,15 +14,15 @@ in order to constrain the discussion to only those features of
 computation that are invariant to distribution specifics, with these
 details being discussed later.
 
-We may continue with the \ccode{max} example as raised in the preceding
+We may continue with the \code{max} example as raised in the preceding
 section, with greater focus on the computational aspects. Starting
-again, we have some chunk referenced through \ccode{d1} in \cref{lst:chunk-d1}:
+again, we have some chunk referenced through \code{d1} in \cref{lst:chunk-d1}:
 
 \src[Rout]{chunk-d1}{Single chunk for manipulation}
 
 We want to attain the maximum of this chunk. As given before, we may run
-the \ccode{max} function over it, returning another chunk reference to
-a chunk representing the \ccode{max} of \ccode{d1}, and emerge the
+the \code{max} function over it, returning another chunk reference to
+a chunk representing the \code{max} of \code{d1}, and emerge the
 result to attain the max as a local, standard, object in \cref{lst:emerge-max}:
 
 \src[Rout]{emerge-max}{Emerging the maximum of a chunk}
@@ -42,9 +42,9 @@ returned value. Applied to chunk operations:
           and the result of the operation must be stored somewhere.
 \end{itemize}
 
-With respect to the \ccode{max} operation above, the first point means
-that the chunk pointed to by \ccode{d1} must be located in the same
-memory space as what the \ccode{max} operation has direct access to.
+With respect to the \code{max} operation above, the first point means
+that the chunk pointed to by \code{d1} must be located in the same
+memory space as what the \code{max} operation has direct access to.
 This means that the computation must take place remotely. The remote
 memory space which has operations performed is known as a
 \textbf{worker}, which may possibly be a distinct computing node in a
@@ -61,16 +61,16 @@ the chunk, and is therefore more efficient to transport.
 
 To investigate this, let us first introduce the notion of a function
 applicator that sends a function to be run over chunks, through their
-chunk references. We label it \ccode{chunk-call}, taking some function
+chunk references. We label it \code{chunk-call}, taking some function
 to be applied as it's first argument, with the remaining arguments chunk
 references to have the function remotely applied to, and returns a
 single chunk reference to the result. For example, we have a potential
-implementation of remote \ccode{max} at a low level using
-\ccode{chunk-call} in \cref{lst:chunk-call}.
+implementation of remote \code{max} at a low level using
+\code{chunk-call} in \cref{lst:chunk-call}.
 
 \src[Rout]{chunk-call}{Directly calling a function on a chunk}
 
-The use of \ccode{chunk-call} on a single chunk may be effectively
+The use of \code{chunk-call} on a single chunk may be effectively
 useless if the remote memory space the chunk occupies is equivalent to
 the local space - in this case it would be simpler to run the
 computation directly, locally, and avoid any overhead associated with
@@ -95,31 +95,31 @@ as such, is broken into several chunks. These chunks can be compared
 across vectors in memory, without the entireity of the vectors being
 loaded into memory together.
 
-Concretely, consider vectors \ccode{v1}, \ccode{v2}, and \ccode{v3},
+Concretely, consider vectors \code{v1}, \code{v2}, and \code{v3},
 each of which is composed of one trillion integers, and the running
 parallel maximum is to be found amongst them. Each vector is broken into
 ten thousand equally-sized chunks, with the chunks labelled according to
-vector \ccode{i} and chunk \ccode{j}, as \ccode{dij}, so that the
-third chunk of the first vector is referred to as \ccode{d13}. Then
+vector \code{i} and chunk \code{j}, as \code{dij}, so that the
+third chunk of the first vector is referred to as \code{d13}. Then
 each \(j\)th chunk of the vectors can be compared across with
-\ccode{pmax}, using \ccode{chunk-call}, with the \cref{lst:call-along-chunks}
+\code{pmax}, using \code{chunk-call}, with the \cref{lst:call-along-chunks}
 comparing the first chunk of each of the vectors:
 
 \src[Rout]{call-along-chunks}{A call along multiple chunks}
 
 Were each vector to be taken to the user level, as described in the
 previous section, they would be treated as distributed objects. The
-first vector \ccode{d1} may look something like the \cref{lst:distobj}:
+first vector \code{d1} may look something like the \cref{lst:distobj}:
 
 \src[Rout]{distobj}{An example distributed object}
 
-Here we may introduce a higher-level version of \ccode{chunk-call},
+Here we may introduce a higher-level version of \code{chunk-call},
 which similarly applies a function given as argument to the remainder of
 arguments, though the remainder of arguments in this case are to be
 distributed objects. With the example given above, we may label this
-function \ccode{distobj-call}, and run it with \ccode{pmax}
-over the distributed object vectors \ccode{d1}, \ccode{d2}, and
-\ccode{d3} like \cref{lst:distobj-call}:
+function \code{distobj-call}, and run it with \code{pmax}
+over the distributed object vectors \code{d1}, \code{d2}, and
+\code{d3} like \cref{lst:distobj-call}:
 
 \src[Rout]{distobj-call}{Calling over a distributed object}
 
@@ -144,12 +144,12 @@ example in \cref{lst:earlier-example}:
 
 Nothing on the face of it is wrong with such a statement, as indeed the
 semantics are exceedingly clear. A chunk is to be operated on, and the
-operation is to take the local argument \ccode{na-rm} A threshold
+operation is to take the local argument \code{na-rm} A threshold
 has been crossed however, in now allowing for the \textbf{mixing of
     local and remote arguments}. The worker requires all relevant arguments
 to the operation to exist in its own memory. Therefore,
-\ccode{na-rm} must be sent to the worker as part of the operation.
-For the sake of consistency, it may be that \ccode{na-rm} is sent over
+\code{na-rm} must be sent to the worker as part of the operation.
+For the sake of consistency, it may be that \code{na-rm} is sent over
 to the worker to be treated as a chunk, including the generation of a
 local chunk reference -- but this is to be decided by the
 implementation. There at least seems a clear answer to such a situation,
@@ -158,33 +158,33 @@ situation.
 
 The situation of argument attainment complexifies enormously when
 \textbf{arguments of differing length} are supplied. The above example
-had a very obvious interpretation, where \ccode{na-rm} is sent as-is to
-wherever the chunk referred to by \ccode{d1} is located. Even in a
-situation like the \ccode{distobj-call}, run with a
-\ccode{max} over a single distributed object, it is obvious that
-\ccode{na-rm} should be sent to all workers operating on each chunk of
+had a very obvious interpretation, where \code{na-rm} is sent as-is to
+wherever the chunk referred to by \code{d1} is located. Even in a
+situation like the \code{distobj-call}, run with a
+\code{max} over a single distributed object, it is obvious that
+\code{na-rm} should be sent to all workers operating on each chunk of
 the distributed object. That is, obvious to the user, but not
 necessarily so obvious to the computer. It is obvious to the user
 because the user knows of it as a scalar. In other situations, the
 scalar may be treated as a vector to be recycled to the same length of
-the greater object. For instance, the \ccode{pmax} between a scalar and
+the greater object. For instance, the \code{pmax} between a scalar and
 a vector. Recycling is not always intended, and when comparing
 distributed objects of differing length, different functions may require
 different strategies.
 
-\cref{fig:scalar-index} shows precisely this example. Here, \ccode{x} is a
-chunk containing a single integer, \ccode{1}, and \ccode{y} is a
+\cref{fig:scalar-index} shows precisely this example. Here, \code{x} is a
+chunk containing a single integer, \code{1}, and \code{y} is a
 distributed object composed of three chunks, each holding a section from
-\ccode{1up}. In all chunk computations with \ccode{max-x-y},
-\ccode{x} is to be recycled to engage as an argument with all chunk
-operations involving \ccode{y}. Conversely, if \ccode{y} is to be
-indexed by \ccode{x}, it should not be recycled, and each chunk
-belonging to \ccode{y} should receive different transformations of
-\ccode{x}. Specifically, the first chunk of \ccode{y} should receive
-\ccode{x} as-is, because with \ccode{x} as \ccode{1}, it selects the
+\code{1up}. In all chunk computations with \code{max-x-y},
+\code{x} is to be recycled to engage as an argument with all chunk
+operations involving \code{y}. Conversely, if \code{y} is to be
+indexed by \code{x}, it should not be recycled, and each chunk
+belonging to \code{y} should receive different transformations of
+\code{x}. Specifically, the first chunk of \code{y} should receive
+\code{x} as-is, because with \code{x} as \code{1}, it selects the
 first element. The first element of the distributed object is the first
 element of the first chunk, but nothing should be selected from the
-other chunks. Were a \ccode{1} to be indexed from each of the other
+other chunks. Were a \code{1} to be indexed from each of the other
 chunks, they would index relative to themselves, and unintended results
 would ensue.
 
@@ -297,7 +297,7 @@ object as it may exist relative to the client node:
 
 \src[Rout]{type-annotated}{Relative locations of each object}
 
-Here, the variable \ccode{a} is of particular interest, as it requires
+Here, the variable \code{a} is of particular interest, as it requires
 the creation of many temporary chunks as each addition computation is
 engaged in. The treatment of such temporary chunks is worth
 consideration, as without appropriate collection, they will gather and

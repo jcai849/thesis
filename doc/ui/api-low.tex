@@ -8,24 +8,24 @@ The core concepts to be described are the movement and direction of individual c
 \subsection{Chunk Movement}\label{sec:cm}
 
 The movement of chunks from one location to another can be described similarly to movement of any data from one location to another, and is classified based on the initiator of the movement: whether origin or destination.
-If the origin of a chunk, where it is currently located, seeks to move the chunk to some other compute destination, this is classified as a \ccode{push}.
-Alternatively, if some destination location seeks to move a chunk to itself, with that chunk located elsewhere, this is classified as a \ccode{pull}.
+If the origin of a chunk, where it is currently located, seeks to move the chunk to some other compute destination, this is classified as a \code{push}.
+Alternatively, if some destination location seeks to move a chunk to itself, with that chunk located elsewhere, this is classified as a \code{pull}.
 
-The \ccode{push} is very straightforward: as the origin location already has the chunk, it is a simple network transfer, and, barring system errors such as network breakdown or full memory, is guaranteed to complete successfully.
-Conversely, the \ccode{pull} is slightly more nuanced.
+The \code{push} is very straightforward: as the origin location already has the chunk, it is a simple network transfer, and, barring system errors such as network breakdown or full memory, is guaranteed to complete successfully.
+Conversely, the \code{pull} is slightly more nuanced.
 Due to the distributed nature of the system, availability is not necessarily guaranteed, as per the CAP theorem\cite{gilbert2002brewer}.
 Specifically, due to the asynchronous demands imposed by the higher level API, it is possible that the chunk that has been requested to be pulled is not yet available, due to it still being computed.
 There are then different means by which a remote chunk may be requested.
 
-It may be requested through a blocking \ccode{pull}, where a requesting location waits until it is available, not progressing to any further computation until the chunk has been made available and is sent; such a pattern may lead to race conditions, however, as the requested chunk may in turn depend on the result of a computation intended to take place on the requesting node, and blocking may lead to the non-fulfillment of such a computation as it waits indefinitely, with both origin and destination waiting on the availability of each other's chunks.
+It may be requested through a blocking \code{pull}, where a requesting location waits until it is available, not progressing to any further computation until the chunk has been made available and is sent; such a pattern may lead to race conditions, however, as the requested chunk may in turn depend on the result of a computation intended to take place on the requesting node, and blocking may lead to the non-fulfillment of such a computation as it waits indefinitely, with both origin and destination waiting on the availability of each other's chunks.
 
 With this in mind, there are two other possibilities:
 
-A \ccode{pull} that returns with failure if the requested chunk is unavailable; while this negates the described race condition, it requires auxiliary hedging logic for each pull in the case of failure.
-Furthermore, if the requested chunk is immediately depended upon, the \ccode{pull}-with-failure will have to be used in a continuous loop until the requested chunk is available and able to be pulled.
+A \code{pull} that returns with failure if the requested chunk is unavailable; while this negates the described race condition, it requires auxiliary hedging logic for each pull in the case of failure.
+Furthermore, if the requested chunk is immediately depended upon, the \code{pull}-with-failure will have to be used in a continuous loop until the requested chunk is available and able to be pulled.
 Such a pattern of repeated checking until availability is known as busy-waiting, or spinning, and is commonly treated as a computational anti-pattern, due to the additional traffic and load that is placed on the system\cite{corbet2023}.
 
-The alternative to failing \ccode{pull} that still allows for potential non-availability is an \ccode{async-pull}, wherein a request is sent from on location to another, with the requesting node able to continue operation immediately after sending the request without waiting for a chunk response, including making further asynchronous requests to the same and other nodes, with the chunks to be sent as they become available.
+The alternative to failing \code{pull} that still allows for potential non-availability is an \code{async-pull}, wherein a request is sent from on location to another, with the requesting node able to continue operation immediately after sending the request without waiting for a chunk response, including making further asynchronous requests to the same and other nodes, with the chunks to be sent as they become available.
 How does the requesting location eventually gain access to the requested chunks?
 The provided API in \lsr is that each location has what can be thought of as a queue of messages which asynchronously accumulates whatever data is sent from other chunks.
 At any point, this queue may be waited upon for messages.

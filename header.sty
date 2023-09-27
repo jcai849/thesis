@@ -72,7 +72,7 @@
 \usepackage{verbatimbox}
 \usepackage{listings}
 \usepackage{minted}
-\usemintedstyle{bw}
+\usemintedstyle{lovelace}
 \makeatletter
 \newcommand{\currentfontsize}{\fontsize{\f@size}{\f@baselineskip}\selectfont}
 \makeatother
@@ -82,7 +82,6 @@
 \newfloat{srcclrs}{thpb}{lol}
 \floatname{srcclrs}{Listing}
 
-\let\code\texttt
 \let\proglang\textsf
 \let\file\texttt
 \let\pkg\textit
@@ -95,13 +94,13 @@
 \newcommand{\orcv}{\pkg{orcv}}
 \newcommand{\bigO}[1]{\ensuremath{\mathcal{O}(#1)}}
 
-\newcommand\ccode[2][R]{%
-  \begingroup\everyeof{}%
-  \CatchFileDef\temp{src/#2.#1}{}%
-  \scantokens\expandafter{%
-    \expandafter\processinputmintinline\expandafter{\temp}{#1}%
-  }\unskip
-  \endgroup
+\newcommand\code[2][R]{%
+\begingroup\everyeof{}%
+\CatchFileDef\temp{src/#2.#1}{}%
+\scantokens\expandafter{%
+\expandafter\processinputmintinline\expandafter{\temp}{#1}%
+}\unskip%
+\endgroup%
 }
 \newcommand{\processinputmintinline}[2]{\mintinline{#2}{#1}}
 
@@ -140,7 +139,7 @@
 \blockquote{\input{quote/#1}}}
 
 \newcommand{\src}[3][R]{
-\begin{listing}
+\begin{listing}[H]
 \inputminted{#1}{src/#2.#1}
 \caption{\label{lst:#2}#3}
 \end{listing}
@@ -163,7 +162,7 @@
 \end{table}}
 
 \newcommand{\widetab}[2]{
-\begin{sidewaystable}[H]
+\begin{sidewaystable}
 \caption{\label{tab:#1}#2}
 \centering
 \input{tab/#1}

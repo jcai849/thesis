@@ -1,10 +1,10 @@
 The lowest layer is a self-contained package of mostly C descriptions of networking communication and thread-safe internal event queues.
 Communications are the core of this package and the main actors given are the listener and receivers.
-The listener is simply a standard \ccode{accept}er that upon acceptance of a connection passes on the file descriptor to a thread pool of receivers by way of the thread-safe queue.
+The listener is simply a standard \code{accept}er that upon acceptance of a connection passes on the file descriptor to a thread pool of receivers by way of the thread-safe queue.
 The receiver that picks up the connection in turn reads from it, passing on whatever message is received to a shared event queue, along with a file descriptor of the connection socket, in order to allow for direct responses to messages.
 
-The event queue consists of a basic thread-safe queue complete with a file descriptor that has a byte written to it upon an \ccode{enqueue}, and a byte read at a \ccode{dequeue}.
-The inclusion of a file descriptor allows for efficient multiplexing on the queue via \ccode{poll}ing.
+The event queue consists of a basic thread-safe queue complete with a file descriptor that has a byte written to it upon an \code{enqueue}, and a byte read at a \code{dequeue}.
+The inclusion of a file descriptor allows for efficient multiplexing on the queue via \code{poll}ing.
 The basic architecture is sketched in \cref{lst:orcv}
 
 So \orcv provides initial network communication capabilities, as well as event queues that can be monitored, with events themselves able to be replied to directly by way of their included file descriptor.

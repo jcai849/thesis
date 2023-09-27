@@ -2,22 +2,22 @@ This section describes more on the implementation of \lso, with a focus on the c
 
 \subsection{Distributed Computation}
 
-\ccode{do-dcall} is the principal means of applying a function to a distributed object.
+\code{do-dcall} is the principal means of applying a function to a distributed object.
 There is extremely little that it does beyond alignment of chunks forming the distributed object arguments, followed by the application of the function to the aligned chunks and returning the references as a distributed object.
 The alignment is polymorphic; in the simplest case it is a simple identity.
-The naming of the function is an attempt to render the semantics of \R's \ccode{do-call} function, in distributed fashion.
-As \ccode{do-call} can be used as a function applicator base for any other function, so too are all distributed object functions built from \ccode{do-dcall}'s.
-\ccode{dist} is a wrapper around \ccode{do-dcall}, returning a closure that will call \ccode{do-dcall} on the other function argument.
+The naming of the function is an attempt to render the semantics of \R's \code{do-call} function, in distributed fashion.
+As \code{do-call} can be used as a function applicator base for any other function, so too are all distributed object functions built from \code{do-dcall}'s.
+\code{dist} is a wrapper around \code{do-dcall}, returning a closure that will call \code{do-dcall} on the other function argument.
 
 \subsection{Methods}
 
 The methods provided by \lso all follow a similar pattern.
 
-For instance, \ccode{summary} follows a basic pattern of running a distributed call over a distributed object to summarise each chunk on their corresponding nodes, and then emerging them, pulling them locally and running the some summary function on their  emerged values.
-This works for transitive functions such as \ccode{min} and \ccode{max}, though isn't accurate for \ccode{median} or other non-transitive functions.
+For instance, \code{summary} follows a basic pattern of running a distributed call over a distributed object to summarise each chunk on their corresponding nodes, and then emerging them, pulling them locally and running the some summary function on their  emerged values.
+This works for transitive functions such as \code{min} and \code{max}, though isn't accurate for \code{median} or other non-transitive functions.
 This is effectively a map reduce operation and this is just one of many higher-level operations that is enabled through doing a distributed call and then pulling, then running some summary function over the implicitly combined emerged values.
 
 As a demonstration of the power granted by the primitives given by this layer, the full implementation of Math and Summary methods for distributed objects is given in \cref{lst:mathsum}.
-Here, Summary is a degenerate Map Reduce, with the implementation of the higher-order \ccode{map-reduce} function given as well. The definition of \ccode{Summary} automatically grants the functions \ccode{all}, \ccode{any}, \ccode{sum}, \ccode{prod}, \ccode{min}, \ccode{max}, \ccode{range}. 
+Here, Summary is a degenerate Map Reduce, with the implementation of the higher-order \code{map-reduce} function given as well. The definition of \code{Summary} automatically grants the functions \code{all}, \code{any}, \code{sum}, \code{prod}, \code{min}, \code{max}, \code{range}. 
 
 \src{mathsum}{Math and Summary methods defined by largescaler primitives, as well as map\_reduce}

@@ -24,60 +24,60 @@ foreach is developed by Steve Weston and Hoong Ooi.
 
 foreach doesn't require setup for simple serial execution, but parallel
 backends require registration by the user, typically with a single
-function as in the registration for doParallel, \ccode{registerdoparallel}
+function as in the registration for doParallel, \code{registerdoparallel}
 
-The syntax of \pkg{foreach} consists of a \ccode{foreach}
- function call next to a \ccode{do} operator, and some expression to the
+The syntax of \pkg{foreach} consists of a \code{foreach}
+ function call next to a \code{do} operator, and some expression to the
 right\cite{weston19:_using}. Without loss in generality, the syntactic
 form is given in \cref{lst:syntax}.
 
 \src{foreach-expr}{Standard \pkg{foreach} syntax}
 
-The \ccode{foreach} function can take other
+The \code{foreach} function can take other
 arguments including changing the means of combination along iterations,
 whether iterations should be performed in order, as well as the export
 of environmental variables and packages to each iteration instance.
 
-In addition to \ccode{do}, other binary operators can be appended
+In addition to \code{do}, other binary operators can be appended
 or substituted. Parallel iteration is performed by simply replacing
-\ccode{do} with \ccode{dopar}. Nested loops can be created by
-inserting \ccode{foreach-nest} between main and nested \pkg{foreach} functions,
-prior to the \ccode{do} call\cite{weston19:_nestin_loops}. The
+\code{do} with \code{dopar}. Nested loops can be created by
+inserting \code{foreach-nest} between main and nested \pkg{foreach} functions,
+prior to the \code{do} call\cite{weston19:_nestin_loops}. The
 last step to composition of \pkg{foreach} as capable of list comprehension is
-the filtering function \ccode{when}, which filters iterables based
+the filtering function \code{when}, which filters iterables based
 on some predicate to control evaluation.
 
 \subsection{Implementation}\label{sec:implementation}
 
 The mechanism of action in \pkg{foreach} is often forgotten in the face of the
 atypical form of the standard syntax. Going one-by-one, the
-\ccode{foreach} function returns an iterable
-object, \ccode{do} and derivatives are binary functions operating
+\code{foreach} function returns an iterable
+object, \code{do} and derivatives are binary functions operating
 on the iterable object returned by
-\ccode{foreach} on the left, and the
+\code{foreach} on the left, and the
 expression on the right; the rightmost expression is simply captured as
-such in \ccode{do}. Thus, the main beast of burdern is the
-\ccode{do} function, where the evaluation of the iteration takes
+such in \code{do}. Thus, the main beast of burdern is the
+\code{do} function, where the evaluation of the iteration takes
 place.
 
-In greater detail, \ccode{do} captures and creates environments,
-enabling sequential evaluation. \ccode{dopar} captures the
+In greater detail, \code{do} captures and creates environments,
+enabling sequential evaluation. \code{dopar} captures the
 environment of an expression, as well taking as a formal parameter a
 vector of names of libraries used in the expression, then passing that
 to the backend, which will in turn do additional work on capturing
 references to variables in expressions and adding them to evaluation
 environment, as well as ensure packages are loaded on worker nodes.
 
-\ccode{do} and \ccode{dopar}, after correct error checking,
-send calls to \ccode{getdoseq} and
-\ccode{getdopar} respectively, which return
+\code{do} and \code{dopar}, after correct error checking,
+send calls to \code{getdoseq} and
+\code{getdopar} respectively, which return
 lists determined by the registered backend, which contain a function
 used backend, used to operate on the main expression along with other
 environmental data.
 
 foreach depends strongly upon the iterators package, which gives the
 ability to construct custom iterators. These custom iterators can be
-used in turn with the \ccode{foreach}
+used in turn with the \code{foreach}
 function, as the interface to them is transparent.
 
 \subsection{Form of Iteration}\label{sec:form-iter}
@@ -90,8 +90,8 @@ order. In this case, the collection is an iterator object or an object
 coercible to one, but in other languages with \pkg{foreach} as part of the
 core language, such as python (whose for loop is actually only a \pkg{foreach}
 loop), collections can include sets, lists, and a variety of other
-classes which have an \ccode[py]{iter} and
-\ccode[py]{next} defined\cite{python2020iter}.
+classes which have an \code[py]{iter} and
+\code[py]{next} defined\cite{python2020iter}.
 
 Due to the constraints imposed by a foreach construct, loop optimisation
 is simplified relative to a for loop, and the lack of explicit traversal
@@ -150,7 +150,7 @@ Numerous backends exist, most notably:
 		provides \pkg{MPI} access as a backend, using \pkg{Rmpi}\cite{weston17}.
 	\item[\pkg{doRNG}]
 		provides for reproducible random number usage within parallel
-		iterations, using L'Ecuyer's method; provides\ccode{dorng}\cite{gaujoux20}.
+		iterations, using L'Ecuyer's method; provides\code{dorng}\cite{gaujoux20}.
 	\item[\pkg{doSNOW}]
 		provides an ad-hoc cluster backend, using the \pkg{SNOW} package\cite{dosnow19}.
 \end{description}

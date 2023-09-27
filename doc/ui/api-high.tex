@@ -1,25 +1,25 @@
-The \ccode{d} and its complement \ccode{emerge} functions serve to cover most distributed operations on their own.
+The \code{d} and its complement \code{emerge} functions serve to cover most distributed operations on their own.
 What follows is a description of supporting functions which round out and allow for many more tasks to be performed.
 They are grouped such that common functions appear in the early sections, with meta functionality toward the end.
 
 \subsection{Distributed Reduce}
 
-The \ccode{dreduce} function deserves some more description.
-As a higher-order function, it can be classed in a similar fashion to \ccode{d}, as it takes function arguments.
-A \ccode{Reduce}, commonly known as a \ccode{fold}, is a computational operation evaluating a binary operation sequentially along a container of objects\cite{bird2010pearls}.
-For example, in the case of a \ccode{plus} operation over a list of values drawn from \tbb, it is equivalent to a cumulative sum.
-The \ccode{Reduce} is provided in the base \R distribution as part of the \pkg{funprog} group of common higher-order functions.
+The \code{dreduce} function deserves some more description.
+As a higher-order function, it can be classed in a similar fashion to \code{d}, as it takes function arguments.
+A \code{Reduce}, commonly known as a \code{fold}, is a computational operation evaluating a binary operation sequentially along a container of objects\cite{bird2010pearls}.
+For example, in the case of a \code{plus} operation over a list of values drawn from \tbb, it is equivalent to a cumulative sum.
+The \code{Reduce} is provided in the base \R distribution as part of the \pkg{funprog} group of common higher-order functions.
 It serves as a standard means of performing a rolling operation over some container without resorting to explicit looping.
-The functional programming paradigm in turn makes heavy use of \ccode{Reduce} for the succinct encapsulation of the concept.
-The \ccode{Reduce} referred to in the \pkg{MapReduce} paradigm is a similar, though distinct, operation, serving closer to a grouped summary\cite{dean2004mapreduce}, as demonstrated in \cref{fig:mapreduce}.
-\pkg{MapReduce} is thus able to stay largely embarrassingly parallel, while a \ccode{Reduce} is necessarily serial.
-A \ccode{map-reduce} function is exposed by \lsr to perform a \pkg{MapReduce} operation, taking both a means of mapping and combination.
+The functional programming paradigm in turn makes heavy use of \code{Reduce} for the succinct encapsulation of the concept.
+The \code{Reduce} referred to in the \pkg{MapReduce} paradigm is a similar, though distinct, operation, serving closer to a grouped summary\cite{dean2004mapreduce}, as demonstrated in \cref{fig:mapreduce}.
+\pkg{MapReduce} is thus able to stay largely embarrassingly parallel, while a \code{Reduce} is necessarily serial.
+A \code{map-reduce} function is exposed by \lsr to perform a \pkg{MapReduce} operation, taking both a means of mapping and combination.
 
 \widefig{mapreduce}{An example MapReduce operation.}
 
-To create a distributed reduce using the \lsr system is actually mostly solved by the design of distributed objects, which can be passed to the existing \ccode{Reduce} function as provided in base \R, with no further modification.
+To create a distributed reduce using the \lsr system is actually mostly solved by the design of distributed objects, which can be passed to the existing \code{Reduce} function as provided in base \R, with no further modification.
 The only additional effort is to ensure that the operant binary function is capable of operating on distributed objects.
-This can be guaranteed by making use of a \ccode{dreducable} wrapper functional around a regular function, which returns the original function modified to operate in distributed fashion. 
+This can be guaranteed by making use of a \code{dreducable} wrapper functional around a regular function, which returns the original function modified to operate in distributed fashion. 
 
 The program flow of a standard distributed reduce is depicted in \cref{fig:dreduce}.
 Assuming a distributed object split consecutively over processes 1, 2, and 3, with a single master node containing the reference to this object, a distributed reduce takes place as follows:
@@ -39,14 +39,14 @@ Representative of this class of statistical algorithm is \pkg{biglm}, with an ep
 
 \subsection{Combine}\label{sec:combine}
 
-Given a distributed object, with distributed chunks, when an \ccode{emerge} is called and the chunks are all collected on the calling process, how is this collection to be appropriately combined such that the emerged object presents as a cohesive whole?
+Given a distributed object, with distributed chunks, when an \code{emerge} is called and the chunks are all collected on the calling process, how is this collection to be appropriately combined such that the emerged object presents as a cohesive whole?
 This question may have infinitely many possible answers.
 The API presented by \lsr is such that polymorphism is taken advantage of to allow for extensibility and user-control, including sane defaults to follow the principle of least surprise.
-Unpacking this statement, \lsr provides a generic \ccode{combine} function, which is called internally by \code{emerge}.
+Unpacking this statement, \lsr provides a generic \code{combine} function, which is called internally by \code{emerge}.
 The mechanism of dispatch is based on the class of the emerged chunks.
 
-Most default \ccode{combine} methods provide a variation of a union; for example, vectors are by default \ccode{com}'ed together, dataframes \ccode{rbind}'ed.
-If a user seeks some variation on the means of combination, the chunks may simply be subclassed to a user-defined class which provides a \ccode{combine} method for their combination.
+Most default \code{combine} methods provide a variation of a union; for example, vectors are by default \code{com}'ed together, dataframes \code{rbind}'ed.
+If a user seeks some variation on the means of combination, the chunks may simply be subclassed to a user-defined class which provides a \code{combine} method for their combination.
 Such a strategy is made use of in the model implementation in \cref{glm}.
 The extensibility which this allows can't be under-emphasised; by describing how chunks combine based on their class, the entire distributed object is thereby defined in structure by the chunk classes.
 This allows for infinitely many variations on chunking structure.
@@ -64,24 +64,24 @@ Given some elements composing some larger-than-memory object, how best to split 
 \item No chunk exceeds memory limits.
 \end{enumerate}
 
-Such constraints may not always be met, but the first two may be provided for in a function exposed by \lsr named \ccode{shuffle}.
-The semantics of \ccode{shuffle} are based on some given distributed object, and a goal vector by which to split and recombine the chunks of the distributed object.
-The goal grouping vector shares a similar form to the \ccode{INDEX} argument of base-\R \ccode{tapply}, in keeping with the intention to retain a familiar \R interface for statisticians.
+Such constraints may not always be met, but the first two may be provided for in a function exposed by \lsr named \code{shuffle}.
+The semantics of \code{shuffle} are based on some given distributed object, and a goal vector by which to split and recombine the chunks of the distributed object.
+The goal grouping vector shares a similar form to the \code{INDEX} argument of base-\R \code{tapply}, in keeping with the intention to retain a familiar \R interface for statisticians.
 The goal vector must be of the same length as the distributed object elements, and consist of levels corresponding to the intended grouping for each distributed object element at the same index.
-When called with a distributed object and a goal vector, \ccode{shuffle} returns a new distributed object, with each chunk corresponding to a level of the goal vector, composed of the original elements at the same index of the particular level.
+When called with a distributed object and a goal vector, \code{shuffle} returns a new distributed object, with each chunk corresponding to a level of the goal vector, composed of the original elements at the same index of the particular level.
 
 \subsection{Methods}
 
 For fluid encoding of a distributed algorithm, it is an unnecessary effort to regularly describe addition between distributed objects along the lines of, \code{dsum-long}.
 \R provides a means of overloading operators, with entire groups having generics defined.
-\lsr takes advantage of this, allowing for arithmetic and logic operations to take place transparently through the use of the overloaded operators to dispatch their equivalent distributed operations, such that the unwieldy code described earlier may instead be composed as \ccode{x1px2}.
+\lsr takes advantage of this, allowing for arithmetic and logic operations to take place transparently through the use of the overloaded operators to dispatch their equivalent distributed operations, such that the unwieldy code described earlier may instead be composed as \code{x1px2}.
 The pattern here is heavy use of polymorphism in order to minimise the amount of direct distributed calls required from the user and to provide a clean interface which does what is expected of it, in a similar manner to the combinations described in \cref{sec:combine}
 
-Additional methods include those for the functions \ccode{table}, \ccode{subset}, \ccode{solve}, among others.
+Additional methods include those for the functions \code{table}, \code{subset}, \code{solve}, among others.
 
 As a further demonstration of the value of such polymorphism, the core set of \pkg{dplyr} methods have been defined for Distributed Objects.
-Most of these are straightforward wrappers using the \ccode{d} function on the respective \pkg{dplyr} functions, with the exception of \ccode{group-by}.
-The \ccode{group-by} function serves to place an attribute on a data frame (``tibble'' in \pkg{tidyverse} discourse) which relegates successive operations to be performed based on a partitioned group structure, equivalent to the \proglang{SQL} \ccode[sql]{group-by} statement.
+Most of these are straightforward wrappers using the \code{d} function on the respective \pkg{dplyr} functions, with the exception of \code{group-by}.
+The \code{group-by} function serves to place an attribute on a data frame (``tibble'' in \pkg{tidyverse} discourse) which relegates successive operations to be performed based on a partitioned group structure, equivalent to the \proglang{SQL} \code[sql]{group-by} statement.
 Given the underlying chunks which compose a distributed object, the partitioning needs to be considered at the chunk level, with an actual physical repartitioning of the chunk elements.
 As such, the \code{shuffle} function as described in \cref{sec:shuffle} is used internally to relocate elements to allow for true grouped operations.
 The use of these methods match a common pattern among analysts using \pkg{dplyr} in place of base \R functions for data manipulation.
@@ -91,10 +91,10 @@ In this case, it is beneficial, as the limited means of expression by \pkg{dplyr
 
 As alluded to above, index-based subsetting for distributed objects is decidedly non-trivial.
 Consider first what seems to be a trivial case: the boolean mask.
-Here, using syntax such as \ccode{x-i}, where \ccode{x} is a distributed object of singular dimension and \ccode{i} is a distributed logical vector with all elements and chunks corresponding to those of \ccode{x}, the notion of subsetting is straightforward, with no controversy in what is generated.
-Even assuming that one of the chunks is completely masked by \ccode{i}, it seems reasonable to drop that chunk from the distributed object which is subset.
-Now, what if \ccode{i} doesn't perfectly conform to \ccode{x}?
-Standard \R objects employ recycling of \ccode{i} if it is of lower length than \ccode{x}, with a warning if it has a non-zero modulus.
+Here, using syntax such as \code{x-i}, where \code{x} is a distributed object of singular dimension and \code{i} is a distributed logical vector with all elements and chunks corresponding to those of \code{x}, the notion of subsetting is straightforward, with no controversy in what is generated.
+Even assuming that one of the chunks is completely masked by \code{i}, it seems reasonable to drop that chunk from the distributed object which is subset.
+Now, what if \code{i} doesn't perfectly conform to \code{x}?
+Standard \R objects employ recycling of \code{i} if it is of lower length than \code{x}, with a warning if it has a non-zero modulus.
 
 Recycling to a distributed object may be considered in more than one sense, however, and it isn't immediately obvious which is ``correct''.
 The index vector may be recycled to match each chunk, or it may be recycled over the entireity of the distributed object elements, without regard to chunking.
@@ -102,12 +102,12 @@ The decision may swing toward the ignorance of chunks, given that this aligns cl
 
 We have only considered logical vectors.
 What of numeric vectors?
-If a distributed numeric vector is used, where each vector element describes some \ccode{x}$_i$ to include, every $i$ requires reinterpretation to refer to the elements relative to the chunk on which it is applied to.
+If a distributed numeric vector is used, where each vector element describes some \code{x}$_i$ to include, every $i$ requires reinterpretation to refer to the elements relative to the chunk on which it is applied to.
 This is because each chunk is considered in isolation, and the process hosting any one chunk is plausibly unaware of the lengths of any other chunks.
 This transformation logic requires knowing the entire length of the distributed object, which would require an emerge of all chunk lengths, thereby breaking the asynchrony.
 Nevertheless, it is possible to allow for this, with the user just aware of this caveat.
 
-This is all acceptable for unidimensional distributed objects with a simple consecutive \ccode{combine} method.
+This is all acceptable for unidimensional distributed objects with a simple consecutive \code{combine} method.
 What now of multidimensional vectors?
 Here it is not entirely clear if \R even possesses the correct approach.
 Most of the time an intersection of indices along the dimensions is returned in an extraction, but this isn't the only possibility.
@@ -119,8 +119,8 @@ At this point, it is best to leave a recommendation agains numeric index-based s
 
 As described in great detail in \cref{sec:reference}, the illusion of direct interaction with a distributed object, absent a proxy, is often valuable to break.
 As such, functions to interact with the reference \textit{per se} are provided.
-The \ccode{materialise} function renders a reference tangible, thus allowing for its direct manipulation without fear of it transparently passing through any calls to its referent chunks, having been at least temporarily neutered.
-The complement functiion \ccode{dematerialise} returns the reference semantics of the distributed object, including all of the implicit pass-through functinality.
+The \code{materialise} function renders a reference tangible, thus allowing for its direct manipulation without fear of it transparently passing through any calls to its referent chunks, having been at least temporarily neutered.
+The complement functiion \code{dematerialise} returns the reference semantics of the distributed object, including all of the implicit pass-through functinality.
 
 \subsection{Checkpointing}
 

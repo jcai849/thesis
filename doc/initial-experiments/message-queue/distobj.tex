@@ -75,7 +75,7 @@ not computational terms) operation on arrays with elements in corresponding
 indices; beyond serving as a store of information, arrays can be comparable
 with each other, and operations performed on associated elements between them.
 This is obvious even in simple expressions such as 
-\ccode{adj}, wherein vectors are operated upon in
+\code{adj}, wherein vectors are operated upon in
 adjacently.
 This expectation raises a problem for operations on multiple distributed
 objects, where if the chunks holding adjacent elements are required for a
@@ -90,7 +90,7 @@ operation to be located on the same node for processing.
 Such a task is further compounded by the standard operation of recycling,
 wherein arrays of shorter length than others are copied end-to-end in order to
 achieve the same size.
-An example is given in the expression \ccode{recycle}, where
+An example is given in the expression \code{recycle}, where
 the second vector of length 2 is repeated 4 additional times in order to match
 the size of the larger.
 This is a sufficiently common task that the system should provide it by default
@@ -99,37 +99,37 @@ when moving data.
 With these problems stated, a fuller description of the base model can now be
 entered into, with \cref{fig:distobj-eval-align} accompanying.
 
-\fig{distobj-eval-align}{Process of evaluation and alignment for distributed object references resulting from the expresssion, \ccode{do-call-distobj}}
+\fig{distobj-eval-align}{Process of evaluation and alignment for distributed object references resulting from the expresssion, \code{do-call-distobj}}
 
 Similarly to chunk manipulation, the central function for performing operations
-is the \ccode{do-call} function, with a method defined for
-\ccode{distobjref}. It possesses similar formal parameters to the standard
-\ccode{do-call}, being \ccode{what}, \ccode{args}, and
-\ccode{assign}, which respectively describe the function to be called, a list
-of arguments to serve as arguments to \ccode{what}, and whether to return a
+is the \code{do-call} function, with a method defined for
+\code{distobjref}. It possesses similar formal parameters to the standard
+\code{do-call}, being \code{what}, \code{args}, and
+\code{assign}, which respectively describe the function to be called, a list
+of arguments to serve as arguments to \code{what}, and whether to return a
 value or to save the result and monitor it as a distributed object.
 
 A node acting in the role of client will call a
-\ccode{do-call-distobj} on a list of distributed object
+\code{do-call-distobj} on a list of distributed object
 references, as well as non-distributed.
 Of this list, one distributed object reference will be chosen as the target
 with which all alignment is to be performed relative to, with the function
-\ccode{find-target}.
-From this target, \ccode{do-call-chunkref} is called with an
-additional \ccode{target} argument relating the target chunk, on all of the
+\code{find-target}.
+From this target, \code{do-call-chunkref} is called with an
+additional \code{target} argument relating the target chunk, on all of the
 chunk references within the target, with the standard resultant messages being
 sent to the appropriate chunk queues.
 
 The queues are monitored and popped by the nodes holding the chunks, and
-\ccode{do-call-msg} is called on the popped message, taking the
-same arguments as \ccode{do-call-chunkref}.
-Within \ccode{do-call-msg}, \ccode{reftorec}
-and \ccode{alignment} are called to replace the reference
-objects in the \ccode{args} list with copies of their referent objects at
+\code{do-call-msg} is called on the popped message, taking the
+same arguments as \code{do-call-chunkref}.
+Within \code{do-call-msg}, \code{reftorec}
+and \code{alignment} are called to replace the reference
+objects in the \code{args} list with copies of their referent objects at
 indices analogous to the target chunk, thereby ensuring correctness in
 adjacent operations between arrays.
 
-The standard \ccode{do-call} is then used on the list of whole,
+The standard \code{do-call} is then used on the list of whole,
 aligned objects, with the results sent to keys in the distributed table
 associated with the new chunk ID, completing work on the server side.
 
@@ -139,13 +139,13 @@ As presented, the model suffers from a fatal flaw when used asynchronously.
 Alignment necessarily depends on knowing the indices of where in a distributed
 object a chunk belongs.
 This information is attained from the distributed keys which the server sets
-based on the resultant chunk's size after \ccode{do-call-msg}.
+based on the resultant chunk's size after \code{do-call-msg}.
 Upon receiving this information, a node holding a distributed object containing
 the appropriate chunk reference can cache this information within the chunk
 reference object, to avoid future lookups.
 
-Therefore the distributed object references forming the list of \ccode{args}
-in \ccode{do-call-distobj} can either have all of the index
+Therefore the distributed object references forming the list of \code{args}
+in \code{do-call-distobj} can either have all of the index
 information cached inside, as a fully resolved object, avoiding any need for
 lookup in the table, or they may lack some of the information, being
 unresolved, and a lookup will have to be performed during alignment on the
@@ -153,7 +153,7 @@ server end.
 
 A race condition arises when the size of an unresolved object is needed during
 alignment, but that object is to be computed on that same node some time after
-completing the evaluation of the current \ccode{do-call-msg}. 
+completing the evaluation of the current \code{do-call-msg}. 
 
 
 Formulated as a counter example, with the correspondence to the diagram in
@@ -162,26 +162,26 @@ Formulated as a counter example, with the correspondence to the diagram in
 Consider some distributed object containing fully resolved chunks belonging to
 a set \({c_1, c_2, \dots, c_n}\) for some finite \(n\), all of which reside on
 a singular node \(S\).
-Let this object have reference \ccode{x} with full resolution on a node \(K\).
+Let this object have reference \code{x} with full resolution on a node \(K\).
 (\textcolor{dark2-1}{a}) The node \(K\) may execute the expression 
-\ccode{do-call-distobj-assign}, returning an
+\code{do-call-distobj-assign}, returning an
 unresolved distributed object reference and assigning it to the symbol
-\ccode{y}.
+\code{y}.
 (\textcolor{dark2-1}{b}) Following the model description, messages containing sufficient information on
 the request are pushed to all of the target chunk queues, which in this case,
-given that there is only one distributed object reference in \ccode{args}, are
+given that there is only one distributed object reference in \code{args}, are
 chunks \(c_1, c_2, \dots, c_n\).
 (\textcolor{dark2-1}{c}) Node \(S\) may pop from any of these queues in any order, so consider the first
 popped message to relate to chunk \(c_m\) for some \(1 \geq m \geq n\).
 (\textcolor{dark2-1}{d}) The server-side expression will take the form, 
-\ccode{do-call-msg-expr},
-where \ccode{obj-place} refers to the value of \ccode{obj}.
-(\textcolor{dark2-1}{e}) The expression will in turn call \ccode{reftorec} and
-\ccode{alignment} on \ccode{Cm} and the \ccode{args} list,
+\code{do-call-msg-expr},
+where \code{obj-place} refers to the value of \code{obj}.
+(\textcolor{dark2-1}{e}) The expression will in turn call \code{reftorec} and
+\code{alignment} on \code{Cm} and the \code{args} list,
 which, given the resolved state of all chunks, will replace the
-\ccode{distobj-place} in \ccode{args} with it's corresponding emerged
-object, in this case the referent of \ccode{Cm}.
-Upon completion of performing \ccode{f1} on the new \ccode{args} list, the
+\code{distobj-place} in \code{args} with it's corresponding emerged
+object, in this case the referent of \code{Cm}.
+Upon completion of performing \code{f1} on the new \code{args} list, the
 resultant chunk \(c_{n+k}\) for \(k > 0 \) is (\textcolor{dark2-1}{f}) added to the local chunk table
 of node \(S\) for later retrieval, with it's queue also monitored, and (\textcolor{dark2-1}{g})
 information on the size and other metadata of \(c_{n+k}\) are obtained and sent
@@ -189,16 +189,16 @@ to the distributed table for future reference.
 
  If the node \(K\) (\textcolor{dark2-2}{i}) sent out another batch of requests
  based on the expression (\textcolor{dark2-2}{h})
-\ccode{do-call-distobj-list}, and
-\ccode{x} is given as the target, then (\textcolor{dark2-2}{j}) with node \(S\) popping from queue
+\code{do-call-distobj-list}, and
+\code{x} is given as the target, then (\textcolor{dark2-2}{j}) with node \(S\) popping from queue
 \(c_m\) once again, (\textcolor{dark2-2}{k}) the following expression is then formed on \(S\):
-\ccode{do-call-msg-list}.
-(\textcolor{dark2-2}{l}) As before, the expression will call \ccode{reftorec} and
-\ccode{alignment} on \ccode{Cm} and the \ccode{args} list,
+\code{do-call-msg-list}.
+(\textcolor{dark2-2}{l}) As before, the expression will call \code{reftorec} and
+\code{alignment} on \code{Cm} and the \code{args} list,
 but the relevant index information on the chunks belonging to the value of
-distributed object reference \ccode{y} is missing, and will be blocked
+distributed object reference \code{y} is missing, and will be blocked
 indefinitely, as there is no means of determining where in the distributed
-object \(y\) is the chunk adjacent to chunk \ccode{Cm}.
+object \(y\) is the chunk adjacent to chunk \code{Cm}.
 The algorithm therefore never terminates in such a situation.
 
 \fig{race-cond}{A simple failure example to demonstrate a race condition in the model.}
@@ -212,14 +212,14 @@ each chunk reference, and that the server will always have access to this
 information.
 This would be immediately implementable, but will have a significant
 corresponding drawback in removing prior asynchrony on the client end, blocking
-a \ccode{do-call-distobj} until full chunk resolution of the
+a \code{do-call-distobj} until full chunk resolution of the
 underlying arguments.
 It is therefore not a full solution in itself, but removes race conditions
 until a more complete solution is implemented.
 
 The node acting as server presents a more likely candidate for the location of
 a solution to the race condition.
-If the \ccode{do-call-msg} was made concurrent through a
+If the \code{do-call-msg} was made concurrent through a
 backgrounding-like operation, the blocking until alignment data was available
 would remain, but with a guarantee of eventual availability of the data, thus
 allowing for termination.
@@ -227,10 +227,10 @@ allowing for termination.
 \subsubsection{Solution Implementation}
 
 Implementation of server-side concurrency in the
-\ccode{do-call-msg} and it's surrounding constructs implies a
-parallel operation such as that provided by the \ccode{parallel} package,
-located principally in the \ccode{mcparallel} function.
-An initial problem with reliance on \ccode{mcparallel} is the
+\code{do-call-msg} and it's surrounding constructs implies a
+parallel operation such as that provided by the \code{parallel} package,
+located principally in the \code{mcparallel} function.
+An initial problem with reliance on \code{mcparallel} is the
 fork produces copy-on-write semantics, and so storing chunks in the local chunk
 table becomes impossible when the chunk table is forked.
 This may be overcome by removing the concept of a local chunk table, and

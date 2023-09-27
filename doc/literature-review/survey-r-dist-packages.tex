@@ -148,12 +148,12 @@ request on the \pkg{Spark} cluster.
 
 Of particular interest is the capacity to execute arbitrary \R functions
 on the \pkg{Spark} cluster. This can be performed directly, with the
-\ccode{spark-apply} function, taking a
+\code{spark-apply} function, taking a
 user-defined function as a formal parameter. It can also be used as part
-of a \pkg{dplyr} chain through the \ccode{mutate}
+of a \pkg{dplyr} chain through the \code{mutate}
 function. Extending these, \pkg{Spark}-defined hive functions and windowing
 functions are enabled for use in
-\ccode{mutate} calls. Limitations to
+\code{mutate} calls. Limitations to
 arbitrary code execution include the lack of support for global
 references due to the underlying lack in the \pkg{serialize} package.
 

@@ -55,7 +55,7 @@ location
 \end{description}
 
 This is coupled with a garbage collection system consisting of a hook to
-the removal of the reference object through \ccode{reg-finalize}. Upon
+the removal of the reference object through \code{reg-finalize}. Upon
 triggering the hook, a directive is issued to all chunks in
 \texttt{locs} to remove \texttt{name}, thereby closing the loop between
 creation and deletion on local and remote nodes.

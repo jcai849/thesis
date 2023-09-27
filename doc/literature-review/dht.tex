@@ -125,7 +125,7 @@ References to other chunks in the dependency graph describe the chunk ID of the 
 \subsection{Relation to largescaler System}
 
 The dependency graph and DHT hosting it would be separate, though depended upon, by the working \lsr{} system.
-For all intents, the DHT may be accessed through a simple \ccode{read} and \ccode{execute} interface at the top level, with perhaps some middle layer communicating storage details and garbage collection information to the DHT.
+For all intents, the DHT may be accessed through a simple \code{read} and \code{execute} interface at the top level, with perhaps some middle layer communicating storage details and garbage collection information to the DHT.
 The question remains of how much responsibility should be held by the DHT with respect to how much responsibility should be held by the operating \lsr{} system.
 For instance, should the DHT return the address of a chunk when queried, or go beyond that and return the very value of the chunk?
 Initial inclination is toward the DHT returning the address, with some thin adaptor returning the value, and the system having no further knowledge than the bare minimum of the adaptor's interface.

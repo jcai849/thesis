@@ -96,7 +96,7 @@ symbol, as any other object. The reference serves as a means of
 indirection, and takes many forms; for instance, the hyperlink, or the
 pointer. References may be ``dereferenced'' in order to access the other
 object that it leads to as a value - clicking the hyperlink, or
-\ccode{star}ing the pointer.
+\code{star}ing the pointer.
 
 On a system where referents do not necessarily exist in the same memory
 space as the reference, we may say that the reference is \textbf{local},
@@ -155,7 +155,7 @@ All of the chunks can't simultaneously exist in memory on one single
 computer, for the same reason that the entire dataset can't. Thus this
 collection of chunks will be a set of pointers to pieces of the dataset
 across time or space. This low-level form may be abstracted over in a
-\ccode{read-csv}, or \ccode{dbconnect}, serving as just one particular
+\code{read-csv}, or \code{dbconnect}, serving as just one particular
 method which allows for chunks.
 
 The key result of such objects, beyond the multiple audiences allowed
@@ -177,8 +177,8 @@ means of access to the data underlying chunks. While it is not possible
 to access the full dataset directly, each chunk may be summarised to a
 degree sufficiently small enough to read in and use as a regular object,
 through some massive dimensionality reducing operation, such as a
-\ccode{max} or \ccode{sum}. For example, when looking for a
-\ccode{max}, a chunk consisting of a billion integers is transformed
+\code{max} or \code{sum}. For example, when looking for a
+\code{max}, a chunk consisting of a billion integers is transformed
 into a chunk of a single integer. This single integer may be pulled out
 of the chunk and managed as a regular integer, through some read
 operation, which we name an \textbf{emerge}. The operation is equivalent
@@ -189,14 +189,14 @@ as illustration:
 
 \src[Rout]{chunk-container}{An example of chunk as container}
 
-Here, we have the symbol \ccode{d1} specifying a reference to some
+Here, we have the symbol \code{d1} specifying a reference to some
 chunk, which is a subset of some unspecified greater whole. The chunk is
 an integer vector of length one billion and exists remotely, while the
 reference to the chunk is local and immediately accessible through the
-symbol \ccode{d1}. To interact with the integer vector directly, it may
+symbol \code{d1}. To interact with the integer vector directly, it may
 be emerged, which pulls the vector into local memory space as a
 standard, regular, integer vector. In the \cref{lst:assign-emerge}, we assign
-the emerged vector to \ccode{l1}; that is, ``local''\ccode{1}.
+the emerged vector to \code{l1}; that is, ``local''\code{1}.
 
 \src[Rout]{assign-emerge}{Reading chunk value through an emerge}
 
@@ -206,18 +206,18 @@ detail in the following chapter, though an example of how some
 interaction may be stated syntactically is given in the following
 listing; \cref{lst:write-chunk}, the act of maximisation is shown at a high level, with
 implicit write operations, and an explicit read operation using
-\ccode{emerge}.
+\code{emerge}.
 
 \src[Rout]{write-chunk}{Writing new chunk through chunk-capable function}
 
-Note that if run in a functional manner, the object \ccode{d2} is
-entirely distinct and separate from \ccode{d1}. The mechanism of such a
+Note that if run in a functional manner, the object \code{d2} is
+entirely distinct and separate from \code{d1}. The mechanism of such a
 transformation is described further in the following chapter.
-Importantly, \ccode{d2} is also a chunk reference, with no emerges
+Importantly, \code{d2} is also a chunk reference, with no emerges
 having taken place. The chunk referred to may exist in a separate memory
-space to the reference, just like \ccode{d1}. No specification is given
+space to the reference, just like \code{d1}. No specification is given
 as to whether it necessarily exists in the same memory space as
-\ccode{d1} however, only that both are remote to the reference.
+\code{d1} however, only that both are remote to the reference.
 
 The above is interaction purely at the pure chunk level. When
 considering collections of chunks, or abstracting over them as the user
@@ -231,41 +231,41 @@ considered as a whole. One example was hinted at before, where chunk
 references are held together in an array, with a defined underlying
 datastructure making up the chunks as pointed to. Operations over a
 group of chunks may take a similar form to operations over a collection
-of other objects, which are commonly referred to as \ccode{apply}
+of other objects, which are commonly referred to as \code{apply}
 functions, both in \R and in the wider computer science world. A means of
-operating over a group of chunks may be given in a \ccode{chunk-apply}
+operating over a group of chunks may be given in a \code{chunk-apply}
 function, acting as a higher-order function that orders the running of
 whatever function argument is given, over the set of chunk arguments.
-Take the earlier example of maximisation in \cref{lst:chunk-collection}, with new object \ccode{d3}
+Take the earlier example of maximisation in \cref{lst:chunk-collection}, with new object \code{d3}
 standing for a collection of chunks, being three chunk references, each
 pointing to it's own chunk of length one billion; The distributed object
 is therefore a three billion length integer.
 
 \src[Rout]{chunk-collection}{Collecting chunks into one object}
 
-In \cref{lst:chunk-apply}, over each chunk, send the \ccode{max} function, to be performed
+In \cref{lst:chunk-apply}, over each chunk, send the \code{max} function, to be performed
 remotely - this is distinct from the earlier example of pulling in the
 data locally first and then operating, with the order here being
 reversed. The maximisation takes place in the separate memory spaces
 where each chunk resides, possibly on other nodes. The result of the
-operation, \ccode{dmaxes}, consists of the remote results of the
+operation, \code{dmaxes}, consists of the remote results of the
 operations, itself being a distributed object of three chunks. Each
-chunk in \ccode{dmaxes} is the maximum value of each of the respective
-\ccode{d3} chunks, as one scalar integer each, equivalently a
+chunk in \code{dmaxes} is the maximum value of each of the respective
+\code{d3} chunks, as one scalar integer each, equivalently a
 distributed object of three integers.
 
 \src[Rout]{chunk-apply}{Application of function over chunks}
 
 Each chunk is now sufficiently small to bring into local memory, and may
 be emerged as a single cohesive vector, stored in the local variable
-\ccode{lmaxes}, as in \cref{lst:chunk-summarised}
+\code{lmaxes}, as in \cref{lst:chunk-summarised}
 
 \src[Rout]{chunk-summarised}{Emergence of summarised chunks}
 
-With \ccode{max} being a transitive operation, the max of
-\ccode{lmaxes} may be taken in turn, with the operation being performed
-as normal, locally, in \cref{lst:total-max}. This resulting value, assigned as \ccode{lmax}, is
-equivalently the maximum of the entire distributed object \ccode{d3}.
+With \code{max} being a transitive operation, the max of
+\code{lmaxes} may be taken in turn, with the operation being performed
+as normal, locally, in \cref{lst:total-max}. This resulting value, assigned as \code{lmax}, is
+equivalently the maximum of the entire distributed object \code{d3}.
 
 \src[Rout]{total-max}{The maximum of chunk maxima}
 
@@ -273,10 +273,10 @@ Thus, an operation was performed over a distributed object without the
 entire object existing in local memory at any one point in time. It is
 clear to see that such behaviour is generalisable to all other
 transitive functions that result in sufficiently small summaries that
-may be read as a set out of chunks. The \ccode{chunk-apply} function
+may be read as a set out of chunks. The \code{chunk-apply} function
 would sit as a valuable tool for the power-user layer, while
-\ccode{max} may have some method defined for distributed objects that
-uses \ccode{chunk-apply} in its implementation, and sits at the user
+\code{max} may have some method defined for distributed objects that
+uses \code{chunk-apply} in its implementation, and sits at the user
 layer.
 
 Let's pursue this further though, with respect to non-singular
@@ -309,8 +309,8 @@ sampling at a lower level, as it will serve to highlight in a more
 complex light the importance of the chunk structure and the system
 layering, hopefully cementing the concepts explored in this section.
 Consider in \cref{lst:varying-sizes} a different distributed object, with chunks of different sizes,
-\mintinline{r}{d4} -- consider this as sharing the same first chunk as
-\mintinline{r}{d3}, with length \(1 \times 10^9\), but the second and third
+\code{d4} -- consider this as sharing the same first chunk as
+\code{d3}, with length \(1 \times 10^9\), but the second and third
 chunks split from the greater whole differently, at lengths
 \(1 \times 10^7\) and \(9.9 \times 10^8\) respectively.
 
@@ -350,14 +350,14 @@ Which, for \(n=3\) draws, may yield the following series:
 This implies the first element of the output must be a a sample from the
 first chunk, the second element a sample from the third chunk, and the
 third element another sample from the first chunk. With the counts of
-the series above given as the variable \ccode{chunk-count}, we have
+the series above given as the variable \code{chunk-count}, we have
 the contingency \cref{lst:example-sample}, with counts labelled by their
 corresponding chunk:
 
 \src[Rout]{example-sample}{Example contingency table of samples}
 
-Treating the table as a vector, we may use \ccode{chunk-apply}, to run
-a sample over each chunk, using \ccode{chunk-count} as the \(n\) for
+Treating the table as a vector, we may use \code{chunk-apply}, to run
+a sample over each chunk, using \code{chunk-count} as the \(n\) for
 each chunk, as in \cref{lst:sample-apply}. Therefore, the first chunk will run a sample with \(n=2\),
 the second chunk will run a sample with \(n=0\), and the third will run
 a sample with \(n=1\).
@@ -369,8 +369,8 @@ This may then be emerged as a local object as in \cref{lst:emerge-sample}:
 \src[Rout]{emerge-sample}{Locally emerged sample}
 
 And assuming the existence of some function to rearrange into the order
-as given in the original series, perhaps named \ccode{rearrange}, with
-the series given as the variable \ccode{series}, we are left with a
+as given in the original series, perhaps named \code{rearrange}, with
+the series given as the variable \code{series}, we are left with a
 random sample with replacement from a distributed object, and none of
 the sampling of each chunk necessarily coinciding within the same memory
 space as any other chunk, in \cref{lst:random-sample}:

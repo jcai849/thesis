@@ -31,7 +31,7 @@ for example, copies of all objects being manipulated will be typically
 be created, often having devastating performance aspects unless specific
 functions are used for linear algebra operations, as discussed in
 \textcite{schmidt2017programming} (e.g.,
-\ccode{crossprod} instead of \ccode{crossprod-manual}).
+\code{crossprod} instead of \code{crossprod-manual}).
 
 Distributed linear algebra operations in \pkg{pbdR} depend further on the
 \pkg{ScaLAPACK} library, which can be provided through the \pkg{pbdSLAP} package
@@ -47,8 +47,8 @@ mode through \pkg{MPI}, rather than any interactive option as in \pkg{Rmpi}
 The actual manipulation of distributed matrices is enabled through the
 \pkg{pbdDMAT} package, which offers S4 classes encapsulating distributed
 matrices \cite{pbdDMATpackage}. These are specialised for dense matrices
-through the \ccode{ddmatrix} class, though the project offers some
-support for other matrices. The \ccode{ddmatrix} class has nearly all
+through the \code{ddmatrix} class, though the project offers some
+support for other matrices. The \code{ddmatrix} class has nearly all
 of the standard matrix generics implemented for it, with nearly
 identical syntax for all.
 
@@ -70,15 +70,15 @@ It outputs a \mathfrom{beta-hat} matrix after several seconds of computation.
 
 Were \pkg{pbdDMAT} matrices to function perfectly transparently as regular
 matrices, then all that would be required to convert a local algorithm
-to distributed would be to prefix a \ccode{dd} to every \ccode{matrix} call, and bracket the program with a template as per listing
+to distributed would be to prefix a \code{dd} to every \code{matrix} call, and bracket the program with a template as per listing
 \cref{lst:bracket}.
 
 \src{bracket}{Idealised Common Wrap for Local to Distributed Matrices}
 
 The program halts however, as forms of matrix creation other than
-through explicit \ccode{matrix} calls
-are not necessarily picked up by that process; \ccode{cbind} requires a
-second formation of a \ccode{ddmatrix}.
+through explicit \code{matrix} calls
+are not necessarily picked up by that process; \code{cbind} requires a
+second formation of a \code{ddmatrix}.
 
 The first issue comes when performing conditional evaluation; predicates
 involving distributed matrices are themselves distributed matrices, and
@@ -88,7 +88,7 @@ Turning local predicates to distributed matrices, then converting them
 all back to a local matrix for the loop to understand, finally results
 in a program run, however the results are still not accurate.
 
-This is due to \ccode{diag-assign}
+This is due to \code{diag-assign}
 assignment not having been implemented, so several further changes are
 necessary, including specifying return type of the diagonal matrix as a
 replacement.
@@ -141,8 +141,8 @@ elements are in place.
 Iteration takes place in \pkg{Spark} through caching results in memory,
 allowing faster access speed and decreased data movement than
 MapReduce\cite{zaharia2010spark}.
-\pkg{Sparklyr} can use this functionality through the \ccode{tbl-cache} function to cache \pkg{Spark} dataframes in memory, as well as caching upon import with \ccode{memory-true} as a formal parameter to \ccode{sdf-copy-to}.
-Iteration can also make use of persisting \pkg{Spark} Dataframes to memory, forcing evaluation then caching; performed in \pkg{sparklyr} through \ccode{sdf-persist}.
+\pkg{Sparklyr} can use this functionality through the \code{tbl-cache} function to cache \pkg{Spark} dataframes in memory, as well as caching upon import with \code{memory-true} as a formal parameter to \code{sdf-copy-to}.
+Iteration can also make use of persisting \pkg{Spark} Dataframes to memory, forcing evaluation then caching; performed in \pkg{sparklyr} through \code{sdf-persist}.
 
 An important aspect of consideration is that \pkg{sparklyr} methods for \pkg{dplyr} generics execute through a translation of the formal parameters to \proglang{Spark SQL}.
 This is particularly relevant in that separate \pkg{Spark} Data Frames can't be accessed together as in a multivariable function. 

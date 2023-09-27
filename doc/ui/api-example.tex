@@ -5,8 +5,8 @@ Consider the highest level first: \lsm.
 How would a pre-made model fit larger than memory data?
 There is no simpler form: Load the data, then fit the model with a given function.
 This assumes a running cluster, which is described later on, due to the additional details required for a cluster setup.
-Load the data with some function provided by \lso to read distributed data in as a distributed object, with some \ccode{read-dist} function.
-\lso provides the \ccode{read-dcsv} function to read \file{csv} files distributed across various hosts and filesystems.
+Load the data with some function provided by \lso to read distributed data in as a distributed object, with some \code{read-dist} function.
+\lso provides the \code{read-dcsv} function to read \file{csv} files distributed across various hosts and filesystems.
 This may be stored as in \cref{lst:read-dcsv-ex}.
 
 \src{read-dcsv-ex}{Example distributed \file{csv} read}
@@ -30,11 +30,11 @@ In an effort to maintain as close proximity as possible between the mathematical
 
 \src{dsum}{Example distributed summation}
 
-Here, the \ccode{d} applicator function transforms the base \ccode{sum} function to work over distributed objects, in this example given by \ccode{x}.
-\ccode{sum} is therefore sent to each chunk, yielding a new distributed object as the output.
-This output distributed object can be brought back to the requesting client and combined using the provided \ccode{emerge} function, yielding a regular \R numeric vector of sums.
+Here, the \code{d} applicator function transforms the base \code{sum} function to work over distributed objects, in this example given by \code{x}.
+\code{sum} is therefore sent to each chunk, yielding a new distributed object as the output.
+This output distributed object can be brought back to the requesting client and combined using the provided \code{emerge} function, yielding a regular \R numeric vector of sums.
 This vector of sums may then be summed as normal, providing the final result.
-The given example is actually a very simple application of map-reduce, and could effectively serve as the \ccode{sum} method for distributed objects
+The given example is actually a very simple application of map-reduce, and could effectively serve as the \code{sum} method for distributed objects
 
 Consider something slightly more complex: the arithmetic mean.
 Again, a chunked mathematical description is given in \cref{eq:dmean}
@@ -46,7 +46,7 @@ A related means of specification through \lso is possible, given in \cref{dmean}
 \src{dmean}{Distributed mean definition}
 
 Here we build on the distributed sum introduced above, but the total length of The distributed object is relevent as the denominator.
-Assuming a \ccode{sum} method for distributed objects as described, and the math group generic defined in a similar fashion, the denominator is defined using the same \ccode{d} function that sends a \ccode{length} computation to all of the chunks.
+Assuming a \code{sum} method for distributed objects as described, and the math group generic defined in a similar fashion, the denominator is defined using the same \code{d} function that sends a \code{length} computation to all of the chunks.
 
 Finally, consider the cumulative sum.
 It is important in this case to think of chunks as being in series, which is determined by the structure of the distributed object reference.
@@ -55,13 +55,13 @@ Using a chunked mathematical description, cumulative sum may be described by \cr
 
 \eq{dcumsum}
 
-This can be expressed in a functional manner using the \ccode{reduce} operator, also known as a \ccode{fold}, and the \lso framework provides a distributed form of such a function, where the results of one chunk are sent as the initial value to the reduce function as applied to the next chunk and so on in series.
+This can be expressed in a functional manner using the \code{reduce} operator, also known as a \code{fold}, and the \lso framework provides a distributed form of such a function, where the results of one chunk are sent as the initial value to the reduce function as applied to the next chunk and so on in series.
 An example of a reduce operation is given in \cref{fig:dreduce}.
 
 \fig{dreduce}{Example distributed reduce pattern from controlling process.}
 
 This is put to use for cumulative sum by \lso by \cref{dcumsum}.
 
-\ccode{dcumsum}{Distributed cumulative sum definition.
+\code{dcumsum}{Distributed cumulative sum definition.
 
 A distributed object is returned that by default just holds the final accumulation, consisting of one single chunk.

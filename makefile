@@ -6,7 +6,7 @@ DOCS != find doc -name '*.tex'
 	latexmk -file-line-error -shell-escape ${.IMPSRC}
 
 thesis: extern thesis.pdf
-thesis.pdf: $(DOCS)
+thesis.pdf: $(DOCS) header.sty
 
 extern: equations images tables
 images:

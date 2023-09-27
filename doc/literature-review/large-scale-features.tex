@@ -70,7 +70,7 @@ A list of features and their descriptions follows:
     success, with such a feature being one of the many motivations for the
     use and development of tools such as docker in recent years. The easiest
     possible setup would be a regular
-    \ccode{install-packages}, with no more than
+    \code{install-packages}, with no more than
     several lines specifying the platform configuration.
   \item[Inter-Node Communication]
     Can any pair of nodes communicate with each other, or do they only
@@ -150,10 +150,10 @@ Consider \cref{tab:feature-comp}, with elaboration given in the enumeration belo
 \item\label{itm:x3} Distributed computation performed by \pkg{pbdMPI}, with support for several remote messaging protocols\cites{Chen2012pbdMPIpackage,Schmidt2015pbdCSpackage}.
 \item\label{itm:x4} Through the use of additional packages such as \pkg{doMPI} and \pkg{sparklyr}\cites{weston17,luraschi20}.
 \item\label{itm:x5} \pkg{rmr2}\cite{revo2015rmr2} allows for arbitrary \R code to be executed through MapReduce.
-\item\label{itm:x6}Provides \ccode{mutate} function to enable user-defined code, however there are limitations in not being capable of parsing global variables.
+\item\label{itm:x6}Provides \code{mutate} function to enable user-defined code, however there are limitations in not being capable of parsing global variables.
 \item\label{itm:x7} Adhering to a SPMD paradigm.
-\item\label{itm:x8} Many functions used for grouped summarisation are only estimates, such as \ccode{median}\cite{zj19:_group_by}.
-\item\label{itm:x9} \ccode{dopar} accepts any expression, and tries its best to handle references to global variables, however it is still recommended to manually define the global references as well as packages used.
+\item\label{itm:x8} Many functions used for grouped summarisation are only estimates, such as \code{median}\cite{zj19:_group_by}.
+\item\label{itm:x9} \code{dopar} accepts any expression, and tries its best to handle references to global variables, however it is still recommended to manually define the global references as well as packages used.
 \item\label{itm:x10} See \cref{sec:review-sparklyr-iteration}.
 \item\label{itm:x11} \pkg{foreach} makes use of iterators, which can be defined to perform recurrance relations (see \cref{sec:review-foreach}) but these rely on closures and may in fact be slower than serial relations.
 \item\label{itm:x12} Direct access to HDFS through \pkg{rhdfs}\cite{revo2013rhdfs}.
@@ -161,16 +161,16 @@ Consider \cref{tab:feature-comp}, with elaboration given in the enumeration belo
 \item\label{itm:x14} Through \pkg{sparklyr} as a backend.
 \item\label{itm:x15} Source repositories only exist on GitHub, following a non-standard package structure at the root level, and \pkg{Hadoop} is required to be set up beforehand.
 \item\label{itm:x16} Installs from CRAN, requires \pkg{Spark} set up beforehand and environmental variables configured.
-\item\label{itm:x17} Installation can be performed with \ccode{install-packages} alongside the installation of \pkg{openmpi} externally.
-\item\label{itm:x18} Inter-node communication facilitated through \pkg{pbdMPI} wrappers to standard MPI communication functions such as \ccode[c]{scatter}, \ccode[c]{gather}, \ccode[c]{send}, etc.
+\item\label{itm:x17} Installation can be performed with \code{install-packages} alongside the installation of \pkg{openmpi} externally.
+\item\label{itm:x18} Inter-node communication facilitated through \pkg{pbdMPI} wrappers to standard MPI communication functions such as \code[c]{scatter}, \code[c]{gather}, \code[c]{send}, etc.
 \item\label{itm:x19} While the collection is separate from \pkg{Hadoop}, it is entirely tied to \pkg{Hadoop} and MapReduce, and can't be switched to any other distributed platform.
 \item\label{itm:x20} Package tied to \pkg{Spark} as evaluative backend.
 \item\label{itm:x21} Tied to the usage of the \pkg{MPI} protocol.
-\item\label{itm:x22} Within the \ccode{mapreduce} function from \pkg{rmr2}, no prescription is given for any particular class over another.
-\item\label{itm:x23} S3 Objects that have an \ccode{sdf-import} method implemented can make use of the \ccode{sdf-copy-to} function to copy objects from \R to \pkg{Spark}.
+\item\label{itm:x22} Within the \code{mapreduce} function from \pkg{rmr2}, no prescription is given for any particular class over another.
+\item\label{itm:x23} S3 Objects that have an \code{sdf-import} method implemented can make use of the \code{sdf-copy-to} function to copy objects from \R to \pkg{Spark}.
 \item\label{itm:x24} Arbitrary classes may be made use of and passed through the communicator generics when methods are defined for them, using \pkg{pbdMPI}.
-\item\label{itm:x25} \pkg{foreach} makes use of iterator objects, which any class can inherit from to define \ccode{nextElem}.
-\item\label{itm:x26} \pkg{rmr2} has the package-specific \ccode{mapreduce} function as the primary interface.
+\item\label{itm:x25} \pkg{foreach} makes use of iterator objects, which any class can inherit from to define \code{nextElem}.
+\item\label{itm:x26} \pkg{rmr2} has the package-specific \code{mapreduce} function as the primary interface.
 \item\label{itm:x27} \pkg{pbdMPI} provides package-specific generics to use and define further methods for.
 \item\label{itm:x28} \pkg{pbdDMAT} provides a distributed matrix class with methods defined to make transparent usage of standard matrix manipulation generics.
 \item\label{itm:x29} The collection has suffered from the lack of updates; \pkg{plyrmr} provides functionality that is near-transparent to \pkg{plyr}, but this is still some distance from \pkg{dplyr}\cite{revo2014plyrmr}.

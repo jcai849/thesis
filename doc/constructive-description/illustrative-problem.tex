@@ -84,8 +84,8 @@ the data than its direct form as standard \R objects. Conversely, such a
 representation can't possibly stray too far from what the statistician
 is familiar with in the language. Assume, however, that it does somehow
 exist, and can be treated like a regular object. For example, we may
-have it represented as a dataframe named \ccode{nyc-taxi}, with
-columns to be accessed through the \ccode{dollar} operator and the name of
+have it represented as a dataframe named \code{nyc-taxi}, with
+columns to be accessed through the \code{dollar} operator and the name of
 the column. How do we perform basic operations upon it? For instance,
 how might we determine the largest tip given?
 
@@ -115,19 +115,19 @@ data of the object is sought, how best to retain the shape of the
 dataset cohesively, without leaving any distortion from the chunks? For
 example, given that at a high level, chunks are to be forgotten, how
 best to avoid artifacts of subset formation? Consider \cref{lst:chunk-object}
-where \ccode{d1} refers to a group of three chunks treated as one
+where \code{d1} refers to a group of three chunks treated as one
 object:
 
 \src[Rout]{chunk-object}{Group of chunks in a collection as a single object}
 
-The \ccode{d} stands for ``\textbf{distributed}''; chunks must not
+The \code{d} stands for ``\textbf{distributed}''; chunks must not
 occupy memory all together, otherwise memory will run out -- therefore,
 they must be distributed across a set of computers, or accessed
 sequentially within one computer. Each chunk holds only one single
 integer for the sake of simplicity of example. When the integers are
 unmarshalled out of each chunk, or ``\textbf{emerged}'', it may be
 expected that a cohesive integer vector of length three should result,
-here given as variable \ccode{l1} in \cref{lst:emerged-chunks}. In this case, \ccode{l} stands for
+here given as variable \code{l1} in \cref{lst:emerged-chunks}. In this case, \code{l} stands for
 ``\textbf{local}''; that is, local to the operating environment, as any
 regular object, without the indirection created by chunks.
 
