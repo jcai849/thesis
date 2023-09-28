@@ -1,6 +1,6 @@
 \subsection{DistributedR}\label{subsec:distributedr}
 
-\pkg{DistributedR} offers cluster access for various \R data structures,
+\pkg{DistributedR} offers cluster access for various \R{} data structures,
 particularly arrays, and provides S3 methods for a fair range of
 standard functions. It has no regular cluster access interface, such as
 with \pkg{Hadoop} or \pkg{MPI}, being made largely from scratch.
@@ -27,7 +27,7 @@ I have written more on \pkg{foreach} in \cref{subsec:review-foreach}
 
 \subsection{future}\label{subsec:future-furrr}
 
-\pkg{future} captures \R expressions for evaluation, allowing them to be passed
+\pkg{future} captures \R{} expressions for evaluation, allowing them to be passed
 on for parallel and ad-hoc cluster evaluation, through the \pkg{parallel}
 package\cite{bengtsson20}. Such cluster parallelisation uses the standard \pkg{MPI} or
 \pkg{SOCK} protocols.
@@ -46,18 +46,18 @@ style\cite{vaughan18}.
 Furrr is developed by Matt Dancho, and Davis Vaughn, an employee at
 RStudio.
 
-Another package from Bengtsson, \pkg{future.apply}, delivers equivalent parallel mapping capabilities, through cognates of the base \R mapping functions.
+Another package from Bengtsson, \pkg{future.apply}, delivers equivalent parallel mapping capabilities, through cognates of the base \R{} mapping functions.
 
 \subsection{SNOW, parallel, and multicore}\label{subsec:parall-snow-mult}
 
 \pkg{parallel} is a package included with R, born from the merge of the
 packages \pkg{SNOW} and \pkg{multicore}\cite{core:_packag}. \pkg{parallel} enables
-various means of performing computations in \R in parallel, allowing not
+various means of performing computations in \R{} in parallel, allowing not
 only multiple cores in a node, but multiple nodes through \pkg{SNOW}'s
 interfaces to \pkg{MPI} and \pkg{SOCK}\cite{tierney18}.
 
 \pkg{parallel} takes from multicore the ability to perform multicore
-processing, with the mcapply function. multicore creates forked \R
+processing, with the mcapply function. multicore creates forked \R{}
 sessions, which is very resource-efficient, but not supported by
 windows.
 
@@ -70,13 +70,13 @@ This is represented in \cref{fig:snow}
 Several different communications mechanisms are made use of by \pkg{SNOW}, including \pkg{PSOCK} and user-created sockets.
 While an excellent tool, some shortcomings include the lack of persistent data, and the mechanism of distribution employed disallows the usage of very large datasets.
 
-\pkg{multicore} was developed by Simon Urbanek. \pkg{SNOW} was developed by Luke Tierney, a professor at the University of Iowa, who also originated the byte-compiler for \R
+\pkg{multicore} was developed by Simon Urbanek. \pkg{SNOW} was developed by Luke Tierney, a professor at the University of Iowa, who also originated the byte-compiler for \R{}
 
 \subsection{pbdR}\label{subsec:pbdr}
 
 \pkg{pbdR} is a collection of packages allowing for distributed computing with
 R\cite{pbdBASEpackage}, with the name being the abbreviation of
-Programming with Big Data in \R. The packages include high-performance
+Programming with Big Data in \R{}. The packages include high-performance
 communication and computation capabilities, including \pkg{RPC}, \pkg{ZeroMQ}, and
 \pkg{MPI} interfaces.
 
@@ -95,7 +95,7 @@ Some selected packages of interest include the following:
     \item[\pkg{pbdDMAT}]
         Higher level classes and methods for distributed matrices, including
         manipulation, linear algebra, and statistics routines. Uses the same
-        syntax as base \R through S4\cite{pbdDMATpackage}.
+        syntax as base \R{} through S4\cite{pbdDMATpackage}.
     \item[\pkg{pbdMPI}]
         Offers a high-level interface to \pkg{MPI}, using the S4 system to program in
         the SPMD style, with no ``master'' nodes\cite{Chen2012pbdMPIpackage}.
@@ -118,7 +118,7 @@ Significant Event Award; More detail is given in \cite{pbdBASEvignette}.
 \subsection{RHadoop}\label{subsec:rhadoop}
 
  \pkg{RHadoop} is a collection of five packages to run \pkg{Hadoop} directly from
-\R\cite{analytics:_rhadoop_wiki}. The packages are divided by logical
+\R{}\cite{analytics:_rhadoop_wiki}. The packages are divided by logical
 function, including \pkg{rmr2}, which runs MapReduce jobs, and \pkg{rhdfs}, which
 can access the HDFS. The packages also include \pkg{plyrmr}, which makes
 available \pkg{plyr}-like data manipulation functions, in a similar vein to
@@ -128,7 +128,7 @@ It is offered and developed by Revolution Analytics.
 
 \subsection{RHIPE and DeltaRho}\label{subsec:rhipe-deltarho}
 
-\pkg{RHIPE} is a means of ``using \pkg{Hadoop} from \R''\cite{deltarho:_rhipe}. The
+\pkg{RHIPE} is a means of ``using \pkg{Hadoop} from \R{}''\cite{deltarho:_rhipe}. The
 provided functions primarily attain this through interfacing and
 manipulating HDFS, with a function, rhwatch, to submit MapReduce jobs.
 The easiest means of setup for it is to use a VM, and for all \pkg{Hadoop}
@@ -141,12 +141,12 @@ commit being 2015. \pkg{RHIPE} has mostly been subsumed into the backend of
 
 \subsection{sparklyr}\label{subsec:sparklyr}
 
-\pkg{sparklyr} is an interface to \pkg{Spark} from within \R\cite{luraschi20}. The
+\pkg{sparklyr} is an interface to \pkg{Spark} from within \R{}\cite{luraschi20}. The
 user connects to \pkg{Spark} and accumulates instructions for the manipulation
 of a \pkg{Spark} DataFrame object using \pkg{dplyr} commands, then executing the
 request on the \pkg{Spark} cluster.
 
-Of particular interest is the capacity to execute arbitrary \R functions
+Of particular interest is the capacity to execute arbitrary \R{} functions
 on the \pkg{Spark} cluster. This can be performed directly, with the
 \code{spark-apply} function, taking a
 user-defined function as a formal parameter. It can also be used as part
@@ -171,7 +171,7 @@ of the Tidyverse (including \pkg{dplyr}).
 SparkR provides a front-end to \pkg{Spark} from
 R\cite{venkataraman20:_spark}. Like \pkg{sparklyr}, it provides the DataFrame
 as the primary object of interest. However, there is no support for the
-dplyr model of programming, with functions closer resembling base \R
+dplyr model of programming, with functions closer resembling base \R{}
 being provided by the package instead.
 
 \pkg{SparkR} is maintained directly by Apache \pkg{Spark}, with ongoing regular
@@ -181,9 +181,9 @@ explained in \cite{venkataraman2016sparkr}.
 
 \subsection{hmr}\label{subsec:hmr}
 
-\pkg{hmr} is an interface to MapReduce from \R\cite{urbanek20}. It runs
+\pkg{hmr} is an interface to MapReduce from \R{}\cite{urbanek20}. It runs
 fast in parallel, making use of chunked data. Much of the process is handled by the
-package, with automatic \R object conversion. \pkg{hmr} integrates with
+package, with automatic \R{} object conversion. \pkg{hmr} integrates with
 \pkg{iotools}, of which it is based upon. The author, like that of \pkg{iotools}, is
 Simon Urbanek.
 
@@ -192,7 +192,7 @@ Simon Urbanek.
 \pkg{big.data.table} runs \pkg{data.table} over many nodes in an ad-hoc
 cluster\cite{gorecki16}. This allows for big data manipulation using a
 data.table interface. The package makes use of \pkg{Rserve} (authored by Simon
-Urbanek) to facilitate communication between nodes when running from \R.
+Urbanek) to facilitate communication between nodes when running from \R{}.
 Alternatively, the nodes can be run as docker services, for fast remote
 environment setup, using \pkg{RSclient} for connections. Beyond greater
 storage capacity, speed is increased through manipulations on

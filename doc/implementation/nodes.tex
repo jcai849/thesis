@@ -1,4 +1,4 @@
-The middle layer \chunknet defines the nodes and interactions between them, using an emulated \proglang{HTTP}, with the lower \orcv layer as its mechanism of communication.
+The middle layer \chunknet{} defines the nodes and interactions between them, using an emulated \proglang{HTTP}, with the lower \orcv{} layer as its mechanism of communication.
 The three nodes defined by this layer are the client, the worker, and the locator.
 
 The client is the master node that the user interfaces with directly, and the main task of the client is to push individual chunks as data, to request remote calls on that data, and to pull the results of remote calls.
@@ -15,7 +15,7 @@ Communication among workers is dependent on the location service, in similar fas
 
 Both worker and locator nodes follow a similar architecture.
 They both follow the same basic pattern of first initialising, (\cref{fig:node-init}), then running some initialisation function and endlessly repeating a check for the next event and handling that event.
-The check for the next incoming event, as well as any response to the event, is the point of connection with the lower \orcv layer.
+The check for the next incoming event, as well as any response to the event, is the point of connection with the lower \orcv{} layer.
 The nodes differ only in their core database schema, as well as the handlers associated with the HTTP requests sent to them as events.
 
 The worker database schema is given in \cref{tbl:wstore,tbl:wstage,tbl:waudience}, with an Entity Relationship Diagram given by \cref{fig:workerdb}
@@ -47,7 +47,7 @@ The locator handlers are given by \cref{tbl:lhandler}
 \tab{lhandler}{Locator handlers for requests}
 
 \proglang{HTTP} is used as the communication protocol, because HTTP provides a reasonable constraint on remote calls, and is fairly universal.
-Actual HTTP is not used currently; rather, it is emulated with an \R list composed of header and message body elements.
+Actual HTTP is not used currently; rather, it is emulated with an \R{} list composed of header and message body elements.
 
 \subsubsection{Worker operation in detail}
 

@@ -25,7 +25,7 @@ The states include:
 A reasonable question may be asked of why chunks are implemented using lists, rather than a mutable object such as an environment.
 This section attempts to grant some direction for this, by considering the result of using a mutable object.
 
-Taking the replacement operation as an example of modification, given in \R as \code{assignment}, a distributed chunk may be alternatively modified through creating a copy of the data on the worker holding it, then performing the modification on that copy, and replacing the master reference to the original chunk with one to the modified copy; if there are no more references to the original, garbage collection will trigger a deletion of the distributed chunk, thereby preventing memory leaks.
+Taking the replacement operation as an example of modification, given in \R{} as \code{assignment}, a distributed chunk may be alternatively modified through creating a copy of the data on the worker holding it, then performing the modification on that copy, and replacing the master reference to the original chunk with one to the modified copy; if there are no more references to the original, garbage collection will trigger a deletion of the distributed chunk, thereby preventing memory leaks.
 This operation is depicted as a diagram in \cref{fig:modifyref}.
 
 \widefig{modifyref}{Reference modification as an emulation of object modification as is currently able to be implemented.}
@@ -74,7 +74,7 @@ Importantly, the graph is modular; while the system is dependent upon the graph,
 
 A valuable use of the graph is to relate referencing information to nodes on the graph as an aid to distributed garbage collection.
 If a chunk is referenced in the system, that is reflected by some default marking on the graph.
-Upon garbage collection of a chunk in the relevant \R process referring to it, the node may be marked as unreferenced, in turn triggering the global deletion of all data relating to a chunk in the system.
+Upon garbage collection of a chunk in the relevant \R{} process referring to it, the node may be marked as unreferenced, in turn triggering the global deletion of all data relating to a chunk in the system.
 
 From the above descriptions, a simple method for garbage collection necessarily falls out:
 Chunk operations generate new references, and there may be multiple references to a single mutable object.
@@ -85,5 +85,5 @@ An example of such a DAG is given in \cref{fig:gc}
 \widefig{gc}{Chunk lineage as stored with individual chunks. Once chunk has proven existence, the lineage may be cleared and garbage collected.}
 
 When the chunks have been proven computed, as through an \code{emerge}, the graph may be cleared.
-The nodes in the graph which are no longer accessible are cleared by \R's garbage collector, and are directly tied to a deletion method of the underlying chunks.
+The nodes in the graph which are no longer accessible are cleared by \R{}'s garbage collector, and are directly tied to a deletion method of the underlying chunks.
 This means that iteration is perfectly acceptable, as long as there are sufficiently regular \code{emerge}'s, as the older chunks are cleared away.

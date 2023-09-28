@@ -1,17 +1,17 @@
-This section describes more on the implementation of \lso, with a focus on the constuction of its API using the offerings provided by the lower layer.
+This section describes more on the implementation of \lso{}, with a focus on the constuction of its API using the offerings provided by the lower layer.
 
 \subsection{Distributed Computation}
 
 \code{do-dcall} is the principal means of applying a function to a distributed object.
 There is extremely little that it does beyond alignment of chunks forming the distributed object arguments, followed by the application of the function to the aligned chunks and returning the references as a distributed object.
 The alignment is polymorphic; in the simplest case it is a simple identity.
-The naming of the function is an attempt to render the semantics of \R's \code{do-call} function, in distributed fashion.
+The naming of the function is an attempt to render the semantics of \R{}'s \code{do-call} function, in distributed fashion.
 As \code{do-call} can be used as a function applicator base for any other function, so too are all distributed object functions built from \code{do-dcall}'s.
 \code{dist} is a wrapper around \code{do-dcall}, returning a closure that will call \code{do-dcall} on the other function argument.
 
 \subsection{Methods}
 
-The methods provided by \lso all follow a similar pattern.
+The methods provided by \lso{} all follow a similar pattern.
 
 For instance, \code{summary} follows a basic pattern of running a distributed call over a distributed object to summarise each chunk on their corresponding nodes, and then emerging them, pulling them locally and running the some summary function on their  emerged values.
 This works for transitive functions such as \code{min} and \code{max}, though isn't accurate for \code{median} or other non-transitive functions.

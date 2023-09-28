@@ -65,9 +65,9 @@ obstructing the original client in it's intended pop of the jobID queue.
 In addition to the changes to the chunk reference, there is now the essential
 need for further information in the way chunks relate to each other as parts of
 a greater whole.
-This is a heavily language-dependent aspect, as it relies on \R's paradigmatic
+This is a heavily language-dependent aspect, as it relies on \R{}'s paradigmatic
 nature of being array-oriented.
-\R takes it's array-oriented style from \proglang{S}, which was in turn influenced by
+\R{} takes it's array-oriented style from \proglang{S}, which was in turn influenced by
 Iverson's \proglang{APL} and Backus' \proglang{FORTRAN}, both heavily
 array-oriented\cites{becker1994shistory,iverson2007notation}.
 A central feature of array-oriented languages involves ``parallel'' (in array,
@@ -237,6 +237,6 @@ This may be overcome by removing the concept of a local chunk table, and
 storing all objects in the local \pkg{osrv} server, which, being a separate
 process, would not be forked itself. 
 A potential problem in this solution is in the memory management of
-\pkg{osrv}, and what would be done if references to the \R objects are forked
+\pkg{osrv}, and what would be done if references to the \R{} objects are forked
 away, but the data is intended to remain on the server.
 

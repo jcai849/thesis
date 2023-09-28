@@ -1,12 +1,12 @@
-This section walks through the usage of the API of the \lso module to perform basic operations, with the intention of granting intuitive familiarity with the system in small steps.
+This section walks through the usage of the API of the \lso{} module to perform basic operations, with the intention of granting intuitive familiarity with the system in small steps.
 The practical use of the API as illustrated is delivered in \cref{ch:glm}.
 
-Consider the highest level first: \lsm.
+Consider the highest level first: \lsm{}.
 How would a pre-made model fit larger than memory data?
 There is no simpler form: Load the data, then fit the model with a given function.
 This assumes a running cluster, which is described later on, due to the additional details required for a cluster setup.
-Load the data with some function provided by \lso to read distributed data in as a distributed object, with some \code{read-dist} function.
-\lso provides the \code{read-dcsv} function to read \file{csv} files distributed across various hosts and filesystems.
+Load the data with some function provided by \lso{} to read distributed data in as a distributed object, with some \code{read-dist} function.
+\lso{} provides the \code{read-dcsv} function to read \file{csv} files distributed across various hosts and filesystems.
 This may be stored as in \cref{lst:read-dcsv-ex}.
 
 \src{read-dcsv-ex}{Example distributed \file{csv} read}
@@ -20,19 +20,19 @@ This is the topmost interface that all lower layers of abstraction aim to suppor
 The primary novelty provided is of easy definition of custom models, so let's consider one layer down, examining some of the provided functionality which aids the creation of custom models.
 Actual implementation of a custom model is given in \cref{ch:glm}.
 
-In our exploration of \lso, consider first a simple operation of summation.
+In our exploration of \lso{}, consider first a simple operation of summation.
 Given some vector $x$ that is broken up into $j$ chunks, yielding $j$ subvectors of length $i$.
 Due to associativity the sum of the whole is the sum of the sum of the parts, as shown in \cref{eq:sum}.
 
 \eq{sum}
 
-In an effort to maintain as close proximity as possible between the mathematical description and the provided interface, this may be written in \lso as in \cref{lst:dsum}
+In an effort to maintain as close proximity as possible between the mathematical description and the provided interface, this may be written in \lso{} as in \cref{lst:dsum}
 
 \src{dsum}{Example distributed summation}
 
 Here, the \code{d} applicator function transforms the base \code{sum} function to work over distributed objects, in this example given by \code{x}.
 \code{sum} is therefore sent to each chunk, yielding a new distributed object as the output.
-This output distributed object can be brought back to the requesting client and combined using the provided \code{emerge} function, yielding a regular \R numeric vector of sums.
+This output distributed object can be brought back to the requesting client and combined using the provided \code{emerge} function, yielding a regular \R{} numeric vector of sums.
 This vector of sums may then be summed as normal, providing the final result.
 The given example is actually a very simple application of map-reduce, and could effectively serve as the \code{sum} method for distributed objects
 
@@ -41,7 +41,7 @@ Again, a chunked mathematical description is given in \cref{eq:dmean}
 
 \eq{dmean}
 
-A related means of specification through \lso is possible, given in \cref{dmean}
+A related means of specification through \lso{} is possible, given in \cref{dmean}
 
 \src{dmean}{Distributed mean definition}
 
@@ -55,12 +55,12 @@ Using a chunked mathematical description, cumulative sum may be described by \cr
 
 \eq{dcumsum}
 
-This can be expressed in a functional manner using the \code{reduce} operator, also known as a \code{fold}, and the \lso framework provides a distributed form of such a function, where the results of one chunk are sent as the initial value to the reduce function as applied to the next chunk and so on in series.
+This can be expressed in a functional manner using the \code{reduce} operator, also known as a \code{fold}, and the \lso{} framework provides a distributed form of such a function, where the results of one chunk are sent as the initial value to the reduce function as applied to the next chunk and so on in series.
 An example of a reduce operation is given in \cref{fig:dreduce}.
 
 \fig{dreduce}{Example distributed reduce pattern from controlling process.}
 
-This is put to use for cumulative sum by \lso by \cref{dcumsum}.
+This is put to use for cumulative sum by \lso{} by \cref{dcumsum}.
 
 \code{dcumsum}{Distributed cumulative sum definition.
 

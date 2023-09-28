@@ -1,6 +1,6 @@
 \subsection{Introduction}
 
-The use of an intermediary message broker for RPC's within the \lsr system will prove exceptionally useful.
+The use of an intermediary message broker for RPC's within the \lsr{} system will prove exceptionally useful.
 In initial system experiments, rather than sending messages directly from node-to-node, all messages are sent to queues named after chunks on a central Redis server, which routes the messages to nodes holding those chunks and performing blocking pops on the queues\cite{sanfilippo2009redis}, as described in \cref{sec:message-queue}.
 The layer of indirection provided by this setup has enabled information hiding effectively in support of system modularity, as well as a fair degree of dynamism in chunk location.
 

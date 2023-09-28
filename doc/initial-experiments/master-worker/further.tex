@@ -19,12 +19,12 @@ akin to the \pkg{SNOW} cluster object, serves as a reference with which
 to declare distributed objects upon. Distributed objects exist
 conceptually as the actual data split across RServe instances, and a
 reference containing the minimum of necessary information existing on
-the users \R session. The users \R session thus serves as the master node
+the users \R{} session. The users \R{} session thus serves as the master node
 in this distributed system. Importantly, the object references are
 registered with \code{reg-finalize} to run a cleanup on the hosts of
 the data when being garbage collected themselves. Distributed objects
 are formed from two possible sources; master side, or slave side.
-Formation on the master side involves taking an existing \R object,
+Formation on the master side involves taking an existing \R{} object,
 splitting it up according to some function (currently splitting
 according to most even element distribution), and sending the splits to
 their associated RServe instances, described in a supplied cluster
@@ -39,7 +39,7 @@ most of the arguments to server-side \code{read-csv} functions. The
 nodes then measure the number of rows on their chunk, sending back the
 information to inform the creation of a reference. Beyond the storage of
 data larger than the user-end memory, distributed objects can mimic
-standard \R objects, with an example being distributed vectors having
+standard \R{} objects, with an example being distributed vectors having
 \code{ops} defined. Operations between vectors are forwarded on to the
 hosts, along with the names of their associated chunks, for the hosts to
 perform at the distributed end. The results are assigned to a provided
@@ -68,14 +68,14 @@ other.
 Functions returning distributed vectors are arguably the more
 transparent among the functions acting on distributed vectors, in the
 sense that they return the same degree of distributution as their input,
-as regular \R functions implicitly do. Such functions include the
+as regular \R{} functions implicitly do. Such functions include the
 \code{head} function as well as simple surjective functions.
 
 Data often requires a secondary function acting in a reductive capacity
 over combined data resulting from initial node-specific operations. The
 resultant algorithms are typically not possible to entirely parallelise,
 and the reductive locus in this distributed system is set to be the
-user-side master \R session. As an example, the \code{unique} function
+user-side master \R{} session. As an example, the \code{unique} function
 attains the unique elements within an array; it is implemented in
 MapReduce form of \code{unique} operations within each node, followed
 by a \code{unique} over their combined output within the master node.
@@ -166,7 +166,7 @@ with operations and reductive functions such as \code{table} run upon
 it.
 
 In close second to this success is the transparency inherent in the
-system. Every single operation exactly mirrors the standard \R syntax for
+system. Every single operation exactly mirrors the standard \R{} syntax for
 equivalent operations, beyond the cluster setup and act of distribution.
 
 There still remain some important issues to solve before claiming any
@@ -260,4 +260,4 @@ Key successes as well as failings have been enumerated, mostly paired
 with potential solutions. The volume of issues and solutions created
 since the initial report demonstrates the success of the experiment thus
 far in exploring the nature of this specific eager distributed object
-approach to large-scale statistical modelling using \R.
+approach to large-scale statistical modelling using \R{}.

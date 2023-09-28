@@ -18,12 +18,12 @@ This particular system answers that necessarily through it's context and
 aims; that it is currently intended to exist as a largely transparent
 platform within R, which necessitates interactivity and other standard R
 development practices. Thus, a centralised structure must be chosen for
-the system, with the node associated with the user's \R session acting as
+the system, with the node associated with the user's \R{} session acting as
 the master. This is the form of operation of other distributed packages
 currently existing in R, such as \pkg{sparklyr} and \pkg{SNOW}
 \cites{luraschi20,tierney18}. This can be contrasted with a
 decentralised system as in \pkg{pbdR} and it's underlying
-\pkg{MPI} implementation \cite{pbdR2012}, which requires \R programs
+\pkg{MPI} implementation \cite{pbdR2012}, which requires \R{} programs
 to be written in a manner agnostic to the nodes in which they are
 executed upon, resulting in the same program being distributed to all
 nodes in the system. In this way, the program is not capable of being
@@ -143,10 +143,10 @@ that channel itself may then be closed and removed.
 
 \subsubsection{Relation to Existing Systems}\label{sec:localrel}
 
-Most other distributed systems in \R require manual specification of a
+Most other distributed systems in \R{} require manual specification of a
 cluster that then operates either in the background or as an object that
 must be retained and manipulated. What is described here bears closer
-resemblance to a file system than any particular distributed \R package,
+resemblance to a file system than any particular distributed \R{} package,
 with particular relation to the UNIX file system
 \cites{ritchie1979evolution,thompson1974unix}. In the UNIX
 file system, files contain no additional information beyond what is
@@ -177,11 +177,11 @@ garbage collection, in conjunction with reference counting
 \subsubsection{Remote: Description and Motivation for Current System}\label{description-and-motivation-for-current-system}
 
 The remote end of the system is the simplest component of the entire
-setup. Each remote \R process is hosted through
+setup. Each remote \R{} process is hosted through
 \pkg{RServe}, and accessed through \pkg{RSclient} on the local
-end. The remote \R process holds chunks of data in it's global
+end. The remote \R{} process holds chunks of data in it's global
 environment, and performs whichever operations on that data as are
-directed to it from the master \R session. The data possesses no more
+directed to it from the master \R{} session. The data possesses no more
 structure than what was already in the chunk following reading,
 operation upon, or reception by the node. This has again been due to
 reasons of simplicity, as no presuppositions of structure suggested
@@ -190,7 +190,7 @@ themselves at the outset.
 \subsubsection{Insufficiency of Current Structures}\label{insufficiency-of-current-structures-1}
 
 The system works very well for something general purpose. However, it
-ignores much of the structure inherent in common primitive \R objects
+ignores much of the structure inherent in common primitive \R{} objects
 such as vectors. For example, to numerically index elements of a
 distributed vector, an indexing algorithm currently translates the index
 numbers into node-specific indices, and forwards those translated

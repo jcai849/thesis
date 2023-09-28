@@ -85,9 +85,9 @@ place. Consideration should be given to forms of distribution that
 minimise data movement, perhaps through maximisation of correspondence
 with existing vectors, while still avoiding misbalancing node memory.
 
-Memory leaks, not much of a problem at the \R level with garbage
+Memory leaks, not much of a problem at the \R{} level with garbage
 collection, return to a potential problem with assignment of distributed
-objects being fixed to their local \R processes. For example, with the
+objects being fixed to their local \R{} processes. For example, with the
 following code consisting of distributed vectors:
 \code{abc}, what occurs is that on every node
 \code{a} and \code{b} exist on, they are summed together, with the
@@ -114,7 +114,7 @@ point-to-point communication. The alternative is to have each node
 channel data through the master and then on to the appropriate node,
 which would be a massive waste of resources. This point-to-point
 communication is not so easy to perform in reality, as RServe forks a
-fresh \R session at every new connection, so objects that exist in a
+fresh \R{} session at every new connection, so objects that exist in a
 particular node in connection with the master are not able to be
 referenced in any other connection.
 
@@ -137,5 +137,5 @@ smoothly. This would lead naturally to the definition of
 \code{distributed-data-frame} objects and the like. Furthermore, a
 means of reading data from distributed storage to their local R
 processes would likely yield very worthwhile insights to the process of
-creation of a distributed \R system. Porting to S4 may be worthwhile, but
+creation of a distributed \R{} system. Porting to S4 may be worthwhile, but
 it can be performed later.

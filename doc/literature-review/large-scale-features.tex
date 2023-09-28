@@ -24,7 +24,7 @@ A list of features and their descriptions follows:
     well-regarded examples including HDFS and the Google File System it is
     based upon \cites{shvachko2010hadoop,ghemawat2003google}.
   \item[Evaluation of User-Specified Code]
-    The ability to make use of user-specified code in processing. Most \R
+    The ability to make use of user-specified code in processing. Most \R{}
     packages for large-scale computing interact well with arbitrary code,
     however they typically have some limitations, such as an inability to
     recognise global variables, as is the case with \pkg{sparklyr} and to a lesser
@@ -50,7 +50,7 @@ A list of features and their descriptions follows:
     Capacity to work with data and computation on distributed file systems,
     with a particular target of \pkg{Hadoop} Distributed File System (HDFS). As a
     well-established distributed file system, HDFS is targeted by a number
-    of \R packages, as well as serving as a file system base for other
+    of \R{} packages, as well as serving as a file system base for other
     platforms such as \pkg{Spark} \cite{analytics:_rhadoop_wiki}
     \cite{deltarho:_rhipe}\cite{urbanek20}\cite{zaharia2016apache}. HDFS offers
     several features that make it particularly attractive as a filesystem
@@ -62,7 +62,7 @@ A list of features and their descriptions follows:
     \cite{shvachko2010hadoop}.
   \item[Ease of Setup]
     Is setup suitable for a computationally-focussed statistician, or does
-    it require a system administrator? At its base, \R is a statistical
+    it require a system administrator? At its base, \R{} is a statistical
     programming language \cite{rcore2020intro}. The particular skills of
     statisticians seldom correspond to the those requisite of system
     administration, with such a focus unlikely to compete successfully with
@@ -80,8 +80,8 @@ A list of features and their descriptions follows:
     from inter-node communication\cite{walker1996mpi}; particularly
     graph-based statistical methods.
   \item[Interactive Usage]
-    The ability to make use of the package in an interactive \R session,
-    without mandatory batch execution. A major benefit of \R as being
+    The ability to make use of the package in an interactive \R{} session,
+    without mandatory batch execution. A major benefit of \R{} as being
     interpreted is the availability of the REPL. The benefits of
     interactivity stemming from a REPL are well-documented, most notably
     aiding debugging \cite{mccarthy1978history}. For statistical analysese
@@ -90,7 +90,7 @@ A list of features and their descriptions follows:
     with an interactive session.
   \item[Backend Decoupling]
     The implementation is maintained entirely separately to the interface.
-    This is standard in most of the performant parallel \R systems as
+    This is standard in most of the performant parallel \R{} systems as
     described by \textcite{eddelbuettel2019parallel}, including \pkg{foreach} as a key
     example\cite{microsoft20}. As a software pattern, this is a case of
     separation of concerns, described in detail by \textcite{dijkstra1982role}.
@@ -119,8 +119,8 @@ A list of features and their descriptions follows:
     structure; at a loss of general transparency, direct API's can ensure
     greater encapsulation and a closer mapping of code with the underlying
     implementation, thus potentially resulting in performance gains
-    \cite{bierhoff2009api}. An example in \R is the interface to the \pkg{foreach}
-    package not overloading the existing for-loop syntax in \R, but defining
+    \cite{bierhoff2009api}. An example in \R{} is the interface to the \pkg{foreach}
+    package not overloading the existing for-loop syntax in \R{}, but defining
     its own specific interface \cite{microsoft20}.
   \item[Methods for Standard Generics]
     The platform is primarily programmed against using a polymorphic
@@ -130,7 +130,7 @@ A list of features and their descriptions follows:
     generics \cites{pbdDMATpackage,kane13:bigmemory}.
   \item[Methods for \pkg{dplyr} Generics]
     The platform makes use of \pkg{dplyr} functions as the primary set of generics
-    to program over. Using a \pkg{dplyr} interface is a common trend in several \R
+    to program over. Using a \pkg{dplyr} interface is a common trend in several \R{}
     packages including \pkg{sparklyr}, \pkg{disk.frame}, and many database interfaces
     \cites{luraschi20,zj20}. Such an interface is claimed by the \pkg{dplyr}
     creators to aid beginners through being simple to remember
@@ -140,7 +140,7 @@ A list of features and their descriptions follows:
 
 \subsection{Comparison Table}\label{subsec:comp-tab}
 
-\widetab{feature-comp}{Comparison of common large scale features among major \R packages}
+\widetab{feature-comp}{Comparison of common large scale features among major \R{} packages}
 
 Consider \cref{tab:feature-comp}, with elaboration given in the enumeration below:
 
@@ -149,7 +149,7 @@ Consider \cref{tab:feature-comp}, with elaboration given in the enumeration belo
 \item\label{itm:x2} Use of \pkg{Spark}\cite{luraschi20}.
 \item\label{itm:x3} Distributed computation performed by \pkg{pbdMPI}, with support for several remote messaging protocols\cites{Chen2012pbdMPIpackage,Schmidt2015pbdCSpackage}.
 \item\label{itm:x4} Through the use of additional packages such as \pkg{doMPI} and \pkg{sparklyr}\cites{weston17,luraschi20}.
-\item\label{itm:x5} \pkg{rmr2}\cite{revo2015rmr2} allows for arbitrary \R code to be executed through MapReduce.
+\item\label{itm:x5} \pkg{rmr2}\cite{revo2015rmr2} allows for arbitrary \R{} code to be executed through MapReduce.
 \item\label{itm:x6}Provides \code{mutate} function to enable user-defined code, however there are limitations in not being capable of parsing global variables.
 \item\label{itm:x7} Adhering to a SPMD paradigm.
 \item\label{itm:x8} Many functions used for grouped summarisation are only estimates, such as \code{median}\cite{zj19:_group_by}.
@@ -167,7 +167,7 @@ Consider \cref{tab:feature-comp}, with elaboration given in the enumeration belo
 \item\label{itm:x20} Package tied to \pkg{Spark} as evaluative backend.
 \item\label{itm:x21} Tied to the usage of the \pkg{MPI} protocol.
 \item\label{itm:x22} Within the \code{mapreduce} function from \pkg{rmr2}, no prescription is given for any particular class over another.
-\item\label{itm:x23} S3 Objects that have an \code{sdf-import} method implemented can make use of the \code{sdf-copy-to} function to copy objects from \R to \pkg{Spark}.
+\item\label{itm:x23} S3 Objects that have an \code{sdf-import} method implemented can make use of the \code{sdf-copy-to} function to copy objects from \R{} to \pkg{Spark}.
 \item\label{itm:x24} Arbitrary classes may be made use of and passed through the communicator generics when methods are defined for them, using \pkg{pbdMPI}.
 \item\label{itm:x25} \pkg{foreach} makes use of iterator objects, which any class can inherit from to define \code{nextElem}.
 \item\label{itm:x26} \pkg{rmr2} has the package-specific \code{mapreduce} function as the primary interface.

@@ -1,6 +1,6 @@
 R does have some well-established packages used for distributed
 large-scale computing. Of these, the \pkg{parallel} package is
-contained in the standard \R image, and encapsulates \pkg{SNOW}
+contained in the standard \R{} image, and encapsulates \pkg{SNOW}
 (Simple Network Of Workstations), which provides support for distributed
 computing over a simple network of compputers. The general architecture
 of \pkg{SNOW} makes use of a master process that holds the data and
@@ -24,7 +24,7 @@ on with the following description:
 
 The project seeks especially to serve minimal wrappers around the \pkg{BLAS}
 and \pkg{LAPACK} libraries along with their distributed derivatives, with the
-intention of introducing as little overhead as possible. Standard \R also
+intention of introducing as little overhead as possible. Standard \R{} also
 uses routines from the library for most matrix operations, but suffers
 from numerous inefficiencies relating to the structure of the language;
 for example, copies of all objects being manipulated will be typically
@@ -37,7 +37,7 @@ Distributed linear algebra operations in \pkg{pbdR} depend further on the
 \pkg{ScaLAPACK} library, which can be provided through the \pkg{pbdSLAP} package
 \cite{Chen2012pbdSLAPpackage}. The principal interface for direct
 distributed computations is the pbdMPI package, which presents a
-simplified API to \pkg{MPI} through \R \cite{Chen2012pbdMPIpackage}. All major
+simplified API to \pkg{MPI} through \R{} \cite{Chen2012pbdMPIpackage}. All major
 MPI libraries are supported, but the project tends to make use of
 openMPI in explanatory documentation. A very important consideration
 that isn't immediately clear is that \pkg{pbdMPI} can only be used in batch
@@ -110,7 +110,7 @@ extremely difficult to create through the package in spite of
 
 Given that iteration is cited by a principal author of \pkg{Spark} as a
 motivating factor in its development when compared to \pkg{Hadoop}, it is
-reasonable to consider whether the most popular \R interface to \pkg{Spark},
+reasonable to consider whether the most popular \R{} interface to \pkg{Spark},
 \pkg{sparklyr}, has support for
 iteration\cites{zaharia2010spark,luraschi20}. One immediate
 hesitation to the suitability of \pkg{sparklyr} to iteration is the syntactic
@@ -118,7 +118,7 @@ rooting in \pkg{dplyr}; \pkg{dplyr} is a ``Grammar of Data Manipulation'' and pa
 of the \pkg{tidyverse}, which in turn is an ecosystem of packages with a
 shared philosophy\cites{wickham2019welcome,wickham2016r}. The
 promoted paradigm is functional in nature, with iteration using for
-loops in \R being described as ``not as important'' as in other
+loops in \R{} being described as ``not as important'' as in other
 languages; map functions from the \pkg{tidyverse} \pkg{purrr} package are instead
 promoted as providing greater abstraction and taking much less time to
 solve iteration problems. Maps do provide a simple abstraction for
@@ -130,10 +130,10 @@ loops or generators allow\cite{cousineau1998functional}.
 A common functional strategy for handling a changing state is to make
 use of recursion, with tail-recursive functions specifically referred to
 as a form of iteration in \textcite{abelson1996structure}. Reliance on
-recursion for iteration is naively non-optimal in \R however, as it lacks
+recursion for iteration is naively non-optimal in \R{} however, as it lacks
 tail-call elimination and call stack optimisations\cite{rcore2020lang};
 at present the elements for efficient, idiomatic functional iteration
-are not present in \R, given that it is not as functional a language as
+are not present in \R{}, given that it is not as functional a language as
 the \pkg{tidyverse} philosophy considers it to be, and \pkg{sparklyr}'s attachment
 to the the ecosystem prevents a cohesive model of iteration until said
 elements are in place.
@@ -146,7 +146,7 @@ Iteration can also make use of persisting \pkg{Spark} Dataframes to memory, forc
 
 An important aspect of consideration is that \pkg{sparklyr} methods for \pkg{dplyr} generics execute through a translation of the formal parameters to \proglang{Spark SQL}.
 This is particularly relevant in that separate \pkg{Spark} Data Frames can't be accessed together as in a multivariable function. 
-In addition, very \R-specific functions such as those from the \pkg{stats} and \pkg{matrix} core libraries are not able to be evaluated, as there is
+In addition, very \R{}-specific functions such as those from the \pkg{stats} and \pkg{matrix} core libraries are not able to be evaluated, as there is
 no \proglang{Spark SQL} cognate for them.
 
 Canned models are the only option for most users, due to \pkg{sparklyr's} reliance on \proglang{Spark SQL} rather than the \pkg{Spark} core API

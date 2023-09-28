@@ -1,12 +1,12 @@
 
 In the search for a distributed system for statistics, the world outside
-of \R is not remotely barren. The central issue with non-\R distributed
+of \R{} is not remotely barren. The central issue with non-\R{} distributed
 systems is that their focus is very obviously not statistics, and this
 shows in the level of support the platforms provide for statistical
 purposes.
 
 The classical distributed system for high-performance computing is \pkg{MPI}.
-\R actually has a high-level interface to \pkg{MPI} through the \pkg{rmpi}
+\R{} actually has a high-level interface to \pkg{MPI} through the \pkg{rmpi}
 package. This package is excellent, but extremely low-level, offering
 little more than wrappers around \pkg{MPI} functions. For the statistician who
 just wants to implement a model for a large dataset, such concern with
@@ -54,7 +54,7 @@ Its fundamental operating concept is the Resiliant Distributed Dataset
 as actions and transformations on prior RDD's.
 
 The RDD interface is exposed through an API in various languages,
-including \R, however it appears to be abandoned to some degree, having
+including \R{}, however it appears to be abandoned to some degree, having
 removed from the CRAN repository at 2020-07-10 due to failing checks.
 
 \pkg{Spark} requires a distributed storage system, as well as a cluster
@@ -83,10 +83,10 @@ The main difference is that the \pkg{dask} classes take advantage of
 the task scheduling, including online persistence across multiple nodes.
 \pkg{dask} is a large and mature library, catering to many use-cases,
 and exists largely in the \proglang{Python} ``Machine Learning'' culture in
-comparison to the \R ``Statistics'' culture. Accordingly, the focus is
+comparison to the \R{} ``Statistics'' culture. Accordingly, the focus is
 more tuned to the \proglang{Python} software developer putting existing ML models
 into a large-scale capacity. Of all the distributed systems assessed so
 far, \pkg{dask} comes the closest to what an ideal platform would
 look like for a statistician, but it misses out on the statistical
-ecosystem of \R, provides only a few select classes, and is tied entirely
+ecosystem of \R{}, provides only a few select classes, and is tied entirely
 to the structure of the task graph.
