@@ -34,7 +34,7 @@ A significant benefit of this emulation of mutability is that chunk descriptors 
 
 However, the final step of replacing the master reference to a modified copy is not possible to take place in a manner maintaining a transparent representation of standard (immutable) \R{} objects.
 This is due to references themselves here being implemented as mutable, so changes to any shallow copy of a reference is reflected among all shallow copies of that reference.
-An illustration is given in the context of local variables, with \cref{lst:mutability-expected.R} giving an example \R{} session of expected behaviour, and \cref{lst:mutability-actual.R} displaying the actual behaviour.
+An illustration is given in the context of local variables, with \cref{lst:mutability-expected} giving an example \R{} session of expected behaviour, and \cref{lst:mutability-actual} displaying the actual behaviour.
 
 \src[Rout]{mutability-expected}{Expected result of object modification.}
 
