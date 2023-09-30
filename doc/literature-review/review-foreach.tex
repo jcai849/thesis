@@ -29,7 +29,7 @@ function as in the registration for doParallel, \code{registerdoparallel}
 The syntax of \pkg{foreach} consists of a \code{foreach}
  function call next to a \code{do} operator, and some expression to the
 right\cite{weston19:_using}. Without loss in generality, the syntactic
-form is given in \cref{lst:syntax}.
+form is given in \cref{lst:foreach-expr}.
 
 \src{foreach-expr}{Standard \pkg{foreach} syntax}
 
@@ -108,7 +108,7 @@ exclusive.
 In spite of the constraints, iterated functions can actually be emulated
 in \pkg{foreach} through the use of destructive reassignment within the passed
 expression, or through the use of stateful iterators. Examples of both
-are given in \cref{lst:serialklst:serial-iter}.
+are given in \cref{lst:serial,lst:serial-iter}
 
 \src{serial}{Serial iterated function through destructive reassignment}
 

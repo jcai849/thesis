@@ -8,7 +8,7 @@ approximating a functioning prototype via experimentation.
 
 \subsubsection{General Function on Single Chunk}
 
-While the RPC-based architecture as described in \cref{sec:earlier-one}
+While the RPC-based architecture as described in \cref{sec:mw}
 had significant limitations, a particularly powerful construct was the higher
 order function \code{distributed-do-call}, which took functions as arguments
 to be performed on the distributed chunks.
@@ -104,7 +104,7 @@ parallel operations.
 
 The logic of the client in assigning the result of a distributed operation on a
 chunk is largely encapsulated in a new function, \code{assign-fun-at}, as
-demonstrated in \cref{src:ro-ass-client}.
+demonstrated in \cref{lst:ro-ass-client}.
 
 \src{ro-ass-client}{Assigned result on client implementation}
 
@@ -116,7 +116,7 @@ message of \cref{sec:val-ret}; the chunk ID, request for acknowledgement
 of completion, return address, as well as an operation specifier to direct the
 intent of the message.
 
-The server, as shown in \cref{src:ro-ass-server}, consists in a loop of
+The server, as shown in \cref{lst:ro-ass-server}, consists in a loop of
 reading the message and performing an operation dependent on the operation
 specifier of the message.
 For an operation of \code{DOFUN}, all that is run is a \code{do-call} on
@@ -131,10 +131,10 @@ acknowledgement back to the client node.
 
 \subsubsection{Server-Originated chunk ID}
 
-By this point the client (\cref{src:wo-ass-client}) and server (listing
-\cref{src:wo-ass-server}) come to increasingly resemble each other, and most of
-the functions are shared, as in \cref{src:wo-ass-chunk},
-\cref{src:wo-ass-shared}, and \cref{src:wo-ass-messages}.
+By this point the client (\cref{lst:wo-ass-client}) and server (listing
+\cref{lst:wo-ass-server}) come to increasingly resemble each other, and most of
+the functions are shared, as in \cref{lst:wo-ass-chunk},
+\cref{lst:wo-ass-shared}, and \cref{lst:wo-ass-messages}.
 
 \src{wo-ass-client}{Worker-assigned client}
 \src{wo-ass-server}{Worker-assigned server}

@@ -18,7 +18,7 @@ They both follow the same basic pattern of first initialising, (\cref{fig:node-i
 The check for the next incoming event, as well as any response to the event, is the point of connection with the lower \orcv{} layer.
 The nodes differ only in their core database schema, as well as the handlers associated with the HTTP requests sent to them as events.
 
-The worker database schema is given in \cref{tbl:wstore,tbl:wstage,tbl:waudience}, with an Entity Relationship Diagram given by \cref{fig:workerdb}
+The worker database schema is given in \cref{tab:wstore,tab:wstage,tab:waudience}, with an Entity Relationship Diagram given by \cref{fig:workerdb}
 
 \widefig{node-init}{Initialisation of a node from a parent}
 
@@ -30,7 +30,7 @@ The worker database schema is given in \cref{tbl:wstore,tbl:wstage,tbl:waudience
 
 \fig{workerdb}{ER Diagram of worker entities}
 
-The locator database schema is given in \cref{tbl:lnodes,tbl:ldata} with an Entity Relationship Diagram given by \cref{fig:locatordb}
+The locator database schema is given in \cref{tab:lnodes,tab:ldata} with an Entity Relationship Diagram given by \cref{fig:locatordb}
 
 \tab{lnodes}{Locator Nodes Table}
 
@@ -38,11 +38,11 @@ The locator database schema is given in \cref{tbl:lnodes,tbl:ldata} with an Enti
 
 \fig{locatordb}{ER Diagram of locator entities}
 
-The worker handlers are given by \cref{tbl:whandler}
+The worker handlers are given by \cref{tab:whandler}
 
 \tab{whandler}{Worker handlers for requests}
 
-The locator handlers are given by \cref{tbl:lhandler}
+The locator handlers are given by \cref{tab:lhandler}
 
 \tab{lhandler}{Locator handlers for requests}
 

@@ -154,7 +154,7 @@ Consider \cref{tab:feature-comp}, with elaboration given in the enumeration belo
 \item\label{itm:x7} Adhering to a SPMD paradigm.
 \item\label{itm:x8} Many functions used for grouped summarisation are only estimates, such as \code{median}\cite{zj19:_group_by}.
 \item\label{itm:x9} \code{dopar} accepts any expression, and tries its best to handle references to global variables, however it is still recommended to manually define the global references as well as packages used.
-\item\label{itm:x10} See \cref{sec:review-sparklyr-iteration}.
+\item\label{itm:x10} See \cref{sec:review-iteration-sparklyr}.
 \item\label{itm:x11} \pkg{foreach} makes use of iterators, which can be defined to perform recurrance relations (see \cref{sec:review-foreach}) but these rely on closures and may in fact be slower than serial relations.
 \item\label{itm:x12} Direct access to HDFS through \pkg{rhdfs}\cite{revo2013rhdfs}.
 \item\label{itm:x13} Allows for \pkg{Spark} over HDFS, but offers no HDFS-specific filesystem manipulation functions.

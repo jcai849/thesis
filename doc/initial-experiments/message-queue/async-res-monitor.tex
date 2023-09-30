@@ -86,10 +86,10 @@ associated procedure which iterates along them, checking their resolution
 status and evaluating if possible, returning eventually to read the queues,
 then assuming finite messages, there will be no issues as in section
 \cref{recurs-stack}.
-Server pseudocode is given in \cref{alg:q-state}, with the associated
+Server pseudocode is given in Algorithm \ref{alg:q-state}, with the associated
 state transition diagram in \cref{fig:q-state}.
 
-{\alg{q-state}{Pseudocode for server using elements of an \textit{inbox} list to control program flow.}
+\alg{q-state}{Pseudocode for server using elements of an \textit{inbox} list to control program flow.}
 
 \fig{q-state}{States of the \texttt{server}, with nodes \(m \dots n\) representing resolution checking and possible evaluation of elements on an \textit{inbox} list, and \(s\) representing a non-blocking \texttt{select}.}
 
@@ -106,7 +106,7 @@ unbounded - making the poll particularly inefficient.
 
 \alg{two-part-sol-serv}{Pseudocode for server scanning queues for both job messages and resolution messages, and updating local inbox accordingly.}
 
-\alg{two-part-sol-res}{Pseudocode for resolution lookup of references, called as part of dependency checking in \texttt{UpdateDependencies} of the \texttt{Server} function at \cref{alg:two-part-sol-serv}. Returns the resolution status to allow marking of inbox items for the \texttt{evalResolvedMsgs} function.}
+\alg{two-part-sol-res}{Pseudocode for resolution lookup of references, called as part of dependency checking in \texttt{UpdateDependencies} of the \texttt{Server} function at Algorithm \ref{alg:two-part-sol-serv}. Returns the resolution status to allow marking of inbox items for the \texttt{evalResolvedMsgs} function.}
 
 An amendment to the solution proferred in \cref{inbox-list} is to have
 the resolution status of chunks propagated to every relevant node while they
@@ -126,7 +126,7 @@ as the forced serialisation of one node strictly popping after another, waiting
 for every round-trip.
 
 Alternatively, a two-part solution, as per \cref{fig:two-part-sol} and
- \cref{alg:two-part-sol-serv,alg:two-part-sol-res} for the
+ Algorithms \ref{alg:two-part-sol-serv} and \ref{alg:two-part-sol-res} for the
 server and resolution lookup respectively, could be performed with all
 interested nodes posting their interest to some queue, and upon resolution the
 server first posts the resolution status as a key for all interested future

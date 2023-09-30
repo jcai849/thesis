@@ -54,7 +54,7 @@ The worker node follows a loop of running computations on chunks that it has sto
 
 It is also worth describing one variation on a node, that while implementation-specific, does shed some light on how nodes may be put to use.
 For nodes to communicate directly between themselves, they require information on which node holds the chunk that is under request.
-This could be provided by a variety of forms, including a node-less peer-to-peer setup as described in \cref{sec:p2p}, but \lsr{}'s implementation made use of a variation of a node termed a location service.
+This could be provided by a variety of forms, including a node-less peer-to-peer setup, but \lsr{}'s implementation made use of a variation of a node termed a location service.
 The role of a location service is to keep track of which chunks exist on which nodes, updated by the worker nodes and providing this information when requested by a worker node looking to make a request of a particular chunk.
 
 This suffices for an overview of the concepts underpinning nodes in the API.

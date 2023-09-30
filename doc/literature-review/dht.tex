@@ -1,7 +1,7 @@
 \subsection{Introduction}
 
 The use of an intermediary message broker for RPC's within the \lsr{} system will prove exceptionally useful.
-In initial system experiments, rather than sending messages directly from node-to-node, all messages are sent to queues named after chunks on a central Redis server, which routes the messages to nodes holding those chunks and performing blocking pops on the queues\cite{sanfilippo2009redis}, as described in \cref{sec:message-queue}.
+In initial system experiments, rather than sending messages directly from node-to-node, all messages are sent to queues named after chunks on a central Redis server, which routes the messages to nodes holding those chunks and performing blocking pops on the queues\cite{sanfilippo2009redis}, as described in \cref{sec:mq}.
 The layer of indirection provided by this setup has enabled information hiding effectively in support of system modularity, as well as a fair degree of dynamism in chunk location.
 
 The principal issue with this approach is the high level of centralisation it entails, alongside the dependency and associated lack of behavioural controls over external software\cite{john2017survey}.
@@ -11,7 +11,7 @@ These issues are largely offset by the high efficiency and low complexity afford
 
 This document seeks to outline the motivation, implementation, and some variations of a DHT.
 
-A key motivator for the usage of a DHT transport layer, beyond the independence and decentralisation engendered, is also in enabling a distributed store of the dependency graph, as outlined in \cref{sec:depdag}.
+A key motivator for the usage of a DHT transport layer, beyond the independence and decentralisation engendered, is also in enabling a distributed store of the dependency graph, as outlined in \cref{sec:dag}.
 The advantages of a DHT in this respect include the ability to scale with the system, through CPU and memory load being spread through the system, as well as greater live fault-tolerance via in-memory replication\cite{lua2005p2p}.
 Perhaps even more pressingly, a DHT algorithm as implemented in the system affords more control over components such as the potential for callbacks and hooks, and possibly running these in \R{} for greater system connectivity.
 This means that there is greater direct control over the graph by the nodes hosting partitions of the graph, which is a shortcoming of Python's Dask; Dask has an explicit dependency graph, contained entirely within the master node, which leaves it out of reach of nodes that it affects directly\cite{rocklin2015dask}.
