@@ -4,9 +4,6 @@ Data manipulation is a basic necessity, as it is required for modelling, and is 
 Model fitting is demonstrated in the proof-of-concept \pkg{largescalemodels} package, which includes a variety of models, including linear models and generalised linear models.
 Work is currently underway to develop examples of boosted models, as well as a convex optimisation methods such as the alternating direction method of multipliers.
 
-Initial benchmarking results are highly promising, with performance results measuring not only speed but capability;
-One instance of capability is given in the creation of a contingency table of a large dataset that crashed \proglang{Spark} but was computed in several seconds using \lsr{}.
-
 The scope for future work remains significant, enabled by the high level of extensibility provided by the system.
 External systems which serve to monitor performance or take up the role of garbage collection would grant the possibility of greater reliabilit.
 Robustness could be gained through self-healing datasets, a potential that has a precedent in a current prototype, which allows for resiliance to node failure in a more efficient manner than that of the current Resilient Distributed Datasets~\cite{zaharia2012resilient}.

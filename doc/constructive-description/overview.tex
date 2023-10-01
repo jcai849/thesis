@@ -1,0 +1,22 @@
+Informed by the interfaces, implementations, and use-cases of large scale statistical systems given by \cref{ch:lit-review}, and the problem of expressing statistical algorithms over larger-than-memory datasets as described in \cref{ch:introduction}, this chapter is intended to provide a constructive description of what form a solution may take.
+It is constructive in the sense that it starts \textit{ex nihilo}, adding necessary constraints based on the nature of the problem and the demonstrated negative results that were captured in \cref{ch:lit-review}.
+Solutions to aspects are included based on positive results, but the intention with a constructive approach is that local optima may be broken free from, and a broader range of solutions than those existing are considered.
+The reason for this is the conceit that there are unexplored solutions that remain to be attempted; the results of this conceit, at least from this project, are given in the later \cref{ch:initial-experimatnts,ch:ui,ch:implementation}.
+
+The constructive description is initiated through a motivating example, given in \cref{sec:illustrative-problem}.
+The intention behind having an example to begin with is that it provides something tangible to consider when engaging in more abstract theorising through the remainder of the chapter.
+The system itself is considered in four parts: the object system, computation, concurrency, and reference.
+The reasoning for such partitioning is as follows.
+
+A program written in \R{} to implement a statistical solution for a problem involving large data is, ultimately, a computational process.
+The two core components of a computational process, split in varying measures, are data and computation\cite{abelson1996sicp}.
+This notion is carried analogously through the title of \textcite{wirth1985algorithms}, \textit{Algorithms + Data Structures = Programs}, and serves as a common structure for many undergraduate first year computer science curricula.
+Data in this case is best covered by consideration of the object system, in \cref{sec:object-system}.
+Likewise, computation is considered directly in \cref{sec:computation}.
+While this chapter doesn't start with the constraint of distributing data, the essential question of managing multiple things simultaneously -- whether through distribution or parallelisation -- necessitates a description of how concurrency is managed.
+This is expanded upon in \cref{sec:concurrency}.
+Finally, if distributed systems are the result of this constructive effort, a discusssion of distributed objects are unavoidable.
+The use of such data structures entails decisions to be made on the central device of distribution of objects, through reference.
+This is given in \cref{sec:reference}.
+
+From the accumulation of decisions that are implied through the constructive description, experimentation may take place in the following \cref{ch:initial-experiments}.
