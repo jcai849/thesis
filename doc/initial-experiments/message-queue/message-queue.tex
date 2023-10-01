@@ -1,6 +1,10 @@
-\subsubsection{Introduction}\label{mqintro}
+\subsection{Overview}\label{mqintro}
 
-Due to the limitations in the previous experiment, a new system was introduced, built around a central message queue.
+Due to the limitations in the previous experiment, as described in \cref{sec:eval}, a new system is introduced in this section.
+The defining feature of this system is the usage of a central message queue.
+The introduction of this structure ameliorates many of the listed problems, such as the inefficiencies of synchrony, though the new freedom gained for asynchrony renders new issues.
+Here it is considered how these new issues are accounted for, and the extent to which it is possible.
+The general architecture and interactions with pre-existing data structures, such as chunks, are further described herein.
 
 \subsection{Message Queues}\label{central-message-queue}
 \input{doc/initial-experiments/message-queue/central-message-queue}

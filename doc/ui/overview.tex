@@ -1,0 +1,9 @@
+\cref{ch:initial-experiments} described the first two iterations of development in \lsr{}.
+The second iteration served to improve on the first in many ways, not least through the gains in asynchronous processing.
+The structure remains permanently limited however through the dependence on a central message queue, as a bottleneck.
+However, many aspects clearly worked, in the small demonstrations of expressivity and capability for performing statistical calculations.
+Given the successes, coupled with the growing complexity of the final prototype discussed in \cref{sec:mq}, it is at this point worthwhile to consolidate the components which have proven to be essential in the system, and factor them into a cohesive system for final delivery.
+
+This chapter presents the User Interface for the consolidated system, in four measures; first, a description of the modules composing the API, given by \cref{sec:sysmod}.
+This is followed by an example-led tour of the core functions offered by the main system module in \cref{sec:api-example}.
+\Cref{sec:api-high,sec:api-low} round out the remainder of the high-level modules and low-level modules respectively.
