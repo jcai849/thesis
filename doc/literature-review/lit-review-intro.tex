@@ -1,79 +1,21 @@
-Statistics is concerned with the analysis of datasets, which are
-continually growing bigger, and at a faster rate; the global datasphere
-is expected to grow from 33 zettabytes in 2018 to 175 zettabytes by
-2025\cite{rydning2018digitization}.
+% aim of lit review
+In this chapter a broad overview of the existing literature is laid out and described, with several detailed case studies exploring key work in detail.
+All such description is given with continual reference to the problem of expressing statistical algorithms over big data, in the context of an intended \lsr{} solution.
+The general structure of this chapter is to explore strategies for handling large-scale data, then go into further detail in evaluating the existing solutions in the intended solution-space of \R{} packages.
+This forms something of an understanding of what strategies and interfaces exist.
+This is mirrored with consideration of implementation to close the literature review; aspects of the \R{} language that will have an effect on the solution, as well as a discussion of well-known algorithms for larger-than-memory data, with a particular focus on distributed hash tables.
 
-The scale of this growth is staggering, and continues to outpace
-attempts to engage meaningfully with such large datasets. By one
-measure, information storage capacity has grown at a compound annual
-rate of 23\% per capita over recent decades\cite{hilbert2011world}. In
-spite of such massive growths in storage capacity, they are far
-outstripped by computational capacity over time \cite{fontana2018moore}.
-Specifically, the number of components comprising an integrated circuit
-for computer processing have been exponentially increasing, with an
-additional exponential decrease in their cost\cite{moore1975progress}.
-This observation, known as Moore's Law, has been the root cause for much
-of computational advancement over the past half-century. The
-corresponding law for computer storage posits increase in bit density of
-storage media along with corresponding decreases in price, which has
-been found to track lower than expected by Moore's law metrics. Such
-differentials, between the generation of data, computational capacity
-for data processing, and constraints on data storage, have forced new
-techniques in computing for the analysis of large-scale data.
+The strategies for handling large scale data are covered in \cref{sec:lit-review-strategies}, with the main pattern emerging of the value in distributing data.
+\Cref{sec:large-scale-features,sec:survey-dist-comp-sys} possess the broad context of large-scale and distributed computing systems that may be used for statistical computing, beyond the sphere of \R{}, and provide something of a survey of such systems.
+\Cref{sec:surey-r-local-packages,sec:survey-r-dist-packages,sec:survey-r-deriv,sec:survey-r-stat-model-packages} serve to narrow the scope to packages in \R{} for large data, assessing them from various angles.
+\Cref{sec:review-iteration-sparklyr,sec:future-detail,sec:review-foreach,sec:disk-frame-study} serve as more detailed studies of the \R{} packages \pkg{sparklyr}, \pkg{future}, \pkg{foreach}, and \pkg{disk.frame} respectively.
+From there, \cref{sec:concurrency-r,sec:eval-r} consider the aspects of \R{} that will have some effect on the solution, and the chapter rounds off with an illustration of how algorithms change upon being distributed, with an analysis of the core literature on distributed hash tables in \cref{sec:dht}.
 
-The architecture of a computer further constrains the required approach
-for analysis of big data. Most general-purpose PC's are modelled by a
-random-access stored-program machine, wherein a program and data are
-stored in registers, and data must move in and out of registers to a
-processing element, most commonly a Central Processing Unit (CPU). The
-movement takes at least one cycle of a computer's clock, thereby leading
-to larger processing time for larger data.
-
-Reality dictates many different forms of data storage, with a Memory
-Hierarchy ranking different forms of computer storage based on their
-response times\cite{toy1986computer}. The volatility of memory (whether
-or not it persists with no power) and the expense of faster storage
-forms dictates the design of commodity computers. An example of a
-standard build is given by the Dell Optiplex 5080, with 16Gb of Random
-Access Memory (RAM) for fast main memory, to be used as a program data
-store; and a 256Gb Solid State Drive (SSD) for slow long-term disk
-storage\cite{cornell2021standardcomp}. For reasonable speed when
-accessing data, a program would prioritise main memory over disk storage
-- something not always possible when dataset size exceeds memory
-capacity, larger-than-memory datasets being a central issue in big data.
-A program that is primarily slowed by data movement is described as
-I/O-bound, or memory-bound. Much of the issue in modelling large data is
-the I/O-bound nature of much statistical computation.
-
-The complement to I/O-bound computation is computation-bound,
-wherein the speed (or lack thereof) is determined primarily through the
-performance of the processing unit. This is less significant in
-large-scale applications than memory-bound, but remains an important
-design consideration when the number of computations scale with the
-dataset size in any nontrivial algorithm with greater than
-\bigO{1} complexity.
-
-The solution to both memory- and computation-bound problems has largely
-been that of using more hardware; more memory, and more CPU cores. Even
-with this in place, more complex software is required to manage the more
-complex systems. As an example, with additional CPU cores, constructs
-such as multithreading are used to perform processing across multiple
-CPU cores simultaneously (in parallel).
-
-The means for writing software for large-scale data is typically through
-the use of a structured, high-level programming language. Of the myriad
-programming languages, the most widespread language used for statistics
-is R. As of 2021, \R{} increased in popularity to rank 9th in the TIOBE
-index. \R{} also has a special relevance for this proposal, having been
-initially developed at the University of Auckland by Ross Ihaka and
-Robert Gentleman in 1991\cite{ihaka1996r}.
-
+In seeking to engage with the context of software systems for large data, it will be seen that many projects and systems aren't associated with standard means of reference; as such, this literature review involves an empirical aspect to it, in describing experimentation and basic usage of some of these systems.
 Major developments in contemporary statistical computing are typically
 published alongside \R{} code implementation, usually in the form of an R
 package, which is a mechanism for extending \R{} and sharing functions. As
-of March 2021, the Comprehensive \R{} Archive Network (CRAN) hosts over
-17000 available packages\cite{team20:_r}. Several of these packages are
-oriented towards managing large datasets, and will be assessed in
-\cref{sec:survey-r-local-packages,sec:survey-r-dist-packages} below. This project aims to develop an R
-package that provides a means for writing software to analyse very large
-data on clusters consisting of multiple general-purpose computers.
+of October 2023, the Comprehensive \R{} Archive Network (CRAN) hosts just shy of
+20,000 available packages\cite{team20:_r}.
+
+The main patterns that can be drawn from this literature review is the lack of satisfactory solutions in solving the problem of expressing statistical algorithms over a larger-than-memory dataset in \R{}, and perhaps most importantly -- that it is indeed a hard problem.
