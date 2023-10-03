@@ -68,7 +68,7 @@ developed independently at each layer, aiding maintenance as well as
 design.
 
 Such separation of concerns and layering in the object system may take
-it's embodiment in the representative objects offered by each layer. The
+its embodiment in the representative objects offered by each layer. The
 highest layer is that in which the user has no concern for the
 representation of the object on the disk. Here, the object is no more
 than a vessel for whatever data the user seeks to hold, with no thought
@@ -110,7 +110,7 @@ interacting with remote objects.
 For instance, were subsets of a too-large-for-memory dataset to be
 interacted with, they must be distributed, over space or time. Over
 space, each subset may sit on a separate node in a computing cluster,
-within it's own memory. Over time, each subset may be pulled into the
+within its own memory. Over time, each subset may be pulled into the
 memory of a single node and operated on sequentially, without all
 subsets existing in the same memory space simultaneously. Each subset is
 therefore remote to whatever may be controlling their total operations
@@ -238,7 +238,7 @@ function, acting as a higher-order function that orders the running of
 whatever function argument is given, over the set of chunk arguments.
 Take the earlier example of maximisation in \cref{lst:chunk-collection}, with new object \code{d3}
 standing for a collection of chunks, being three chunk references, each
-pointing to it's own chunk of length one billion; The distributed object
+pointing to its own chunk of length one billion; The distributed object
 is therefore a three billion length integer.
 
 \src[Rout]{chunk-collection}{Collecting chunks into one object}

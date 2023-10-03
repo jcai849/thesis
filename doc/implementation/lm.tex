@@ -22,7 +22,7 @@ The \code{dreduce} is therefore to be used as an equivalent structural backbone 
 
 \subsection{Implementation Details}
 
-The implementation of the distributed linear model is succinct enough to be given in it's entirety (with error-checking and boilerplate removed for clarity) in \cref{lst:dlm} .
+The implementation of the distributed linear model is succinct enough to be given in its entirety (with error-checking and boilerplate removed for clarity) in \cref{lst:dlm} .
 
 \src{dlm}{Full listing of distributed linear model implementation.}
 
@@ -44,7 +44,7 @@ This object may very well have a larger memory footprint than all of the argumen
 
 The solution to this is twofold: allow new insertion environments to be inserted to the requested function on the worker for the purpose of non-destructive masking; and capture the call on the master end, wrapped into a function returning the call, and insert into the new insertion environment to take the place of the previous call capture function.
 
-An insertion environment follows the simple concept of being placed between some function and the function's original enclosing environment for the purpose of having it's objects first on the search path, for masking or perhaps making previously global variables available.
+An insertion environment follows the simple concept of being placed between some function and the function's original enclosing environment for the purpose of having its objects first on the search path, for masking or perhaps making previously global variables available.
 Its form is given in the diagram at \cref{fig:ins-env}.
 
 \fig{ins-env}{Newly inserted environment mimicking the insertion procedure of a linked list, with pointers given by arrows, and the old pointer in dashed line.}

@@ -140,7 +140,7 @@ be trivially parallelised.
 For parallelisation, future is used as the backend package, with most
 function mappings on chunks making use of \code{future-lapply}
 to have each chunk mapped with the intended function in parallel. Future
-is a package with complexities in it's own right; I have written more on
+is a package with complexities in its own right; I have written more on
 future in \cref{sec:future-detail}
 
 future is initialised with access to cores through the wrapper function,
@@ -150,7 +150,7 @@ and chunks being processed in parallel.
 
 An important aspect to parallelisation through future is that, for
 purposes of cross-platform compatibility, new \R{} processes are started
-for each worker\cite{zj19:_using}. Each process will possess it's own
+for each worker\cite{zj19:_using}. Each process will possess its own
 environment, and \pkg{disk.frame} makes use of future's detection capabilities
 to capture external variables referred to in calls, and send them to
 each worker.
@@ -160,7 +160,7 @@ each worker.
 \pkg{disk.frame} serves as an example of a very well-received and used package
 for larger-than-RAM processing. The major keys to its success have been
 its chart-topping performance, even in comparison with \pkg{dask} and \proglang{Julia},
-and it's user-friendliness enabled through procedural transparency and
+and its user-friendliness enabled through procedural transparency and
 well-articulated concepts.
 
 \pkg{disk.frame} as a concept also lends itself well to extension:

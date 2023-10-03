@@ -58,7 +58,7 @@ respectively.
 \src{msg-q-worker}{Worker redis message queue}
 
 The master simply pushes serialised calls to the appropriate queue, and
-the worker loops reading messages from it's particular queue(s),
+the worker loops reading messages from its particular queue(s),
 deserialising and evaluating any messages. The master node and the
 worker node can be initialised in any order and with any time
 difference, demonstrating the asynchrony. In this particular example,
@@ -96,7 +96,7 @@ helped through careful implementation and more processing on the
 initiator node (bringing it closer to a master node), but a possibly
 superior extension is to have queue-adjacent servers on each node that
 are able to operate concurrently with the main \R{} session that has as
-it's sole purpose the transfer of chunks, leaving everything else to the
+its sole purpose the transfer of chunks, leaving everything else to the
 main \R{} session. These servers would also be ideal vertices at which to
 implement data-duplication as a feature enabling redundancy in the
 system

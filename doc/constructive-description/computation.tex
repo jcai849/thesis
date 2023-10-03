@@ -62,7 +62,7 @@ the chunk, and is therefore more efficient to transport.
 To investigate this, let us first introduce the notion of a function
 applicator that sends a function to be run over chunks, through their
 chunk references. We label it \code{chunk-call}, taking some function
-to be applied as it's first argument, with the remaining arguments chunk
+to be applied as its first argument, with the remaining arguments chunk
 references to have the function remotely applied to, and returns a
 single chunk reference to the result. For example, we have a potential
 implementation of remote \code{max} at a low level using

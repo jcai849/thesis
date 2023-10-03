@@ -25,14 +25,14 @@ The program flow of a standard distributed reduce is depicted in \cref{fig:dredu
 Assuming a distributed object split consecutively over processes 1, 2, and 3, with a single master node containing the reference to this object, a distributed reduce takes place as follows:
 \begin{enumerate}
 	\item Upon invocation of the distributed reduce, the master sends requests to all queues associated with the chunks composing the distributed object. These requests contain (unresolved) references to the chunks resulting from the distributed reduce, alongside the function to be performed over them. As these chunk references are not yet resolved, the processes popping the requests from the queues will block, except for the initial queue, which should be only referencing resolved chunks. The master process continues processing asynchronously, only blocking when the result of the distributed reduce operation is requested.
-	\item The process containing the initial chunk operates over it and stores the output. It then continues reading queues and processing as before, with it's role in distributed reduce being complete.
+	\item The process containing the initial chunk operates over it and stores the output. It then continues reading queues and processing as before, with its role in distributed reduce being complete.
 	\item The second process is now able to access the previously unresolved chunk reference, and emerges it directly from the first process. It operates on the chunks, storing the output.
 	\item This repeats until all processes have completed the requests initially given by the master process.
 	\item When needed, the master may emerge the resulting object, with either cumulative steps given by all processes, or only the end result, depending on the options provided. The distributed reduce is complete.
 \end{enumerate}
 
 The applications for a distributed reduce correspond closely to those of a regular reduce.
-Any ``rolling'' or windowed function that bases it's state on some form of previous elements in a list is able to take clear representation through a distributed reduce.
+Any ``rolling'' or windowed function that bases its state on some form of previous elements in a list is able to take clear representation through a distributed reduce.
 
 Of particular interest are updating modelling functions.
 Representative of this class of statistical algorithm is \pkg{biglm}, with an eponymously named package available in \R{}.

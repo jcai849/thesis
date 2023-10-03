@@ -4,7 +4,7 @@ Building on the infrastructure outlined in \ref{sec:mq-arch}, the aggregation of
 is a logical continuation, and this document serves to record experimentation
 in the creation of such a feature.
 
-For our purposes, a distributed object and it's reference is defined
+For our purposes, a distributed object and its reference is defined
 conceptually as the following:
 
 \begin{definition}
@@ -60,14 +60,14 @@ access to that information despite not being the original requesting client.
 This would not be possible were the job queue concept still used, as the chunk
 reference on the aligning node wouldn't have the ability to access the job
 queue, for lack of knowledge as well as the destruction it would cause by
-obstructing the original client in it's intended pop of the jobID queue.
+obstructing the original client in its intended pop of the jobID queue.
 
 In addition to the changes to the chunk reference, there is now the essential
 need for further information in the way chunks relate to each other as parts of
 a greater whole.
 This is a heavily language-dependent aspect, as it relies on \R{}'s paradigmatic
 nature of being array-oriented.
-\R{} takes it's array-oriented style from \proglang{S}, which was in turn influenced by
+\R{} takes its array-oriented style from \proglang{S}, which was in turn influenced by
 Iverson's \proglang{APL} and Backus' \proglang{FORTRAN}, both heavily
 array-oriented\cites{becker1994shistory,iverson2007notation}.
 A central feature of array-oriented languages involves ``parallel'' (in array,
@@ -179,11 +179,11 @@ where \code{obj-place} refers to the value of \code{obj}.
 (\textcolor{dark2-1}{e}) The expression will in turn call \code{reftorec} and
 \code{alignment} on \code{Cm} and the \code{args} list,
 which, given the resolved state of all chunks, will replace the
-\code{distobj-place} in \code{args} with it's corresponding emerged
+\code{distobj-place} in \code{args} with its corresponding emerged
 object, in this case the referent of \code{Cm}.
 Upon completion of performing \code{f1} on the new \code{args} list, the
 resultant chunk \(c_{n+k}\) for \(k > 0 \) is (\textcolor{dark2-1}{f}) added to the local chunk table
-of node \(S\) for later retrieval, with it's queue also monitored, and (\textcolor{dark2-1}{g})
+of node \(S\) for later retrieval, with its queue also monitored, and (\textcolor{dark2-1}{g})
 information on the size and other metadata of \(c_{n+k}\) are obtained and sent
 to the distributed table for future reference.
 
@@ -227,7 +227,7 @@ allowing for termination.
 \subsubsection{Solution Implementation}
 
 Implementation of server-side concurrency in the
-\code{do-call-msg} and it's surrounding constructs implies a
+\code{do-call-msg} and its surrounding constructs implies a
 parallel operation such as that provided by the \code{parallel} package,
 located principally in the \code{mcparallel} function.
 An initial problem with reliance on \code{mcparallel} is the

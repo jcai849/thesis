@@ -3,7 +3,7 @@
 Given the simplicity and promise of flexibility as demonstrated in the
 above section,
 further experimentation around the concept is undertaken and documented herein.
-The experiments are built successively upon it's prior, with the aim of rapidly
+The experiments are built successively upon its prior, with the aim of rapidly
 approximating a functioning prototype via experimentation.
 
 \subsubsection{General Function on Single Chunk}
@@ -39,7 +39,7 @@ chunk to send the results back to via socket connection.
 The message is then serialised and pushed to the chunk's queue, and the
 requesting node sits listening on the socket that it has set up and advertised.
 
-On the server node end, it sits waiting on it's preassigned queues, each of
+On the server node end, it sits waiting on its preassigned queues, each of
 which correspond to a chunk that it holds. 
 Upon a message coming through, it runs a \code{do-fun} function on the
 message, which in turn runs the function on the chunk named in the message. 
@@ -154,7 +154,7 @@ Optionally, the client can immediately create a chunk object with no direct
 knowledge of the chunk ID, holding the job ID at the information reference
 instead, and the client continues whatever work it was doing.
 Only when the chunk ID is required, the chunk object, triggers a blocking pop
-on it's associated information reference queue, which the server may
+on its associated information reference queue, which the server may
 at any point push the chunk ID to.
 The chunk object then has the associate the ID associated with it, and the
 information reference queue can be deleted.

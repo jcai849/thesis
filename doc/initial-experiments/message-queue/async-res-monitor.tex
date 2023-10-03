@@ -21,7 +21,7 @@ serves to resolve the relevant distributed reference.
 Given that resolution dependencies form a directed acyclic graph, due to
 references only being created out of existing references, and assuming a fixed
 set of messages, any unresolved reference that leads to recursion will
-eventually be resolved upon evaluation of it's associated message by either
+eventually be resolved upon evaluation of its associated message by either
 another node, or more importantly, by the same node at some deeper level of
 recursion.
 This solution uses the call stack as a central data structure.
@@ -36,7 +36,7 @@ if the references contained on the node's stack all depend on jobs that are
 evaluated by other nodes, thereby being marked for resolution themselves, and
 no more messages come through in any of the monitored queues, the server is in
 a state of having the messages on the stack ready for evaluation, yet it will
-instead stay listening on it's queues indefinitely, never terminating.
+instead stay listening on its queues indefinitely, never terminating.
 
 This issue can be weakened by changing the pop of the message queues to be
 non-blocking.

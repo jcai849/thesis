@@ -22,7 +22,7 @@ This creates the advantage of data locality, wherein data is processed
 by the node they exist in.
 
 \pkg{Hadoop} has seen extensive industrial use as the premier big data
-platform upon it's release. In recent years it has been overshadowed by
+platform upon its release. In recent years it has been overshadowed by
 \pkg{Spark}, due to the greater speed gains offered by \pkg{Spark}. The key reason
 \pkg{Spark} is so much faster than \pkg{Hadoop} comes down to their different
 processing approaches: \pkg{Hadoop} MapReduce requires reading from disk and
@@ -46,7 +46,7 @@ The file system has 5 primary services.
         Contains the blocks of data. Sends ``Heartbeat Message'' to the name
         node every 3 seconds. If two minutes passes with no heartbeat message
         from a particular data node, the name node marks it as dead, and sends
-        it's blocks to another data node.
+        its blocks to another data node.
     \item[Job Tracker]
         Receives requests for MapReduce from the client, then queries the name
         node for locations of the data.
@@ -94,7 +94,7 @@ MapReduce\cite{akidau2013millwheel}.
 \subsection{Spark}\label{sec:spark}
 
 \pkg{Spark} is a framework for cluster computing\cite{zaharia2010spark}. Much
-of it's definition is in relation to \pkg{Hadoop}, which it intended to
+of its definition is in relation to \pkg{Hadoop}, which it intended to
 improve upon in terms of speed and usability for certain tasks.
 
 Its fundamental operating concept is the Resilient Distributed Dataset
@@ -111,7 +111,7 @@ improve upon the MapReduce interface. Another major selling point for
 including many iterative algorithms. The availability of broadcast
 variables and accumulators allow for custom iterative programming.
 
-\pkg{Spark} has seen major use since it's introduction, with effectively all
+\pkg{Spark} has seen major use since its introduction, with effectively all
 major big data companies having some use of \pkg{Spark}. It's features and
 implementations are outlined in \textcite{zaharia2016apache}.
 

@@ -13,8 +13,8 @@ hence the primality placed on the system's information structures.
 \subsubsection{Overview}\label{overview}
 
 The first questions asked of a distributed system's information
-structures relate to it's topology and mechanism of message passing.
-This particular system answers that necessarily through it's context and
+structures relate to its topology and mechanism of message passing.
+This particular system answers that necessarily through its context and
 aims; that it is currently intended to exist as a largely transparent
 platform within R, which necessitates interactivity and other standard R
 development practices. Thus, a centralised structure must be chosen for
@@ -22,7 +22,7 @@ the system, with the node associated with the user's \R{} session acting as
 the master. This is the form of operation of other distributed packages
 currently existing in R, such as \pkg{sparklyr} and \pkg{SNOW}
 \cites{luraschi20,tierney18}. This can be contrasted with a
-decentralised system as in \pkg{pbdR} and it's underlying
+decentralised system as in \pkg{pbdR} and its underlying
 \pkg{MPI} implementation \cite{pbdR2012}, which requires \R{} programs
 to be written in a manner agnostic to the nodes in which they are
 executed upon, resulting in the same program being distributed to all
@@ -152,7 +152,7 @@ with particular relation to the UNIX file system
 file system, files contain no additional information beyond what is
 written to them by the user or file generation program. Directories are
 also files and consist solely of a regular textual mapping from a file
-name to it's entry (\emph{inode}) in a central system table
+name to its entry (\emph{inode}) in a central system table
 (\emph{ilist}). The inode contains metadata associated with a file such
 as access times and permissions, as well as the physical address of the
 file on disk.
@@ -179,7 +179,7 @@ garbage collection, in conjunction with reference counting
 The remote end of the system is the simplest component of the entire
 setup. Each remote \R{} process is hosted through
 \pkg{RServe}, and accessed through \pkg{RSclient} on the local
-end. The remote \R{} process holds chunks of data in it's global
+end. The remote \R{} process holds chunks of data in its global
 environment, and performs whichever operations on that data as are
 directed to it from the master \R{} session. The data possesses no more
 structure than what was already in the chunk following reading,
@@ -204,7 +204,7 @@ breaks down.
 A potential mechanism for improvement is to attach index attributes
 corresponding to the overall index to the chunks. In combination with
 remotely-run routines, the local session simply needs to send out a
-request for particular indices to all of it's connections, and they can
+request for particular indices to all of its connections, and they can
 work out themselves which elements, if any, they correspond to,
 returning a vector of elements matched, for us in the creation of a new
 reference locally.

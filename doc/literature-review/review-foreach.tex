@@ -99,7 +99,7 @@ ordering permits parallelisation, which is the primary reason for usage
 of the \pkg{foreach} package. The constraints are not insignificant
 however, and they do impose a limit on what can be expressed through
 their usage. Most notably, iterated functions, wherein the function
-depends on it's prior output, are not necessarily supported, and
+depends on its prior output, are not necessarily supported, and
 certainly not supported in parallel. This is a result of the order of
 traversal being undefined, and when order is essential to maintain
 coherent state, as in iterated functions, the two concepts are mutually
@@ -126,7 +126,7 @@ not iterating beyond it.
 
 \subsection{Extensions}\label{subsec:foreach-extensions}
 
-The key point of success in \pkg{foreach} is it's backend extensibility,
+The key point of success in \pkg{foreach} is its backend extensibility,
 without which, \pkg{foreach} would lack any major advantages over a standard
 for-loop.
 
@@ -160,4 +160,4 @@ Numerous backends exist, most notably:
 \pkg{foreach} serves as an example of a well-constructed package supported by
 its transparency and extensibility.
 
-For packages looking to provide any parallel capabilities, a \pkg{foreach} extension would certainly aid it's potential usefulness and visibility.
+For packages looking to provide any parallel capabilities, a \pkg{foreach} extension would certainly aid its potential usefulness and visibility.

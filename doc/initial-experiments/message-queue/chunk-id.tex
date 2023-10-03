@@ -45,7 +45,7 @@ includes assignment.
 If there is no assignment, the message includes a job ID instead, naming a job
 queue to be monitored by the client.
 If the server receives a job ID, it sends the value of the computed function to
-the queue with that job ID as it's key, sending no messages otherwise.
+the queue with that job ID as its key, sending no messages otherwise.
 
 A space-time diagram of the client-originated chunk ID model is given in figure
 \cref{fig:client-chunk-id}.
@@ -58,7 +58,7 @@ In the server-originated chunk ID model, given that the client doesn't know the
 chunk ID of created chunk references, leaving that to the server, it sends out
 messages with job , creating chunks references that at first reference the
 job ID, but when the actual chunk ID is required, waiting on the job ID queue
-for a message containing it's chunk ID.
+for a message containing its chunk ID.
 The server correspondingly sends chunk  of each newly assigned chunk to the
 job ID queue specified in the request, sending values instead if not directed
 to perform assignment.
@@ -115,7 +115,7 @@ additional slots in a chunk to determine resolution state, as well as the use
 of job ID queues for more than just value returns will be sufficient to
 implement such a design.
 The asynchrony may lead to non-deterministic outcomes in the case of failure,
-but the use of \code{resolved-} and it's associated barrier procedure,
+but the use of \code{resolved-} and its associated barrier procedure,
 \code{resolve} will enable the forcing of a greater degree of synchrony,
 and allow tracing of errors back to their source in a more reliable manner.
 
