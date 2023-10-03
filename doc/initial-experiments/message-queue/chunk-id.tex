@@ -28,7 +28,7 @@ local object identified by the chunk ID given by the queue name the message was
 popped from.
 Without loss of generality, the function \code{f} is considered to take
 constant time on local objects, and messages likewise have constant latency;
-the ratio of latency to operation time is irrelevent to what is demonstrated in
+the ratio of latency to operation time is irrelevant to what is demonstrated in
 these models.
 Assignment, message listening, and message switching by the queue are
 considered to be instantaneous events.
@@ -56,10 +56,10 @@ A space-time diagram of the client-originated chunk ID model is given in figure
 
 In the server-originated chunk ID model, given that the client doesn't know the
 chunk ID of created chunk references, leaving that to the server, it sends out
-messages with job IDs, creating chunks references that at first reference the
+messages with job , creating chunks references that at first reference the
 job ID, but when the actual chunk ID is required, waiting on the job ID queue
 for a message containing it's chunk ID.
-The server correspondingly sends chunk IDs of each newly assigned chunk to the
+The server correspondingly sends chunk  of each newly assigned chunk to the
 job ID queue specified in the request, sending values instead if not directed
 to perform assignment.
 
@@ -69,7 +69,7 @@ A diagram of the server-originated chunk ID model is given in \cref{fig:server-c
 
 An important aspect of \cref{fig:server-chunk-id} is the fact that the client has to
 wait to get the chunk ID's of the chunk references \code{y} and \code{z}
-before it can push requests to their relevent queues, hence the delay between
+before it can push requests to their relevant queues, hence the delay between
 the communications labelled in the diagram as \textcolor{dark2-3}{\textbf{d}}
 and \textcolor{dark2-3}{\textbf{h}}; the client still needs to receive
 \textcolor{dark2-1}{\textbf{g}}, which contains the necessary chunk ID.
@@ -88,7 +88,7 @@ performing the function.
 Despite the reduced time spent blocking, the client-originated chunk ID
 modelled also has issue with errors; consider if the \code{assign-x-y} had
 been faulty, with the resultant operation of \code{f-c1} rendering an error.
-This would not be determined by the client untile the completion of
+This would not be determined by the client until the completion of
 \code{f-z}, in which an error would presumably result.
 Worse, if the chunk reference \code{x} was given as an additional argument to
 another server, which in turn requested the chunk \code{C1} from the node

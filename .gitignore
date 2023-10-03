@@ -19,5 +19,6 @@ _minted-thesis
 *.tdo
 *.swp
 *.pyg
+*.bak
 tikz-cache
 thesis.auxlock

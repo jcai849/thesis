@@ -3,7 +3,7 @@ to the actualities of computation. Some questions that have been brewing
 may be investigated: What form does a computation possess? With the
 intention of the system to allow for extension at every level, what is a
 necessary minimum basis with which to engage at a level lower than the
-aformentioned ``chunk'' layer, where the very operations that are
+aforementioned ``chunk'' layer, where the very operations that are
 performed on chunks are concerned? What can a developer expect to take
 place in the system when an operation is performed on some object?
 
@@ -52,7 +52,7 @@ network. This contrasts with the local node which holds the chunk
 references and is interacted with directly, which is known as the
 \textbf{client}. Here a specific choice is made as to where the
 computation takes place; the \textbf{computation travels to the chunk},
-rather than the chunk travelling to the computation. A corrolary of this
+rather than the chunk travelling to the computation. A corollary of this
 fact is what allows for computations to take place over multiple chunks
 which can't coexist in memory: that each computation takes place within
 a separate memory space. Furthermore, the computation, as will be
@@ -92,7 +92,7 @@ slightly modified version of the previous example, where rather than a
 single maximum, a running parallel maximum along several vectors of
 equal length is to be computed. Each vector is larger than memory, and
 as such, is broken into several chunks. These chunks can be compared
-across vectors in memory, without the entireity of the vectors being
+across vectors in memory, without the entirety of the vectors being
 loaded into memory together.
 
 Concretely, consider vectors \code{v1}, \code{v2}, and \code{v3},
@@ -131,7 +131,7 @@ upon in a stream, a consistent method of pulling chunks into memory is
 required. Here the water muddies with respect to moving computations to
 data, versus moving data to computations. But with such a methodology,
 it is clear that the computation always moves to some data, with the
-remainder of data movement occuring only as required. Such further data
+remainder of data movement occurring only as required. Such further data
 movement can be directed through a variety of strategies, including
 optimising to minimise size of movement, optimising to minimise load on
 the end worker, among others - none are to be specified at this stage.
@@ -284,7 +284,7 @@ time of sending the computation request as to how the result is to be
 referenced. Were the request to be sent without any contract between
 client and worker as to how to reference the result, any further
 communication would also lack this information, as the result would be
-indiscernable from any other computation result. Therefore, some initial
+indiscernible from any other computation result. Therefore, some initial
 contract as to how to refer to the resulting chunk is required between
 client and worker, with a variety of strategies discussed in the
 appendix. Irrespective of strategy, the persistence of chunks dictates

@@ -13,7 +13,7 @@ platform\cite{vertica:_distr}.
 
 \pkg{foreach} offers a high-level looping construct compatible with a variety
 of backends\cite{microsoft20}. The backends are provided by other
-packages, typically named with some variation of \emph{X} in pkg{doX}.
+packages, typically named with some variation of \emph{X} in \pkg{doX}.
 Parallelisation is enabled by some backends, with \pkg{doParallel} allowing
 parallel computations\cite{corporation19}, \pkg{doSNOW} enabling cluster
 access through the \pkg{SNOW} package\cite{dosnow19}, and \pkg{doMPI} allowing for
@@ -191,10 +191,10 @@ Simon Urbanek.
 
 \pkg{big.data.table} runs \pkg{data.table} over many nodes in an ad-hoc
 cluster\cite{gorecki16}. This allows for big data manipulation using a
-data.table interface. The package makes use of \pkg{Rserve} (authored by Simon
+data.table interface. The package makes use of \pkg{RServe} (authored by Simon
 Urbanek) to facilitate communication between nodes when running from \R{}.
 Alternatively, the nodes can be run as docker services, for fast remote
 environment setup, using \pkg{RSclient} for connections. Beyond greater
 storage capacity, speed is increased through manipulations on
-big.data.table objectss occurring in parallel. The package is authored by Jan
+big.data.table objects occurring in parallel. The package is authored by Jan
 Gorecki, but hasn't been actively developed since mid-2016.

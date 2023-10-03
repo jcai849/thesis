@@ -20,7 +20,7 @@ A list of features and their descriptions follows:
     theoretical speedups for parallel jobs \cites{amdahl1967law,gustafson1988law}. In addition, each node typically adds more working
     memory to the distributed system, allowing for larger datasets to be
     manipulated in-memory. For exceedingly large datasets, the benefits of
-    distributed file systems commonly allow for resiliant storage, with
+    distributed file systems commonly allow for resilient storage, with
     well-regarded examples including HDFS and the Google File System it is
     based upon \cites{shvachko2010hadoop,ghemawat2003google}.
   \item[Evaluation of User-Specified Code]
@@ -56,7 +56,7 @@ A list of features and their descriptions follows:
     several features that make it particularly attractive as a filesystem
     for a large-scale statistical analysis; being distributed and capable of
     running on commodity hardware allows for truly big data analysis. In
-    addition, the system is built to be resiliant to hardware failure, so
+    addition, the system is built to be resilient to hardware failure, so
     long-running analyses aren't cut short or forced to revert to a
     checkpoint because of singular component failure
     \cite{shvachko2010hadoop}.
@@ -84,7 +84,7 @@ A list of features and their descriptions follows:
     without mandatory batch execution. A major benefit of \R{} as being
     interpreted is the availability of the REPL. The benefits of
     interactivity stemming from a REPL are well-documented, most notably
-    aiding debugging \cite{mccarthy1978history}. For statistical analysese
+    aiding debugging \cite{mccarthy1978history}. For statistical analyses
     in particular, interactive analyses play a major role in exploratory
     data analysis, wherein insights can be tested and arrived at rapidly
     with an interactive session.
@@ -155,7 +155,7 @@ Consider \cref{tab:feature-comp}, with elaboration given in the enumeration belo
 \item\label{itm:x8} Many functions used for grouped summarisation are only estimates, such as \code{median}\cite{zj19:_group_by}.
 \item\label{itm:x9} \code{dopar} accepts any expression, and tries its best to handle references to global variables, however it is still recommended to manually define the global references as well as packages used.
 \item\label{itm:x10} See \cref{sec:review-iteration-sparklyr}.
-\item\label{itm:x11} \pkg{foreach} makes use of iterators, which can be defined to perform recurrance relations (see \cref{sec:review-foreach}) but these rely on closures and may in fact be slower than serial relations.
+\item\label{itm:x11} \pkg{foreach} makes use of iterators, which can be defined to perform recurrence relations (see \cref{sec:review-foreach}) but these rely on closures and may in fact be slower than serial relations.
 \item\label{itm:x12} Direct access to HDFS through \pkg{rhdfs}\cite{revo2013rhdfs}.
 \item\label{itm:x13} Allows for \pkg{Spark} over HDFS, but offers no HDFS-specific filesystem manipulation functions.
 \item\label{itm:x14} Through \pkg{sparklyr} as a backend.

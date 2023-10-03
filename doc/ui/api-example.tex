@@ -21,7 +21,7 @@ The primary novelty provided is of easy definition of custom models, so let's co
 Actual implementation of a custom model is given in \cref{ch:glm}.
 
 In our exploration of \lso{}, consider first a simple operation of summation.
-Given some vector $x$ that is broken up into $j$ chunks, yielding $j$ subvectors of length $i$.
+Given some vector $x$ that is broken up into $j$ chunks, yielding $j$ sub-vectors of length $i$.
 Due to associativity the sum of the whole is the sum of the sum of the parts, as shown in \cref{eq:sum}.
 
 \eq{sum}
@@ -45,7 +45,7 @@ A related means of specification through \lso{} is possible, given in \cref{lst:
 
 \src{dmean}{Distributed mean definition}
 
-Here we build on the distributed sum introduced above, but the total length of The distributed object is relevent as the denominator.
+Here we build on the distributed sum introduced above, but the total length of The distributed object is relevant as the denominator.
 Assuming a \code{sum} method for distributed objects as described, and the math group generic defined in a similar fashion, the denominator is defined using the same \code{d} function that sends a \code{length} computation to all of the chunks.
 
 Finally, consider the cumulative sum.

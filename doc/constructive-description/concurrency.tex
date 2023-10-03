@@ -121,7 +121,7 @@ until the operation completed.
 a request for work, and is entirely free to do whatever other processing
 is desired while the worker is blocked in managing the request.
 
-\fig{work-request}{Communication diagram showing order of events for the requestof work}
+\fig{work-request}{Communication diagram showing order of events for the request of work}
 
 The fact that the client is not blocked by operations on chunks opens up
 a broad mix of possibilities and complications. In terms of
@@ -217,7 +217,7 @@ This is depicted in diagram \cref{fig:argument-attain}:
 It may also be a case of checking on existence of all needed chunks in
 an alternation with the main event loop, and emerging those that show as
 existing - though this has the potential for high processor and network
-utilisation if run too often, as well as greater inefficiences if run
+utilisation if run too often, as well as greater inefficiencies if run
 too seldom. Irrespective, the implementation will have to take such a
 factor for race conditions into consideration, lest the system lock up
 and fail in its task. The other procedures relating to workers have less

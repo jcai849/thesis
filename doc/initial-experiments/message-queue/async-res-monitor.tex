@@ -108,7 +108,7 @@ unbounded - making the poll particularly inefficient.
 
 \alg{two-part-sol-res}{Pseudocode for resolution lookup of references, called as part of dependency checking in \texttt{UpdateDependencies} of the \texttt{Server} function at Algorithm \ref{alg:two-part-sol-serv}. Returns the resolution status to allow marking of inbox items for the \texttt{evalResolvedMsgs} function.}
 
-An amendment to the solution proferred in \cref{inbox-list} is to have
+An amendment to the solution provided in \cref{inbox-list} is to have
 the resolution status of chunks propagated to every relevant node while they
 were listening to queues already.
 This may take several forms.
@@ -140,7 +140,7 @@ atomicity, with there being no possibility of missing either a key or a queue
 on the client end, as given through the following proof:
 
 Consider the moment a client has successfully posted interest on the interest queue.
-At this point, there are two relevent states for server communication,
+At this point, there are two relevant states for server communication,
 dependent on whether the server has posted a key or not.
 
 If the server has not yet posted the key, then the client is guaranteed

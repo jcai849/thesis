@@ -16,7 +16,7 @@ Concurrency is an essential component to distributed systems, and this challenge
 Between nodes, routines run asynchronously over chunks, with parallelism implicit and controlled in distributed fashion.
 
 Evaluation and scope may serve to speciate languages, as in the case of \R{} from \proglang{S}, and they take special forms in a distributed system.
-\lsr{} seeks to minimise any differences from the \R{} language, so as to provide as transparent an experience for developers as possible, but with respect to evaluation, differs in following a call-by-value, as opposed to call-by-need pattern. Furthermore, errors can be caught, but are only propogated to the caller upon emergence of the underlying chunks, with the system favouring asynchrony to strictness. Scope is likewise limited in favour of message transfer efficiency.
+\lsr{} seeks to minimise any differences from the \R{} language, so as to provide as transparent an experience for developers as possible, but with respect to evaluation, differs in following a call-by-value, as opposed to call-by-need pattern. Furthermore, errors can be caught, but are only propagated to the caller upon emergence of the underlying chunks, with the system favouring asynchrony to strictness. Scope is likewise limited in favour of message transfer efficiency.
 
 In order to enable complex and iterative models, a distributed garbage collection system is also essential.
 Such a system should handle mutable underlying chunk data as well.

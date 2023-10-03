@@ -5,7 +5,7 @@ A description of the implementation structure of \lsr{} follows.
 The system is supported at the base layer by the \pkg{orcv} package, which exists as an in-memory threaded TCP message queue.
 It was created specifically for \pkg{largescaler}, making use of the \proglang{C} API for \R{}, though it is sufficiently general to serve the wider purpose of a message queue for the transfer of \R{} objects between \R{} processes.
 Central to the functionality of \pkg{orcv} is its multithreaded operation, allowing transfers to take place in the background of the host \R{} process, thereby not blocking computation.
-The core userbase of this package is intended as developers on \lsr{}.
+The core user-base of this package is intended as developers on \lsr{}.
 
 Sitting on top of \pkg{orcv}, the package \pkg{chunknet} enables the creation of detached nodes, which use \pkg{orcv} to communicate, and operate using their own event loops populated via the queue provided by \pkg{orcv}.
 The instances of these nodes provided by the package are worker nodes, and a location service, which serve to operate on and locate chunks, respectively.

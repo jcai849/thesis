@@ -46,7 +46,7 @@ This is shown in \cref{lst:promise-forced}.
 \src[Rout]{promise-forced}{A forced promise}
 
 Jumping down a layer of abstraction does appear to solve this problem.
-However, given that \code{run-now} must be manually called, a new problem is added; scheduling of \code{then}s is now partially in userspace.
+However, given that \code{run-now} must be manually called, a new problem is added; scheduling of \code{then}s is now partially in user-space.
 At this point it is worth looking at alternatives, because the code is starting to become complex, with manual event-loop cycling guaranteed to lead to bugs.
 
 A layer up is the \pkg{coro} package\cite{henry21coro}.

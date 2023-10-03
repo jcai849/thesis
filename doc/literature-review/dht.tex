@@ -29,7 +29,7 @@ Distributed Hash Table algorithms generally share a few features in common, beyo
 	\item Nodes usually keep some routing table that is used to optimise lookups\cite{galuba2009p2p}.
 	\item Nodes typically have some node ID of the same length as keys (or some variation on keys, such as their SHA-1 hash), in order to allow for some direct comparison between them. Keys are usually hashed to particular nodes based on some measure of distance, choosing the node with the lowest distance to store the value on.
 	\item Minimisation of route length and minimisation of degree are principal objectives in the analysis of DHT's, with most DHT's sporting \bigO{\log N} nodes contacted during lookups.
-	\item All DHT's have some degree of susceptibility to Byzantine faults such as the Sybil attack, where a flood of new nodes can throw off the system; given that the \lsr{} system is expected to run in a non-adverserial environment, this consideration doesn't factor too heavily into choice of DHT algorithm\cite{douceur2002sybil}\cite{urdaneta2011dhtsec}.
+	\item All DHT's have some degree of susceptibility to Byzantine faults such as the Sybil attack, where a flood of new nodes can throw off the system; given that the \lsr{} system is expected to run in a non-adversarial environment, this consideration doesn't factor too heavily into choice of DHT algorithm\cite{douceur2002sybil}\cite{urdaneta2011dhtsec}.
 \end{itemize}
 
 The primary algorithms for DHT's include Chord and Kademlia, alongside others such as Pastry, Tapestry, and Koorde.
@@ -42,7 +42,7 @@ Chord builds on the consistent hashing algorithm, adding linear lookup and finge
 
 Consistent hashing is a hashing scheme with a high probability of load balancing and minimisation of key remapping upon node exit and joining of the network, with only \mathfrom{o-inverse} expected key movement\cite{karger1997hash}.
 Consistent hashing relies upon an identifier circle, as a form of modulo ring.
-The identifier ring exists conceptually at the size \mathfrom{2-pow-m}, where \mathfrom{m} is chosen as large enough to make the probability of hash collision negligable, typically the same as the number of bits in the node/key ID hash.
+The identifier ring exists conceptually at the size \mathfrom{2-pow-m}, where \mathfrom{m} is chosen as large enough to make the probability of hash collision negligible, typically the same as the number of bits in the node/key ID hash.
 Each node is hashed to some point on the identifier ring based upon it's node ID, typically with the SHA-1 hash.
 Keys are then assigned to nodes by determining their point on the ring, using the same hash function as used for nodes, and specifying that their node assignment is to be the first node clockwise on the ring following that key, with that node termed as the key's successor.
 The original Chord paper has excellent diagrams showing the ring and the relation to the Chord algorithm.
@@ -69,7 +69,7 @@ My suggestion for removing all background periodic procedures is the following:
 	\item Node joins occur sequentially and force stabilisation procedures on both the successor and predecessor of the joining node.
 		Migration of keys occur prior to predecessor stabilisation, and require checks from successor to predecessor that the pointer is correct and that no queries are pending, before the successor deletes any table elements that it hosts.
 	\item Joining nodes broadcast their existence and ID recursively along finger tables, with the space of each recursive call bound by successors, forcing finger table fixes along all existing nodes.
-		This is additional work, but for datacentre-like applications, as \lsr{} fits, rather than transient IM chat applications, the non-internet scale minimises the additional work, and is sufficient to justify the stability.
+		This is additional work, but for data centre-like applications, as \lsr{} fits, rather than transient IM chat applications, the non-internet scale minimises the additional work, and is sufficient to justify the stability.
 \end{enumerate}
 
 A secondary drawback of Chord is in the fact that the distance measure is asymmetric.
@@ -91,10 +91,10 @@ The query is run recursively on the results from those nodes, until the results 
 
 Nodes join the network by contacting one existing node in the network, and performing a request for their own ID, which propagates their address through the network.
 
-Further features include taking advantage of the fact that node lifetime follows a power law, with longer-lived nodes more lkely to live longer; longer-running nodes are kept at the top of the $k$-bucket lists.
+Further features include taking advantage of the fact that node lifetime follows a power law, with longer-lived nodes more likely to live longer; longer-running nodes are kept at the top of the $k$-bucket lists.
 As nodes are encountered, they are added dynamically to $k$-bucket lists.
 
-Kademlia has the potential for lookup failure if newly added nodes are closer to the key than the current keyholder, and the keyholder is not updated accordingly.
+Kademlia has the potential for lookup failure if newly added nodes are closer to the key than the current key-holder, and the key-holder is not updated accordingly.
 The authors recommend periodic key republishing as a means of combatting this, but the periodicity suffers many of the same problems that Chord has.
 Therefore I suggest that it is better to force a copy of all closest keys to a joining node upon making contact with the network - this is not too difficult, as the distance space is single dimensional, so a node only needs to contact it's two nearest (or equivalent) neighbours in order to determine close keys, and copy from them.
 It may have to go through a similar strictly ordered join process, as was suggested for Chord, before declaring a complete migration.
@@ -111,8 +111,8 @@ For instance, the routing table could instead be a list of all nodes, permitting
 This mesh algorithm would scale to a reasonable number of nodes, though is likely to flounder past several hundred.
 
 DHT's also aren't the only means of implementing a distributed associative array, which is the base data type that is sought after for our purposes;
-Skip graph is a distributed version of the skiplist probabilistic data structure, with simple operations and impressive access costs\cite{aspnes2007skipgraph}.
-The skiplist algorithm which underpins it is made use of by Redis in it's implementation of ordered sets.
+Skip graph is a distributed version of the skip-list probabilistic data structure, with simple operations and impressive access costs\cite{aspnes2007skipgraph}.
+The skip-list algorithm which underpins it is made use of by Redis in it's implementation of ordered sets.
 
 \subsection{Value and Key Descriptions}
 

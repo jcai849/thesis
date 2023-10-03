@@ -1,0 +1,1 @@
+find doc -name '*.tex' -exec ispell -t -ktexskip1 +cref,Cref,code,src,eq,textcite,parencite,qu,cqu,srcnc,mathfrom,pkg,cites,addcontentsline,lstinputlisting,tab,fig,texttt,emph,longtab,file,proglang,tbb,bigO,Textcite -ktexskip2 +src,srcnc,tab,widetab,alg,fig,widefig,longfig {} +

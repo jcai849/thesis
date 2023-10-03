@@ -46,7 +46,7 @@ Unpacking this statement, \lsr{} provides a generic \code{combine} function, whi
 The mechanism of dispatch is based on the class of the emerged chunks.
 
 Most default \code{combine} methods provide a variation of a union; for example, vectors are by default \code{com}'ed together, dataframes \code{rbind}'ed.
-If a user seeks some variation on the means of combination, the chunks may simply be subclassed to a user-defined class which provides a \code{combine} method for their combination.
+If a user seeks some variation on the means of combination, the chunks may simply be sub-classed to a user-defined class which provides a \code{combine} method for their combination.
 Such a strategy is made use of in the model implementation in \cref{ch:glm}.
 The extensibility which this allows can't be under-emphasised; by describing how chunks combine based on their class, the entire distributed object is thereby defined in structure by the chunk classes.
 This allows for infinitely many variations on chunking structure.
@@ -55,11 +55,11 @@ Alternatively, if the use of a class for combination is considered excessive for
 
 \subsection{Shuffle}\label{sec:shuffle}
 
-Complementary to the question of combination is the question of discombination;
+Complementary to the question of combination is the question of dis-combination;
 Given some elements composing some larger-than-memory object, how best to split them up into chunks, such that the following constraints are fulfilled:
 
 \begin{enumerate}
-\item Operations which require particular elements to be considered as a cohesive unit, are granted all of the relevent elements in a single chunk.
+\item Operations which require particular elements to be considered as a cohesive unit, are granted all of the relevant elements in a single chunk.
 \item The number of chunks is controlled and allows for maximum distribution.
 \item No chunk exceeds memory limits.
 \end{enumerate}
@@ -97,7 +97,7 @@ Now, what if \code{i} doesn't perfectly conform to \code{x}?
 Standard \R{} objects employ recycling of \code{i} if it is of lower length than \code{x}, with a warning if it has a non-zero modulus.
 
 Recycling to a distributed object may be considered in more than one sense, however, and it isn't immediately obvious which is ``correct''.
-The index vector may be recycled to match each chunk, or it may be recycled over the entireity of the distributed object elements, without regard to chunking.
+The index vector may be recycled to match each chunk, or it may be recycled over the entirety of the distributed object elements, without regard to chunking.
 The decision may swing toward the ignorance of chunks, given that this aligns closest to the standard \R{} practice, but there are more complex situations.
 
 We have only considered logical vectors.
@@ -113,14 +113,14 @@ Here it is not entirely clear if \R{} even possesses the correct approach.
 Most of the time an intersection of indices along the dimensions is returned in an extraction, but this isn't the only possibility.
 An alternative may be to union the indices, or some variation between.
 And when multidimensional distributed objects are considered, there is the increasing chance that the chunking structure doesn't conform to a simple consecutive interpretation, with mappings from index values to relative chunk indices becoming concomitantly complex.
-At this point, it is best to leave a recommendation agains numeric index-based subsetting for distributed objects, while allowing for the possibility of user-defined methods from which the distributed object class may dispatch upon.
+At this point, it is best to leave a recommendation against numeric index-based subsetting for distributed objects, while allowing for the possibility of user-defined methods from which the distributed object class may dispatch upon.
 
 \subsection{Reference}
 
 As described in great detail in \cref{sec:reference}, the illusion of direct interaction with a distributed object, absent a proxy, is often valuable to break.
 As such, functions to interact with the reference \textit{per se} are provided.
 The \code{materialise} function renders a reference tangible, thus allowing for its direct manipulation without fear of it transparently passing through any calls to its referent chunks, having been at least temporarily neutered.
-The complement functiion \code{dematerialise} returns the reference semantics of the distributed object, including all of the implicit pass-through functinality.
+The complement function \code{dematerialise} returns the reference semantics of the distributed object, including all of the implicit pass-through functionality.
 
 \subsection{Checkpointing}
 

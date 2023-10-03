@@ -61,7 +61,7 @@ comes to the references in our distributed system.
 
 Let's look at a system closer to our use-case: \pkg{pbdR}. Specifically,
 consider the distributed matrix class, \code{ddmatrix}, provided by
-the pdDMAT package. Here is a more complex reference than a pointer,
+the \pkg{pbdDMAT} package. Here is a more complex reference than a pointer,
 where each \code{ddmatrix} reference may relate to an arbitrary number
 of matrix blocks distributed across potentially disparate memory space.
 Operations over \code{ddmatrix} objects are directly reflected as
@@ -94,7 +94,7 @@ The abstraction of reference can be equally cleanly broken, however,
 with the user capable of commanding the reference to engage only with
 the local block, through functions encoded with an \code{l} for
 ``local'' prefix. The example given by \cref{lst:dim-ldim} demonstrates the difference in
-pbdR between \code{dim}, which gives the total dimensions of the
+\pkg{pbdR} between \code{dim}, which gives the total dimensions of the
 entire matrix, and \code{ldim}, which gives only the dimensions of the
 block local to a particular node:
 
@@ -116,13 +116,13 @@ matrix in which sections may be partitioned into blocks''. The
 \emph{mention} of a term is where the term as a signifier itself is used
 as a subject of the statement. For example, a mention of the term
 ``matrix'', may be in the sentence, ``the word `matrix' may be
-partitioned into 6 letters''. The relevence of the use-mention
+partitioned into 6 letters''. The relevance of the use-mention
 distinction to distributed objects lies in the contrasting operations
 that may be intended of a distributed object reference: interaction may
 be intended for either the referent distributed object (use), or the
 reference itself (mention). Such semantics of access to the reference
-and referent serve as the basis for much of metaprogramming, with the
-\proglang{lisp} quotation and quasiquotation enabling explicit use/mention
+and referent serve as the basis for much of meta-programming, with the
+\proglang{lisp} quotation and quasi-quotation enabling explicit use/mention
 interaction.
 
 \proglang{Lisp} possesses an extremely simple syntax, with everything in brackets
@@ -138,7 +138,7 @@ it has the abbreviated form of the \code[lisp]{tick} - the
 above example may have been equivalently quoted using
 \code[lisp]{tick-sum} Quotation may also act in a
 more selective manner, where some symbols are used, and others just
-mentioned, with the ``backquote'' operator of quasiquotation. Here,
+mentioned, with the ``back-quote'' operator of quasi-quotation. Here,
 \code[lisp]{backquote} is used to quote, with \code[lisp]{quasiquote} used to
 unquote. For example, \cref{lst:quoted}
 

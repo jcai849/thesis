@@ -84,8 +84,8 @@ This corresponds to a strict evaluation strategy, being an effective call-by-val
 There is some nuance though, in that within the function being called on the slave node, a call-by-need strategy is still taking place, due to being applied by the \R{} evaluator, but in practice with all arguments having been evaluated prior to function application, the ``strict'' classification is dominant.
 Other functions in \pkg{SNOW} follow a similar form.
 
-Prior prototypes in the lsr project developed herein follow a similar form.
-Evaluation of distributed procedures requires evalutaion of arguments on arbitrary nodes in the network, with the values sent to the node executing the function call.
+Prior prototypes in the \lsr project developed herein follow a similar form.
+Evaluation of distributed procedures requires evaluation of arguments on arbitrary nodes in the network, with the values sent to the node executing the function call.
 Unlike \pkg{SNOW}, evaluation of arguments on arbitrary nodes in the network enables parallelism in argument evaluation, which is potentially more efficient.
 This corresponds to a rough call-by-future strategy.
 However, like \pkg{SNOW}, this effectively remains a strict evaluation strategy, due to requiring full parameter evaluation prior to function application, though still possesses some degree of subtlety.

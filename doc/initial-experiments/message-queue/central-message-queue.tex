@@ -59,7 +59,7 @@ respectively.
 
 The master simply pushes serialised calls to the appropriate queue, and
 the worker loops reading messages from it's particular queue(s),
-unserialising and evaluating any messages. The master node and the
+deserialising and evaluating any messages. The master node and the
 worker node can be initialised in any order and with any time
 difference, demonstrating the asynchrony. In this particular example,
 the master puts out a call to add the number 1 to a predefined chunk

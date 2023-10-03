@@ -4,7 +4,7 @@ Following from the implementation of the GLM given in Chapter \cref{ch:glm}, a d
 Here, a Linear Regression model is defined, using the operators provided by \lso{}, as detailed in \cref{sec:api-high}
 
 While simple to derive the mathematics detailing a linear model, the naive method doesn't map straightforwardly to a distributed system.
-This is due to matrix inversion and multiplication operations requiring more than isolated chunkwise information.
+This is due to matrix inversion and multiplication operations requiring more than isolated chunk-wise information.
 Conveniently, the common method of decomposing a matrix, typically for computationally simplified inversion, is given in a chunked form as part of Algorithm AS274\cite{miller1992as274}.
 This algorithm is in turn implemented and wrapped through the \pkg{biglm} package in \R{} with several additional features such as such as sandwiching\cite{lumley2013biglm}.
 The \pkg{biglm} package creates a linear model object from some initial row-wise chunk of data with a space complexity of \mathfrom{o-p-2} for $p$ variables.
@@ -22,7 +22,7 @@ The \code{dreduce} is therefore to be used as an equivalent structural backbone 
 
 \subsection{Implementation Details}
 
-The implementation of the distributed linear model is succinct enough to be given in it's entireity (with error-checking and boilerplate removed for clarity) in \cref{lst:dlm} .
+The implementation of the distributed linear model is succinct enough to be given in it's entirety (with error-checking and boilerplate removed for clarity) in \cref{lst:dlm} .
 
 \src{dlm}{Full listing of distributed linear model implementation.}
 
@@ -36,7 +36,7 @@ This uses a \code{do-ccall} function to create the initial \pkg{biglm} linear mo
 
 A more significant divergence than different initialisation, with severe performance implications, is shown through the intercept and insertion of the function call.
 This is made necessary by the fact that \pkg{biglm} captures the call it was called with, and stores it as part of the model object -- this is not unique to \pkg{biglm}, and this behaviour is common to most modelling functions in \R{}.
-Due to actually enacting the call to construct the inital \pkg{biglm} linear model object on the worker process, rather than the master process, with worker processes evaluating requests through construction with the \code{do-call} function, rather than exact replication of the initial call, the call as seen by the function is not necessarily the same as that issued on the master process.
+Due to actually enacting the call to construct the initial \pkg{biglm} linear model object on the worker process, rather than the master process, with worker processes evaluating requests through construction with the \code{do-call} function, rather than exact replication of the initial call, the call as seen by the function is not necessarily the same as that issued on the master process.
 This presents two problems: inaccuracy, and unbounded call sizes.
 Inaccuracy is not an enormous problem, as the call isn't typically used for anything other than rendering a portion of the string representation of the model object.
 The greater issue is that as calls are constructed on the worker, all arguments are evaluated, and the captured call will include fully expanded objects in a \code{dump}-like form.

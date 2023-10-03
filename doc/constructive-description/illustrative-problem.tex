@@ -22,7 +22,7 @@ should be to make such exploration easy.
 
 With such a dataset, many questions may be asked of it. Geographic
 questions, such as where hotspots in dropoff and pickup are, or if there
-is any clustering when looked at in tandem. Behavioral questions, such
+is any clustering when looked at in tandem. Behavioural questions, such
 as tipping and the relation to other variables. The dataset has many
 variables that could serve as foreign keys with which to link to other,
 smaller datasets, in order to gain more insight, such as local events
@@ -74,7 +74,7 @@ implement a new statistical algorithm as it is to use a pre-implemented
 one.
 
 For example, consider that we have the data as it's raw form directly
-from the TLC website, as a collated csv file on disk. How do we begin?
+from the TLC website, as a collated \file{csv} file on disk. How do we begin?
 
 \src{massive-crash}{Naive read of larger than memory data guaranteeing a crash}
 
@@ -106,7 +106,7 @@ an operation over an entire dataset. These subsets are referred to as
 following chapter. For now, consider the chunks as containers for a
 subset of the data, which in itself requires certain operations in order
 to interact with. For instance, some operations required are to
-unmarshal the data out of the chunk, and perform operations on data
+unmarshall the data out of the chunk, and perform operations on data
 within the chunk - reading and writing, as minimum necessary features.
 The \textbf{relation between chunks} within a \textbf{group of chunks}
 at a higher level is also worth bearing some thought. For instance, when

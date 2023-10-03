@@ -1,4 +1,4 @@
-Very early on in the \lsr{} project, initial experiments are undertaken in order to explore the viability of implementing a distributed system for statistical modeling.
+Very early on in the \lsr{} project, initial experiments are undertaken in order to explore the viability of implementing a distributed system for statistical modelling.
 In addition, these experiments allow for the validation and replication for the concepts behind some of the existing systems explored in \cref{ch:lit-review}.
 A side effect of this includes an exploration of some of the data structures underpinning distributed systems, including an understanding of what is necessary and sufficient in terms of these data structures for the support of a distributed system.
 Likewise for the understanding of the topologies of distributed systems; the experiments replicated and served to qualitatively examine the differences between some of the network topologies.
@@ -6,7 +6,7 @@ In existing systems as considered in the literature review, the network superstr
 While there are benefits and drawbacks of each one, as described in the literature review, in practice these matters are best evaluated empirically, and ideally \textit{ceteris paribus}, which is difficult to perform when comparing the topologies of different existing systems in the face of many other differentiating variables.
 The emphasis on qualitative tests within these experiments served to deliver some further understanding of these concepts.
 
-The general methodology for the experiments involve creating minimum viable products with viability dependent upon delivery of cohesive and functioning distributed systems in which statistical modeling could take place, implemented using the \R{} programming language.
+The general methodology for the experiments involve creating minimum viable products with viability dependent upon delivery of cohesive and functioning distributed systems in which statistical modelling could take place, implemented using the \R{} programming language.
 That is -- how close do they get to solving the problem from \cref{ch:introduction}, of allowing a statistician to express a statistical algorithm in \R{} over a larger-than-memory dataset.
 Upon reaching a state of viability/functionality, evaluated and iterated upon.
 Such methodology allows for rapid development of highly complex systems, which could be abandoned and started fresh as easily as they were to develop upon.
@@ -20,7 +20,7 @@ Beyond absolute functionality, they all need to meet the clear threshold of bein
 On top of this, they are assessed with respect to how well they met or supported the constructive precepts defined in the preceding chapter.
 Were it found that they empirically demonstrated the non-necessity of any of the precepts, then this would be taken as a success in establishing such non-necessity, and the precept would have to be altered or removed in order to reflect this - empirical results are taken as superior in the definition of the system over theoretical constructs.
 
-In the end, three systems are created, each system undergoing many internal iterative forms, with each engaging in different data structures and topologies, and the final system evolving into the final deliverable, which is oulined in the next chapter.
+In the end, three systems are created, each system undergoing many internal iterative forms, with each engaging in different data structures and topologies, and the final system evolving into the final deliverable, which is outlined in the next chapter.
 The remainder of this chapter serves to describe the features of the two initial systems.
 At a high level, the first system uses a master-worker topology, and naive, blocking data structures for the representation of distributed data.
 This is described in \cref{sec:mw}.

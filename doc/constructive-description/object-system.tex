@@ -126,7 +126,7 @@ unconcerned with implementation details; the end-user not interested in
 the chunks making the object. With the high-level object composed of
 chunks, it therefore forms some variation of a \textbf{distributed
     object}. Whether the chunks are necessarily physically dispersed, or
-accessed from the same location at differing timepoints is a question to
+accessed from the same location at differing time points is a question to
 be settled later - the overall object is irrespectively distributed over
 space or time. The power-user would therefore have access to chunks, and
 the end-user access to the objects composed of chunks, a generalised
@@ -229,7 +229,7 @@ structure possesses meaning for such a function. There must be some
 means of mapping from a set of chunks to the entire distributed object
 considered as a whole. One example was hinted at before, where chunk
 references are held together in an array, with a defined underlying
-datastructure making up the chunks as pointed to. Operations over a
+data structure making up the chunks as pointed to. Operations over a
 group of chunks may take a similar form to operations over a collection
 of other objects, which are commonly referred to as \code{apply}
 functions, both in \R{} and in the wider computer science world. A means of
@@ -301,7 +301,7 @@ take many forms: It may be polymorphic to be dispatched according to
 datatype upon emergence; it may be held as a stored procedure with the
 data, or with the chunk; it may be specified manually each time. As with
 other facets of the object system, it will have to be tested
-emperically, with the contribution made here to recognise its
+empirically, with the contribution made here to recognise its
 significance.
 
 For the sake of demonstration, let's continue with the example of
@@ -362,7 +362,7 @@ each chunk, as in \cref{lst:sample-apply}. Therefore, the first chunk will run a
 the second chunk will run a sample with \(n=0\), and the third will run
 a sample with \(n=1\).
 
-\src[Rout]{sample-apply}{Chunkwise sample application}
+\src[Rout]{sample-apply}{Chunk-wise sample application}
 
 This may then be emerged as a local object as in \cref{lst:emerge-sample}:
 

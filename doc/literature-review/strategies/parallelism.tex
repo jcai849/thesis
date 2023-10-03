@@ -16,7 +16,7 @@ multiple processor cores to enable parallel computation.
 Parallelism can afford major speedups, albeit with certain limitations.
 Amdahl's law, formulated in 1967, aims to capture the speedup
 limitations, with a model derived from the argument given below in
-\cref{eq:amdahlsform}\cites{amdahl1967law}{gustafson1988law}:
+\cref{eq:amdahlsform}\cites{amdahl1967law,gustafson1988law}:
 
 \eq{amdahlsform}
 
@@ -55,7 +55,7 @@ This law implies far higher potential parallel speedup, varying linearly
 with the number of processors.
 
 An example of an ideal task for parallelisation is the category of
-embarassingly parallel workload. Such a problem is one where the
+embarrassingly parallel workload. Such a problem is one where the
 separation into parallel tasks is trivial, such as performing the same
 operation over a dataset independently\cite{foster1995parallel}. Many
 problems in statistics fall into this category, such as tabulation,

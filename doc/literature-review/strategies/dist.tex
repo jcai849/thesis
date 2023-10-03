@@ -2,7 +2,7 @@ R does have some well-established packages used for distributed
 large-scale computing. Of these, the \pkg{parallel} package is
 contained in the standard \R{} image, and encapsulates \pkg{SNOW}
 (Simple Network Of Workstations), which provides support for distributed
-computing over a simple network of compputers. The general architecture
+computing over a simple network of computers. The general architecture
 of \pkg{SNOW} makes use of a master process that holds the data and
 launches the cluster, pushing the data to worker processes that operate
 upon it and return the results to the master. \pkg{SNOW} makes use of
@@ -36,7 +36,7 @@ functions are used for linear algebra operations, as discussed in
 Distributed linear algebra operations in \pkg{pbdR} depend further on the
 \pkg{ScaLAPACK} library, which can be provided through the \pkg{pbdSLAP} package
 \cite{Chen2012pbdSLAPpackage}. The principal interface for direct
-distributed computations is the pbdMPI package, which presents a
+distributed computations is the \pkg{pbdMPI} package, which presents a
 simplified API to \pkg{MPI} through \R{} \cite{Chen2012pbdMPIpackage}. All major
 MPI libraries are supported, but the project tends to make use of
 openMPI in explanatory documentation. A very important consideration
@@ -145,7 +145,7 @@ MapReduce\cite{zaharia2010spark}.
 Iteration can also make use of persisting \pkg{Spark} Dataframes to memory, forcing evaluation then caching; performed in \pkg{sparklyr} through \code{sdf-persist}.
 
 An important aspect of consideration is that \pkg{sparklyr} methods for \pkg{dplyr} generics execute through a translation of the formal parameters to \proglang{Spark SQL}.
-This is particularly relevant in that separate \pkg{Spark} Data Frames can't be accessed together as in a multivariable function. 
+This is particularly relevant in that separate \pkg{Spark} Data Frames can't be accessed together as in a multi-variable function. 
 In addition, very \R{}-specific functions such as those from the \pkg{stats} and \pkg{matrix} core libraries are not able to be evaluated, as there is
 no \proglang{Spark SQL} cognate for them.
 

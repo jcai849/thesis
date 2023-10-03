@@ -1,4 +1,4 @@
-This section describes more on the implementation of \lso{}, with a focus on the constuction of its API using the offerings provided by the lower layer.
+This section describes more on the implementation of \lso{}, with a focus on the construction of its API using the offerings provided by the lower layer.
 
 \subsection{Distributed Computation}
 
@@ -20,4 +20,4 @@ This is effectively a map reduce operation and this is just one of many higher-l
 As a demonstration of the power granted by the primitives given by this layer, the full implementation of Math and Summary methods for distributed objects is given in \cref{lst:mathsum}.
 Here, Summary is a degenerate Map Reduce, with the implementation of the higher-order \code{map-reduce} function given as well. The definition of \code{Summary} automatically grants the functions \code{all}, \code{any}, \code{sum}, \code{prod}, \code{min}, \code{max}, \code{range}. 
 
-\src{mathsum}{Math and Summary methods defined by largescaler primitives, as well as map\_reduce}
+\src{mathsum}{Math and Summary methods defined by \lso primitives, as well as map\_reduce}

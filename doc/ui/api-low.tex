@@ -17,7 +17,7 @@ Due to the distributed nature of the system, availability is not necessarily gua
 Specifically, due to the asynchronous demands imposed by the higher level API, it is possible that the chunk that has been requested to be pulled is not yet available, due to it still being computed.
 There are then different means by which a remote chunk may be requested.
 
-It may be requested through a blocking \code{pull}, where a requesting location waits until it is available, not progressing to any further computation until the chunk has been made available and is sent; such a pattern may lead to race conditions, however, as the requested chunk may in turn depend on the result of a computation intended to take place on the requesting node, and blocking may lead to the non-fulfillment of such a computation as it waits indefinitely, with both origin and destination waiting on the availability of each other's chunks.
+It may be requested through a blocking \code{pull}, where a requesting location waits until it is available, not progressing to any further computation until the chunk has been made available and is sent; such a pattern may lead to race conditions, however, as the requested chunk may in turn depend on the result of a computation intended to take place on the requesting node, and blocking may lead to the non-fulfilment of such a computation as it waits indefinitely, with both origin and destination waiting on the availability of each other's chunks.
 
 With this in mind, there are two other possibilities:
 
