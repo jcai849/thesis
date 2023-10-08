@@ -1,5 +1,5 @@
 DOCS != find doc -name '*.tex'
-.PHONY: thesis clean full-clean
+.PHONY: thesis clean full-clean indent
 .SUFFIXES: .pdf .tex
 .ORDER: extern thesis.pdf
 .tex.pdf:
@@ -28,3 +28,5 @@ full-clean: clean
 	cd img && $(MAKE) clean
 	cd eq && $(MAKE) clean
 	cd tab && $(MAKE) clean
+indent:
+	find doc -name '*.tex' -exec latexindent -l -c=latexindent/ -m -w {} \;
