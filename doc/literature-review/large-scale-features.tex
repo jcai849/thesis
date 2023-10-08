@@ -9,7 +9,7 @@ A list of features and their descriptions follows:
 
 \begin{description} \item[Distributed Computation] The ability to spread computation and data over separate computers.
 		The value of distributed computing is well recognised for large-scale computing, in the increased capacity for processing, memory, and storage.
-		Distributed computing typically gains latency speedup through parallel processing; both Amdahl's law and Gustafson's law give theoretical speedups for parallel jobs \cites{amdahl1967law,gustafson1988law}.
+		Distributed computing typically gains computational speedup through parallel processing; both Amdahl's law and Gustafson's law give theoretical speedups for parallel jobs \cites{amdahl1967law,gustafson1988law}.
 		In addition, each node typically adds more working memory to the distributed system, allowing for larger datasets to be manipulated in-memory.
 		For exceedingly large datasets, the benefits of distributed file systems commonly allow for resilient storage, with well-regarded examples including HDFS and the Google File System it is based upon \cites{shvachko2010hadoop,ghemawat2003google}.
 	\item[Evaluation of User-Specified Code]
@@ -23,8 +23,8 @@ A list of features and their descriptions follows:
 		This is seen as important enough that it serves as a major motivating factor behind \pkg{Spark}'s development, overcoming a perceived major deficiency of \pkg{Hadoop} by \pkg{Spark}'s developers \cite{zaharia2010spark}.
 	\item[Object Persistence at Nodes]
 		The ability to retain objects in-memory at their point of processing.
-		The standard motivation for such a feature revolves around a reduction in data movement, which serves to slow down processing enormously through forcing programs to be I/O bound.
-		In-memory persistence is closely related to the capacity for iterative code evaluation in a distributed system, and was similarly referenced by the \pkg{Spark} developers as an apparent benefit of \pkg{Spark}\cite{zaharia2010spark}.
+		The standard motivation for such a feature revolves around a reduction in data movement -- the data movement otherwise slowing down processing enormously through forcing programs to be bound by networking speeds, typically orders of magnitude lower than in-memory data access speeds.
+	In-memory persistence is closely related to the capacity for iterative code evaluation in a distributed system, and was similarly referenced by the \pkg{Spark} developers as an apparent benefit of \pkg{Spark}\cite{zaharia2010spark}. The concept of spatial locality of reference is described in greater detail by \textcite{denning2005locality}.
 	\item[Support for Distributed File Systems]
 		Capacity to work with data and computation on distributed file systems,
 		with a particular target of \pkg{Hadoop}

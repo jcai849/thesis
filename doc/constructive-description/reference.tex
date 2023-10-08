@@ -1,4 +1,4 @@
-Through the defining feature of distributed data being incapable of direct reference, we have established that there must be some entity through which to indirectly interact with the distributed data.
+Through the defining feature of distributed data being incapable of direct reference within memory, we have established that there must be some entity through which to indirectly interact with the distributed data.
 This entity we have given the appellation of \textbf{`Distributed Object Reference'}, and serves as a proxy which is directly affected by the user in order to pass on further information to and from the distributed data which the reference refers to.
 The relationship between the reference and the distributed data is known as \textbf{``adequacy''} in formal semantics, with the role of the distributed data as the object of indirect interaction being called the \textbf{``referent''}.
 Such a relationship is nothing new or groundbreaking; the very concept of language itself, with symbols ``standing for'' some intended entity, encapsulates this relationship by definition.
@@ -16,14 +16,12 @@ The most well-established example in computer science, one which Knuth refers to
 A pointer serves as an object holding a specific memory address, with whatever value that address contains being the referent.
 A pointer has the operation of \textbf{dereferencing} defined, whereby the referent value at the stored address is retrieved.
 Here, there is a subtle additional piece of indirection, where a pointer references a memory address which references the value, but assuming the transitivity of reference, we can skip over such details.
-The syntax for the declaration of a pointer in the \proglang{C} language takes the form in \cref{lst:declare-int-pointer}:
+The syntax for the declaration of a pointer in the \proglang{C} language takes the following form:
 
-\src[c]{declare-int-pointer}{Declaration of an integer pointer in C}
+\code[c]{declare-int-pointer}
 
 Where in this example, we have a pointer (itself the object of reference of the symbol \code[c]{p}), which points to memory holding some integer.
-Assuming that this piece of memory exists and has a value, the pointer may be dereferenced using the \code[c]{star} operator as in \cref{lst:deref-c}
-
-\src[c]{deref-c}{Dereference of a pointer in C}
+Assuming that this piece of memory exists and has a value, the pointer may be dereferenced using the \code[c]{star} operator as in \code[c]{deref-c}.
 
 And we have assigned the value stored in the address referred to by \code{p}, to the variable \code{x}.
 The symbol \code{x} now stands for that value.
@@ -54,7 +52,7 @@ In general, \code{submatrix} returns the local storage for the \code{ddmatrix} l
 We have with \pkg{pbdR} a converse of pointer syntax: the default with \pkg{pbdR} is to pass through to the referent, with special syntax required to access the local reference.
 
 With these examples considered, let's abstract somewhat, and then see what form reference relations may take in our system.
-The reference relation gains greater clarity when considered in the light of what is known in analytic philosophy as the \textbf{``Use-Mention Distinction''}.
+The reference relation gains greater clarity when considered in the light of what is known in analytic philosophy as the \textbf{``Use-Mention Distinction''}\cite{quine2009}.
 The \emph{use} of a term is where the term is used as part of a statement not relating to the term itself.
 For example, a use of the term ``matrix'', may be in the sentence, ``a block matrix is a matrix in which sections may be partitioned into blocks''.
 The \emph{mention} of a term is where the term as a signifier itself is used as a subject of the statement.
@@ -93,17 +91,16 @@ With more interaction with the reference than referent however, this would cause
 
 What form might this take, ideally?
 There are two components: interaction with the referent, and interaction with the reference.
-The ideal for interaction with the referent would be some wildcard generic which wrapped all possible functions, with a method for distributed object references that captured the calling function and sent it directly through to the referent, dereferencing when necessary.
+Using \R{} semantics, the ideal for interaction with the referent would be some wildcard generic which wrapped all possible functions, with a method for distributed object references that captured the calling function and sent it directly through to the referent, dereferencing when necessary.
 This would guarantee all functions to be passed through the reference as a proxy, including the nonsensical - a higher layer of abstraction may be written to filter functionality.
 Reference interaction would benefit from some special operator indicating that the reference \emph{per se} is the intended object of interaction.
 We term such an operation as \textbf{``materialisation''} of the reference, and further operations occur directly to the reference until it is again returned to serving as a proxy through some \textbf{``dematerialisation''} This special operator gets around the need to create special-case functions for access that break the consistency of passing through references as proxy objects.
 Proximal to the \code[c]{star} operator for the dereferencing operation in \proglang{C} is the \code[c]{address} operator for accessing the address of a value, going in the opposite direction.
+This analogy is somewhat imperfect however, as in \proglang{C}, interaction is with the reference by default.
 While the semantics don't map exactly with the concepts of address and location, something akin to the operators may be desirable.
 
 It may also be asked at what level of abstraction such distinctions may be made.
-Earlier we have described the chunk level as lower than the chunk array and distributed object levels.
-It may be argued that such pass-through proxy semantics of reference objects are best placed at the distributed object level, as the lower chunk levels require a degree more literalism for clean reasoning of the separation of reference and referent.
-The constant need to materialise chunks at the developer level is likely to lead to bugs, so the default may best be set to not allow chunk proxying unless explicitly invoked.
+The constant need to materialise chunks at the developer level is likely to lead to bugs of forgotten materialisations, so the default may best be set to not allow chunk proxying unless explicitly invoked.
 
 From a practical standpoint, most programming languages in current use don't possess the capacity for the ideal forms of interaction described above.
 Practically speaking, distributed object references must be interacted with using functions and methods.

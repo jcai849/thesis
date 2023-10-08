@@ -1,0 +1,19 @@
+Recall the principal problem driving this project: big data.
+Big data -- and specifically, data that is larger than commodity hardware memory -- possesses significant value in its analysis.
+Any statistical analysis benefits from a well-written statistical algorithm, especially the most innovative analyses making use of totally novel algorithms.
+Such novel algorithms are typically complex and iterative, and require a comfortable means of expression and extension.
+\Cref{ch:lit-review} explored many of the existing options, and while many are attractive, none were entirely sufficient to bridge this gap between big data and expressive statistical algorithms in \R{}.
+The \lsr{} project attempted to bridge this gap, and in many ways it found success.
+As with any large, complex project, there remain many things that could have, and should have, been done differently.
+This section also reviews some of these limitations.
+
+This project has succeeded in providing an expressive and extensible means of conveying a statistical algorithm in \R{}.
+The core aim has technically been reached -- \cref{ch:glm} provides an extended demonstration of this fact.
+This remains dissatisfying however, and it must be asked in what way \lsr{} achieves this that no other existing attempts do.
+
+First, consider the additional aspects provided by \lsr{}.
+\lsr{} provides not only a basic means of expression, but a cohesive layered suite of tools in order to engage with distributed algorithms at any level.
+\lsr{} builds on reasoned principles and allows for a very simple mental model of the system, with the implementation following suit.
+The provided layers allow easy extensibility, with proof of this given in the construction of each layer from those below.
+The structure is of such a generalised form that future improvements such as full peer-to-peer networking, or elasticity, are entirely plausible and won't require rewrites.
+

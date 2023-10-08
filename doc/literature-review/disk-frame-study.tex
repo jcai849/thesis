@@ -10,7 +10,7 @@ disk.frames are actually references to numbered \file{fst} files in a folder, wi
 This is made use of through manipulation of each chunk separately, sparing RAM from dealing with a single monolithic file\cite{zj19:_inges_data}.
 
 \pkg{fst} is a means of serialising dataframes, as an alternative to \file{RDS}
-files\cite{klik19}.
+files\cite{klik2022fst}.
 It makes use of an extremely fast compression algorithm developed at facebook, with the \R{} package enabling fst written on in \cref{sec:fst}.
 
 From inspection of the source code, \pkg{data.table} manipulations are enabled directly through transformations of each chunk to data.tables through the \pkg{fst} backend.
@@ -45,7 +45,7 @@ A highly publicised aspect of \pkg{disk.frame} is the functional cross-compatibi
 These operate on disk.frame objects lazily, and are applied through translation by \pkg{disk.frame}; they are just S3 methods defined for the disk.frame class.
 They are fully functioning, with the exception of \code{group-by} (and its data.table cognate, \code{data-table-by}, considered in more detail in \cref{sec:spec-cons-group-by}).
 
-Beyond higher-order functions and \pkg{dplyr} or \pkg{data.table} analogues for data manipulation, the direct modelling function of \code{dfglm} is implemented to allow for fitting glms to the data.
+Beyond higher-order functions and \pkg{dplyr} or \pkg{data.table} analogues for data manipulation, the direct modelling function of \code{dfglm} is implemented to allow for fitting Generalised Linear Models to the data.
 From inspection of the source code, the function is a utility wrapper for streaming \pkg{disk.frame} data by default into \pkg{bigglm}, a \pkg{biglm} derivative.
 
 \subsubsection{Grouping}\label{sec:spec-cons-group-by}

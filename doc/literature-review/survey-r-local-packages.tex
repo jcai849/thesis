@@ -68,12 +68,13 @@ An overview is given in \cite{dowle19:_introd}, with extensive benchmarking avai
 \subsection{fst}\label{sec:fst}
 
 \pkg{fst} is a means of serialising dataframes, as an alternative to RDS
-files\cite{klik19}.
+files\cite{klik2022fst}.
 Serialisation takes place extremely fast, using compression to minimise disk usage.
 The package speed is increased through parallel computation.
 Author Mark Klik and Yann Collet, of Facebook, Inc.
 \pkg{fst} is a dependency of \pkg{disk.frame}, performing some of the
 background functionality.
+Relative to RDS, the read and write speeds are measurably improved, as well as possessing smaller compressed size on disk.
 
 \subsection{iotools}\label{subsec:iotools}
 

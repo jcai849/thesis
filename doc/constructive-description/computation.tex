@@ -133,7 +133,6 @@ There are two aspects worth considering with respect to such a value:
 
 Both aspects depend on the notion that chunks must persist, which is a point worth focussing on directly: First, consider the alternative, where chunks are not persistent.
 In such a form, the chunk resulting from any remote operation would have to be sent immediately to the client in order for anything useful to eventuate from its creation, assuming such an operation was not run purely for its side effects.
-Such is the course taken by \pkg{SNOW}, which has such limitations already addressed.
 Notably - the enormous amount of movement back and forth of data, and unintuitive programming techniques to emulate persistence; neither of which are suited to very big data.
 As such, let it be assumed that chunks persist.
 Returning to the two aspects just described, the question is: How?

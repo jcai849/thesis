@@ -40,7 +40,7 @@ Thus, the main beast of burden is the \code{do} function, where the evaluation o
 In greater detail, \code{do} captures and creates environments, enabling sequential evaluation.
 \code{dopar} captures the
 environment of an expression, as well taking as a formal parameter a
-vector of names of libraries used in the expression, then passing that
+vector of names of packages used in the expression, then passing that
 to the backend, which will in turn do additional work on capturing
 references to variables in expressions and adding them to evaluation
 environment, as well as ensure packages are loaded on worker nodes.

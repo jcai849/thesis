@@ -1,0 +1,37 @@
+With regards to other packages, it may be worth returning to the early \cref{tab:feature-comp}, in comparing feature by feature.
+The following description details features from the table and explanations of \lsr{}'s relation to them.
+
+\begin{description}
+\item[Distributed Computation] \lsr{} holds the capability for distributed computation as a core component of the provided API. This is given by the \code{do-ccall} and \code{do-dcall} functions at the chunk and distributed object levels respectively.
+\item[Evaluation of User-Specified Code] User-specified code is similarly run via the given \code{do-ccall} and \code{do-dcall} functions.
+\item[Native Support for Iteration] The combination of the user-specified code functions with the built-in garbage collection allows for arbitrary looping without memory issues.
+\item[Object Persistence at Nodes] The chunk and distributed object concepts in \lsr{} depend on exactly this property.
+\item[Support for Distributed File Systems] Local filesystems over separate hosts are supported. Reading from HDFS or the like is not currently a core component of the API, but could easily be extended to allow for it.
+\item[Ease of Setup] Initialisation functions are included with the framework; all that is required is the existence of the framework as installed on all hosts, as well as a reliable ssh connection to them.
+\item[Inter-Node Communication] The movement from the message-queue-based approach to the final direct approach facilitated this.
+\item[Interactive Usage] Interactivity has been a capability from the beginning.
+\item[Backend Decoupling] As a new framework, there is only one backend available, which is provided by \orcv{}. The layered approach allows for any other backend that provides the \orcv{} interface to be swapped in.
+\item[Evaluation of Arbitrary Classes] This is a core feature that drives the means of combination of emerged distributed objects.
+\item[Package-specific API] Unique API, following the principle of least surprise, with naming and semantics similar to base \R{}.
+\item[Methods for Standard Generics] Some provided; e.g. \code{summary}, \code{ops}, etc.
+\item[Methods for dplyr Generics] Provided by the \lso{} package, including true \code{group-by}.
+\end{description}
+
+It is clear to see from this that \lsr{} fills out the selected features like no other package.
+The closest is the \pkg{pbdR} package framework, and it is worth describing the core differences at least briefly.
+Chief among them, the main difference between \pkg{pbdR} and \lsr{} is the backend, and how the package is defined by it.
+\pkg{pbdR} -- specifically, \pkg{pbdDMAT} -- is intimately tied to \pkg{MPI}. 
+While \pkg{pbdZMQ} specifies an interface to \pkg{ZeroMQ}, it defines a rather low-level interface and isn't able to swap in place of \pkg{pbdMPI} to support the higher-level components of \pkg{pbdDMAT}.
+Because of this coupling, the abstraction leaks through and even the higher-level packages such as \pkg{pbdDMAT} end up reflecting interaction patterns typical of \pkg{MPI}.
+For example, all programs are taken to be written in SPMD style.
+The coupling with \pkg{MPI} comes with benefits and drawbacks relative to no dependence on any external backend, as in \lsr{}.
+The range of the \pkg{MPI} ecosystem may be used to support development efforts if well-integrated.
+The need to set up \pkg{MPI} is not too onerous, but from there it becomes increasingly important to know the inner workings of \pkg{MPI} when edge-cases or bugs are encountered, which is a standard part of any non-trivial program development.
+In addition, while it is plausible that \pkg{pbdDMAT} could be written to be interactive, it currently isn't, which is a ringing difference that can't be overlooked.
+It may be that the \pkg{MPI} ecosystem proves too valuable to give up in more complex cases.
+If so, then \lsr{} can at least be said to get very far with most cases, with the simple interface and minimal mental overhead allowing rapid prototyping.
+When optimisation down to the chunk grid level matched to the machine is required, then armed with a clearer understanding of the problem due to the use of \lsr{} for prototyping, then \pkg{pbdR} may be tried.
+The difference in complexity stands as a point in its own right -- the source code supporting \pkg{pbdR} is orders of magnitude larger than that of \lsr{} -- again, this has practical consequences, including robustness and mental overhead, that have to be evaluated by the end user.
+In spite of the differences, it is of great interest where similarities lie.
+Much of this effort may even be seen as some kind of validation of many of the \pkg{pbdR} principles, wherein starting from scratch and reasoning over a constructive interface description, many shared interface components are arrived at independently.
+

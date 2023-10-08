@@ -16,7 +16,7 @@ Reality dictates many different forms of data storage, with a Memory Hierarchy r
 The volatility of memory (whether or not it persists with no power) and the expense of faster storage forms dictates the design of commodity computers.
 An example of a standard build is given by the Dell Optiplex 5080, with 16Gb of Random Access Memory (RAM) for fast main memory, to be used as a program data store; and a 256Gb Solid State Drive (SSD) for slow long-term disk storage\cite{cornell2021standardcomp}.
 For reasonable speed when accessing data, a program would prioritise main memory over disk storage - something not always possible when dataset size exceeds memory capacity, larger-than-memory datasets being a central issue in big data.
-A program that is primarily slowed by data movement is described as I/O-bound, or memory-bound.
+A program that is primarily slowed by data movement is described as I/O-bound.
 Much of the issue in modelling large data is the I/O-bound nature of much statistical computation.
 
 The complement to I/O-bound computation is computation-bound, wherein the speed (or lack thereof) is determined primarily through the performance of the processing unit.
@@ -41,7 +41,7 @@ No single system satisfactorily provides the capacity to meet this demand.
 Those systems that do come close to meeting the demand provide direction regarding how to gain insight from larger-than-memory datasets.
 Most importantly, the standard solution for handling big data is to operate over a distributed system~\cite{boja2012distributed}.
 Several systems have seen widespread use within the context of data and machine learning pipelines, such as \pkg{Spark}~\cite{zaharia2016apache} and \pkg{Hadoop}~\cite{shvachko2010hadoop}.
-For the statistician mostly familiar with \R{}, these systems provide APIs to \R{} where distributed data may be manipulated and pre-made models fitted.
+For the statistician mostly familiar with \R{}, these systems provide user interfaces to \R{} where distributed data may be manipulated and pre-made models fitted.
 However, these API's are often found lacking when attempted to be used for the creation of complex statistical models that don't come pre-packaged, due to this not being their primary use-case, and \R{} not being their target language.
 
 Ultimately, the problem is that of practically expressing a statistical algorithm for larger-than-memory data in \R{}.

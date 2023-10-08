@@ -1,13 +1,9 @@
 While not specifically engaging with larger-than-memory data, a number of packages take advantage of various parallel strategies in order to process large datasets efficiently.
-\pkg{multicore} is one such
-package, now subsumed into the \pkg{parallel} package, that grants
-functions that can make direct use of multiprocessor systems, thereby
-reducing the processing time in proportionality to the number of
-processors available on the system.
+\pkg{multicore} is one such package, now subsumed into the \pkg{parallel} package, that grants functions that can make direct use of multiprocessor systems, thereby reducing the processing time in proportionality to the number of processors available on the system.
+\pkg{multicore} performs this through parallel execution of \R{} code.
 
-\pkg{data.table} also makes use of multi-processor systems, with many
-operations involving threading in order to rapidly perform operations on
-its dataframe equivalent, the \pkg{data.table}.
+\pkg{data.table} also makes use of multi-processor systems, with many operations involving threading in order to rapidly perform operations on its dataframe equivalent, the \pkg{data.table}.
+\pkg{data.table} only implicitly parallelises certain operations, but does not enable general parallelisation.
 
 In spite of all of these potential solutions, a major constraint remains in that only a single machine is used.
 As long as there is only one machine available, bottlenecks form and no redundancy protection is offered in real-time in the event of a crash or power outage.

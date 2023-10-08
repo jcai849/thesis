@@ -1,12 +1,12 @@
 \subsection{Overview}
 
-Following from the implementation of the GLM given in Chapter \cref{ch:glm}, a description is provided here of another model, using a decidedly different and straightforward process.
+Following from the implementation of the GLM given in \cref{ch:glm}, a description is provided here of another model, using a decidedly different and straightforward process.
 Here, a Linear Regression model is defined, using the operators provided by \lso{}, as detailed in \cref{sec:api-high}
 
 While simple to derive the mathematics detailing a linear model, the naive method doesn't map straightforwardly to a distributed system.
 This is due to matrix inversion and multiplication operations requiring more than isolated chunk-wise information.
 Conveniently, the common method of decomposing a matrix, typically for computationally simplified inversion, is given in a chunked form as part of Algorithm AS274\cite{miller1992as274}.
-This algorithm is in turn implemented and wrapped through the \pkg{biglm} package in \R{} with several additional features such as such as sandwiching\cite{lumley2013biglm}.
+This algorithm is in turn implemented and wrapped through the \pkg{biglm} package in \R{} with several additional features such as sandwiching\cite{lumley2013biglm}.
 The \pkg{biglm} package creates a linear model object from some initial row-wise chunk of data with a space complexity of \mathfrom{o-p-2} for $p$ variables.
 The linear model object is then updated sequentially with further chunks of the data, until all of the data has been read, yielding a final linear model object with methods available for standard linear model object inspection, including summaries and predictions.
 This sequential rolling update over chunked data is able to be captured succinctly in a \code{Reduce} pattern typical of the functional programming paradigm.

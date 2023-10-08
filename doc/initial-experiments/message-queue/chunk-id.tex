@@ -48,7 +48,7 @@ Worse, if the chunk reference \code{x} was given as an additional argument to an
 
 \subsubsection{Proposal}
 
-A potential solution to the problems of the models posed in section \cref{sec:mod-eval} is to treat chunk reference objects somewhat like futures, which have a state of \code{resolved} or \code{unresolved}, with failures also encapsulated in the object upon resolution\cite{bengtsson20:future-r}.
+A potential solution to the problems of the models posed in \cref{sec:mod-eval} is to treat chunk reference objects somewhat like futures, which have a state of \code{resolved} or \code{unresolved}, with failures also encapsulated in the object upon resolution\cite{bengtsson20:future-r}.
 
 If chunk ID is client-originated, then its outgoing messages can also supply a job ID for the server to push a message to upon completion that the client can in turn refer to, in order to check resolution status as well as any potential errors.
 

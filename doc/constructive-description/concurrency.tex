@@ -1,6 +1,6 @@
 After laying out the distributed objects and the operations that they may be engaged in, we reach the limits of the construction of the system.
 The mechanical aspects of the system now developed, we can focus on the more complex and precise notions of the arrangement of these components; Let us expand the construction limits now by exploring and describing the component of time as it relates to the system - specifically, \textbf{concurrency} within the system.
-Here, we treat concurrency in the manner of Pike, where it is used to refer to the composition of independently executing processes - a very general area that remains sufficiently directed to fill out the complementary aspect to the mechanism described so far.
+Here, we treat concurrency in the manner of \textcite{pike2012concurrency}, where it is used to refer to the composition of independently executing processes - a very general area that remains sufficiently directed to fill out the complementary aspect to the mechanism described so far.
 We may begin by considering the system as a whole, and determining the independently executing processes within it and how they may be composed - this has major ramifications for the entire architecture.
 It is clear to see that examination of this in particular will serve to breathe some life into the form of the system as we construct it.
 Each of the grand operations of the system are themselves composed of smaller operations, and we will likely find some possible descriptions of concurrency within them, at a lower scale; notably, chunk operations with respect to both client and worker.
@@ -18,7 +18,7 @@ There is something of a gradient between the two options as well, where spatiall
 
 To compare these options, we seek to generalise the problem, and compare the generalised forms.
 We claim that a correspondence exists in the relation of temporal distribution to spatial distribution, to the relation of concurrency to \textbf{parallelism}.
-In the manner of Pike again, we stress the difference between concurrency and parallelism.
+In the manner of \textcite{pike2012concurrency} again, we stress the difference between concurrency and parallelism.
 The definition of concurrency is given above, and that of parallelism differs subtly: parallelism is the composition of independent \emph{simultaneously} executing processes.
 The difference is subtle but important, and serves to delineate between \emph{handling} multiple things at once (concurrency), versus \emph{doing} multiple things at once.
 In this case, there is a correspondence between concurrency and chunk distribution over time, and between parallelism and chunk distribution over space.
@@ -26,9 +26,8 @@ Chunks distributed over space all exist in memory simultaneously - in parallel, 
 
 In comparing the virtues of parallelism with concurrency, the question effectively boils down to efficiency: If two procedures of equal processing time requirements are sufficiently independent, enabling total isolation from each other, they may be run simultaneously and take half the execution time of running them in sequence.
 The only additional time is the overhead of coordination of multiple processes, which is potentially not all that different from the overhead of organising processes concurrently.
-The efficiency gains of parallelism are well-described in the literature, and clear upon any length of consideration.
 The remaining question is that of possibility - many things likely cannot be parallelised.
-Any algorithm where each operation is dependent on the outcome of the previous operation serves as examples of those where parallelisation is unclear, though it remains an open question of whether the class of problems that can be solved efficiently in parallel, \(NC\), is equal to \(P\), the inherently sequential problems.
+Any algorithm where each operation is dependent on the outcome of the previous operation serves as examples of those where parallelisation is unclear, though it remains an open question of whether the class of problems that can be solved efficiently in parallel, \(NC\), is equal to \(P\), the inherently sequential problems, as per \textcite{cook1985}.
 The problem posing us is therefore whether the distribution of chunks is inherently sequential, and we have already shown that it does not have to be, with the conceptual possibility of the distribution of chunks through space.
 Given this fact, a strong hint is given as to the direction the distribution of chunks should take, and thereby the composition of client and worker(s); at the very least, some degree of parallelism will aid in efficiency.
 In a very concrete sense, the fact of having all chunks in memory simultaneously should lead to orders of magnitude faster interaction with them over having to deserialise them from storage, due to the major speed advantages of computer memory with respect to computer storage.
@@ -37,8 +36,7 @@ The secondary consideration which may cast doubt on this direction is the practi
 A parallel process is no faster than a sequential process if there is only one single processor, and is likely slower, due to the overhead.
 This is a situationally variant aspect to consider, and can be enlightened by the picture of the ideal audience for this project.
 The computational statistician certainly has one computing node, so concurrent distribution of chunks, over time, within the same node, is already a given.
-If the statistician had access to multiple compute nodes, then the question of practicality is already answered.
-Several scenarios where access to multiple compute nodes are indeed conceivable:
+Several scenarios where access to multiple compute nodes are conceivable:
 
 \begin{itemize} \item Cloud computing cluster \item Office of unused computers \item Single machine with multi-core processor (each core treated as individual node) \end{itemize}
 
@@ -75,15 +73,17 @@ The different knowledge of a chunk can be relatively considered as different for
 	      on other chunks, or still to be read.
 \end{itemize}
 
+This notion of existence is stricter than merely having a reference -- existence is the property of the referent chunk.
 Both forms may have references to them; if a chunk reference is immediately returned on the client from requesting a chunk operation, the referenced chunk may not exist until a later time.
 Until such time it does not exist, though the client has no knowledge of when it does unless some special communications take place.
 This has ramifications for the emergence of chunks to the client, which have to account for the fact that a chunk that is requested to emerge, may not yet exist.
+Note here the similarity to the \pkg{future} package's future objects possessing either ``resolved'' or ``unresolved'' state.
 
 How may a potentially non-existent chunk be handled?
 
 The straightforward, potentially naive strategy is to simply wait until a chunk exists, upon issuing an emerge request from the client.
 The client blocks until emergence, returns the result, and continues.
-An example is given in a modified version of the previous diagram as \cref{fig:work-emergence}
+An example is given in a modified version of \cref{fig:work-request} as \cref{fig:work-emergence}
 
 \widefig{work-emergence}{Communication diagram showing order of events for the emergence of work}
 
@@ -98,13 +98,13 @@ An example is given in \cref{fig:work-request-checking}
 Further alternatives, such as promises, are described in greater detail in the appendix.
 
 The complement of chunk operations on the client is that of chunk operations on the worker.
+Client and worker may even not be required -- the constraint of who requested may very well not matter at all.
 The act of gathering the chunks takes on a new difficulty when the chunks have varying levels of existence, scattered over separate nodes, and similar issues as explored with the emerge on the client are to be found.
 If a blocking emerge is issued on a worker to pull a chunk from another worker, there is strong potential for race conditions, especially if the two workers are seeking to pull from each other, but both chunks don't yet exist.
 Blocking emerges are an impossibility among workers, and they must all allow for some concurrency in their emergences of chunks for their chunk operations.
 This concurrency may also take different forms.
 It may be a matter of issuing requests for chunks to be sent only when they are ready, and returning to their main event loop, keeping a handle in memory of which chunks relate to which operations.
-
-This is depicted in diagram \cref{fig:argument-attain}:
+This is depicted in diagram \cref{fig:argument-attain}.
 
 \widefig{argument-attain}{Communication diagram showing manner of attaining arguments}
 

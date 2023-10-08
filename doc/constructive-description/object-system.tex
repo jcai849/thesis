@@ -15,7 +15,7 @@ It may be that multiple audiences require multiple object systems, or that one o
 
 With the consideration that our audience is to be working statisticians, as per the initial scope, there still remains some variation within this greater audience that can be described as separate audiences.
 A notable split is that of depth of use of the program provided by the project.
-Depth of use separates developers, who will take the physical form of the data into consideration, from users, who simply want to use the data.
+Depth of use separates developers, who will take the physical form of the data into consideration, from users, who simply want to perform an analysis treating the data as a whole.
 Alternative splits exist, and a pattern emerges among them of a distinction between power-users and end-users.
 Without holding this split as the defining audience differentiator, its existence proves that more than a singular monolithic audience needs consideration.
 
@@ -29,7 +29,7 @@ As an example solution, with power-users and end-users as illustrative audiences
 In this case, the power-user sits at a layer below that of the end-user, in the sense that the power-user is closer to the data with less abstraction.
 The abstraction is then what changes the object system of the power-user into one interfaced with by the end-user.
 The assumption in this case is that the end-user object system builds upon that of the power-user.
-This aligns with standard software engineering practice to build more user-friendly tools out of more powerful ones.
+This aligns with standard software engineering practice to build more user-friendly tools out of more powerful ones\cite{raymond2003}.
 This layering effect also provides a separation of concerns, where separate concerns (logical components) are entirely encapsulated from each other.
 The separation enables the program to be developed independently at each layer, aiding maintenance as well as design.
 
@@ -40,7 +40,7 @@ Such an object would define the higher layer of the object system, and would nec
 Compare this with the lowest layer, in which the implementation of this data container could be manipulated directly.
 This requires a consideration of the nature of the objects, now that implementation details are important.
 The central constraint is that the data is larger than computer memory.
-This, coupled with the fact that they must be worked on in-memory, leads to an impossible design if combined naively.
+This, coupled with the fact that they must be worked on in-memory, will end up with a program thrashing memory if combined naively.
 The only possible means is to split the data into smaller pieces that do fit in memory.
 Such a structure, common among big data systems, is known as a shard, or a \textbf{chunk}.
 This is the only possible result to such a limitation, though it may have many manifestations; we leave such details of implementation to follow experimentation, keeping the description as high-level as possible for now.
@@ -48,7 +48,7 @@ This is the only possible result to such a limitation, though it may have many m
 In order to understand chunks, the notion of \textbf{references} must be first understood: A reference is some object that acts as a means of connection to some other object, known as a \textbf{referent}.
 The reference is a value in itself, and is likewise referred to by some symbol, as any other object.
 The reference serves as a means of indirection, and takes many forms; for instance, the hyperlink, or the pointer.
-References may be ``dereferenced'' in order to access the other object that it leads to as a value - clicking the hyperlink, or \code{star}ing the pointer.
+References may be ``dereferenced'' in order to access the object that it leads to as a value - clicking the hyperlink, or \code{star}ing the pointer.
 
 On a system where referents do not necessarily exist in the same memory space as the reference, we may say that the reference is \textbf{local}, and the referent \textbf{remote}.
 Upon being dereferenced, the referent is pulled into the same memory space as the reference and therefore also becomes local.
@@ -58,11 +58,11 @@ One reason is specific to the local-remote distinction; as the only possible mea
 For instance, were subsets of a too-large-for-memory dataset to be interacted with, they must be distributed, over space or time.
 Over space, each subset may sit on a separate node in a computing cluster, within its own memory.
 Over time, each subset may be pulled into the memory of a single node and operated on sequentially, without all subsets existing in the same memory space simultaneously.
-Each subset is therefore remote to whatever may be controlling their total operations from some central position, and references provide a means of access to each subset.
+Each subset is therefore remote to whatever may be controlling their total operations, and references provide a means of access to each subset.
 Chunks in all systems are likewise dependent on references, for their capacity to stand in as proxies to the underlying data subset.
 
 The chunk thus serves as the lowest level object manipulable by the user, and defines the lower level of the layered object system.
-Based on the lower layer serving as a basis for the higher layer, chunks would be used to create the abstract object interacted with by the end-user unconcerned with implementation details; the end-user not interested in the chunks making the object.
+Based on the lower layer serving as a basis for the higher layer, chunks would be used to create the abstract object interacted with by the end-user unconcerned with implementation details; the end-user not interested in the chunks making up the object.
 With the high-level object composed of chunks, it therefore forms some variation of a \textbf{distributed object}.
 Whether the chunks are necessarily physically dispersed, or accessed from the same location at differing time points is a question to be settled later - the overall object is irrespectively distributed over space or time.
 The power-user would therefore have access to chunks, and the end-user access to the objects composed of chunks, a generalised distributed object, whose manner of distribution may remain undefined for now.
@@ -95,19 +95,19 @@ While it is not possible to access the full dataset directly, each chunk may be 
 For example, when looking for a \code{max}, a chunk consisting of a billion integers is transformed into a chunk of a single integer.
 This single integer may be pulled out of the chunk and managed as a regular integer, through some read operation, which we name an \textbf{emerge}.
 The operation is equivalent to accessing the value of some data held in a container such as a list, though in this case the important distinction is the movement of the value from remote to local memory space.
-Take the example code of \cref{lst:chunk-container} as illustration:
+Take the example code of \cref{lst:chunk-container} as illustration.
 
 \src[Rout]{chunk-container}{An example of chunk as container}
 
 Here, we have the symbol \code{d1} specifying a reference to some chunk, which is a subset of some unspecified greater whole.
 The chunk is an integer vector of length one billion and exists remotely, while the reference to the chunk is local and immediately accessible through the symbol \code{d1}.
 To interact with the integer vector directly, it may be emerged, which pulls the vector into local memory space as a standard, regular, integer vector.
-In the \cref{lst:assign-emerge}, we assign the emerged vector to \code{l1}; that is, ``local''\code{1}.
+In \cref{lst:assign-emerge}, we assign the emerged vector to \code{l1}; that is, ``local''\code{1}.
 
 \src[Rout]{assign-emerge}{Reading chunk value through an emerge}
 
 The write operation is the more general complement of actually transforming a chunk in some manner.
-It will be discussed in greater detail in the following chapter, though an example of how some interaction may be stated syntactically is given in the following listing; \cref{lst:write-chunk}, the act of maximisation is shown at a high level, with implicit write operations, and an explicit read operation using \code{emerge}.
+It will be discussed in greater detail in the following chapter, though an example of how some interaction may be stated syntactically is given in listing \cref{lst:write-chunk}, the act of finding the maximum value is shown at a high level, with implicit write operations, and an explicit read operation using \code{emerge}.
 
 \src[Rout]{write-chunk}{Writing new chunk through chunk-capable function}
 

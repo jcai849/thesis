@@ -1,3 +1,11 @@
+The simplicity and flexibility of the framework may very well be \lsr{}'s greatest strengths however, in overcoming limitations relative to an imaginary improved version of itself.
+The foremost limitation is the lack of robustness when faced with machine or network failure.
+This must be addressed through some form of self-healing data.
+What future work might practically enable this?
+One possible solution is described in \cref{sec:self-heal}.
+
+\subsection{Self Healing Data}\label{sec:self-heal}
+
 As described in \cref{sec:dag}, a lineage for each chunk is stored alongside it.
 What this may imply for checkpointing is explored in this section.
 
@@ -46,3 +54,34 @@ There are then four rules for algorithm for node removal: \begin{itemize} \item 
 	\item Unreferenced nodes with a target counter of zero are to be removed.
 \end{itemize}
 With these rules followed, unreferenced nodes with all targets resulting in checkpoints are immediately removed from the graph, thereby preserving the graph as being the minimum size required for restoration at the current point in time.
+
+\subsection{Other Limitations}
+
+Two other limitations are cloud elasticity, and security.
+
+Cloud elasticity refers here to the ability to scale as needed within a cloud compute system, such as AWS.
+It is conceivable that, using AWS as an extended example, within a job running on ECS, upon needing more compute or memory, new instances could be dynamically spun up and form part of the network.
+This would expand use-cases of \lsr{} beyond static and typically owned-metal use-cases, particularly as offices move away from desktop PC's.
+The future of cloud HPC is enticing, and has barely been cracked -- the package \pkg{future.lambda} is a hint of the direction this could take.
+Practically speaking, this is entirely possible, but requires the missing monitoring component - elasticity is already provided for out of the box due to the chunk location service.
+
+Security is also a component that has been lower priority thus far in the development of \lsr{}, but needs to be considered with far greater seriousness if \lsr{} is to see wider use.
+One manner by which security can be seen as an integral component of \lsr{} is if the framework factors access privaleges into its API.
+\lsr{} effectively grants total remote code execution, so controlling access from within the framework would allow for finer constraints and greater trust of the packages.
+
+One more limitation -- \R{}.
+The \R{} programming language was chosen early on as a host for \lsr{}, for what seemed like obvious reasons.
+\R{} is what most statisticians working with big data already know, and it is a flexible and capable language in its own right.
+Through the course of this project there have been some cracks showing in this assumption, though it still seems the correct choice.
+Especially in the past several years, \R{} has both visibly slipped in the (flawed) TIOBE index of use, as well as in relation to the primary alternative in the world of data science, \proglang{Python}.
+With more users comes more bug reports and bug fixes, and it may very well be that the userbase of \lsr{} may be significantly larger, and with a more robust offering, had \proglang{Python} been used instead.
+The incredible ecosystem of statistics-specific packages that \R{} offers would seem to outweigh this concern on its own, however.
+The other aspect that is something of a crack in the assumption is the language itself.
+In particular in this project, due to single threading and no concurrency, \R{} has served as something of a roadblock to clear description of network communications between nodes.
+This was described in great detail in \cref{sec:concurrency-r}, and the end result was \orcv being mostly written in \proglang{C}, which was not too difficult, created extra complexity and loss of clarity, especially when compared with a language that may have such capabilities built-in.
+A presentation on \lsr{} at the 2022 NZSA Unconference led to several audience questions.
+Among them was Ross Ihaka, one of the co-creators of \R{}.
+His question was simple -- ``Why \R{}?''\\
+When prompted to expand, he responded, ``Why would you still use \R{}? It's just so 90's!''\\
+There wasn't any possible response, other than acknowledgement that while imperfect, it has served well in the course of the project, and uniquely connects statisticians to work on problems in ways never though possible before.
+The hope is that \lsr{} may open up one more way to interface with such problems, allowing for solutions that were also never thought possible before.
