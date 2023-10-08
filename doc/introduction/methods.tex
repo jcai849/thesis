@@ -1,7 +1,9 @@
 The structure of the \lsr{} system has been defined principally by the response to linguistic challenges facing an API for modelling on big data.
 
 The challenge of the object system provokes questions of what objects should comprise such a system, and what properties they should possess.
-\lsr{} has answered this in a standard fashion, providing chunks, references to the chunks, and an abstraction over them for the end-user. Users interact indirectly with chunks, by way of chunk references, which are typically collected as arrays and made opaque to the high-level user, as shown in \cref{fig:distobjref}. Arbitrary underlying data, a layered class hierarchy for data access, and asynchronous and immediate distributed procedure dispatch are further core design decisions.
+\lsr{} has answered this in a standard fashion, providing chunks, references to the chunks, and an abstraction over them for the end-user.
+Users interact indirectly with chunks, by way of chunk references, which are typically collected as arrays and made opaque to the high-level user, as shown in \cref{fig:distobjref}.
+Arbitrary underlying data, a layered class hierarchy for data access, and asynchronous and immediate distributed procedure dispatch are further core design decisions.
 For example, assume that some dataset is split into four pieces row-wise, with the first two pieces residing on two separate processes, and the last two on a single process.
 Such a topology is capable of being represented in the \lsr{} system, with diagrammatic representation as in \cref{fig:top}.
 
@@ -16,7 +18,9 @@ Concurrency is an essential component to distributed systems, and this challenge
 Between nodes, routines run asynchronously over chunks, with parallelism implicit and controlled in distributed fashion.
 
 Evaluation and scope may serve to speciate languages, as in the case of \R{} from \proglang{S}, and they take special forms in a distributed system.
-\lsr{} seeks to minimise any differences from the \R{} language, so as to provide as transparent an experience for developers as possible, but with respect to evaluation, differs in following a call-by-value, as opposed to call-by-need pattern. Furthermore, errors can be caught, but are only propagated to the caller upon emergence of the underlying chunks, with the system favouring asynchrony to strictness. Scope is likewise limited in favour of message transfer efficiency.
+\lsr{} seeks to minimise any differences from the \R{} language, so as to provide as transparent an experience for developers as possible, but with respect to evaluation, differs in following a call-by-value, as opposed to call-by-need pattern.
+Furthermore, errors can be caught, but are only propagated to the caller upon emergence of the underlying chunks, with the system favouring asynchrony to strictness.
+Scope is likewise limited in favour of message transfer efficiency.
 
 In order to enable complex and iterative models, a distributed garbage collection system is also essential.
 Such a system should handle mutable underlying chunk data as well.

@@ -18,6 +18,7 @@ This works for transitive functions such as \code{min} and \code{max}, though is
 This is effectively a map reduce operation and this is just one of many higher-level operations that is enabled through doing a distributed call and then pulling, then running some summary function over the implicitly combined emerged values.
 
 As a demonstration of the power granted by the primitives given by this layer, the full implementation of Math and Summary methods for distributed objects is given in \cref{lst:mathsum}.
-Here, Summary is a degenerate Map Reduce, with the implementation of the higher-order \code{map-reduce} function given as well. The definition of \code{Summary} automatically grants the functions \code{all}, \code{any}, \code{sum}, \code{prod}, \code{min}, \code{max}, \code{range}. 
+Here, Summary is a degenerate Map Reduce, with the implementation of the higher-order \code{map-reduce} function given as well.
+The definition of \code{Summary} automatically grants the functions \code{all}, \code{any}, \code{sum}, \code{prod}, \code{min}, \code{max}, \code{range}.
 
 \src{mathsum}{Math and Summary methods defined by \lso primitives, as well as map\_reduce}

@@ -5,11 +5,13 @@ The \lsr{} interface is the principal new contribution by this project, deliveri
 A key offering of the layered approach is the ease by which a user of the package can traverse the levels as needed, with irrelevant information remaining hidden until required.
 The levels of abstraction correspond to users of the package, given as the following:
 
-\begin{description}
-    \item[Analyst] A user solely interested in using the provided models and statistical functions in order to attain insight into some larger-than-memory data, typically a distributed data frame. All details of distribution are abstracted away.
-    \item[Researcher] A user seeking to develop their own distributed statistical models. Distributed objects are to be considered as singular cohesive objects.
-    \item[Developer] A user seeking greater expressivity in the definition of statistical models. Chunks are considered a relevant concern to be manipulated directly.
-    \item[Architect] A user intending to directly modify the network topology of the distributed system, mainly in order to attain major efficiency gains.
+\begin{description} \item[Analyst] A user solely interested in using the provided models and statistical functions in order to attain insight into some larger-than-memory data, typically a distributed data frame.
+		All details of distribution are abstracted away.
+	\item[Researcher] A user seeking to develop their own distributed statistical models.
+		Distributed objects are to be considered as singular cohesive objects.
+	\item[Developer] A user seeking greater expressivity in the definition of statistical models.
+		Chunks are considered a relevant concern to be manipulated directly.
+	\item[Architect] A user intending to directly modify the network topology of the distributed system, mainly in order to attain major efficiency gains.
 \end{description}
 
 Each of the users are served by the aforementioned packages making up the framework, in turn serving a logical layer of abstraction.

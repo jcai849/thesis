@@ -2,40 +2,34 @@
 
 \pkg{DistributedR} offers cluster access for various \R{} data structures,
 particularly arrays, and provides S3 methods for a fair range of
-standard functions. It has no regular cluster access interface, such as
-with \pkg{Hadoop} or \pkg{MPI}, being made largely from scratch.
+standard functions.
+It has no regular cluster access interface, such as with \pkg{Hadoop} or \pkg{MPI}, being made largely from scratch.
 
-The package creators have ceased development as of December 2015. The
-company, Vertica, has moved on to offering an enterprise database
-platform\cite{vertica:_distr}.
+The package creators have ceased development as of December 2015.
+The company, Vertica, has moved on to offering an enterprise database platform\cite{vertica:_distr}.
 
 \subsection{foreach and doX}\label{subsec:foreach-doc}
 
 \pkg{foreach} offers a high-level looping construct compatible with a variety
-of backends\cite{microsoft20}. The backends are provided by other
-packages, typically named with some variation of \emph{X} in \pkg{doX}.
-Parallelisation is enabled by some backends, with \pkg{doParallel} allowing
-parallel computations\cite{corporation19}, \pkg{doSNOW} enabling cluster
-access through the \pkg{SNOW} package\cite{dosnow19}, and \pkg{doMPI} allowing for
-direct \pkg{MPI} access\cite{weston17}.
+of backends\cite{microsoft20}.
+The backends are provided by other packages, typically named with some variation of \emph{X} in \pkg{doX}.
+Parallelisation is enabled by some backends, with \pkg{doParallel} allowing parallel computations\cite{corporation19}, \pkg{doSNOW} enabling cluster access through the \pkg{SNOW} package\cite{dosnow19}, and \pkg{doMPI} allowing for direct \pkg{MPI} access\cite{weston17}.
 
 \pkg{foreach} is managed by Revolution Analytics, with many of the \pkg{doX}
-corollary packages also being produced by them. Further information on
-\pkg{foreach} is given in \cite{weston19:_using}.
+corollary packages also being produced by them.
+Further information on \pkg{foreach} is given in \cite{weston19:_using}.
 
 I have written more on \pkg{foreach} in \cref{sec:review-foreach}
 
 \subsection{future}\label{subsec:future-furrr}
 
-\pkg{future} captures \R{} expressions for evaluation, allowing them to be passed
-on for parallel and ad-hoc cluster evaluation, through the \pkg{parallel}
-package\cite{bengtsson20}. Such cluster parallelisation uses the standard \pkg{MPI} or
-\pkg{SOCK} protocols.
+\pkg{future} captures \R{} expressions for evaluation, allowing them to be passed on for parallel and ad-hoc cluster evaluation, through the \pkg{parallel} package\cite{bengtsson20}.
+Such cluster parallelisation uses the standard \pkg{MPI} or \pkg{SOCK} protocols.
 
 The author of \pkg{future} is Henrik Bengtsson, Associate Professor at UCSF.
-Development on the package remains strong, with Dr.~Bengtsson possessing
-a completely full commit calendar and tens of thousands of contributions on GitHub. I
-have written more on \pkg{future} in \cref{sec:future-detail}. \pkg{future} has many aspects to it, captured in its
+Development on the package remains strong, with Dr.~Bengtsson possessing a completely full commit calendar and tens of thousands of contributions on GitHub.
+I have written more on \pkg{future} in \cref{sec:future-detail}.
+\pkg{future} has many aspects to it, captured in its
 extensive series of vignettes\cites{bengtsson20:future-r,bengtsson20:future-r2}
 \cites{bengtsson20:future-r3,bengtsson20:future-r4,bengtsson20:future-r5,bengtsson20:future-r6}.
 
@@ -43,8 +37,7 @@ extensive series of vignettes\cites{bengtsson20:future-r,bengtsson20:future-r2}
 \pkg{purrr} to be compatible with \pkg{future}, thus enabling parallelisation in a
 similar form to \pkg{multicore}, though with a tidyverse
 style\cite{vaughan18}.
-Furrr is developed by Matt Dancho, and Davis Vaughn, an employee at
-RStudio.
+Furrr is developed by Matt Dancho, and Davis Vaughn, an employee at RStudio.
 
 Another package from Bengtsson, \pkg{future.apply}, delivers equivalent parallel mapping capabilities, through cognates of the base \R{} mapping functions.
 
@@ -76,125 +69,99 @@ While an excellent tool, some shortcomings include the lack of persistent data, 
 
 \pkg{pbdR} is a collection of packages allowing for distributed computing with
 R\cite{pbdBASEpackage}, with the name being the abbreviation of
-Programming with Big Data in \R{}. The packages include high-performance
-communication and computation capabilities, including \pkg{RPC}, \pkg{ZeroMQ}, and
-\pkg{MPI} interfaces.
+Programming with Big Data in \R{}.
+The packages include high-performance communication and computation capabilities, including \pkg{RPC}, \pkg{ZeroMQ}, and \pkg{MPI} interfaces.
 
-The collection is extensive, offering several packages for each of the
-main categories of application functionality, communication,
-computation, development, I/O, and profiling.
+The collection is extensive, offering several packages for each of the main categories of application functionality, communication, computation, development, I/O, and profiling.
 
 Some selected packages of interest include the following:
 
 \begin{description}
 
-    \item[\pkg{pbdBASE}]
-        Includes the base utilities for distributed matrices used in the
-        project, including bindings and extensions to
-        \pkg{ScaLAPACK}\cite{pbdBASEpackage}.
-    \item[\pkg{pbdDMAT}]
-        Higher level classes and methods for distributed matrices, including
-        manipulation, linear algebra, and statistics routines. Uses the same
-        syntax as base \R{} through S4\cite{pbdDMATpackage}.
-    \item[\pkg{pbdMPI}]
-        Offers a high-level interface to \pkg{MPI}, using the S4 system to program in
-        the SPMD style, with no ``master'' nodes\cite{Chen2012pbdMPIpackage}.
-    \item[\pkg{pbdCS}]
-        A client/server framework for \pkg{pbdR}
-        packages\cite{Schmidt2015pbdCSpackage}.
-    \item[\pkg{pbdML}]
-        Offers machine learning algorithms, consisting at present of only PCA
-        and similar linear algebra routines, primarily for demonstration
-        purposes\cite{schmidt20}.
-    \item[\pkg{hpcvis}]
-        Provides profiler visualisations generated by the other profiler
-        packages within the collection\cite{hpcvis}.
+	\item[\pkg{pbdBASE}] Includes the base utilities for distributed matrices used in the project, including bindings and extensions to \pkg{ScaLAPACK}\cite{pbdBASEpackage}.
+	\item[\pkg{pbdDMAT}]
+		Higher level classes and methods for distributed matrices, including
+		manipulation, linear algebra, and statistics routines.
+		Uses the same syntax as base \R{} through S4\cite{pbdDMATpackage}.
+	\item[\pkg{pbdMPI}]
+		Offers a high-level interface to \pkg{MPI}, using the S4 system to program in
+		the SPMD style, with no ``master'' nodes\cite{Chen2012pbdMPIpackage}.
+	\item[\pkg{pbdCS}]
+		A client/server framework for \pkg{pbdR}
+		packages\cite{Schmidt2015pbdCSpackage}.
+	\item[\pkg{pbdML}]
+		Offers machine learning algorithms, consisting at present of only PCA
+		and similar linear algebra routines, primarily for demonstration
+		purposes\cite{schmidt20}.
+	\item[\pkg{hpcvis}]
+		Provides profiler visualisations generated by the other profiler
+		packages within the collection\cite{hpcvis}.
 \end{description}
 
-The project is funded by major government sources and research labs in
-the US. In 2016, the project won the Oak Ridge National Laboratory 2016
-Significant Event Award; More detail is given in \cite{pbdBASEvignette}.
+The project is funded by major government sources and research labs in the US.
+In 2016, the project won the Oak Ridge National Laboratory 2016 Significant Event Award; More detail is given in \cite{pbdBASEvignette}.
 
 \subsection{RHadoop}\label{subsec:rhadoop}
 
- \pkg{RHadoop} is a collection of five packages to run \pkg{Hadoop} directly from
-\R{}\cite{analytics:_rhadoop_wiki}. The packages are divided by logical
-function, including \pkg{rmr2}, which runs MapReduce jobs, and \pkg{rhdfs}, which
-can access the HDFS. The packages also include \pkg{plyrmr}, which makes
-available \pkg{plyr}-like data manipulation functions, in a similar vein to
-\pkg{sparklyr}.
+\pkg{RHadoop} is a collection of five packages to run \pkg{Hadoop} directly from
+\R{}\cite{analytics:_rhadoop_wiki}.
+The packages are divided by logical function, including \pkg{rmr2}, which runs MapReduce jobs, and \pkg{rhdfs}, which can access the HDFS.
+The packages also include \pkg{plyrmr}, which makes available \pkg{plyr}-like data manipulation functions, in a similar vein to \pkg{sparklyr}.
 
 It is offered and developed by Revolution Analytics.
 
 \subsection{RHIPE and DeltaRho}\label{subsec:rhipe-deltarho}
 
-\pkg{RHIPE} is a means of ``using \pkg{Hadoop} from \R{}''\cite{deltarho:_rhipe}. The
-provided functions primarily attain this through interfacing and
-manipulating HDFS, with a function, rhwatch, to submit MapReduce jobs.
-The easiest means of setup for it is to use a VM, and for all \pkg{Hadoop}
-computation, MapReduce is directly programmed for by the user.
+\pkg{RHIPE} is a means of ``using \pkg{Hadoop} from \R{}''\cite{deltarho:_rhipe}.
+The provided functions primarily attain this through interfacing and manipulating HDFS, with a function, rhwatch, to submit MapReduce jobs.
+The easiest means of setup for it is to use a VM, and for all \pkg{Hadoop} computation, MapReduce is directly programmed for by the user.
 
-There is currently no support for the most recent version of \pkg{Hadoop}, and
-it doesn't appear to be under active open development, with the last
-commit being 2015. \pkg{RHIPE} has mostly been subsumed into the backend of
+There is currently no support for the most recent version of \pkg{Hadoop}, and it doesn't appear to be under active open development, with the last commit being 2015.
+\pkg{RHIPE} has mostly been subsumed into the backend of
 \pkg{DeltaRho}, a simple frontend.
 
 \subsection{sparklyr}\label{subsec:sparklyr}
 
-\pkg{sparklyr} is an interface to \pkg{Spark} from within \R{}\cite{luraschi20}. The
-user connects to \pkg{Spark} and accumulates instructions for the manipulation
-of a \pkg{Spark} DataFrame object using \pkg{dplyr} commands, then executing the
-request on the \pkg{Spark} cluster.
+\pkg{sparklyr} is an interface to \pkg{Spark} from within \R{}\cite{luraschi20}.
+The user connects to \pkg{Spark} and accumulates instructions for the manipulation of a \pkg{Spark} DataFrame object using \pkg{dplyr} commands, then executing the request on the \pkg{Spark} cluster.
 
-Of particular interest is the capacity to execute arbitrary \R{} functions
-on the \pkg{Spark} cluster. This can be performed directly, with the
-\code{spark-apply} function, taking a
-user-defined function as a formal parameter. It can also be used as part
-of a \pkg{dplyr} chain through the \code{mutate}
-function. Extending these, \pkg{Spark}-defined hive functions and windowing
-functions are enabled for use in
-\code{mutate} calls. Limitations to
-arbitrary code execution include the lack of support for global
-references due to the underlying lack in the \pkg{serialize} package.
+Of particular interest is the capacity to execute arbitrary \R{} functions on the \pkg{Spark} cluster.
+This can be performed directly, with the \code{spark-apply} function, taking a user-defined function as a formal parameter.
+It can also be used as part of a \pkg{dplyr} chain through the \code{mutate} function.
+Extending these, \pkg{Spark}-defined hive functions and windowing functions are enabled for use in \code{mutate} calls.
+Limitations to arbitrary code execution include the lack of support for global references due to the underlying lack in the \pkg{serialize} package.
 
-Some support for graphs and graph manipulation is enabled via usage with
-the \pkg{graphframes} package, which follows the Tidyverse pattern of
-working solely with dataframes and dataframe derivatives\cite{kuo18}.
-This binds to the GraphX component of \pkg{Spark}, enabling manipulation of
-graphs in \pkg{Spark} through pre-defined commands.
+Some support for graphs and graph manipulation is enabled via usage with the \pkg{graphframes} package, which follows the Tidyverse pattern of working solely with dataframes and dataframe derivatives\cite{kuo18}.
+This binds to the GraphX component of \pkg{Spark}, enabling manipulation of graphs in \pkg{Spark} through pre-defined commands.
 
 \pkg{sparklyr} is managed and maintained by RStudio, who also manage the rest
 of the Tidyverse (including \pkg{dplyr}).
 
 \subsection{SparkR}\label{subsec:sparkr}
 
-SparkR provides a front-end to \pkg{Spark} from
-R\cite{venkataraman20:_spark}. Like \pkg{sparklyr}, it provides the DataFrame
-as the primary object of interest. However, there is no support for the
-dplyr model of programming, with functions closer resembling base \R{}
-being provided by the package instead.
+SparkR provides a front-end to \pkg{Spark} from R\cite{venkataraman20:_spark}.
+Like \pkg{sparklyr}, it provides the DataFrame as the primary object of interest.
+However, there is no support for the dplyr model of programming, with functions closer resembling base \R{} being provided by the package instead.
 
 \pkg{SparkR} is maintained directly by Apache \pkg{Spark}, with ongoing regular
-maintenance provided. Usage of the package is described in the vignette,
-\textcite{venktaraman19:spark-pract-guide}, with implementation
-explained in \cite{venkataraman2016sparkr}.
+maintenance provided.
+Usage of the package is described in the vignette, \textcite{venktaraman19:spark-pract-guide}, with implementation explained in \cite{venkataraman2016sparkr}.
 
 \subsection{hmr}\label{subsec:hmr}
 
-\pkg{hmr} is an interface to MapReduce from \R{}\cite{urbanek20}. It runs
-fast in parallel, making use of chunked data. Much of the process is handled by the
-package, with automatic \R{} object conversion. \pkg{hmr} integrates with
-\pkg{iotools}, of which it is based upon. The author, like that of \pkg{iotools}, is
-Simon Urbanek.
+\pkg{hmr} is an interface to MapReduce from \R{}\cite{urbanek20}.
+It runs fast in parallel, making use of chunked data.
+Much of the process is handled by the package, with automatic \R{} object conversion.
+\pkg{hmr} integrates with
+\pkg{iotools}, of which it is based upon.
+The author, like that of \pkg{iotools}, is Simon Urbanek.
 
 \subsection{big.data.table}\label{subsec:big.data.table}
 
 \pkg{big.data.table} runs \pkg{data.table} over many nodes in an ad-hoc
-cluster\cite{gorecki16}. This allows for big data manipulation using a
-data.table interface. The package makes use of \pkg{RServe} (authored by Simon
-Urbanek) to facilitate communication between nodes when running from \R{}.
-Alternatively, the nodes can be run as docker services, for fast remote
-environment setup, using \pkg{RSclient} for connections. Beyond greater
-storage capacity, speed is increased through manipulations on
-big.data.table objects occurring in parallel. The package is authored by Jan
-Gorecki, but hasn't been actively developed since mid-2016.
+cluster\cite{gorecki16}.
+This allows for big data manipulation using a data.table interface.
+The package makes use of \pkg{RServe} (authored by Simon Urbanek) to facilitate communication between nodes when running from \R{}.
+Alternatively, the nodes can be run as docker services, for fast remote environment setup, using \pkg{RSclient} for connections.
+Beyond greater storage capacity, speed is increased through manipulations on big.data.table objects occurring in parallel.
+The package is authored by Jan Gorecki, but hasn't been actively developed since mid-2016.

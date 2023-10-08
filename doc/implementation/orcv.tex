@@ -7,10 +7,8 @@ The event queue consists of a basic thread-safe queue complete with a file descr
 The inclusion of a file descriptor allows for efficient multiplexing on the queue via \code{poll}ing.
 The basic architecture is sketched in \cref{fig:orcv}
 
-\begin{sidewaysfigure}
-\centering
-\lstinputlisting[basicstyle=\ttfamily\tiny]{src/orcv.txt}
-\caption{\label{fig:orcv}orcv architectural sketch.}
+\begin{sidewaysfigure} \centering \lstinputlisting[basicstyle=\ttfamily\tiny]{src/orcv.txt} \caption{\label{fig:orcv}orcv architectural sketch.
+	}
 \end{sidewaysfigure}
 
 So \orcv{} provides initial network communication capabilities, as well as event queues that can be monitored, with events themselves able to be replied to directly by way of their included file descriptor.

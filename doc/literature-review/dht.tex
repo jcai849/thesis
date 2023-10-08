@@ -21,13 +21,12 @@ This means that there is greater direct control over the graph by the nodes host
 A DHT is a key-value store with the capacity to be distributed over many disparate nodes\cite{balakrishnan2003p2p}.
 All well-known modern DHT's involve no central control, with all participating nodes being effectively equivalent and symmetrical.
 
-Distributed Hash Table algorithms generally share a few features in common, beyond those inherent in the DHT name:
-\begin{itemize}
-	\item Dynamic introduction and exit of nodes is a principal distinguishing feature of DHT's with respect to regular hash tables using nodes as buckets.
-		Resizing of simple hash tables often involve a complete rehashing and remapping of values to the buckets, whereas DHT's expect frequent resizing, and can't afford the remapping.
-		DHT's have some hashing function that doesn't require system-wide remapping when nodes/buckets are added or removed\cite{thaler1996rendezvous}.
+Distributed Hash Table algorithms generally share a few features in common, beyond those inherent in the DHT name: \begin{itemize} \item Dynamic introduction and exit of nodes is a principal distinguishing feature of DHT's with respect to regular hash tables using nodes as buckets.
+	      Resizing of simple hash tables often involve a complete rehashing and remapping of values to the buckets, whereas DHT's expect frequent resizing, and can't afford the remapping.
+	      DHT's have some hashing function that doesn't require system-wide remapping when nodes/buckets are added or removed\cite{thaler1996rendezvous}.
 	\item Nodes usually keep some routing table that is used to optimise lookups\cite{galuba2009p2p}.
-	\item Nodes typically have some node ID of the same length as keys (or some variation on keys, such as their SHA-1 hash), in order to allow for some direct comparison between them. Keys are usually hashed to particular nodes based on some measure of distance, choosing the node with the lowest distance to store the value on.
+	\item Nodes typically have some node ID of the same length as keys (or some variation on keys, such as their SHA-1 hash), in order to allow for some direct comparison between them.
+	      Keys are usually hashed to particular nodes based on some measure of distance, choosing the node with the lowest distance to store the value on.
 	\item Minimisation of route length and minimisation of degree are principal objectives in the analysis of DHT's, with most DHT's sporting \bigO{\log N} nodes contacted during lookups.
 	\item All DHT's have some degree of susceptibility to Byzantine faults such as the Sybil attack, where a flood of new nodes can throw off the system; given that the \lsr{} system is expected to run in a non-adversarial environment, this consideration doesn't factor too heavily into choice of DHT algorithm\cite{douceur2002sybil}\cite{urdaneta2011dhtsec}.
 \end{itemize}
@@ -51,9 +50,7 @@ Based on the description of key-node assignments given by consistent hashing, th
 The central requirement is that each node knows its own successor.
 With this in place, finding a node or a key involves the initiating node querying its successor, with successors forwarding the query to their own successors in a recursive manner, until the node or value is found.
 As this is \mathfrom{o-n} in terms of route length, an additional stipulation is given that nodes carry a finger table, wherein addresses of nodes in exponentially increasing intervals on the ring are stored, and finger tables are consulted for routing instead of bare successors.
-Specifically, the entries in a node's finger table are the successors to the points relative to the node at increasing values of \mathfrom{tab-entries}
-As such, the first element of a node's finger table, at \mathfrom{2-pow-0} points along from the node, will be that node's successor
-Successors to points are found based on querying the maximal node less than the point in the existing finger table, and recursively passing the query, until a queried node finds that the queried point lies between itself and its own successor, at which point it returns its own successor.
+Specifically, the entries in a node's finger table are the successors to the points relative to the node at increasing values of \mathfrom{tab-entries} As such, the first element of a node's finger table, at \mathfrom{2-pow-0} points along from the node, will be that node's successor Successors to points are found based on querying the maximal node less than the point in the existing finger table, and recursively passing the query, until a queried node finds that the queried point lies between itself and its own successor, at which point it returns its own successor.
 
 Nodes join the network by finding their successor through querying any arbitrary node in the network.
 The arrival of new nodes has the potential to throw off existing finger tables, and as such a stabilisation routine must be run periodically to maintain the system, by checking consistency of successors and predecessors.
@@ -64,12 +61,10 @@ If stabilisation occurs more than churn, then most stabilisation cycles are idem
 If Chord is used in a variety of heterogeneous environments, it is almost certain to not match churn in all of them.
 Given that this is the case, a variation on Chord is essential for reliability.
 
-My suggestion for removing all background periodic procedures is the following:
-\begin{enumerate}
-	\item Node joins occur sequentially and force stabilisation procedures on both the successor and predecessor of the joining node.
-		Migration of keys occur prior to predecessor stabilisation, and require checks from successor to predecessor that the pointer is correct and that no queries are pending, before the successor deletes any table elements that it hosts.
+My suggestion for removing all background periodic procedures is the following: \begin{enumerate} \item Node joins occur sequentially and force stabilisation procedures on both the successor and predecessor of the joining node.
+	      Migration of keys occur prior to predecessor stabilisation, and require checks from successor to predecessor that the pointer is correct and that no queries are pending, before the successor deletes any table elements that it hosts.
 	\item Joining nodes broadcast their existence and ID recursively along finger tables, with the space of each recursive call bound by successors, forcing finger table fixes along all existing nodes.
-		This is additional work, but for data centre-like applications, as \lsr{} fits, rather than transient IM chat applications, the non-internet scale minimises the additional work, and is sufficient to justify the stability.
+	      This is additional work, but for data centre-like applications, as \lsr{} fits, rather than transient IM chat applications, the non-internet scale minimises the additional work, and is sufficient to justify the stability.
 \end{enumerate}
 
 A secondary drawback of Chord is in the fact that the distance measure is asymmetric.
@@ -110,8 +105,7 @@ However, it is important to keep in mind that they are intended for extremely hi
 For instance, the routing table could instead be a list of all nodes, permitting joins and departures, and provide \bigO{1} lookup cost, at the expense of an \bigO{N} routing table.
 This mesh algorithm would scale to a reasonable number of nodes, though is likely to flounder past several hundred.
 
-DHT's also aren't the only means of implementing a distributed associative array, which is the base data type that is sought after for our purposes;
-Skip graph is a distributed version of the skip-list probabilistic data structure, with simple operations and impressive access costs\cite{aspnes2007skipgraph}.
+DHT's also aren't the only means of implementing a distributed associative array, which is the base data type that is sought after for our purposes; Skip graph is a distributed version of the skip-list probabilistic data structure, with simple operations and impressive access costs\cite{aspnes2007skipgraph}.
 The skip-list algorithm which underpins it is made use of by Redis in its implementation of ordered sets.
 
 \subsection{Value and Key Descriptions}
@@ -134,8 +128,7 @@ This information hiding aids in modularity and will hopefully result in less cod
 \subsection{Extensions and Variations}
 
 In-memory replication, redundancy, or caching, is the standard means by which DHT's prevent data loss.
-A challenge this brings is to the consistency mutable values if replicated across nodes;
-Attaining distributed consensus on changes to existing data is exceptionally difficult, though not impossible\cite{brewer1999cap}\cite{gilbert2002brewer}.
+A challenge this brings is to the consistency mutable values if replicated across nodes; Attaining distributed consensus on changes to existing data is exceptionally difficult, though not impossible\cite{brewer1999cap}\cite{gilbert2002brewer}.
 Given that all nodes in the system are trusted, it is better to mirror all data to disk, at least as part of the current implementation.
 That way, when failures occur, the system is merely a reboot and restore back to functionality -- an advantage of a non-adversarial network.
 

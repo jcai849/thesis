@@ -106,8 +106,7 @@ The evaluation or collection of the arguments to a function on a node would have
 This implies a necessity to take advantage of promise objects.
 Such a capacity is already inherent in R, with \code{delayed-assign} from the base package granting direct access to promise creation.
 Upon access of the promise objects, some operation should be enacted to emerge the underlying expression locally, including potential initiation of remote procedures.
-There are already limitations, however;
-One example is the execution of a remote distributed call with local arguments -- if the call is to take place asynchronously, there is no immediate mechanism for the node executing the call to attain the local arguments as and when (and if) they are needed.
+There are already limitations, however; One example is the execution of a remote distributed call with local arguments -- if the call is to take place asynchronously, there is no immediate mechanism for the node executing the call to attain the local arguments as and when (and if) they are needed.
 This would require evaluation of the arguments before sending off the call.
 This may be able to be overcome if such local arguments were placed as promises in a local data store running asynchronously that evaluated the arguments prior to sending them off to requesters.
 All of this remains highly complex -- one of the original points of opposition to thunks \cite{ingerman1961thunks}among compiler constructors was the difficulty and complexity introduced through their usage, with the dearth of debuggers originally available as testament to this notion.

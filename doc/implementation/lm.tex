@@ -10,7 +10,7 @@ This algorithm is in turn implemented and wrapped through the \pkg{biglm} packag
 The \pkg{biglm} package creates a linear model object from some initial row-wise chunk of data with a space complexity of \mathfrom{o-p-2} for $p$ variables.
 The linear model object is then updated sequentially with further chunks of the data, until all of the data has been read, yielding a final linear model object with methods available for standard linear model object inspection, including summaries and predictions.
 This sequential rolling update over chunked data is able to be captured succinctly in a \code{Reduce} pattern typical of the functional programming paradigm.
-Using the \textit{iris} dataset as an example, a linear model of the form, 
+Using the \textit{iris} dataset as an example, a linear model of the form,
 
 \eq{iris-form}
 
@@ -48,7 +48,6 @@ An insertion environment follows the simple concept of being placed between some
 Its form is given in the diagram at \cref{fig:ins-env}.
 
 \fig{ins-env}{Newly inserted environment mimicking the insertion procedure of a linked list, with pointers given by arrows, and the old pointer in dashed line.}
-
 
 The call is captured on the master end, with a function constructed to return this call, given by the \lso{}-provided \code{curr-call-fun}, and this is then sent to the worker to be inserted as \code{sys-call} in the insertion environment, thus effectively masking the call capture function at the top level of the requested \pkg{biglm} function.
 Depending on perspective, the fact that this only works at the top level can be a feature, as it doesn't messily mask further along the call stack, however it has the associated limitation.

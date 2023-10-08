@@ -1,164 +1,83 @@
-R does have some well-established packages used for distributed
-large-scale computing. Of these, the \pkg{parallel} package is
-contained in the standard \R{} image, and encapsulates \pkg{SNOW}
-(Simple Network Of Workstations), which provides support for distributed
-computing over a simple network of computers. The general architecture
-of \pkg{SNOW} makes use of a master process that holds the data and
-launches the cluster, pushing the data to worker processes that operate
-upon it and return the results to the master. \pkg{SNOW} makes use of
+R does have some well-established packages used for distributed large-scale computing.
+Of these, the \pkg{parallel} package is contained in the standard \R{} image, and encapsulates \pkg{SNOW} (Simple Network Of Workstations), which provides support for distributed computing over a simple network of computers.
+The general architecture of \pkg{SNOW} makes use of a master process that holds the data and launches the cluster, pushing the data to worker processes that operate upon it and return the results to the master.
+\pkg{SNOW} makes use of
 several different communications mechanisms, including sockets or the
-greater MPI distributed computing library. Some shortcomings of the
-described architecture is the difficulty of persisting data, meaning the
-expense of data transportation every time operations are requested by
-the master process. In addition, as the data must originate from the
-master (barring generated data etc.), the master's memory size serves as
+greater MPI distributed computing library.
+Some shortcomings of the described architecture is the difficulty of persisting data, meaning the expense of data transportation every time operations are requested by the master process.
+In addition, as the data must originate from the master (barring generated data etc.)
+, the master's memory size serves as
 a bottleneck for the whole system.
 
-The \pkg{pbdR} (programming with big data in R) project provides
-persistent data, with the \pkg{pbdDMAT} (programming with big data
-Distributed MATrices) package offering a user-friendly distributed
-matrix class to program with over a distributed system. It is introduced
-on with the following description:
+The \pkg{pbdR} (programming with big data in R) project provides persistent data, with the \pkg{pbdDMAT} (programming with big data Distributed MATrices) package offering a user-friendly distributed matrix class to program with over a distributed system.
+It is introduced on with the following description:
 
 \cqu{pbdR2012}
 
-The project seeks especially to serve minimal wrappers around the \pkg{BLAS}
-and \pkg{LAPACK} libraries along with their distributed derivatives, with the
-intention of introducing as little overhead as possible. Standard \R{} also
-uses routines from the library for most matrix operations, but suffers
-from numerous inefficiencies relating to the structure of the language;
-for example, copies of all objects being manipulated will be typically
-be created, often having devastating performance aspects unless specific
-functions are used for linear algebra operations, as discussed in
-\textcite{schmidt2017programming} (e.g.,
-\code{crossprod} instead of \code{crossprod-manual}).
+The project seeks especially to serve minimal wrappers around the \pkg{BLAS} and \pkg{LAPACK} libraries along with their distributed derivatives, with the intention of introducing as little overhead as possible.
+Standard \R{} also uses routines from the library for most matrix operations, but suffers from numerous inefficiencies relating to the structure of the language; for example, copies of all objects being manipulated will be typically be created, often having devastating performance aspects unless specific functions are used for linear algebra operations, as discussed in \textcite{schmidt2017programming} (e.g., \code{crossprod} instead of \code{crossprod-manual}).
 
-Distributed linear algebra operations in \pkg{pbdR} depend further on the
-\pkg{ScaLAPACK} library, which can be provided through the \pkg{pbdSLAP} package
-\cite{Chen2012pbdSLAPpackage}. The principal interface for direct
-distributed computations is the \pkg{pbdMPI} package, which presents a
-simplified API to \pkg{MPI} through \R{} \cite{Chen2012pbdMPIpackage}. All major
-MPI libraries are supported, but the project tends to make use of
-openMPI in explanatory documentation. A very important consideration
-that isn't immediately clear is that \pkg{pbdMPI} can only be used in batch
-mode through \pkg{MPI}, rather than any interactive option as in \pkg{Rmpi}
-\cite{yu02:_rmpi}.
+Distributed linear algebra operations in \pkg{pbdR} depend further on the \pkg{ScaLAPACK} library, which can be provided through the \pkg{pbdSLAP} package \cite{Chen2012pbdSLAPpackage}.
+The principal interface for direct distributed computations is the \pkg{pbdMPI} package, which presents a simplified API to \pkg{MPI} through \R{} \cite{Chen2012pbdMPIpackage}.
+All major MPI libraries are supported, but the project tends to make use of openMPI in explanatory documentation.
+A very important consideration that isn't immediately clear is that \pkg{pbdMPI} can only be used in batch mode through \pkg{MPI}, rather than any interactive option as in \pkg{Rmpi} \cite{yu02:_rmpi}.
 
-The actual manipulation of distributed matrices is enabled through the
-\pkg{pbdDMAT} package, which offers S4 classes encapsulating distributed
-matrices \cite{pbdDMATpackage}. These are specialised for dense matrices
-through the \code{ddmatrix} class, though the project offers some
-support for other matrices. The \code{ddmatrix} class has nearly all
-of the standard matrix generics implemented for it, with nearly
-identical syntax for all.
+The actual manipulation of distributed matrices is enabled through the \pkg{pbdDMAT} package, which offers S4 classes encapsulating distributed matrices \cite{pbdDMATpackage}.
+These are specialised for dense matrices through the \code{ddmatrix} class, though the project offers some support for other matrices.
+The \code{ddmatrix} class has nearly all of the standard matrix generics implemented for it, with nearly identical syntax for all.
 
-The package is geared heavily towards matrix operations in a statistical
-programming language, so a test of its capabilities would quite
-reasonably involve statistical linear algebra. An example non-trivial
-routine is that of generating data, to test randomisation capability,
-then fitting a generalised linear model to the data through iteratively
-reweighted least squares. In this way, not only are the basic algebraic
-qualities considered, but communication over iteration on distributed
-objects is tested.
+The package is geared heavily towards matrix operations in a statistical programming language, so a test of its capabilities would quite reasonably involve statistical linear algebra.
+An example non-trivial routine is that of generating data, to test randomisation capability, then fitting a generalised linear model to the data through iteratively reweighted least squares.
+In this way, not only are the basic algebraic qualities considered, but communication over iteration on distributed objects is tested.
 
-To work comparatively, a simple working local-only version of the
-algorithm is produced in \cref{lst:local-rwls}.
+To work comparatively, a simple working local-only version of the algorithm is produced in \cref{lst:local-rwls}.
 
 \src{local-rwls}{Local GLM with RWLS}
 
 It outputs a \mathfrom{beta-hat} matrix after several seconds of computation.
 
-Were \pkg{pbdDMAT} matrices to function perfectly transparently as regular
-matrices, then all that would be required to convert a local algorithm
-to distributed would be to prefix a \code{dd} to every \code{matrix} call, and bracket the program with a template as per listing
-\cref{lst:bracket}.
+Were \pkg{pbdDMAT} matrices to function perfectly transparently as regular matrices, then all that would be required to convert a local algorithm to distributed would be to prefix a \code{dd} to every \code{matrix} call, and bracket the program with a template as per listing \cref{lst:bracket}.
 
 \src{bracket}{Idealised Common Wrap for Local to Distributed Matrices}
 
-The program halts however, as forms of matrix creation other than
-through explicit \code{matrix} calls
-are not necessarily picked up by that process; \code{cbind} requires a
-second formation of a \code{ddmatrix}.
+The program halts however, as forms of matrix creation other than through explicit \code{matrix} calls are not necessarily picked up by that process; \code{cbind} requires a second formation of a \code{ddmatrix}.
 
-The first issue comes when performing conditional evaluation; predicates
-involving distributed matrices are themselves distributed matrices, and
-can't be mixed in logical evaluation with local predicates.
+The first issue comes when performing conditional evaluation; predicates involving distributed matrices are themselves distributed matrices, and can't be mixed in logical evaluation with local predicates.
 
-Turning local predicates to distributed matrices, then converting them
-all back to a local matrix for the loop to understand, finally results
-in a program run, however the results are still not accurate.
+Turning local predicates to distributed matrices, then converting them all back to a local matrix for the loop to understand, finally results in a program run, however the results are still not accurate.
 
-This is due to \code{diag-assign}
-assignment not having been implemented, so several further changes are
-necessary, including specifying return type of the diagonal matrix as a
-replacement.
+This is due to \code{diag-assign} assignment not having been implemented, so several further changes are necessary, including specifying return type of the diagonal matrix as a replacement.
 
-This serves to outline the difficulty of complete distributed
-transparency.
+This serves to outline the difficulty of complete distributed transparency.
 
-The final working code of \pkg{pbdDMAT} GLM through RWLS is given in listing
-\cref{lst:dmat}
+The final working code of \pkg{pbdDMAT} GLM through RWLS is given in listing \cref{lst:dmat}
 
 \src{dmat}{pbdDMAT GLM with RWLS}
 
-Decidedly more user-friendly is the \pkg{sparklyr} package, which
-meshes \pkg{dplyr} syntax with a \pkg{Spark} backend. Simple
-analyses are made very simple (assuming a well-configured and already
-running \pkg{Spark} instance), but custom iterative models are
-extremely difficult to create through the package in spite of
-\pkg{Spark's} support for it.
+Decidedly more user-friendly is the \pkg{sparklyr} package, which meshes \pkg{dplyr} syntax with a \pkg{Spark} backend.
+Simple analyses are made very simple (assuming a well-configured and already running \pkg{Spark} instance), but custom iterative models are extremely difficult to create through the package in spite of \pkg{Spark's} support for it.
 
-Given that iteration is cited by a principal author of \pkg{Spark} as a
-motivating factor in its development when compared to \pkg{Hadoop}, it is
-reasonable to consider whether the most popular \R{} interface to \pkg{Spark},
-\pkg{sparklyr}, has support for
-iteration\cites{zaharia2010spark,luraschi20}. One immediate
-hesitation to the suitability of \pkg{sparklyr} to iteration is the syntactic
-rooting in \pkg{dplyr}; \pkg{dplyr} is a ``Grammar of Data Manipulation'' and part
-of the \pkg{tidyverse}, which in turn is an ecosystem of packages with a
-shared philosophy\cites{wickham2019welcome,wickham2016r}. The
-promoted paradigm is functional in nature, with iteration using for
-loops in \R{} being described as ``not as important'' as in other
-languages; map functions from the \pkg{tidyverse} \pkg{purrr} package are instead
-promoted as providing greater abstraction and taking much less time to
-solve iteration problems. Maps do provide a simple abstraction for
-function application over elements in a collection, similar to internal
-iterators, however they offer little control over the form of traversal by design, and
-most importantly, lack mutable state between iterations that standard
-loops or generators allow\cite{cousineau1998functional}.
+Given that iteration is cited by a principal author of \pkg{Spark} as a motivating factor in its development when compared to \pkg{Hadoop}, it is reasonable to consider whether the most popular \R{} interface to \pkg{Spark}, \pkg{sparklyr}, has support for iteration\cites{zaharia2010spark,luraschi20}.
+One immediate hesitation to the suitability of \pkg{sparklyr} to iteration is the syntactic rooting in \pkg{dplyr}; \pkg{dplyr} is a ``Grammar of Data Manipulation'' and part of the \pkg{tidyverse}, which in turn is an ecosystem of packages with a shared philosophy\cites{wickham2019welcome,wickham2016r}.
+The promoted paradigm is functional in nature, with iteration using for loops in \R{} being described as ``not as important'' as in other languages; map functions from the \pkg{tidyverse} \pkg{purrr} package are instead promoted as providing greater abstraction and taking much less time to solve iteration problems.
+Maps do provide a simple abstraction for function application over elements in a collection, similar to internal iterators, however they offer little control over the form of traversal by design, and most importantly, lack mutable state between iterations that standard loops or generators allow\cite{cousineau1998functional}.
 
-A common functional strategy for handling a changing state is to make
-use of recursion, with tail-recursive functions specifically referred to
-as a form of iteration in \textcite{abelson1996structure}. Reliance on
-recursion for iteration is naively non-optimal in \R{} however, as it lacks
-tail-call elimination and call stack optimisations\cite{rcore2020lang};
-at present the elements for efficient, idiomatic functional iteration
-are not present in \R{}, given that it is not as functional a language as
-the \pkg{tidyverse} philosophy considers it to be, and \pkg{sparklyr}'s attachment
-to the the ecosystem prevents a cohesive model of iteration until said
-elements are in place.
+A common functional strategy for handling a changing state is to make use of recursion, with tail-recursive functions specifically referred to as a form of iteration in \textcite{abelson1996structure}.
+Reliance on recursion for iteration is naively non-optimal in \R{} however, as it lacks tail-call elimination and call stack optimisations\cite{rcore2020lang}; at present the elements for efficient, idiomatic functional iteration are not present in \R{}, given that it is not as functional a language as the \pkg{tidyverse} philosophy considers it to be, and \pkg{sparklyr}'s attachment to the the ecosystem prevents a cohesive model of iteration until said elements are in place.
 
-Iteration takes place in \pkg{Spark} through caching results in memory,
-allowing faster access speed and decreased data movement than
-MapReduce\cite{zaharia2010spark}.
+Iteration takes place in \pkg{Spark} through caching results in memory, allowing faster access speed and decreased data movement than MapReduce\cite{zaharia2010spark}.
 \pkg{Sparklyr} can use this functionality through the \code{tbl-cache} function to cache \pkg{Spark} dataframes in memory, as well as caching upon import with \code{memory-true} as a formal parameter to \code{sdf-copy-to}.
 Iteration can also make use of persisting \pkg{Spark} Dataframes to memory, forcing evaluation then caching; performed in \pkg{sparklyr} through \code{sdf-persist}.
 
 An important aspect of consideration is that \pkg{sparklyr} methods for \pkg{dplyr} generics execute through a translation of the formal parameters to \proglang{Spark SQL}.
-This is particularly relevant in that separate \pkg{Spark} Data Frames can't be accessed together as in a multi-variable function. 
-In addition, very \R{}-specific functions such as those from the \pkg{stats} and \pkg{matrix} core libraries are not able to be evaluated, as there is
-no \proglang{Spark SQL} cognate for them.
+This is particularly relevant in that separate \pkg{Spark} Data Frames can't be accessed together as in a multi-variable function.
+In addition, very \R{}-specific functions such as those from the \pkg{stats} and \pkg{matrix} core libraries are not able to be evaluated, as there is no \proglang{Spark SQL} cognate for them.
 
-Canned models are the only option for most users, due to \pkg{sparklyr's} reliance on \proglang{Spark SQL} rather than the \pkg{Spark} core API
-made available through the official \pkg{SparkR} interface.
+Canned models are the only option for most users, due to \pkg{sparklyr's} reliance on \proglang{Spark SQL} rather than the \pkg{Spark} core API made available through the official \pkg{SparkR} interface.
 
-\pkg{sparklyr} is excellent when used for what it is designed for. Iteration,
-in the form of an iterated function, does not appear to be part of this
-design.
+\pkg{sparklyr} is excellent when used for what it is designed for.
+Iteration, in the form of an iterated function, does not appear to be part of this design.
 
-Furthermore, all references to ``iteration'' in the primary \pkg{sparklyr}
-literature refer either to the iteration inherent in the inbuilt \pkg{Spark
-ML} functions, or the ``wrangle-visualise-model'' process popularised by
-Hadley Wickham\cites{luraschi2019mastering,wickham2016r}. None of such
-references connect with iterated functions.
+Furthermore, all references to ``iteration'' in the primary \pkg{sparklyr} literature refer either to the iteration inherent in the inbuilt \pkg{Spark ML} functions, or the ``wrangle-visualise-model'' process popularised by Hadley Wickham\cites{luraschi2019mastering,wickham2016r}.
+None of such references connect with iterated functions.
 

@@ -19,16 +19,20 @@ A \code{map-reduce} function is exposed by \lsr{} to perform a \pkg{MapReduce} o
 
 To create a distributed reduce using the \lsr{} system is actually mostly solved by the design of distributed objects, which can be passed to the existing \code{Reduce} function as provided in base \R{}, with no further modification.
 The only additional effort is to ensure that the operant binary function is capable of operating on distributed objects.
-This can be guaranteed by making use of a \code{dreducable} wrapper functional around a regular function, which returns the original function modified to operate in distributed fashion. 
+This can be guaranteed by making use of a \code{dreducable} wrapper functional around a regular function, which returns the original function modified to operate in distributed fashion.
 
 The program flow of a standard distributed reduce is depicted in \cref{fig:dreduce}.
-Assuming a distributed object split consecutively over processes 1, 2, and 3, with a single master node containing the reference to this object, a distributed reduce takes place as follows:
-\begin{enumerate}
-	\item Upon invocation of the distributed reduce, the master sends requests to all queues associated with the chunks composing the distributed object. These requests contain (unresolved) references to the chunks resulting from the distributed reduce, alongside the function to be performed over them. As these chunk references are not yet resolved, the processes popping the requests from the queues will block, except for the initial queue, which should be only referencing resolved chunks. The master process continues processing asynchronously, only blocking when the result of the distributed reduce operation is requested.
-	\item The process containing the initial chunk operates over it and stores the output. It then continues reading queues and processing as before, with its role in distributed reduce being complete.
-	\item The second process is now able to access the previously unresolved chunk reference, and emerges it directly from the first process. It operates on the chunks, storing the output.
+Assuming a distributed object split consecutively over processes 1, 2, and 3, with a single master node containing the reference to this object, a distributed reduce takes place as follows: \begin{enumerate} \item Upon invocation of the distributed reduce, the master sends requests to all queues associated with the chunks composing the distributed object.
+	      These requests contain (unresolved) references to the chunks resulting from the distributed reduce, alongside the function to be performed over them.
+	      As these chunk references are not yet resolved, the processes popping the requests from the queues will block, except for the initial queue, which should be only referencing resolved chunks.
+	      The master process continues processing asynchronously, only blocking when the result of the distributed reduce operation is requested.
+	\item The process containing the initial chunk operates over it and stores the output.
+	      It then continues reading queues and processing as before, with its role in distributed reduce being complete.
+	\item The second process is now able to access the previously unresolved chunk reference, and emerges it directly from the first process.
+	      It operates on the chunks, storing the output.
 	\item This repeats until all processes have completed the requests initially given by the master process.
-	\item When needed, the master may emerge the resulting object, with either cumulative steps given by all processes, or only the end result, depending on the options provided. The distributed reduce is complete.
+	\item When needed, the master may emerge the resulting object, with either cumulative steps given by all processes, or only the end result, depending on the options provided.
+	      The distributed reduce is complete.
 \end{enumerate}
 
 The applications for a distributed reduce correspond closely to those of a regular reduce.
@@ -55,13 +59,11 @@ Alternatively, if the use of a class for combination is considered excessive for
 
 \subsection{Shuffle}\label{sec:shuffle}
 
-Complementary to the question of combination is the question of dis-combination;
-Given some elements composing some larger-than-memory object, how best to split them up into chunks, such that the following constraints are fulfilled:
+Complementary to the question of combination is the question of dis-combination; Given some elements composing some larger-than-memory object, how best to split them up into chunks, such that the following constraints are fulfilled:
 
-\begin{enumerate}
-\item Operations which require particular elements to be considered as a cohesive unit, are granted all of the relevant elements in a single chunk.
-\item The number of chunks is controlled and allows for maximum distribution.
-\item No chunk exceeds memory limits.
+\begin{enumerate} \item Operations which require particular elements to be considered as a cohesive unit, are granted all of the relevant elements in a single chunk.
+	\item The number of chunks is controlled and allows for maximum distribution.
+	\item No chunk exceeds memory limits.
 \end{enumerate}
 
 Such constraints may not always be met, but the first two may be provided for in a function exposed by \lsr{} named \code{shuffle}.

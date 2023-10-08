@@ -1,16 +1,12 @@
 
-In the search for a distributed system for statistics, the world outside
-of \R{} is not remotely barren. The central issue with non-\R{} distributed
-systems is that their focus is very obviously not statistics, and this
-shows in the level of support the platforms provide for statistical
-purposes.
+In the search for a distributed system for statistics, the world outside of \R{} is not remotely barren.
+The central issue with non-\R{} distributed systems is that their focus is very obviously not statistics, and this shows in the level of support the platforms provide for statistical purposes.
 
 The classical distributed system for high-performance computing is \pkg{MPI}.
 \R{} actually has a high-level interface to \pkg{MPI} through the \pkg{rmpi}
-package. This package is excellent, but extremely low-level, offering
-little more than wrappers around \pkg{MPI} functions. For the statistician who
-just wants to implement a model for a large dataset, such concern with
-minutiae is prohibitive.
+package.
+This package is excellent, but extremely low-level, offering little more than wrappers around \pkg{MPI} functions.
+For the statistician who just wants to implement a model for a large dataset, such concern with minutiae is prohibitive.
 
 \pkg{Hadoop} and \pkg{Spark} are two closely related systems which were mentioned
 earlier.
@@ -18,44 +14,31 @@ earlier.
 \pkg{Apache Hadoop} is a collection of utilities that facilitates cluster
 computing.
 
-Jobs can be sent for parallel processing on the cluster directly to the
-utilities using \file{.jar} files, ``streamed'' using any executable file, or
-accessed through language-specific APIs.
+Jobs can be sent for parallel processing on the cluster directly to the utilities using \file{.jar} files, ``streamed'' using any executable file, or accessed through language-specific APIs.
 
-The project began in 2006, by Doug Cutting, a Yahoo employee, and Mike
-Cafarella.
+The project began in 2006, by Doug Cutting, a Yahoo employee, and Mike Cafarella.
 
-The inspiration for the project was a paper from Google describing the
-Google File System (described in \textcite{ghemawat2003google}), which was
-followed by another Google paper detailing the MapReduce programming
-model, \textcite{dean2004mapreduce}.
+The inspiration for the project was a paper from Google describing the Google File System (described in \textcite{ghemawat2003google}), which was followed by another Google paper detailing the MapReduce programming model, \textcite{dean2004mapreduce}.
 
 \pkg{Hadoop} consists of a file-store component, known as Hadoop Distributed
 File System (HDFS), and a processing component, known as MapReduce.
 
-In operation, \pkg{Hadoop} splits files into blocks, then distributes them
-across nodes in a cluster (HDFS), where they are then processed by the
-node in parallel (MapReduce). This creates the advantage of data
-locality, wherein data is processed by the node they exist in.
+In operation, \pkg{Hadoop} splits files into blocks, then distributes them across nodes in a cluster (HDFS), where they are then processed by the node in parallel (MapReduce).
+This creates the advantage of data locality, wherein data is processed by the node they exist in.
 
 \pkg{Hadoop} has seen extensive industrial use as the premier big data
 platform upon its release.
 
-In recent years it has been overshadowed by \pkg{Spark}, due to the greater
-speed gains offered by \pkg{Spark} for many problem sets.
+In recent years it has been overshadowed by \pkg{Spark}, due to the greater speed gains offered by \pkg{Spark} for many problem sets.
 
 \pkg{Spark} was developed with the shortcomings of \pkg{Hadoop} in mind; Much of
 its definition is in relation to \pkg{Hadoop}, which it intended to improve
 upon in terms of speed and usability for certain
 tasks\cite{zaharia2010spark}.
 
-Its fundamental operating concept is the Resilient Distributed Dataset
-(RDD), which is immutable, and generated through external data, as well
-as actions and transformations on prior RDD's.
+Its fundamental operating concept is the Resilient Distributed Dataset (RDD), which is immutable, and generated through external data, as well as actions and transformations on prior RDD's.
 
-The RDD interface is exposed through an API in various languages,
-including \R{}, however it appears to be abandoned to some degree, having
-removed from the CRAN repository at 2020-07-10 due to failing checks.
+The RDD interface is exposed through an API in various languages, including \R{}, however it appears to be abandoned to some degree, having removed from the CRAN repository at 2020-07-10 due to failing checks.
 
 \pkg{Spark} requires a distributed storage system, as well as a cluster
 manager; both can be provided by \pkg{Hadoop}, among others.
@@ -63,30 +46,22 @@ manager; both can be provided by \pkg{Hadoop}, among others.
 \pkg{Spark} is known for possessing a fairly user-friendly API, intended to
 improve upon the MapReduce interface.
 
-Another major selling point for \pkg{Spark} is the libraries available that
-have pre-made functions for RDD's, including many iterative algorithms.
+Another major selling point for \pkg{Spark} is the libraries available that have pre-made functions for RDD's, including many iterative algorithms.
 
-The availability of broadcast variables and accumulators allow for
-custom iterative programming.
+The availability of broadcast variables and accumulators allow for custom iterative programming.
 
 \pkg{Spark} has seen major use since its introduction, with effectively all
 major big data companies having some use of \pkg{Spark}.
 
-In the \proglang{Python} world, the closest match to a high-level distributed
-system that could have statistical application is given by the python
-library \pkg{dask}\cite{rocklin2015dask}. \pkg{dask} offers
+In the \proglang{Python} world, the closest match to a high-level distributed system that could have statistical application is given by the python library \pkg{dask}\cite{rocklin2015dask}.
+\pkg{dask} offers
 dynamic task scheduling through a central task graph, as well as a set
 of classes that encapsulate standard data manipulation structures such
 as \pkg{NumPy} arrays and \pkg{Pandas} dataframes.
 
-The main difference is that the \pkg{dask} classes take advantage of
-the task scheduling, including online persistence across multiple nodes.
+The main difference is that the \pkg{dask} classes take advantage of the task scheduling, including online persistence across multiple nodes.
 \pkg{dask} is a large and mature library, catering to many use-cases,
 and exists largely in the \proglang{Python} ``Machine Learning'' culture in
-comparison to the \R{} ``Statistics'' culture. Accordingly, the focus is
-more tuned to the \proglang{Python} software developer putting existing ML models
-into a large-scale capacity. Of all the distributed systems assessed so
-far, \pkg{dask} comes the closest to what an ideal platform would
-look like for a statistician, but it misses out on the statistical
-ecosystem of \R{}, provides only a few select classes, and is tied entirely
-to the structure of the task graph.
+comparison to the \R{} ``Statistics'' culture.
+Accordingly, the focus is more tuned to the \proglang{Python} software developer putting existing ML models into a large-scale capacity.
+Of all the distributed systems assessed so far, \pkg{dask} comes the closest to what an ideal platform would look like for a statistician, but it misses out on the statistical ecosystem of \R{}, provides only a few select classes, and is tied entirely to the structure of the task graph.

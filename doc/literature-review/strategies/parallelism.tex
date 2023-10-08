@@ -1,63 +1,34 @@
 
-The central strategy for manipulating large datasets, from which most
-other patterns derive, is parallelisation. To parallelise is to engage
-in many computations simultaneously - this typically takes the form of
-either task parallelism, wherein tasks are distributed across different
-processors; data parallelism, where the same task operates on different
-pieces of data across different processors; or some mix of the two.
+The central strategy for manipulating large datasets, from which most other patterns derive, is parallelisation.
+To parallelise is to engage in many computations simultaneously - this typically takes the form of either task parallelism, wherein tasks are distributed across different processors; data parallelism, where the same task operates on different pieces of data across different processors; or some mix of the two.
 
-Parallelisation of a computational process can potentially offer
-speedups proportional to the number of processors available to take on
-work, and with recent improvements in multiprocessor hardware, the
-number of processors available is increasing over time. Most
-general-purpose personal computers produced in the past 5 years have
-multiple processor cores to enable parallel computation.
+Parallelisation of a computational process can potentially offer speedups proportional to the number of processors available to take on work, and with recent improvements in multiprocessor hardware, the number of processors available is increasing over time.
+Most general-purpose personal computers produced in the past 5 years have multiple processor cores to enable parallel computation.
 
 Parallelism can afford major speedups, albeit with certain limitations.
-Amdahl's law, formulated in 1967, aims to capture the speedup
-limitations, with a model derived from the argument given below in
-\cref{eq:amdahlsform}\cites{amdahl1967law,gustafson1988law}:
+Amdahl's law, formulated in 1967, aims to capture the speedup limitations, with a model derived from the argument given below in \cref{eq:amdahlsform}\cites{amdahl1967law,gustafson1988law}:
 
 \eq{amdahlsform}
 
 Where,
 
-\begin{description}
-	\item[Speedup] total speedup of whole task
-	\item[s] time spend by serial processor on inherently serial part of program
-	\item[p] time spent by serial processor on parallelisable part of program
-	\item[N] number of processors
-\end{description}
+\begin{description} \item[Speedup] total speedup of whole task \item[s] time spend by serial processor on inherently serial part of program \item[p] time spent by serial processor on parallelisable part of program \item[N] number of processors \end{description}
 
-The implication is that speedup of an entire task when parallelised is
-granted only through the portion of the task that is otherwise
-constrained by singular system resources, at the proportion of execution
-time spent in that task. Thus a measure of skepticism is contained in
-Amdahl's argument, with many tasks predicted to show no benefit to
-parallelise - and in reality, some likely to slow down with increased
-overhead given in parallelisation.
+The implication is that speedup of an entire task when parallelised is granted only through the portion of the task that is otherwise constrained by singular system resources, at the proportion of execution time spent in that task.
+Thus a measure of skepticism is contained in Amdahl's argument, with many tasks predicted to show no benefit to parallelise - and in reality, some likely to slow down with increased overhead given in parallelisation.
 
-The major response to the skepticism of Amdahl's law is given by
-Gustafson's law, generated from timing results in a highly parallelised
-system. Gustafson's law presents a scaled speedup as per
-\cref{eq:gustafsonsform}
+The major response to the skepticism of Amdahl's law is given by Gustafson's law, generated from timing results in a highly parallelised system.
+Gustafson's law presents a scaled speedup as per \cref{eq:gustafsonsform}
 
 \eq{gustafsonsform}
 
 Where,
 
-\begin{description}
-	\item[s'] serial time spent on the parallel system
-	\item[p'] parallel time spent on the parallel system
-\end{description}
+\begin{description} \item[s'] serial time spent on the parallel system \item[p'] parallel time spent on the parallel system \end{description}
 
-This law implies far higher potential parallel speedup, varying linearly
-with the number of processors.
+This law implies far higher potential parallel speedup, varying linearly with the number of processors.
 
-An example of an ideal task for parallelisation is the category of
-embarrassingly parallel workload. Such a problem is one where the
-separation into parallel tasks is trivial, such as performing the same
-operation over a dataset independently\cite{foster1995parallel}. Many
-problems in statistics fall into this category, such as tabulation,
-monte-carlo simulation and many matrix manipulation tasks.
+An example of an ideal task for parallelisation is the category of embarrassingly parallel workload.
+Such a problem is one where the separation into parallel tasks is trivial, such as performing the same operation over a dataset independently\cite{foster1995parallel}.
+Many problems in statistics fall into this category, such as tabulation, monte-carlo simulation and many matrix manipulation tasks.
 

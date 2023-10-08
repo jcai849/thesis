@@ -1,140 +1,80 @@
 \subsubsection{Introduction}
 
-Given the simplicity and promise of flexibility as demonstrated in the
-above section,
-further experimentation around the concept is undertaken and documented herein.
-The experiments are built successively upon its prior, with the aim of rapidly
-approximating a functioning prototype via experimentation.
+Given the simplicity and promise of flexibility as demonstrated in the above section, further experimentation around the concept is undertaken and documented herein.
+The experiments are built successively upon its prior, with the aim of rapidly approximating a functioning prototype via experimentation.
 
 \subsubsection{General Function on Single Chunk}
 
-While the RPC-based architecture as described in \cref{sec:mw}
-had significant limitations, a particularly powerful construct was the higher
-order function \code{distributed-do-call}, which took functions as arguments
-to be performed on the distributed chunks.
+While the RPC-based architecture as described in \cref{sec:mw} had significant limitations, a particularly powerful construct was the higher order function \code{distributed-do-call}, which took functions as arguments to be performed on the distributed chunks.
 
-This construct is powerful in that it can serve as the basis for nearly every
-function on distributed chunks, and this section serves to document experiments
-relating to the creation of a general function that will perform a function at
-the node hosting a particular chunk.
+This construct is powerful in that it can serve as the basis for nearly every function on distributed chunks, and this section serves to document experiments relating to the creation of a general function that will perform a function at the node hosting a particular chunk.
 
 \subsubsection{With Value Return}\label{sec:val-ret}
 
-Regardless of performing the actual function, some means of returning the value
-of a function must be provided; this section focuses on getting a function to
-be performed on a server node, with the result send back to the client.
+Regardless of performing the actual function, some means of returning the value of a function must be provided; this section focuses on getting a function to be performed on a server node, with the result send back to the client.
 Listings of an implementation of these concepts are given by \cref{lst:vr-client,lst:vr-server}.
 
 \src{vr-client}{Value returning client}
 
 \src{vr-server}{Value returning server}
 
-To this end, the client node has a function defined as \code{do-fun-at}, which takes in any function, and the ID of a chunk to perform the
-function on.
+To this end, the client node has a function defined as \code{do-fun-at}, which takes in any function, and the ID of a chunk to perform the function on.
 An implementation is given by \cref{lst:vr-client}.
 \code{do-fun-at} first composes a message to send to the chunk's queue, being a
 list consisting of the function, the chunk name, and a return address, which
 contains sufficient information for the node performing the operation on the
 chunk to send the results back to via socket connection.
-The message is then serialised and pushed to the chunk's queue, and the
-requesting node sits listening on the socket that it has set up and advertised.
+The message is then serialised and pushed to the chunk's queue, and the requesting node sits listening on the socket that it has set up and advertised.
 
-On the server node end, it sits waiting on its preassigned queues, each of
-which correspond to a chunk that it holds. 
-Upon a message coming through, it runs a \code{do-fun} function on the
-message, which in turn runs the function on the chunk named in the message. 
+On the server node end, it sits waiting on its preassigned queues, each of which correspond to a chunk that it holds.
+Upon a message coming through, it runs a \code{do-fun} function on the message, which in turn runs the function on the chunk named in the message.
 An implementation is given by \cref{lst:vr-server}.
-It then creates a socket connected to the clients location as advertised in
-the message, and sends the serialised results through.
+It then creates a socket connected to the clients location as advertised in the message, and sends the serialised results through.
 
-A problem with this approach is the fickle aspect of creating and removing
-sockets for every request; beyond the probability of missed connections and
-high downtime due to client waiting on a response, \R{} only has a very limited
-number of connections available to it, so it is impossible to scale beyond that
-limit.
+A problem with this approach is the fickle aspect of creating and removing sockets for every request; beyond the probability of missed connections and high downtime due to client waiting on a response, \R{} only has a very limited number of connections available to it, so it is impossible to scale beyond that limit.
 
 \subsubsection{With Assignment}
 
-Assigning the results of distributed operation to a new chunk is a far more
-common operation in a distributed system in order to minimise data movement.
-This will involve specifying additional directions as part of the request
-message, in order to specify that assignment, and not merely the operation, is
-desired.
+Assigning the results of distributed operation to a new chunk is a far more common operation in a distributed system in order to minimise data movement.
+This will involve specifying additional directions as part of the request message, in order to specify that assignment, and not merely the operation, is desired.
 
-It will be clear from the previous example that the problem of point-to-point
-data movement, somewhat solved via direct sockets in that previous example, is
-largely an implementation issue, and a problem entirely distinct to the
-remainder of the logic of the system.
-From this experiment onwards, the mechanism of data movement is abstracted out,
-with the assumption that there will exist some additional tool that can serve
-as a sufficient backend for data movement.
-In reality, until that tool is developed, data will be sent through redis; not
-a solution, but something that can be ignored without loss of generality.
+It will be clear from the previous example that the problem of point-to-point data movement, somewhat solved via direct sockets in that previous example, is largely an implementation issue, and a problem entirely distinct to the remainder of the logic of the system.
+From this experiment onwards, the mechanism of data movement is abstracted out, with the assumption that there will exist some additional tool that can serve as a sufficient backend for data movement.
+In reality, until that tool is developed, data will be sent through redis; not a solution, but something that can be ignored without loss of generality.
 
-The actual creation of a chunk ID in itself demands a system-wide unique
-identifier; this is a solved problem with a central message server, in redis
-providing an \code{INCR} operation, which can be used to generate a new chunk
-ID that is globally unique.
+The actual creation of a chunk ID in itself demands a system-wide unique identifier; this is a solved problem with a central message server, in redis providing an \code{INCR} operation, which can be used to generate a new chunk ID that is globally unique.
 
-The name origination and option of blocking until a chunk is formed will
-dictate different algorithms in the creation of the distributed chunk object,
-as well as the structure of the distributed chunk object.
+The name origination and option of blocking until a chunk is formed will dictate different algorithms in the creation of the distributed chunk object, as well as the structure of the distributed chunk object.
 \cref{tab:name-orig-block} shows potential forms these may take.
-In addition, the ``job ID'' referred to in the table may
-take the concrete form of a simple key-value store, with the key being passed
-and monitored by the client node.
+In addition, the ``job ID'' referred to in the table may take the concrete form of a simple key-value store, with the key being passed and monitored by the client node.
 
 \tab{name-orig-block}{Description of Algorithms and Data Structure of chunk
 	reference object, by blocking status in creation, and origination of
 	chunk ID.}
 
-While it is clearly more straightforward for a client node to originate a chunk
-ID, with blocking, the opposite will possibly be the most flexible;
-server-originated chunk ID with no blocking.
-This is because the very existence of a chunk is presupposed when a client
-node originates a chunk ID, while that may not be true in reality.
-For instance, the result may be an unexpected \code{NULL}, zero-length
-vector, or even an error.
-In addition, the server-originated chunk ID with no blocking has every feature
-common to that of a future, from the future package; it can be checked for
-completion, and accessed as a value, allowing for many asynchronous and
-parallel operations.
+While it is clearly more straightforward for a client node to originate a chunk ID, with blocking, the opposite will possibly be the most flexible; server-originated chunk ID with no blocking.
+This is because the very existence of a chunk is presupposed when a client node originates a chunk ID, while that may not be true in reality.
+For instance, the result may be an unexpected \code{NULL}, zero-length vector, or even an error.
+In addition, the server-originated chunk ID with no blocking has every feature common to that of a future, from the future package; it can be checked for completion, and accessed as a value, allowing for many asynchronous and parallel operations.
 
 \subsubsection{Client-Originated Chunk ID}
 
-The logic of the client in assigning the result of a distributed operation on a
-chunk is largely encapsulated in a new function, \code{assign-fun-at}, as
-demonstrated in \cref{lst:ro-ass-client}.
+The logic of the client in assigning the result of a distributed operation on a chunk is largely encapsulated in a new function, \code{assign-fun-at}, as demonstrated in \cref{lst:ro-ass-client}.
 
 \src{ro-ass-client}{Assigned result on client implementation}
 
-The function attains a chunk ID, generates a unique return address, sends a
-message to the operand chunk queue, and waits for a reply, before returning the
-id as a string belonging to the ``chunk'' class.
-There is more information in the message relative the the function-only
-message of \cref{sec:val-ret}; the chunk ID, request for acknowledgement
-of completion, return address, as well as an operation specifier to direct the
-intent of the message.
+The function attains a chunk ID, generates a unique return address, sends a message to the operand chunk queue, and waits for a reply, before returning the id as a string belonging to the ``chunk'' class.
+There is more information in the message relative the the function-only message of \cref{sec:val-ret}; the chunk ID, request for acknowledgement of completion, return address, as well as an operation specifier to direct the intent of the message.
 
-The server, as shown in \cref{lst:ro-ass-server}, consists in a loop of
-reading the message and performing an operation dependent on the operation
-specifier of the message.
-For an operation of \code{DOFUN}, all that is run is a \code{do-call} on
-the function and chunk specified, with a message being returned to the
-client with the value of the \code{do-call}.
-An operation of \code{ASSIGN} runs the same as \code{DOFUN}, with the
-addition of assigning the value to the ID as passed in the message, adding
-the ID to the array of queues to monitor, and potentially sending
-acknowledgement back to the client node.
+The server, as shown in \cref{lst:ro-ass-server}, consists in a loop of reading the message and performing an operation dependent on the operation specifier of the message.
+For an operation of \code{DOFUN}, all that is run is a \code{do-call} on the function and chunk specified, with a message being returned to the client with the value of the \code{do-call}.
+An operation of \code{ASSIGN} runs the same as \code{DOFUN}, with the addition of assigning the value to the ID as passed in the message, adding the ID to the array of queues to monitor, and potentially sending acknowledgement back to the client node.
 
 \src{ro-ass-server}{Assigned result on server implementation}
 
 \subsubsection{Server-Originated chunk ID}
 
-By this point the client (\cref{lst:wo-ass-client}) and server (listing
-\cref{lst:wo-ass-server}) come to increasingly resemble each other, and most of
-the functions are shared, as in \cref{lst:wo-ass-chunk},
-\cref{lst:wo-ass-shared}, and \cref{lst:wo-ass-messages}.
+By this point the client (\cref{lst:wo-ass-client}) and server (listing \cref{lst:wo-ass-server}) come to increasingly resemble each other, and most of the functions are shared, as in \cref{lst:wo-ass-chunk}, \cref{lst:wo-ass-shared}, and \cref{lst:wo-ass-messages}.
 
 \src{wo-ass-client}{Worker-assigned client}
 \src{wo-ass-server}{Worker-assigned server}
@@ -142,22 +82,12 @@ the functions are shared, as in \cref{lst:wo-ass-chunk},
 \src{wo-ass-shared}{Worker-assigned shared components}
 \src{wo-ass-messages}{Worker-assigned messages}
 
-The principal mechanism of action is best demonstrated via a logical time
-diagram, given by \cref{fig:chunk-assign}, following a Lamport form of
-event ordering\cite{lamport1978ordering}.
-The first message, shown by the \textbf{a} arrow in the diagram, involves a
-client sending a message to a server regarding the request, including the job
-ID naming a queue in a shared information reference for the server to later
-place the chunk ID into.
+The principal mechanism of action is best demonstrated via a logical time diagram, given by \cref{fig:chunk-assign}, following a Lamport form of event ordering\cite{lamport1978ordering}.
+The first message, shown by the \textbf{a} arrow in the diagram, involves a client sending a message to a server regarding the request, including the job ID naming a queue in a shared information reference for the server to later place the chunk ID into.
 
-Optionally, the client can immediately create a chunk object with no direct
-knowledge of the chunk ID, holding the job ID at the information reference
-instead, and the client continues whatever work it was doing.
-Only when the chunk ID is required, the chunk object, triggers a blocking pop
-on its associated information reference queue, which the server may
-at any point push the chunk ID to.
-The chunk object then has the associate the ID associated with it, and the
-information reference queue can be deleted.
+Optionally, the client can immediately create a chunk object with no direct knowledge of the chunk ID, holding the job ID at the information reference instead, and the client continues whatever work it was doing.
+Only when the chunk ID is required, the chunk object, triggers a blocking pop on its associated information reference queue, which the server may at any point push the chunk ID to.
+The chunk object then has the associate the ID associated with it, and the information reference queue can be deleted.
 
 \fig[h]{chunk-assign}{Logical time diagram of chunk assignment for server-originated chunk ID}
 

@@ -9,11 +9,10 @@ In an asynchronous system, chunks may exist in varying states of temporal and sp
 There are four possible relational states that a dependent chunk may exist in with respect to a worker node.
 The states include:
 
-\begin{itemize}
-\item Prerequisite locally available (\cref{fig:comm-la}).
-\item Prerequisite locally pending (\cref{fig:comm-lp}).
-\item Prerequisite externally available.
-\item Prerequisite externally pending (\cref{fig:comm-ep}).
+\begin{itemize} \item Prerequisite locally available (\cref{fig:comm-la}).
+	\item Prerequisite locally pending (\cref{fig:comm-lp}).
+	\item Prerequisite externally available.
+	\item Prerequisite externally pending (\cref{fig:comm-ep}).
 \end{itemize}
 
 \widefig{comm-la}{Prerequisite locally available}
@@ -40,7 +39,6 @@ An illustration is given in the context of local variables, with \cref{lst:mutab
 
 \src[Rout]{mutability-actual}{Result of object modification when using mutable reference.}
 
-
 This behaviour can be led to an acceptable change by inverting the mutability of distributed object references and their contents, as depicted in \cref{fig:modifyrefprop}.
 
 \widefig{modifyrefprop}{Reference modification as an emulation of object modification as proposed.}
@@ -62,7 +60,7 @@ Each chunk comes into being either from manipulation of other chunks, or direct 
 In this fashion, a graph of dependencies can be defined over the set of chunks that exist as a part of the system at any one point in time.
 Each node in this graph may represent a single chunk, with directed edges pointing from each node to the nodes representing that chunk's prerequisites.
 This can be represented as a diagram, or in textual notation, with makefile rules being a popular example\cite{shal2009build}.
-The terminology of makefiles will be used in this document for clarity, with 'target' referring to a node representing some chunk that depends on any number of chunks, themselves represented by 'prerequisite' nodes. 
+The terminology of makefiles will be used in this document for clarity, with 'target' referring to a node representing some chunk that depends on any number of chunks, themselves represented by 'prerequisite' nodes.
 The connection with the diagram has 'target' nodes pointing back to their 'prerequisite' nodes.
 A 'prerequisite' may also be referred to as a 'dependency'.
 
@@ -76,13 +74,14 @@ A valuable use of the graph is to relate referencing information to nodes on the
 If a chunk is referenced in the system, that is reflected by some default marking on the graph.
 Upon garbage collection of a chunk in the relevant \R{} process referring to it, the node may be marked as unreferenced, in turn triggering the global deletion of all data relating to a chunk in the system.
 
-From the above descriptions, a simple method for garbage collection necessarily falls out:
-Chunk operations generate new references, and there may be multiple references to a single mutable object.
+From the above descriptions, a simple method for garbage collection necessarily falls out: Chunk operations generate new references, and there may be multiple references to a single mutable object.
 Garbage collection of a chunk reference, implying non-necessity of the chunk, should lead to garbage collection of the underlying chunk.
 This may be implemented very simply through the following manner: the chunk generation DAG, as iteratively created with each computation step, is stored with the chunk reference.
 An example of such a DAG is given in \cref{fig:gc}
 
-\widefig{gc}{Chunk lineage as stored with individual chunks. Once chunk has proven existence, the lineage may be cleared and garbage collected.}
+\widefig{gc}{Chunk lineage as stored with individual chunks.
+	Once chunk has proven existence, the lineage may be cleared and garbage collected.
+}
 
 When the chunks have been proven computed, as through an \code{emerge}, the graph may be cleared.
 The nodes in the graph which are no longer accessible are cleared by \R{}'s garbage collector, and are directly tied to a deletion method of the underlying chunks.

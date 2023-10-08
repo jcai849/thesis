@@ -1,69 +1,34 @@
-Statistics is concerned with the analysis of datasets, which are
-continually growing bigger, and at a faster rate; the global data-sphere
-is expected to grow from 33 zettabytes in 2018 to 175 zettabytes by
-2025\cite{rydning2018digitization}.
+Statistics is concerned with the analysis of datasets, which are continually growing bigger, and at a faster rate; the global data-sphere is expected to grow from 33 zettabytes in 2018 to 175 zettabytes by 2025\cite{rydning2018digitization}.
 
-The scale of this growth is staggering, and continues to outpace
-attempts to engage meaningfully with such large datasets. By one
-measure, information storage capacity has grown at a compound annual
-rate of 23\% per capita over recent decades\cite{hilbert2011world}. In
-spite of such massive growths in storage capacity, they are far
-outstripped by computational capacity over time \cite{fontana2018moore}.
-Specifically, the number of components comprising an integrated circuit
-for computer processing have been exponentially increasing, with an
-additional exponential decrease in their cost\cite{moore1975progress}.
-This observation, known as Moore's Law, has been the root cause for much
-of computational advancement over the past half-century. The
-corresponding law for computer storage posits increase in bit density of
-storage media along with corresponding decreases in price, which has
-been found to track lower than expected by Moore's law metrics. Such
-differentials, between the generation of data, computational capacity
-for data processing, and constraints on data storage, have forced new
-techniques in computing for the analysis of large-scale data.
+The scale of this growth is staggering, and continues to outpace attempts to engage meaningfully with such large datasets.
+By one measure, information storage capacity has grown at a compound annual rate of 23\% per capita over recent decades\cite{hilbert2011world}.
+In spite of such massive growths in storage capacity, they are far outstripped by computational capacity over time \cite{fontana2018moore}.
+Specifically, the number of components comprising an integrated circuit for computer processing have been exponentially increasing, with an additional exponential decrease in their cost\cite{moore1975progress}.
+This observation, known as Moore's Law, has been the root cause for much of computational advancement over the past half-century.
+The corresponding law for computer storage posits increase in bit density of storage media along with corresponding decreases in price, which has been found to track lower than expected by Moore's law metrics.
+Such differentials, between the generation of data, computational capacity for data processing, and constraints on data storage, have forced new techniques in computing for the analysis of large-scale data.
 
-The architecture of a computer further constrains the required approach
-for analysis of big data. Most general-purpose PC's are modelled by a
-random-access stored-program machine, wherein a program and data are
-stored in registers, and data must move in and out of registers to a
-processing element, most commonly a Central Processing Unit (CPU). The
-movement takes at least one cycle of a computer's clock, thereby leading
-to larger processing time for larger data.
+The architecture of a computer further constrains the required approach for analysis of big data.
+Most general-purpose PC's are modelled by a random-access stored-program machine, wherein a program and data are stored in registers, and data must move in and out of registers to a processing element, most commonly a Central Processing Unit (CPU).
+The movement takes at least one cycle of a computer's clock, thereby leading to larger processing time for larger data.
 
-Reality dictates many different forms of data storage, with a Memory
-Hierarchy ranking different forms of computer storage based on their
-response times\cite{toy1986computer}. The volatility of memory (whether
-or not it persists with no power) and the expense of faster storage
-forms dictates the design of commodity computers. An example of a
-standard build is given by the Dell Optiplex 5080, with 16Gb of Random
-Access Memory (RAM) for fast main memory, to be used as a program data
-store; and a 256Gb Solid State Drive (SSD) for slow long-term disk
-storage\cite{cornell2021standardcomp}. For reasonable speed when
-accessing data, a program would prioritise main memory over disk storage
-- something not always possible when dataset size exceeds memory
-capacity, larger-than-memory datasets being a central issue in big data.
-A program that is primarily slowed by data movement is described as
-I/O-bound, or memory-bound. Much of the issue in modelling large data is
-the I/O-bound nature of much statistical computation.
+Reality dictates many different forms of data storage, with a Memory Hierarchy ranking different forms of computer storage based on their response times\cite{toy1986computer}.
+The volatility of memory (whether or not it persists with no power) and the expense of faster storage forms dictates the design of commodity computers.
+An example of a standard build is given by the Dell Optiplex 5080, with 16Gb of Random Access Memory (RAM) for fast main memory, to be used as a program data store; and a 256Gb Solid State Drive (SSD) for slow long-term disk storage\cite{cornell2021standardcomp}.
+For reasonable speed when accessing data, a program would prioritise main memory over disk storage - something not always possible when dataset size exceeds memory capacity, larger-than-memory datasets being a central issue in big data.
+A program that is primarily slowed by data movement is described as I/O-bound, or memory-bound.
+Much of the issue in modelling large data is the I/O-bound nature of much statistical computation.
 
-The complement to I/O-bound computation is computation-bound,
-wherein the speed (or lack thereof) is determined primarily through the
-performance of the processing unit. This is less significant in
-large-scale applications than memory-bound, but remains an important
-design consideration when the number of computations scale with the
-dataset size in any nontrivial algorithm with greater than
-\bigO{1} complexity.
+The complement to I/O-bound computation is computation-bound, wherein the speed (or lack thereof) is determined primarily through the performance of the processing unit.
+This is less significant in large-scale applications than memory-bound, but remains an important design consideration when the number of computations scale with the dataset size in any nontrivial algorithm with greater than \bigO{1} complexity.
 
-The solution to both memory- and computation-bound problems has largely
-been that of using more hardware; more memory, and more CPU cores. Even
-with this in place, more complex software is required to manage the more
-complex systems. As an example, with additional CPU cores, constructs
-such as multithreading are used to perform processing across multiple
-CPU cores simultaneously (in parallel).
+The solution to both memory- and computation-bound problems has largely been that of using more hardware; more memory, and more CPU cores.
+Even with this in place, more complex software is required to manage the more complex systems.
+As an example, with additional CPU cores, constructs such as multithreading are used to perform processing across multiple CPU cores simultaneously (in parallel).
 
-The means for writing software for large-scale data is typically through
-the use of a structured, high-level programming language. Of the myriad
-programming languages, the most widespread language used for statistics
-is R. As of 2023, \R{} ranks {18} in the TIOBE index.
+The means for writing software for large-scale data is typically through the use of a structured, high-level programming language.
+Of the myriad programming languages, the most widespread language used for statistics is R.
+As of 2023, \R{} ranks {18} in the TIOBE index.
 \R{} also has a special relevance for this thesis, having been
 initially developed at the University of Auckland by Ross Ihaka and
 Robert Gentleman in 1991\cite{ihaka1996r}.

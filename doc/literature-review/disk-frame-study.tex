@@ -1,9 +1,8 @@
 \subsection{Introduction}\label{sec:disk-frame-introduction}
 
 \pkg{disk.frame} works through two main principles: chunking, and generic
-function implementation (alongside special functions). Another component
-that isn't mentioned in the explanation, but is crucial to performance,
-is the parallelisation offered transparently by the package.
+function implementation (alongside special functions).
+Another component that isn't mentioned in the explanation, but is crucial to performance, is the parallelisation offered transparently by the package.
 
 \pkg{disk.frame} is developed by Dai ZJ.
 
@@ -12,172 +11,94 @@ is the parallelisation offered transparently by the package.
 \subsubsection{Chunk Representation}\label{sec:chunk-representation}
 
 disk.frames are actually references to numbered \file{fst} files in a
-folder, with each file serving as a chunk. This is made use of through
-manipulation of each chunk separately, sparing RAM from dealing with a
-single monolithic file\cite{zj19:_inges_data}.
+folder, with each file serving as a chunk.
+This is made use of through manipulation of each chunk separately, sparing RAM from dealing with a single monolithic file\cite{zj19:_inges_data}.
 
 \pkg{fst} is a means of serialising dataframes, as an alternative to \file{RDS}
-files\cite{klik19}. It makes use of an extremely fast compression
-algorithm developed at facebook, with the \R{} package enabling fst written on in \cref{sec:fst}.
+files\cite{klik19}.
+It makes use of an extremely fast compression algorithm developed at facebook, with the \R{} package enabling fst written on in \cref{sec:fst}.
 
-From inspection of the source code, \pkg{data.table} manipulations are enabled
-directly through transformations of each chunk to data.tables through
-the \pkg{fst} backend.
+From inspection of the source code, \pkg{data.table} manipulations are enabled directly through transformations of each chunk to data.tables through the \pkg{fst} backend.
 
 \subsubsection{Chunk Usage}\label{sec:making-chunks}
 
-Chunks are created transparently by \pkg{disk.frame}; the user can
-theoretically remain ignorant of chunking. In \R{}, the disk.frame object
-serves as a reference to the chunk files. Operations on disk.frame
-objects are by default lazy, waiting until the
-\code{collect} command to perform the
-collected operations and pull the chunks into \R{} as a single data.table.
-As noted in \cite{zj19:_simpl_verbs_lazy_evaluat}, this form of lazy
-evaluation is similar to the implementation of \pkg{sparklyr}.
+Chunks are created transparently by \pkg{disk.frame}; the user can theoretically remain ignorant of chunking.
+In \R{}, the disk.frame object serves as a reference to the chunk files.
+Operations on disk.frame objects are by default lazy, waiting until the \code{collect} command to perform the collected operations and pull the chunks into \R{} as a single data.table.
+As noted in \cite{zj19:_simpl_verbs_lazy_evaluat}, this form of lazy evaluation is similar to the implementation of \pkg{sparklyr}.
 
-Chunks are by default assigned rows through hashing the source rows, but
-can be composed of individual levels of some source column, which can
-provide an enormous efficiency boost for grouped operations, where the
-computation visits the data, rather than the other way around.
+Chunks are by default assigned rows through hashing the source rows, but can be composed of individual levels of some source column, which can provide an enormous efficiency boost for grouped operations, where the computation visits the data, rather than the other way around.
 
-Chunks can be manipulated individually, having individual ID's, through
-\code{get-chunk}, as well as added or
-removed from additional \file{fst} files directly, through
-\code{add-chunk} and
-\code{remove-chunk}, respectively.
+Chunks can be manipulated individually, having individual ID's, through \code{get-chunk}, as well as added or removed from additional \file{fst} files directly, through \code{add-chunk} and \code{remove-chunk}, respectively.
 
-In a computationally intensive procedure, the rows can be rearranged
-between chunks based on a particular column level as a hash, through
-functions such as \code{rechunk}.
+In a computationally intensive procedure, the rows can be rearranged between chunks based on a particular column level as a hash, through functions such as \code{rechunk}.
 
 \subsection{Functions}\label{sec:functions}
 
-The disk.frame object has standard procedures for construction and
-access. disk.frame can be constructed from data.frames and data.tables
+The disk.frame object has standard procedures for construction and access.
+disk.frame can be constructed from data.frames and data.tables
 through \code{as-disk-frame}, single or
 multiple \file{csv} files through
 \code{csv-to-disk-frame}, as well as \file{zip}
-files holding \file{csv} files. Time can be saved later on through the
-application of functions to the data during the conversion, as well as
-specifying what to chunk by, keeping like data together. The process of
-breaking up data into chunks is referred to by \pkg{disk.frame} as
-``sharding'', enabled for data.frames and data.tables through the
-\code{shard} function.
+files holding \file{csv} files.
+Time can be saved later on through the application of functions to the data during the conversion, as well as specifying what to chunk by, keeping like data together.
+The process of breaking up data into chunks is referred to by \pkg{disk.frame} as ``sharding'', enabled for data.frames and data.tables through the \code{shard} function.
 
-After creating a disk.frame object, functions can be applied directly to
-all chunks invisibly through using the
-\code{cmap} family of functions in a form
-similar to base \R{} \code{apply}
+After creating a disk.frame object, functions can be applied directly to all chunks invisibly through using the \code{cmap} family of functions in a form similar to base \R{} \code{apply}
 
-A highly publicised aspect of \pkg{disk.frame} is the functional
-cross-compatibility with \pkg{dplyr} verbs. These operate on disk.frame
-objects lazily, and are applied through translation by \pkg{disk.frame}; they
-are just S3 methods defined for the disk.frame class. They are fully
-functioning, with the exception of \code{group-by} (and its
-data.table cognate, \code{data-table-by}, considered in more detail in
-\cref{sec:spec-cons-group-by}).
+A highly publicised aspect of \pkg{disk.frame} is the functional cross-compatibility with \pkg{dplyr} verbs.
+These operate on disk.frame objects lazily, and are applied through translation by \pkg{disk.frame}; they are just S3 methods defined for the disk.frame class.
+They are fully functioning, with the exception of \code{group-by} (and its data.table cognate, \code{data-table-by}, considered in more detail in \cref{sec:spec-cons-group-by}).
 
-Beyond higher-order functions and \pkg{dplyr} or \pkg{data.table} analogues for data
-manipulation, the direct modelling function of
-\code{dfglm} is implemented to allow for
-fitting glms to the data. From inspection of the source code, the
-function is a utility wrapper for streaming \pkg{disk.frame} data by default
-into \pkg{bigglm}, a \pkg{biglm} derivative.
+Beyond higher-order functions and \pkg{dplyr} or \pkg{data.table} analogues for data manipulation, the direct modelling function of \code{dfglm} is implemented to allow for fitting glms to the data.
+From inspection of the source code, the function is a utility wrapper for streaming \pkg{disk.frame} data by default into \pkg{bigglm}, a \pkg{biglm} derivative.
 
 \subsubsection{Grouping}\label{sec:spec-cons-group-by}
 
-For a select set of functions, \pkg{disk.frame} offers a transparent grouped
-\code{summarise}. These are mainly composed
-of simple statistics such as \code{mean},
-\code{min}, etc.
+For a select set of functions, \pkg{disk.frame} offers a transparent grouped \code{summarise}.
+These are mainly composed of simple statistics such as \code{mean}, \code{min}, etc.
 
-For other grouped functions, there is more complexity involved, due to
-the chunked nature of \pkg{disk.frame}. When functions are applied, they are
-by default applied to each chunk. If groups don't correspond injectively
-to chunks, then the syntactic chunk-wise summaries and their derivatives
-may not correspond to the semantic group-wise summaries expected. For
-example, summarising the median is performed by using a
-median-of-medians method; finding the overall median of all chunks'
-respective medians. Therefore, computing grouped medians in \pkg{disk.frame}
-result in estimates only -- this is also true of other software, such
-as \pkg{Spark}, as noted in \cite{zj19:_group_by}.
+For other grouped functions, there is more complexity involved, due to the chunked nature of \pkg{disk.frame}.
+When functions are applied, they are by default applied to each chunk.
+If groups don't correspond injectively to chunks, then the syntactic chunk-wise summaries and their derivatives may not correspond to the semantic group-wise summaries expected.
+For example, summarising the median is performed by using a median-of-medians method; finding the overall median of all chunks' respective medians.
+Therefore, computing grouped medians in \pkg{disk.frame} result in estimates only -- this is also true of other software, such as \pkg{Spark}, as noted in \cite{zj19:_group_by}.
 
-Grouped functions are thereby divided into one-stage and two-stage;
-one-stage functions ``just work'' with the
-\code{group-by} function, and two-stage
-functions requiring manual chunk aggregation (using
-\code{chunk-group-by} and \code{chunk-summarize}), followed by an
-overall collected aggregation (using regular
-\code{group-by} and
-\code{summarise}). \Textcite{zj19:_group_by}
+Grouped functions are thereby divided into one-stage and two-stage; one-stage functions ``just work'' with the \code{group-by} function, and two-stage functions requiring manual chunk aggregation (using \code{chunk-group-by} and \code{chunk-summarize}), followed by an overall collected aggregation (using regular \code{group-by} and \code{summarise}).
+\Textcite{zj19:_group_by}
 points out that explicit two-stage approach is similar to a MapReduce
 operation.
 
-Custom one-stage functions can be created, where user-defined chunk
-aggregation and collected aggregation functions are converted into
-one-stage functions by
-disk.frame\cite{zj19:_custom_one_stage_group_by_funct}. These take
-the forms
-\code{chunk-agg} and
-\code{collected-agg}
-respectively, where ``fn'' is used as the name of the function,
-and appended to the defined name by \pkg{disk.frame}, through
-meta-programming.
+Custom one-stage functions can be created, where user-defined chunk aggregation and collected aggregation functions are converted into one-stage functions by disk.frame\cite{zj19:_custom_one_stage_group_by_funct}.
+These take the forms \code{chunk-agg} and \code{collected-agg} respectively, where ``fn'' is used as the name of the function, and appended to the defined name by \pkg{disk.frame}, through meta-programming.
 
-To de-complicate the situation, but add one-off computational overhead,
-chunks can be rearranged to correspond to groups, thereby allowing for
-one-stage summaries just through
-\code{chunk-summarize}, and exact
-computations of group medians.
+To de-complicate the situation, but add one-off computational overhead, chunks can be rearranged to correspond to groups, thereby allowing for one-stage summaries just through \code{chunk-summarize}, and exact computations of group medians.
 
 \subsection{Parallelism}\label{sec:parallelisation}
 
-An essential component of \pkg{disk.frame}'s speed is parallelisation; as
-chunks are conceptually separate entities, function application to each
-can take place with no side effects to other chunks, and can therefore
-be trivially parallelised.
+An essential component of \pkg{disk.frame}'s speed is parallelisation; as chunks are conceptually separate entities, function application to each can take place with no side effects to other chunks, and can therefore be trivially parallelised.
 
-For parallelisation, future is used as the backend package, with most
-function mappings on chunks making use of \code{future-lapply}
-to have each chunk mapped with the intended function in parallel. Future
-is a package with complexities in its own right; I have written more on
-future in \cref{sec:future-detail}
+For parallelisation, future is used as the backend package, with most function mappings on chunks making use of \code{future-lapply} to have each chunk mapped with the intended function in parallel.
+Future is a package with complexities in its own right; I have written more on future in \cref{sec:future-detail}
 
-future is initialised with access to cores through the wrapper function,
-\code{setup-disk-frame}\cite{zj19:_key}.
-This sets up the correct number of workers, with the minimum of workers
-and chunks being processed in parallel.
+future is initialised with access to cores through the wrapper function, \code{setup-disk-frame}\cite{zj19:_key}.
+This sets up the correct number of workers, with the minimum of workers and chunks being processed in parallel.
 
-An important aspect to parallelisation through future is that, for
-purposes of cross-platform compatibility, new \R{} processes are started
-for each worker\cite{zj19:_using}. Each process will possess its own
-environment, and \pkg{disk.frame} makes use of future's detection capabilities
-to capture external variables referred to in calls, and send them to
-each worker.
+An important aspect to parallelisation through future is that, for purposes of cross-platform compatibility, new \R{} processes are started for each worker\cite{zj19:_using}.
+Each process will possess its own environment, and \pkg{disk.frame} makes use of future's detection capabilities to capture external variables referred to in calls, and send them to each worker.
 
 \subsection{Relevance}\label{sec:relevance}
 
 \pkg{disk.frame} serves as an example of a very well-received and used package
-for larger-than-RAM processing. The major keys to its success have been
-its chart-topping performance, even in comparison with \pkg{dask} and \proglang{Julia},
-and its user-friendliness enabled through procedural transparency and
-well-articulated concepts.
+for larger-than-RAM processing.
+The major keys to its success have been its chart-topping performance, even in comparison with \pkg{dask} and \proglang{Julia}, and its user-friendliness enabled through procedural transparency and well-articulated concepts.
 
 \pkg{disk.frame} as a concept also lends itself well to extension:
 
-The storage of chunks is currently file-based and managed by an
-operating system; if fault tolerance was desired, HDFS support for chunk
-storage would likely serve this purpose well.
+The storage of chunks is currently file-based and managed by an operating system; if fault tolerance was desired, HDFS support for chunk storage would likely serve this purpose well.
 
-Alternatively, OS-based file manipulation could be embraced in greater
-depth, focussing on interaction with faster external tools for file
-manipulation; this would lead to issues with portability, but with
-reasonable checks, could enable great speedups through making use of
-system utilities such as \code[sh]{sort} on UNIX-based systems.
+Alternatively, OS-based file manipulation could be embraced in greater depth, focussing on interaction with faster external tools for file manipulation; this would lead to issues with portability, but with reasonable checks, could enable great speedups through making use of system utilities such as \code[sh]{sort} on UNIX-based systems.
 
-The type of file may also be open to extension, with other file formats
-competing for high speeds and cross-language communication including \pkg{feather}, developed by Wes~McKinney and Hadley~Wickham\cite{wes16}.
+The type of file may also be open to extension, with other file formats competing for high speeds and cross-language communication including \pkg{feather}, developed by Wes~McKinney and Hadley~Wickham\cite{wes16}.
 
-In terms of finer-grained extension, more functionality for direct
-manipulation of individual chunks would potentially aid computation when
-performing iterative algorithms and others of greater complexity.
+In terms of finer-grained extension, more functionality for direct manipulation of individual chunks would potentially aid computation when performing iterative algorithms and others of greater complexity.

@@ -77,8 +77,7 @@ This isn't necessarily a failing of \R{}.
 Much of the uptake of concurrency among languages only began in earnest relatively recently, motivated by web servers and services.
 Furthermore, \R{} is still at heart a DSL for statistics - it is not teleologically dependent on concurrency as a feature of the language.
 
-Regardless, concurrency has proven to be extremely useful, and its value is clear in a distributed system;
-it is worth exploring further models in detail.
+Regardless, concurrency has proven to be extremely useful, and its value is clear in a distributed system; it is worth exploring further models in detail.
 
 \subsubsection{Threading}
 
@@ -139,6 +138,8 @@ According to Simon Urbanek of the \R{} core team, in personal correspondence:
 
 \qu{no}
 
-The implementation of evaluation in \R{} precludes any chance of re-entering contexts, and will remain that way unless there is a near-complete rewrite. Dr. Urbanek elaborates:
+The implementation of evaluation in \R{} precludes any chance of re-entering contexts, and will remain that way unless there is a near-complete rewrite.
+Dr.
+Urbanek elaborates:
 
 \qu{no-concurrent}
