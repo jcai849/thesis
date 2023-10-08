@@ -1,17 +1,12 @@
 \subsection{Introduction}\label{sec:disk-frame-introduction}
 
-\pkg{disk.frame} works through two main principles: chunking, and generic
-function implementation (alongside special functions).
-Another component that isn't mentioned in the explanation, but is crucial to performance, is the parallelisation offered transparently by the package.
-
-\pkg{disk.frame} is developed by Dai ZJ.
+\pkg{disk.frame} works through two main principles: chunking, and generic function implementation (alongside special functions).
 
 \subsection{Chunks and Chunking}\label{sec:chunking}
 
 \subsubsection{Chunk Representation}\label{sec:chunk-representation}
 
-disk.frames are actually references to numbered \file{fst} files in a
-folder, with each file serving as a chunk.
+disk.frames are actually references to numbered \file{fst} files in a folder, with each file serving as a chunk.
 This is made use of through manipulation of each chunk separately, sparing RAM from dealing with a single monolithic file\cite{zj19:_inges_data}.
 
 \pkg{fst} is a means of serialising dataframes, as an alternative to \file{RDS}

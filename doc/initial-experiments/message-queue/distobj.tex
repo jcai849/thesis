@@ -74,24 +74,11 @@ Formulated as a counter example, with the correspondence to the diagram in \cref
 
 Consider some distributed object containing fully resolved chunks belonging to a set \({c_1, c_2, \dots, c_n}\) for some finite \(n\), all of which reside on a singular node \(S\).
 Let this object have reference \code{x} with full resolution on a node \(K\).
-(\textcolor{dark2-1}{a}) The node \(K\) may execute the expression
-\code{do-call-distobj-assign}, returning an
-unresolved distributed object reference and assigning it to the symbol
-\code{y}.
-(\textcolor{dark2-1}{b}) Following the model description, messages containing sufficient information on
-the request are pushed to all of the target chunk queues, which in this case,
-given that there is only one distributed object reference in \code{args}, are
-chunks \(c_1, c_2, \dots, c_n\).
-(\textcolor{dark2-1}{c}) Node \(S\) may pop from any of these queues in any order, so consider the first
-popped message to relate to chunk \(c_m\) for some \(1 \geq m \geq n\).
-(\textcolor{dark2-1}{d}) The server-side expression will take the form,
-\code{do-call-msg-expr},
-where \code{obj-place} refers to the value of \code{obj}.
-(\textcolor{dark2-1}{e}) The expression will in turn call \code{reftorec} and
-\code{alignment} on \code{Cm} and the \code{args} list,
-which, given the resolved state of all chunks, will replace the
-\code{distobj-place} in \code{args} with its corresponding emerged
-object, in this case the referent of \code{Cm}.
+(\textcolor{dark2-1}{a}) The node \(K\) may execute the expression \code{do-call-distobj-assign}, returning an unresolved distributed object reference and assigning it to the symbol \code{y}.
+(\textcolor{dark2-1}{b}) Following the model description, messages containing sufficient information on the request are pushed to all of the target chunk queues, which in this case, given that there is only one distributed object reference in \code{args}, are chunks \(c_1, c_2, \dots, c_n\).
+(\textcolor{dark2-1}{c}) Node \(S\) may pop from any of these queues in any order, so consider the first popped message to relate to chunk \(c_m\) for some \(1 \geq m \geq n\).
+(\textcolor{dark2-1}{d}) The server-side expression will take the form, \code{do-call-msg-expr}, where \code{obj-place} refers to the value of \code{obj}.
+(\textcolor{dark2-1}{e}) The expression will in turn call \code{reftorec} and \code{alignment} on \code{Cm} and the \code{args} list, which, given the resolved state of all chunks, will replace the \code{distobj-place} in \code{args} with its corresponding emerged object, in this case the referent of \code{Cm}.
 Upon completion of performing \code{f1} on the new \code{args} list, the resultant chunk \(c_{n+k}\) for \(k > 0 \) is (\textcolor{dark2-1}{f}) added to the local chunk table of node \(S\) for later retrieval, with its queue also monitored, and (\textcolor{dark2-1}{g}) information on the size and other metadata of \(c_{n+k}\) are obtained and sent to the distributed table for future reference.
 
 If the node \(K\) (\textcolor{dark2-2}{i}) sent out another batch of requests based on the expression (\textcolor{dark2-2}{h}) \code{do-call-distobj-list}, and \code{x} is given as the target, then (\textcolor{dark2-2}{j}) with node \(S\) popping from queue \(c_m\) once again, (\textcolor{dark2-2}{k}) the following expression is then formed on \(S\): \code{do-call-msg-list}.
