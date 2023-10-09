@@ -51,7 +51,7 @@ The mechanism of dispatch is based on the class of the emerged chunks.
 
 Most default \code{combine} methods provide a variation of a union; for example, vectors are by default \code{com}'ed together, dataframes \code{rbind}'ed.
 If a user seeks some variation on the means of combination, the chunks may simply be sub-classed to a user-defined class which provides a \code{combine} method for their combination.
-Such a strategy is made use of in the model implementation in \cref{ch:glm}.
+Such a strategy is made use of in the model implementation in \cref{ch:lasso}.
 The extensibility which this allows can't be under-emphasised; by describing how chunks combine based on their class, the entire distributed object is thereby defined in structure by the chunk classes.
 This allows for infinitely many variations on chunking structure.
 Row-wise splits are natural for most $n<<p$ dataframes, but if they are wider than they are long, splits along columns may be necessitated, and can be defined purely based on the classes of the chunks at emergence.
