@@ -77,7 +77,7 @@
 \newcommand{\currentfontsize}{\fontsize{\f@size}{\f@baselineskip}\selectfont}
 \makeatother
 \setminted{fontsize=\footnotesize,autogobble=true}
-\setmintedinline{fontsize=\currentfontsize}
+\setmintedinline{fontsize=\currentfontsize,breaklines=true}
 \usepackage{clrscode3e}
 \newfloat{srcclrs}{thpb}{lol}
 \floatname{srcclrs}{Listing}
@@ -140,8 +140,8 @@
 
 \newcommand{\src}[3][R]{
 \begin{listing}[H]
-\inputminted{#1}{src/#2.#1}
 \caption{\label{lst:#2}#3}
+\inputminted{#1}{src/#2.#1}
 \end{listing}
 }
 

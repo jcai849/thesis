@@ -3,60 +3,44 @@ digraph scalarindex {
 
 
 	subgraph cluster_arguments_scalar {
-		label=<
-        Arguments for each chunk computation<BR/>
-        in a distributed object with x considered scalar and recyclable.<BR/>
-        Operation: <FONT FACE="Courier">max(x, y)</FONT>>;
-		
-
+		label="
+        Arguments for each chunk computation
+        in a distributed object with x considered scalar and recyclable.
+        Operation: max(x, y);"
 		subgraph cluster_chunkscalar1 {
-			label=<Chunk Computation 1: <FONT FACE="Courier">max(x, y)</FONT>>;
-			
-
+			label="Chunk Computation 1: max(x, y);"
 			xd1[label="x: int 1"];
 			yd1[label="y: int 1:1E9"];
 		}
         subgraph cluster_chunkscalar2 {
-			label=<Chunk Computation 2: <FONT FACE="Courier">max(x, y)</FONT>>;
-			
-
+			label="Chunk Computation 2: max(x, y)"
 			xd2[label="x: int 1"];
 			yd2[label="y: int 1E9:2E9"];
 		}
         subgraph cluster_chunkscalar3 {
-			label=<Chunk Computation 3: <FONT FACE="Courier">max(x, y)</FONT>>;
-			
-
+			label="Chunk Computation 3: max(x, y)"
 			xd3[label="x: int 1"];
 			yd3[label="y: int 2E9:3E9"];
 		}
 	}
 
 	subgraph cluster_arguments_converted {
-		label=<
-        Arguments for each chunk computation<BR/>
-        in a distributed object with x considered scalar and non-recyclable.<BR/>
-        Operation: <FONT FACE="Courier">y[x]</FONT>>
-		
-
+		label="
+        Arguments for each chunk computation
+        in a distributed object with x considered scalar and non-recyclable.
+        Operation: y[x]"
 		subgraph cluster_chunkconverted1 {
-			label=<Chunk Computation 1: <FONT FACE="Courier">y[x]</FONT>>;
-			
-
+			label="Chunk Computation 1: y[x]"
 			xc1[label="x: int 1"];
 			yc1[label="y: int 1:1E9"];
 		}
         subgraph cluster_chunkconverted2 {
-			label=<Chunk Computation 2: <FONT FACE="Courier">y[x]</FONT>>;
-			
-
+			label="Chunk Computation 2: y[x]"
 			xc2[label="x: NULL"];
 			yc2[label="y: int 1E9:2E9"];
 		}
         subgraph cluster_chunkconverted3 {
-			label=<Chunk Computation 3: <FONT FACE="Courier">y[x]</FONT>>;
-			
-
+			label="Chunk Computation 3: y[x]"
 			xc3[label="x: NULL"];
 			yc3[label="y: int 2E9:3E9"];
 		}

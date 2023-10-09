@@ -1,6 +1,6 @@
 \begin{tabular}{p{\dimexpr 0.5\textwidth-2\tabcolsep} | p{\dimexpr 0.5\textwidth-2\tabcolsep}}
 R & largescaler \\ \midrule
-\srcnccentre{shared-loop1} \\
+\srcnccentre{shared-loop1}\vspace{2em} \\
 \srcnc{local-loop2} & \srcnc{dist-loop2} \\
-\srcnccentre{shared-loop3} \\
+\vspace{2em}\srcnccentre{shared-loop3} \\
 \end{tabular}

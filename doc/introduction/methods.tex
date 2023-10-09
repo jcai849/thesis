@@ -2,14 +2,12 @@ The structure of the \lsr{} system has been defined principally by the response 
 
 The challenge of the object system provokes questions of what objects should comprise such a system, and what properties they should possess.
 \lsr{} has answered this in a standard fashion, providing chunks, references to the chunks, and an abstraction over them for the end-user.
-Users interact indirectly with chunks, by way of chunk references, which are typically collected as arrays and made opaque to the high-level user, as shown in \cref{fig:distobjref}.
+Users interact indirectly with chunks, by way of chunk references, which are typically collected as arrays and made opaque to the high-level user, as shown in \cref{fig:top}.
 Arbitrary underlying data, a layered class hierarchy for data access, and asynchronous and immediate distributed procedure dispatch are further core design decisions.
 For example, assume that some dataset is split into four pieces row-wise, with the first two pieces residing on two separate processes, and the last two on a single process.
-Such a topology is capable of being represented in the \lsr{} system, with diagrammatic representation as in \cref{fig:top}.
+Such a topology is capable of being represented in the \lsr{} system.
 
-\fig{distobjref}{Distributed object, showing chunks and their references across disparate nodes.}
-
-\fig{top}{Example distributed object reference relations}
+\fig{top}{Distributed object, showing chunks and their references across disparate nodes.}
 
 Communication structure is a further challenge, which has as its answer an implicit virtual topology of the distributed system.
 \lsr{} engages distributed worker nodes in a peer-to-peer fashion, chunks being the core means of addressing, with their location made opaque at the user-level of the system.

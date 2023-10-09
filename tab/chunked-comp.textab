@@ -1,6 +1,6 @@
 \begin{tabular}{p{\dimexpr 0.5\textwidth-2\tabcolsep} | p{\dimexpr 0.5\textwidth-2\tabcolsep}}
 R & largescaler \\ \midrule
-\srcnc{local-read1} & \srcnc{dist-read1} \\
-\srcnccentre{shared-read2} \\
-\srcnc{local-read3} & \srcnc{dist-read3} \\
+\srcnc{local-read1} & \srcnc{dist-read1}\\
+\vspace{2ex}\srcnccentre{shared-read2}\vspace{2ex}\\
+\srcnc{local-read3} & \srcnc{dist-read3}\\
 \end{tabular}

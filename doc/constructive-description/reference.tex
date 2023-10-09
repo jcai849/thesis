@@ -60,9 +60,7 @@ For example, a mention of the term ``matrix'', may be in the sentence, ``the wor
 The relevance of the use-mention distinction to distributed objects lies in the contrasting operations that may be intended of a distributed object reference: interaction may be intended for either the referent distributed object (use), or the reference itself (mention).
 Such semantics of access to the reference and referent serve as the basis for much of meta-programming, with the \proglang{lisp} quotation and quasi-quotation enabling explicit use/mention interaction.
 
-\proglang{Lisp} possesses an extremely simple syntax, with everything in brackets
-evaluating according to the first element as the operator and the
-following elements as operands.
+\proglang{Lisp} possesses an extremely simple syntax, with everything in brackets evaluating according to the first element as the operator and the following elements as operands.
 For example, \code[lisp]{sum} evaluates to \code[lisp]{6}, as summation.
 Values also self-evaluate; \code[lisp]{6} evaluates to \code[lisp]{6}.
 The evaluation treats everything as ``in-use''.
@@ -70,13 +68,7 @@ Such behaviour can be prevented through quotation constructs.
 For example, \code[lisp]{quote-sum} evaluates to \code[lisp]{sum}, which is just treated as just a list of symbols (mention), ready for evaluation later on.
 Such a construct is so common, it has the abbreviated form of the \code[lisp]{tick} - the above example may have been equivalently quoted using \code[lisp]{tick-sum} Quotation may also act in a more selective manner, where some symbols are used, and others just mentioned, with the ``back-quote'' operator of quasi-quotation.
 Here, \code[lisp]{backquote} is used to quote, with \code[lisp]{quasiquote} used to unquote.
-For example, \cref{lst:quoted}
-
-\src[lisp]{quoted}{Quoted expression in lisp}
-
-evaluates to \cref{lst:unquoted}
-
-\src[lisp]{unquoted}{Unquoted expression in lisp}
+For example, \code[lisp]{quoted} evaluates to \code[lisp]{unquoted}.
 
 This elegant back-and-forth switching between use and mention of the symbolic reference is a cornerstone of the language.
 The switching of use and mention of the distributed object reference would serve to benefit from such semantics and syntax.
@@ -108,7 +100,7 @@ Referent interaction may take place through wrapping the relevant functions manu
 Common methods may have this already provided.
 Reference interactions may take several different forms.
 Like \pkg{pbdR}, they may have some special encoding in function names, is in \code{ddim}.
-This is similar to C's \code[c]{directive}-directive pre-processing, though it requires an additional modest burden on the developer.
+This is similar to C's \texttt{\#}-directive pre-processing, though it requires an additional modest burden on the developer.
 Alternatively, functions may be provided to \code{materialise} and dematerialise the distributed object reference, which serve as the only special cases to access the reference directly.
 
 The relation between distributed object reference and the referent distributed object will always be in some tension, though hopefully through careful consideration as in these sections such a tension may be eased to the point of being forgotten about by the user, who can ignore distinctions of use and mention until absolutely necessary, and even then having a straightforward experience free of surprise or confusion.

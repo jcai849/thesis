@@ -1,6 +1,12 @@
 With the interface for the final system laid down in \cref{ch:ui}, We now move to the central problem that prompted this work; defining a novel distributed statistical algorithm with it.
 Rather than detour with a truly novel algorithm, it is preferable to engage with something that is familiar, but holds a fairly generic form that novel analyses often share.
-Let's consider distributed LASSO regression, using the Alternating Direction Method of Multipliers, as described by \textcite{mateos2010}.
+We will consider something based on the use of ADMM.
+Part of the value of ADMM is its demonstrated generality.
+The ADMM algorithm may serve as a means of expressing a surprising variety of statistical algorithms in a partitionable format, meaning that they can be distributed.
+
+
+Of these, the following example will distributed LASSO regression, using the Alternating Direction Method of Multipliers (ADMM), as described by \textcite{mateos2010}.
+
 We begin by assessing the mathematical form in \cref{sec:mathlasso}, followed by the ``standard R'' means of writing a chunked algorithm in contraposition with the \lsr{} manner in \cref{sec:rlasso}.
 
 \section{Distributed LASSO Mathematical Definition}\label{sec:mathlasso}
@@ -48,8 +54,8 @@ We make use of a function that operates on distributed objects which we define o
 \tab{loop-comp}{Comparison of the iterative loop}
 
 Note the significantly simplified and reduced logic in switching to \lsr{}, which bears a far closer resemblance to the mathematical description.
-The \code{x-update} function given above is exemplary of the approach provided by \lsr{}, which allows for the switching of a local to a distributed function through the higher-order \code{dist} function, as demonstrated in \cref{tab:x-update}:
+The \code{x-update} function given above is exemplary of the approach provided by \lsr{}, which allows for the switching of a local to a distributed function through the higher-order \code{dist} function, as demonstrated in \cref{tab:x-update}.
 
 \tab{x-update}{Comparison of the \code{x-update} functions}
 
-And this serves to define a distributed LASSO, using ADMM.
+These listings, combined, serve to define a distributed LASSO model.

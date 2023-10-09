@@ -14,8 +14,7 @@
 		\draw[-{>[scale=2]}] (0, 3) -- (2, 2) node[midway, anchor=south] {e};
 		\draw[-{>[scale=2]}] (2, 1.5) -- (0, 0.5) node[midway, anchor=south] {f};
 	\end{tikzpicture}
-\end{minipage}
-\begin{minipage}{0.6\textwidth}
+\end{minipage}\begin{minipage}{0.6\textwidth}
 	\begin{description}
 		\item [a] Assignment request message pushed to chunk
 			queue
