@@ -1,18 +1,37 @@
 With the interface for the final system laid down in \cref{ch:ui}, We now move to the central problem that prompted this work; defining a novel distributed statistical algorithm with it.
 Rather than detour with a truly novel algorithm, it is preferable to engage with something that is familiar, but holds a fairly generic form that novel analyses often share.
-We will consider something based on the use of ADMM.
-Part of the value of ADMM is its demonstrated generality.
+
+We will consider something based on the use on the Alternating Direction Method of Multipliers (ADMM), a technique for distributed convex optimisation.
+In this case, part of the value of ADMM is its demonstrated generality.
 The ADMM algorithm may serve as a means of expressing a surprising variety of statistical algorithms in a partitionable format, meaning that they can be distributed.
+These include Regular and Sparse versions of Linear Regression, Generalised Linear Regression, Ridge and LASSO Regression, GAMs, SVMs, and many other well-used statistical algorithms.
+Of these, the following example will demonstrate distributed LASSO regression, from ADMM, as described by \textcite{mateos2010}.
+The choice of LASSO allows for a good mix of complexity and clarity, of these selections.
 
+At its heart, ADMM decomposes a convex optimisation problem into many localised components, with iterative co-ordination of information between them.
+In this way, it is well suited to distributed computation, due to the ability to allow useful work to take place on subproblems made independent in between co-ordination events.
+A richer description of ADMM, with significant background, is given in \textcite{boyd2011}.
 
-Of these, the following example will distributed LASSO regression, using the Alternating Direction Method of Multipliers (ADMM), as described by \textcite{mateos2010}.
+For this chapter, it will suffice to take the results of \textcite{boyd2011} in stating the constraint of ADMM being to solve problems of the form given in \cref{eq:admm-form}.
 
+\eq{admm-form}
+
+From this, the augmented lagrangian is formed by \cref{eq:lagrangian}.
+
+\eq{lagrangian}
+
+Then ADMM consists of the iterations given by \cref{eq:admm-iter}.
+
+\eq{admm-iter}
+
+The ADMM may be run over a partitioned block matrix, with variations as per the sharing problem described in \textcite{boyd2011}.
+
+The general form of ADMM having been described, we move to the specific case of LASSO.
 We begin by assessing the mathematical form in \cref{sec:mathlasso}, followed by the ``standard R'' means of writing a chunked algorithm in contraposition with the \lsr{} manner in \cref{sec:rlasso}.
 
 \section{Distributed LASSO Mathematical Definition}\label{sec:mathlasso}
 
 This section seeks to give a brief taste of what a mathematical formulation for a distributed statistical model takes, in order to demonstrate the semantic and syntactic similarity to \lsr{} in \cref{sec:rlasso}.
-A richer description, with significant background, is given in \textcite{boyd2011}.
 
 We begin with a description of the input data, as given in \cref{eq:mathlassodata}
 

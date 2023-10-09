@@ -22,7 +22,7 @@ Much of the issue in modelling large data is the I/O-bound nature of much statis
 The complement to I/O-bound computation is computation-bound, wherein the speed (or lack thereof) is determined primarily through the performance of the processing unit.
 This is less significant in large-scale applications than memory-bound, but remains an important design consideration when the number of computations scale with the dataset size in any nontrivial algorithm with greater than \bigO{1} complexity.
 
-The solution to both memory- and computation-bound problems has largely been that of using more hardware; more memory, and more CPU cores.
+The standard response to both memory- and computation-bound problems has largely been that of using more hardware; more memory, and more CPU cores.
 Even with this in place, more complex software is required to manage the more complex systems.
 As an example, with additional CPU cores, constructs such as multithreading are used to perform processing across multiple CPU cores simultaneously (in parallel).
 
@@ -39,14 +39,14 @@ The aim of a statistician seeking to gain novel insight from such datasets commo
 No single system satisfactorily provides the capacity to meet this demand.
 
 Those systems that do come close to meeting the demand provide direction regarding how to gain insight from larger-than-memory datasets.
-Most importantly, the standard solution for handling big data is to operate over a distributed system~\cite{boja2012distributed}.
+Most importantly, the standard practice for handling big data is to operate over a distributed system~\cite{boja2012distributed}.
 Several systems have seen widespread use within the context of data and machine learning pipelines, such as \pkg{Spark}~\cite{zaharia2016apache} and \pkg{Hadoop}~\cite{shvachko2010hadoop}.
 For the statistician mostly familiar with \R{}, these systems provide user interfaces to \R{} where distributed data may be manipulated and pre-made models fitted.
 However, these API's are often found lacking when attempted to be used for the creation of complex statistical models that don't come pre-packaged, due to this not being their primary use-case, and \R{} not being their target language.
 
 Ultimately, the problem is that of practically expressing a statistical algorithm for larger-than-memory data in \R{}.
 
-This thesis outlines and details the attempts a solution through the \lsr{} framework, which is intended as a proof-of-concept solution to the problem of expressing distributed statistical algorithms in \R{}.
+This thesis outlines and details the attempt to solve this problem through the creation of the \lsr{} framework, which is intended as a proof-of-concept solution to the problem of expressing distributed statistical algorithms in \R{}.
 
 Within the motivating context provided, the \lsr{} project has sought to provide a full stack for working with larger-than-memory data in \R{}, allowing the developer to manipulate distributed data and create arbitrary complex, iterative models with which to fit to the data, over a self-contained user-specified computing cluster.
 

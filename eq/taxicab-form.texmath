@@ -1,0 +1,1 @@
+\textrm{Tip\_amount}_i = \textrm{Fare\_amount}_i \times \textrm{Passenger\_count}_i + \epsilon_i

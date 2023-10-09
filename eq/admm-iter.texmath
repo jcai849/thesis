@@ -1,0 +1,5 @@
+    \begin{aligned}
+	x^{k+1} &\defeq \operatorname*{arg\,min}_x L_\rho (x, z^k, y^k)\\
+	z^{k+1} &\defeq \operatorname*{arg\,min}_z L_\rho (x^{k+1}, z, y^k)\\
+	y^{k+1} &\defeq y^k + \rho(Ax^{k+1} + Bz^{k+1} - c), \rho > 0
+    \end{aligned} 

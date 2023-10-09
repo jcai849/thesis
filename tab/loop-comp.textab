@@ -2,5 +2,5 @@
 R & largescaler \\ \midrule
 \srcnccentre{shared-loop1}\vspace{2em} \\
 \srcnc{local-loop2} & \srcnc{dist-loop2} \\
-\vspace{2em}\srcnccentre{shared-loop3} \\
+\srcnccentre{shared-loop3} \\
 \end{tabular}

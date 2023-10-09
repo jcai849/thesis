@@ -1,0 +1,1 @@
+L_\rho (x,z,y) = f(x) + g(z) + y^T(Ax + Bz - c) + \frac{\rho}{2}\norm{Ax + Bz - c}_2^2

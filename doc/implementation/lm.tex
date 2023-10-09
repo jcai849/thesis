@@ -10,13 +10,13 @@ This algorithm is in turn implemented and wrapped through the \pkg{biglm} packag
 The \pkg{biglm} package creates a linear model object from some initial row-wise chunk of data with a space complexity of \mathfrom{o-p-2} for $p$ variables.
 The linear model object is then updated sequentially with further chunks of the data, until all of the data has been read, yielding a final linear model object with methods available for standard linear model object inspection, including summaries and predictions.
 This sequential rolling update over chunked data is able to be captured succinctly in a \code{Reduce} pattern typical of the functional programming paradigm.
-Using the \textit{iris} dataset as an example, a linear model of the form,
+Using the \textit{taxicab} dataset as an example, a linear model of the form,
 
-\eq{iris-form}
+\eq{taxicab-form}
 
 is fitted using \pkg{biglm} as part of a demonstrative non-distributed \code{Reduce} in \cref{lst:lm-reduce}.
 
-\src{lm-reduce}{Splitting the iris dataframe into 15 chunks stored as elements of a list and reducing over the list with the \pkg{biglm} update function.}
+\src{lm-reduce}{Splitting the taxicab dataframe into 15 chunks stored as elements of a list and reducing over the list with the \pkg{biglm} update function.}
 
 The \code{dreduce} is therefore to be used as an equivalent structural backbone for the implementation of a distributed linear model.
 
