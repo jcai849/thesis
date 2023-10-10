@@ -1,9 +1,7 @@
 addsone <- function(start, to) {
 	nextEl <- function(){
 		start <<- start + 1
-		if (start >= to) {
-			stop('StopIteration')
-		}
+		if (start >= to) stop('StopIteration')
 		start}
 	obj <- list(nextElem=nextEl)
 	class(obj) <- c('addsone', 'abstractiter', 'iter')

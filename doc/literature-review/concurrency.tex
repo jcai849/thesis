@@ -1,7 +1,5 @@
-\cqu{steele28emerald}
-
-In a complex distributed system of coarse or fine grain, I/O by way of inter-node communication leads to major constraints on the individual nodes.
-Synchronous blocking I/O is more than just a speed bottleneck; it has the potential to lock and completely prevent essential sections of program execution.
+In a complex distributed system of coarse or fine grain, data transfer by way of inter-node communication leads to major constraints on the individual nodes.
+Synchronous blocking data transfer is more than just a speed bottleneck; it has the potential to lock and completely prevent essential sections of program execution.
 Distributed systems are invariably concurrent at a system-level.
 A concurrent system in the macro scale (inter-node) is well supported by concurrency in the micro scale (in-process).
 
@@ -75,7 +73,7 @@ At this point I decided to look at how other languages enabled concurrency, as t
 Most other mainstream languages have explicit concurrency as a part of the language.
 This isn't necessarily a failing of \R{}.
 Much of the uptake of concurrency among languages only began in earnest relatively recently, motivated by web servers and services.
-Furthermore, \R{} is still at heart a DSL for statistics - it is not teleologically dependent on concurrency as a feature of the language.
+Furthermore, \R{} is still at heart a Domain Specific Language (DSL) for statistics - it is not teleologically dependent on concurrency as a feature of the language.
 
 Regardless, concurrency has proven to be extremely useful, and its value is clear in a distributed system; it is worth exploring further models in detail.
 
@@ -88,10 +86,7 @@ Foreign \proglang{C} functions can be called that themselves involve threading, 
 \pkg{pthreads}\cite{nichols1996pthreads} is the standard option for threading in \proglang{C} for \R{}.
 The library offers aspects that may enable concurrency with \R{}, such as mutexes for critical regions involving \R{} code.
 
-However, it remains very low-level, not lending itself well to the rapid prototyping required for research computing.
-Furthermore, the scalability of threads is poor, with each thread taking up nontrivial memory, and facing operating system restrictions on total number.
-
-Threads certainly have their place, but can't be depended upon as the central mechanism for concurrency.
+However, it remains very low-level, not lending itself well to the rapid prototyping required for research computing, at least not at the \R{} evaluation level.
 
 \subsubsection{Async/Await}
 
@@ -126,20 +121,7 @@ Notably, it is the cleanest and clearest of all the concurrency models assessed 
 
 \subsubsection{Coroutines}
 
-This all leads to some clarity about cooperative multitasking: Under the hood, its effectively all coroutines, and these models of asynchrony are largely just variations on access to coroutines.
+This all leads to some clarity about cooperative multitasking: Under the hood, these models of asynchrony are largely just variations on access to coroutines.
 Jumping in and out of a function at will is exactly what a coroutine offers.
 Surprisingly few languages possessed coroutines until recently, in spite of the clear need.
 Amusingly, Donald Knuth used a constructed assembly language, \proglang{MMIX}, for his Art of Computer Programming series, with a major contributing factor to this choice being the lack of coroutines in higher-level languages\cite{knuth1}.
-
-\subsection{R will never be concurrent}\label{sec:no}
-
-So, is it fixable?
-According to Simon Urbanek of the \R{} core team, in personal correspondence:
-
-\qu{no}
-
-The implementation of evaluation in \R{} precludes any chance of re-entering contexts, and will remain that way unless there is a near-complete rewrite.
-Dr.
-Urbanek elaborates:
-
-\qu{no-concurrent}

@@ -19,33 +19,33 @@ foreach doesn't require setup for simple serial execution, but parallel
 backends require registration by the user, typically with a single
 function as in the registration for doParallel, \code{registerdoparallel}
 
-The syntax of \pkg{foreach} consists of a \code{foreach} function call next to a \code{do} operator, and some expression to the right\cite{weston19:_using}.
+The syntax of \pkg{foreach} consists of a \code{foreach} function call next to a \mintinline{R}{%do%} operator, and some expression to the right\cite{weston19:_using}.
 Without loss in generality, the syntactic form is given in \cref{lst:foreach-expr}.
 
 \src{foreach-expr}{Standard \pkg{foreach} syntax}
 
 The \code{foreach} function can take other arguments including changing the means of combination along iterations, whether iterations should be performed in order, as well as the export of environmental variables and packages to each iteration instance.
 
-In addition to \code{do}, other binary operators can be appended or substituted.
-Parallel iteration is performed by simply replacing \code{do} with \code{dopar}.
-Nested loops can be created by inserting \code{foreach-nest} between main and nested \pkg{foreach} functions, prior to the \code{do} call\cite{weston19:_nestin_loops}.
-The last step to composition of \pkg{foreach} as capable of list comprehension is the filtering function \code{when}, which filters iterables based on some predicate to control evaluation.
+In addition to \mintinline{R}{%do%}, other binary operators can be appended or substituted.
+Parallel iteration is performed by simply replacing \mintinline{R}{%do%} with \mintinline{R}{%dopar%}.
+Nested loops can be created by inserting \mintinline{R}{%:%} between main and nested \pkg{foreach} functions, prior to the \mintinline{R}{%do%} call\cite{weston19:_nestin_loops}.
+The last step to composition of \pkg{foreach} as capable of list comprehension is the filtering function \mintinline{R}{%when%}, which filters iterables based on some predicate to control evaluation.
 
 \subsection{Implementation}\label{sec:implementation}
 
 The mechanism of action in \pkg{foreach} is often forgotten in the face of the atypical form of the standard syntax.
-Going one-by-one, the \code{foreach} function returns an iterable object, \code{do} and derivatives are binary functions operating on the iterable object returned by \code{foreach} on the left, and the expression on the right; the rightmost expression is simply captured as such in \code{do}.
-Thus, the main beast of burden is the \code{do} function, where the evaluation of the iteration takes place.
+Going one-by-one, the \code{foreach} function returns an iterable object, \mintinline{R}{%do%} and derivatives are binary functions operating on the iterable object returned by \code{foreach} on the left, and the expression on the right; the rightmost expression is simply captured as such in \mintinline{R}{%do%}.
+Thus, the main beast of burden is the \mintinline{R}{%do%} function, where the evaluation of the iteration takes place.
 
-In greater detail, \code{do} captures and creates environments, enabling sequential evaluation.
-\code{dopar} captures the
+In greater detail, \mintinline{R}{%do%} captures and creates environments, enabling sequential evaluation.
+\mintinline{R}{%dopar%} captures the
 environment of an expression, as well taking as a formal parameter a
 vector of names of packages used in the expression, then passing that
 to the backend, which will in turn do additional work on capturing
 references to variables in expressions and adding them to evaluation
 environment, as well as ensure packages are loaded on worker nodes.
 
-\code{do} and \code{dopar}, after correct error checking,
+\mintinline{R}{%do%} and \mintinline{R}{%dopar%}, after correct error checking,
 send calls to \code{getdoseq} and
 \code{getdopar} respectively, which return
 lists determined by the registered backend, which contain a function
@@ -60,7 +60,7 @@ These custom iterators can be used in turn with the \code{foreach} function, as 
 
 The name of the package and function interface refer to the foreach programming language construct, present in many other languages.
 By definition, the foreach construct performs traversal over some collection, not necessarily requiring any traversal order.
-In this case, the collection is an iterator object or an object coercible to one, but in other languages with \pkg{foreach} as part of the core language, such as python (whose for loop is actually only a \pkg{foreach} loop), collections can include sets, lists, and a variety of other classes which have an \code[py]{iter} and \code[py]{next} defined\cite{python2020iter}.
+In this case, the collection is an iterator object or an object coercible to one, but in other languages with \pkg{foreach} as part of the core language, such as python (whose for loop is actually only a \pkg{foreach} loop), collections can include sets, lists, and a variety of other classes which have \code[py]{iter} and \code[py]{next} methods defined\cite{python2020iter}.
 
 Due to the constraints imposed by a foreach construct, loop optimisation is simplified relative to a for loop, and the lack of explicit traversal ordering permits parallelisation, which is the primary reason for usage of the \pkg{foreach} package.
 The constraints are not insignificant however, and they do impose a limit on what can be expressed through their usage.
@@ -75,8 +75,7 @@ Examples of both are given in \cref{lst:serial,lst:serial-iter}
 \src{serial-iter}{Serial iterated function through creation of a stateful iterator}
 
 As alluded to earlier, the functionality breaks down when attempting to run them in parallel.
-\cref{lst:parallel,lst:parallel-iter}
-demonstrate attempts to evaluate these iterated functions in parallel.
+\Cref{lst:parallel,lst:parallel-iter} demonstrate attempts to evaluate these iterated functions in parallel.
 They only return a list of 5 repetitions of the same ``next'' number, not iterating beyond it.
 
 \src{parallel}{Parallel Iteration attempt through destructive reassignment}

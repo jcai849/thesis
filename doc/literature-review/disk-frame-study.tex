@@ -94,6 +94,6 @@ The storage of chunks is currently file-based and managed by an operating system
 
 Alternatively, OS-based file manipulation could be embraced in greater depth, focussing on interaction with faster external tools for file manipulation; this would lead to issues with portability, but with reasonable checks, could enable great speedups through making use of system utilities such as \code[sh]{sort} on UNIX-based systems.
 
-The type of file may also be open to extension, with other file formats competing for high speeds and cross-language communication including \pkg{feather}, developed by Wes~McKinney and Hadley~Wickham\cite{wes16}.
+The type of file may also be open to extension, with other file formats competing for high speeds and cross-language communication as given by the \pkg{feather}\cite{wes16} or \pkg{arrow} packages\cite{arrow23}.
 
 In terms of finer-grained extension, more functionality for direct manipulation of individual chunks would potentially aid computation when performing iterative algorithms and others of greater complexity.

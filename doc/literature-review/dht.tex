@@ -1,38 +1,38 @@
-\subsection{Introduction}
+Resolving function arguments in a distributed system requires the localisation and value retrieval from potentially remote nodes.
+This requires some mechanism along the lines of that provided by that of a Distributed Hash Table (DHT) data structure.
+This section seeks to explore the usage and theory behind distributed hash tables, with particular relevance to the initial experiments described in \cref{ch:initial-experiments}, where an intermediary message broker is made heavy use of, and possesses an equivalent high-level interface as a distributed hash table.
 
-The use of an intermediary message broker for RPC's within the \lsr{} system will prove exceptionally useful.
 In initial system experiments, rather than sending messages directly from node-to-node, all messages are sent to queues named after chunks on a central Redis server, which routes the messages to nodes holding those chunks and performing blocking pops on the queues\cite{sanfilippo2009redis}, as described in \cref{sec:mq}.
-The layer of indirection provided by this setup has enabled information hiding effectively in support of system modularity, as well as a fair degree of dynamism in chunk location.
+The layer of indirection provided by this setup enables information hiding effectively in support of system modularity, as well as a fair degree of dynamism in chunk location.
 
 The principal issue with this approach is the high level of centralisation it entails, alongside the dependency and associated lack of behavioural controls over external software\cite{john2017survey}.
 Such centralisation leads to casting the Redis server as a single point of failure, and requiring inherent knowledge of the location of the Redis server for connecting nodes.
 Extensions to the behaviour of the Redis server are possible, though require programming to a specific API bundled with Redis, with some limitation.
-These issues are largely offset by the high efficiency and low complexity afforded by the central message-broker approach, but it is worth considering a more dynamic alternative in the implementation of a Distributed Hash Table (DHT) as a supporting transport layer for the system.
+These issues are largely offset by the high efficiency and low complexity afforded by the central message-broker approach, but it is worth considering a more dynamic alternative in the implementation of a Distributed Hash Table as a supporting transport layer for the system.
 
-This document seeks to outline the motivation, implementation, and some variations of a DHT.
 
-A key motivator for the usage of a DHT transport layer, beyond the independence and decentralisation engendered, is also in enabling a distributed store of the dependency graph, as outlined in \cref{sec:dag}.
+A key motivator for the usage of a DHT transport layer, beyond the independence and decentralisation engendered, is also in enabling a distributed store of the dependency graph for the resolution of argument call chains, as outlined in \cref{sec:dag}.
 The advantages of a DHT in this respect include the ability to scale with the system, through CPU and memory load being spread through the system, as well as greater live fault-tolerance via in-memory replication\cite{lua2005p2p}.
 Perhaps even more pressingly, a DHT algorithm as implemented in the system affords more control over components such as the potential for callbacks and hooks, and possibly running these in \R{} for greater system connectivity.
 This means that there is greater direct control over the graph by the nodes hosting partitions of the graph, which is a shortcoming of Python's Dask; Dask has an explicit dependency graph, contained entirely within the master node, which leaves it out of reach of nodes that it affects directly\cite{rocklin2015dask}.
 
-\subsection{Overview of DHT's}
+\subsection{Overview of DHTs}
 
 A DHT is a key-value store with the capacity to be distributed over many disparate nodes\cite{balakrishnan2003p2p}.
-All well-known modern DHT's involve no central control, with all participating nodes being effectively equivalent and symmetrical.
+All well-known modern DHTs involve no central control, with all participating nodes being effectively equivalent and symmetrical.
 
-Distributed Hash Table algorithms generally share a few features in common, beyond those inherent in the DHT name: \begin{itemize} \item Dynamic introduction and exit of nodes is a principal distinguishing feature of DHT's with respect to regular hash tables using nodes as buckets.
-	      Resizing of simple hash tables often involve a complete rehashing and remapping of values to the buckets, whereas DHT's expect frequent resizing, and can't afford the remapping.
-	      DHT's have some hashing function that doesn't require system-wide remapping when nodes/buckets are added or removed\cite{thaler1996rendezvous}.
+Distributed Hash Table algorithms generally share a few features in common, beyond those inherent in the DHT name: \begin{itemize} \item Dynamic introduction and exit of nodes is a principal distinguishing feature of DHTs with respect to regular hash tables using nodes as buckets.
+	      Resizing of simple hash tables often involve a complete rehashing and remapping of values to the buckets, whereas DHTs expect frequent resizing, and can't afford the remapping.
+	      DHTs have some hashing function that doesn't require system-wide remapping when nodes/buckets are added or removed\cite{thaler1996rendezvous}.
 	\item Nodes usually keep some routing table that is used to optimise lookups\cite{galuba2009p2p}.
 	\item Nodes typically have some node ID of the same length as keys (or some variation on keys, such as their SHA-1 hash), in order to allow for some direct comparison between them.
 	      Keys are usually hashed to particular nodes based on some measure of distance, choosing the node with the lowest distance to store the value on.
-	\item Minimisation of route length and minimisation of degree are principal objectives in the analysis of DHT's, with most DHT's sporting \bigO{\log N} nodes contacted during lookups.
-	\item All DHT's have some degree of susceptibility to Byzantine faults such as the Sybil attack, where a flood of new nodes can throw off the system; given that the \lsr{} system is expected to run in a non-adversarial environment, this consideration doesn't factor too heavily into choice of DHT algorithm\cite{douceur2002sybil}\cite{urdaneta2011dhtsec}.
+	\item Minimisation of route length and minimisation of degree are principal objectives in the analysis of DHTs, with most DHTs sporting \bigO{\log N} nodes contacted during lookups.
+	\item All DHTs have some degree of susceptibility to Byzantine faults such as the Sybil attack, where a flood of new nodes can throw off the system; given that the \lsr{} system is expected to run in a non-adversarial environment, this consideration doesn't factor too heavily into choice of DHT algorithm\cite{douceur2002sybil}\cite{urdaneta2011dhtsec}.
 \end{itemize}
 
-The primary algorithms for DHT's include Chord and Kademlia, alongside others such as Pastry, Tapestry, and Koorde.
-Chord is among the more simple of DHT's, with Kademlia possessing some advantages in payment for additional complexity.
+The primary algorithms for DHTs include Chord and Kademlia, alongside others such as Pastry, Tapestry, and Koorde.
+Chord is among the more simple of DHTs, with Kademlia possessing some advantages in payment for additional complexity.
 The following subsections describe the Chord and Kademlia algorithms, including discussion on suitability as a DHT message transport layer in \lsr{}, as well as some potential drawbacks, and suggestions for variations to ensure correctness.
 
 \subsection{Chord}
@@ -50,7 +50,8 @@ Based on the description of key-node assignments given by consistent hashing, th
 The central requirement is that each node knows its own successor.
 With this in place, finding a node or a key involves the initiating node querying its successor, with successors forwarding the query to their own successors in a recursive manner, until the node or value is found.
 As this is \mathfrom{o-n} in terms of route length, an additional stipulation is given that nodes carry a finger table, wherein addresses of nodes in exponentially increasing intervals on the ring are stored, and finger tables are consulted for routing instead of bare successors.
-Specifically, the entries in a node's finger table are the successors to the points relative to the node at increasing values of \mathfrom{tab-entries} As such, the first element of a node's finger table, at \mathfrom{2-pow-0} points along from the node, will be that node's successor Successors to points are found based on querying the maximal node less than the point in the existing finger table, and recursively passing the query, until a queried node finds that the queried point lies between itself and its own successor, at which point it returns its own successor.
+Specifically, the entries in a node's finger table are the successors to the points relative to the node at increasing values of \mathfrom{tab-entries}. As such, the first element of a node's finger table, at \mathfrom{2-pow-0} points along from the node, will be that node's successor.
+Successors to points are found based on querying the maximal node less than the point in the existing finger table, and recursively passing the query, until a queried node finds that the queried point lies between itself and its own successor, at which point it returns its own successor.
 
 Nodes join the network by finding their successor through querying any arbitrary node in the network.
 The arrival of new nodes has the potential to throw off existing finger tables, and as such a stabilisation routine must be run periodically to maintain the system, by checking consistency of successors and predecessors.
@@ -61,10 +62,10 @@ If stabilisation occurs more than churn, then most stabilisation cycles are idem
 If Chord is used in a variety of heterogeneous environments, it is almost certain to not match churn in all of them.
 Given that this is the case, a variation on Chord is essential for reliability.
 
-My suggestion for removing all background periodic procedures is the following: \begin{enumerate} \item Node joins occur sequentially and force stabilisation procedures on both the successor and predecessor of the joining node.
-	      Migration of keys occur prior to predecessor stabilisation, and require checks from successor to predecessor that the pointer is correct and that no queries are pending, before the successor deletes any table elements that it hosts.
-	\item Joining nodes broadcast their existence and ID recursively along finger tables, with the space of each recursive call bound by successors, forcing finger table fixes along all existing nodes.
-	      This is additional work, but for data centre-like applications, as \lsr{} fits, rather than transient IM chat applications, the non-internet scale minimises the additional work, and is sufficient to justify the stability.
+My suggestion for removing all background periodic procedures is the following:
+\begin{enumerate}
+\item Node joins occur sequentially and force stabilisation procedures on both the successor and predecessor of the joining node. Migration of keys occur prior to predecessor stabilisation, and require checks from successor to predecessor that the pointer is correct and that no queries are pending, before the successor deletes any table elements that it hosts.
+\item Joining nodes broadcast their existence and ID recursively along finger tables, with the space of each recursive call bound by successors, forcing finger table fixes along all existing nodes. This is additional work, but for data centre-like applications, as \lsr{} fits, rather than transient IM chat applications, the non-internet scale minimises the additional work, and is sufficient to justify the stability.
 \end{enumerate}
 
 A secondary drawback of Chord is in the fact that the distance measure is asymmetric.
@@ -86,7 +87,7 @@ The query is run recursively on the results from those nodes, until the results 
 
 Nodes join the network by contacting one existing node in the network, and performing a request for their own ID, which propagates their address through the network.
 
-Further features include taking advantage of the fact that node lifetime follows a power law, with longer-lived nodes more likely to live longer; longer-running nodes are kept at the top of the $k$-bucket lists.
+Further features include taking advantage of the fact that node lifetime follows a power law, where at any point in time, historically longer-lived nodes are more likely to live longer in the future; longer-running nodes are kept at the top of the $k$-bucket lists.
 As nodes are encountered, they are added dynamically to $k$-bucket lists.
 
 Kademlia has the potential for lookup failure if newly added nodes are closer to the key than the current key-holder, and the key-holder is not updated accordingly.
@@ -95,7 +96,7 @@ Therefore I suggest that it is better to force a copy of all closest keys to a j
 It may have to go through a similar strictly ordered join process, as was suggested for Chord, before declaring a complete migration.
 
 Nodes departing the network may render lookup failures, as in Chord, however I suggest that this can be mitigated by stipulating that all nodes must write their keys and values to disk, so they can be pulled back online and restored if they depart the network.
-This is one major point of relevance to \lsr{}; these DHT's were originally written with semi-anonymous and potentially adversarial file-sharing in mind, while \lsr{} is intended to be run in a reasonably controlled environment where failing nodes can always be revived.
+This is one major point of relevance to \lsr{}; these DHTs were originally written with semi-anonymous and potentially adversarial file-sharing in mind, while \lsr{} is intended to be run in a reasonably controlled environment where failing nodes can always be revived.
 
 \subsection{Alternatives to Standard DHT Approaches}
 
@@ -105,7 +106,7 @@ However, it is important to keep in mind that they are intended for extremely hi
 For instance, the routing table could instead be a list of all nodes, permitting joins and departures, and provide \bigO{1} lookup cost, at the expense of an \bigO{N} routing table.
 This mesh algorithm would scale to a reasonable number of nodes, though is likely to flounder past several hundred.
 
-DHT's also aren't the only means of implementing a distributed associative array, which is the base data type that is sought after for our purposes; Skip graph is a distributed version of the skip-list probabilistic data structure, with simple operations and impressive access costs\cite{aspnes2007skipgraph}.
+DHTs also aren't the only means of implementing a distributed associative array, which is the base data type that is sought after for our purposes; Skip graph is a distributed version of the skip-list probabilistic data structure, with simple operations and impressive access costs\cite{aspnes2007skipgraph}.
 The skip-list algorithm which underpins it is made use of by Redis in its implementation of ordered sets.
 
 \subsection{Value and Key Descriptions}
@@ -120,14 +121,14 @@ References to other chunks in the dependency graph describe the chunk ID of the 
 
 The dependency graph and DHT hosting it would be separate, though depended upon, by the working \lsr{} system.
 For all intents, the DHT may be accessed through a simple \code{read} and \code{execute} interface at the top level, with perhaps some middle layer communicating storage details and garbage collection information to the DHT.
-The question remains of how much responsibility should be held by the DHT with respect to how much responsibility should be held by the operating \lsr{} system.
+The question remains of how much responsibility should be held by the DHT, and how much should be held by the operating \lsr{} system.
 For instance, should the DHT return the address of a chunk when queried, or go beyond that and return the very value of the chunk?
 Initial inclination is toward the DHT returning the address, with some thin adaptor returning the value, and the system having no further knowledge than the bare minimum of the adaptor's interface.
 This information hiding aids in modularity and will hopefully result in less code changes necessary when changing out components in the future\cite{gamma1995design}.
 
 \subsection{Extensions and Variations}
 
-In-memory replication, redundancy, or caching, is the standard means by which DHT's prevent data loss.
+In-memory replication, redundancy, or caching, is the standard means by which DHTs prevent data loss.
 A challenge this brings is to the consistency mutable values if replicated across nodes; Attaining distributed consensus on changes to existing data is exceptionally difficult, though not impossible\cite{brewer1999cap}\cite{gilbert2002brewer}.
 Given that all nodes in the system are trusted, it is better to mirror all data to disk, at least as part of the current implementation.
 That way, when failures occur, the system is merely a reboot and restore back to functionality -- an advantage of a non-adversarial network.

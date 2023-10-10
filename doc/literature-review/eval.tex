@@ -67,7 +67,7 @@ In this way, a passed parameter is able to be mutated from within a function, th
 Many object-oriented languages engage in a call-by-object strategy, including \proglang{Python} and \proglang{Ruby}.
 
 Call-by-name and call-by-need are joined by other forms and mechanisms of lazy evaluation.
-One such strategy, known as optimistic evaluation, is a variation on call-by-need, wherein a functions parameters are evaluated under some time limit upon the application of that function, with any evaluations exceeding the time limit terminated and switched to a standard call-by-need evaluation strategy \cite{ennals2003optimistic}.
+One such strategy, known as optimistic evaluation, is a variation on call-by-need, wherein a function's parameters are evaluated under some time limit upon the application of that function, with any evaluations exceeding the time limit terminated and switched to a standard call-by-need evaluation strategy \cite{ennals2003optimistic}.
 This approach is intended to capture the efficiency benefits of both call-by-need as well as strict evaluation.
 Another optimisation in lazy evaluation is given by graph reduction.
 Graph reduction involves treating expressions not only as abstract syntax trees, but as directed acyclic graphs, where multiple invocations of the same expression are depicted once only in the graph and linked together to avoid re-evaluation of the same expression\cite{hudak1989functional}.
@@ -97,14 +97,13 @@ An example of such a mismatch is given in \cref{lst:docall}
 
 \src[Rout]{docall}{A mismatch in an actual call and one generated with do.call}
 
-Beyond the above point regarding call creation,this leads to a missing capacity for procedures taking advantage of lazy evaluation, including the termination mechanism discussed in \cref{sec:evalinr} and illustrated in \cref{lst:call-need}.
+Beyond the above point regarding call creation, this leads to a missing capacity for procedures taking advantage of lazy evaluation, including the termination mechanism discussed in \cref{sec:evalinr} and illustrated in \cref{lst:call-need}.
 
 \subsection{Alternatives to Prior Evaluation Strategies}
 
 In order to bring prototypes of the project closer in line with standard \R{} evaluation, a radically different evaluation mechanism is required.
 The evaluation or collection of the arguments to a function on a node would have to take place only upon those arguments being accessed in the evaluation of the function body.
 This implies a necessity to take advantage of promise objects.
-Such a capacity is already inherent in R, with \code{delayed-assign} from the base package granting direct access to promise creation.
 Upon access of the promise objects, some operation should be enacted to emerge the underlying expression locally, including potential initiation of remote procedures.
 There are already limitations, however; One example is the execution of a remote distributed call with local arguments -- if the call is to take place asynchronously, there is no immediate mechanism for the node executing the call to attain the local arguments as and when (and if) they are needed.
 This would require evaluation of the arguments before sending off the call.

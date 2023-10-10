@@ -3,7 +3,7 @@
 +     print(p)
 +     then(p, onFulfilled = function(value) print(value))
 +     repeat {
-+     later::run\_now()
++     later::run_now()
 +     }
 + }}()
 <Promise [fulfilled: logical]>
