@@ -3,7 +3,7 @@ skinparam monochrome true
 skinparam shadowing false
 skinparam style strictuml
 
-(D)
+(B)
 if (data locally available?) then (yes)
 :Return data to requester;
 else (no)

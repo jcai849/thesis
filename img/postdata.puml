@@ -3,7 +3,7 @@ skinparam monochrome true
 skinparam shadowing false
 skinparam style strictuml
 
-(B)
+(C)
 :store data;
 fork
 group Check if data has associated audience

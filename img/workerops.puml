@@ -9,17 +9,17 @@ switch (request)
 case ( )
 :PUT /computation/*;
 (A)
-(E)
+(D)
+:GET /data/*;
+(B)
 case ( )
 :POST /data/*;
-(B)
-(E)
+(C)
+(D)
 case ( )
 :PUT /computation-ready/*;
-(C)
+(E)
 case ( )
-:GET /data/*;
-(D)
 endswitch
 endwhile
 -[hidden]->

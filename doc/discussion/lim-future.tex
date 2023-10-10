@@ -48,7 +48,7 @@ If some checkpointed nodes are placed in the path of one of these unreferenced d
 
 The task then becomes one of determining the unreferenced delta nodes that have all their dependency paths, if followed backwards, resulting in a checkpoint.
 A reference counting algorithm suffices to reveal these nodes, when combined with the important observation that checkpoints shouldn't count as references.
-There are then four rules for algorithm for node removal: \begin{itemize} \item Every node has an target counter, as an integer, initialised at zero.
+There are then four rules for algorithm for node removal: \begin{itemize} \item Every node has a target counter, as an integer, initialised at zero.
 	\item The introduction of a target node must result in the unit incrementation of all of its direct prerequisite's target counters.
 	\item The removal of a target node, or a node becoming a checkpoint, must result in the unit decrementation of all of its direct prerequisite's target counters.
 	\item Unreferenced nodes with a target counter of zero are to be removed.
@@ -78,7 +78,7 @@ With more users comes more bug reports and bug fixes, and it may very well be th
 The incredible ecosystem of statistics-specific packages that \R{} offers would seem to outweigh this concern on its own, however.
 The other aspect that is something of a crack in the assumption is the language itself.
 In particular in this project, due to single threading and no concurrency, \R{} has served as something of a roadblock to clear description of network communications between nodes.
-This was described in great detail in \cref{sec:concurrency-r}, and the end result was \orcv being mostly written in \proglang{C}, which was not too difficult, created extra complexity and loss of clarity, especially when compared with a language that may have such capabilities built-in.
+This was described in great detail in \cref{sec:concurrency-r}, and the end result was \orcv{} being mostly written in \proglang{C}, which was not too difficult, created extra complexity and loss of clarity, especially when compared with a language that may have such capabilities built-in.
 A presentation on \lsr{} at the 2022 NZSA Unconference led to several audience questions.
 Among them was Ross Ihaka, one of the co-creators of \R{}.
 His question was simple -- ``Why \R{}?''\\

@@ -33,6 +33,15 @@ Thus, the asynchronous pattern in \lsr{} is to send many asynchronous requests, 
 
 In this way, \lsr{} provides several means for the movement of chunks across the distributed system, with provisions given to minimise race conditions and allow for data non-availability.
 
+\subsection{Chunk Computation}\label{sec:chunk-computation}
+
+Supporting the \code{d} function at the higher level is the \code{do-ccall} function, which pushes computations to individual chunks directly.
+Unlike \code{d}, \code{do-ccall} makes no attempt at alignment, emergence, or any distributed object aware semantics.
+Conversely, the \code{d} function doesn't require any knowledge of individual chunks in its use - this information hiding enables the layered modularity and separation of concerns that create the ease of programming in \lsr{}.
+The sole use of \code{do-ccall} is to push individual computations over individual chunks, returning chunk references -- which then form the basis of distributed objects.
+Beyond just individual chunks, as an optimisation to avoid sending out many hundreds of calls for each computation, a list of chunks can be given to \code{do-ccall} and multiple chunks existing on the same node can be addressed with a single call.
+More implementation-specific details are given in \cref{sec:nodes}.
+
 \subsection{Nodes}\label{sec:node}
 
 Some description is given here to flesh out what the vague notion of ``location'' for chunks.

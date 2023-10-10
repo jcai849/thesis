@@ -52,13 +52,56 @@ Actual HTTP is not used currently; rather, it is emulated with an \R{} list comp
 \subsubsection{Worker operation in detail}
 
 Activity diagrams demonstrating the main operation of the worker is given in \cref{fig:workerops,fig:putcomp,fig:postdata,fig:putcompready,fig:getdata,fig:checkprereqs}.
-This is seen in use in an example interaction in \cref{fig:sysinteract}
+
+The central event loop for a worker is shown at a high level in \cref{fig:workerops}.
+Polling on a request, it listens for information regarding computation or data, each split into two forms.
+The worker can either receive data, or be requested for data.
+Not entirely symmetrically, a worker can either receive information that a computation is ready (all chunks are available for it to go ahead), or a new computation may be requested to run on the worker.
+Each of these requests are handled in a different manner.
 
 \widefig{workerops}{Activity diagram of main worker operation}
+
+The handler that is launched in response to a request for a new computation to be run is given in \cref{fig:putcomp}.
+The computation is deserialised and stored, and is then staged.
+Here, certain checks need to take place regarding the availability of computation chunk arguments arguments as prerequisites.
+Each prerequisite chunk needs to be locally available to the worker.
+If all are available, then the chunks are marked as such and the computation may proceed.
+Each missing prerequisite has an asynchronous data request issued to the host where that chunk is known to reside.
+Notably, the worker doesn't block here.
+After performing the sweep and issuing requests if necessary, the worker moves on immediately.
+
 \widefig{putcomp}{Activities resulting from a PUT for computation}
-\widefig{postdata}{Activities resulting from a POST of data}
-\widefig{putcompready}{Activities resulting from a PUT of computation ready}
+
+A request for data is given in \cref{fig:getdata}.
+When a request is received for data, the data may not yet be ready.
+The data may still need to be computed, with the computation dependent on other prerequisites that are not yet available, either for the same reason, or because a requested machine is in the midst of computation.
+As such, data that is not yet available yet has a request for it from some node has a placeholder kept for it in the worker cache, with the requesting node marked against it as part of the ``audience''.
+The audience follow a subscribe model, where when the worker fills the placeholder with the data it will then send it to all of the audience for it, shown in \cref{fig:postdata}.
+
 \widefig{getdata}{Activities resulting from a GET of data}
+
+\Cref{fig:postdata} demonstrates the activities that occur when data is sent to a worker.
+Immediately the data is stored.
+There are two potential dependents on the presence of that data now: the audience of nodes who have asynchronously requested it, as well as any computations that depend upon it locally.
+In the case of the audience, it is sent to them.
+In the case of any dependent computations, its availability is marked.
+
+\widefig{postdata}{Activities resulting from a POST of data}
+
+\Cref{fig:putcomp,fig:postdata} both have the potential to alter the state of availability as marked on computational prerequisite chunks.
+As such, following both of these, the same computation prerequisite check routine is run, as given by \cref{fig:checkprereqs}.
+This is a simple sweep of prerequisites for computation, checking for their local availabilith.
+For those that are entirely available, the computation is ready to proceed.
+In keeping with the concurrent nature of the system, rather than monolithically engaging in the computations immediately, communication is sent from the worker to itself acknowledging the computations which are ready, and the event loop continues.
+
 \widefig{checkprereqs}{Activities when checking computation prerequisites}
+
+Upon receiving the information that a computation is ready, the worker performs a series of steps to run the compuation and store the results, as given in \cref{fig:putcompready}.
+Notably, it returns the data to itself through a request -- this is, as before, in keeping with the concurrent model.
+In addition, it maintains the spirit of structured programming with a single entry and exit for a handler, allowing for a single point of engagement with the activities resulting from a sending of data as given in \cref{fig:postdata}, including sending the data to its audience and checks for data as prerequisite to computation.
+
+\widefig{putcompready}{Activities resulting from a PUT of computation ready}
+
+An example interaction in \cref{fig:sysinteract} shows the activities in the context of communication through data and computation requests.
 
 \widefig{sysinteract}{Sequence diagram of example interaction between client, workers, and locator}

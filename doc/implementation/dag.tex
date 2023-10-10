@@ -7,12 +7,16 @@ The relevant considerations include the availability of chunks, determination of
 For chunks to be used in a computation, they must be made available to the computing node.
 In an asynchronous system, chunks may exist in varying states of temporal and spatial availability.
 There are four possible relational states that a dependent chunk may exist in with respect to a worker node.
-The states include:
+Each state as described below is accompanied with an example diagram demonstrating the sequence of events that accompany requests for prerequisite chunks in their corresponding states.
+Within the diagrams, each node may have multiple internal entities such as the store and the worker, which are just discrete components within the same process.
+The concurrency is important here -- note the client engaging asynchronously in all cases, returning immediately back to its own processing after receiving acknowledgement, not the return value, of the requested computation.
+The states of the prerequisites include:
 
-\begin{itemize} \item Prerequisite locally available (\cref{fig:comm-la}).
+\begin{itemize}
+	\item Prerequisite locally available (\cref{fig:comm-la}).
 	\item Prerequisite locally pending (\cref{fig:comm-lp}).
-	\item Prerequisite externally available.
 	\item Prerequisite externally pending (\cref{fig:comm-ep}).
+	\item Prerequisite externally available (given in \cref{fig:comm-ep} as the interaction between Prerequisite Node and Response Node)
 \end{itemize}
 
 \widefig{comm-la}{Prerequisite locally available}

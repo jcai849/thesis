@@ -55,7 +55,7 @@ Such a strategy is made use of in the model implementation in \cref{ch:lasso}.
 The extensibility which this allows can't be under-emphasised; by describing how chunks combine based on their class, the entire distributed object is thereby defined in structure by the chunk classes.
 This allows for infinitely many variations on chunking structure.
 Row-wise splits are natural for most $n<<p$ dataframes, but if they are wider than they are long, splits along columns may be necessitated, and can be defined purely based on the classes of the chunks at emergence.
-Alternatively, if the use of a class for combination is considered excessive for the smaller needs, the emerge function does take a combine argument, which allows for an alternative, direct means of specifying combination.
+Alternatively, if the use of a class for combination is considered excessive for the smaller needs, the \code{emerge} function does take a \code{combine} argument, which allows for an alternative, direct means of specifying combination.
 
 \subsection{Shuffle}\label{sec:shuffle}
 
