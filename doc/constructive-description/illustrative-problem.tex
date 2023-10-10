@@ -3,7 +3,7 @@ The data varies along many different fronts, including complexity, shape, veloci
 In this chapter, we seek to compose a motivating example with which to illustrate the development of our answer to the problem of large data.
 
 As an example dataset, we consider only data which exists beyond the regular spectrum of size, sitting larger than memory.
-Concretely, for the purpose of example, consider the NYC TLC dataset.
+Concretely, for the purpose of example, consider the NYC TLC dataset\cite{tlc2021trips}.
 This dataset consists of measures relating to all taxi and limousine trips in New York City from January 2009 to present.
 There are roughly 2 billion rows and 25 columns, totalling over 60Gb.
 Measures include aspects of the trip such as pickup and dropoff times and locations, passenger count, tips and tolls, and vendor.
@@ -38,7 +38,7 @@ How do we begin?
 
 \src{massive-crash}{Naive read of larger than memory data guaranteeing a crash}
 
-\cref{lst:massive-crash} simply won't work.
+\Cref{lst:massive-crash} simply won't work.
 The object in memory will crash even high-end PC's, at its 60Gb+ size.
 There must be a better means of representing the data than its direct form as standard \R{} objects.
 Conversely, such a representation can't possibly stray too far from what the statistician is familiar with in the language.

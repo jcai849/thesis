@@ -88,7 +88,7 @@ In other situations, the scalar may be treated as a vector to be recycled to the
 For instance, the \code{pmax} between a scalar and a vector.
 Recycling is not always intended, and when comparing distributed objects of differing length, different functions may require different strategies.
 
-\cref{fig:scalar-index} shows precisely this example.
+\Cref{fig:scalar-index} shows precisely this example.
 Here, \code{x} is a chunk containing a single integer, \code{1}, and \code{y} is a distributed object composed of three chunks, each holding a section from \code{1up}.
 In all chunk computations with \code{max-x-y}, \code{x} is to be recycled to engage as an argument with all chunk operations involving \code{y}.
 Conversely, if \code{y} is to be indexed by \code{x}, it should not be recycled, and each chunk belonging to \code{y} should receive different transformations of \code{x}.

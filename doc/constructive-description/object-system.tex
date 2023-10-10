@@ -22,6 +22,7 @@ Without holding this split as the defining audience differentiator, its existenc
 Therefore, the object system must engage multiple audiences.
 This endeavour may take several different forms, through the existence of multiple object systems, or one singular object system.
 Such a component will necessarily be driven by the experience of use, but it is worthwhile to explore these options in greater detail prior to implementation.
+
 Considering a single object system first, there is the difficulty of appeasing multiple audiences simultaneously.
 This object system may favour one set of audiences over another, which in turn decreases the value of this project for those audiences unfavoured by the system.
 Using multiple object systems, with each geared to a particular audience, may overcome such a difficulty, though raises another question, in how the systems relate to each other.
@@ -66,6 +67,7 @@ Based on the lower layer serving as a basis for the higher layer, chunks would b
 With the high-level object composed of chunks, it therefore forms some variation of a \textbf{distributed object}.
 Whether the chunks are necessarily physically dispersed, or accessed from the same location at differing time points is a question to be settled later - the overall object is irrespectively distributed over space or time.
 The power-user would therefore have access to chunks, and the end-user access to the objects composed of chunks, a generalised distributed object, whose manner of distribution may remain undefined for now.
+
 Within this range, there may be intermediate objects.
 For instance, there may be some object which serves as a container for chunks, though still retains access to implementation-specifics of chunks, without hiding such information as the abstract distributed object does.
 Such an object may be defined by widely differing container shapes, such as a vector, matrix, array, or some other nonlinear form.
@@ -117,7 +119,7 @@ Importantly, \code{d2} is also a chunk reference, with no emerges having taken p
 The chunk referred to may exist in a separate memory space to the reference, just like \code{d1}.
 No specification is given as to whether it necessarily exists in the same memory space as \code{d1} however, only that both are remote to the reference.
 
-The above is interaction purely at the pure chunk level.
+The above is interaction purely at the chunk level.
 When considering collections of chunks, or abstracting over them as the user level would require, certain differences arise.
 For example, when seeking the maximum of a set of chunks, due to the transitive nature of such a function, the maximum of the chunks is the maximum of the maximums of each chunk.
 But this is only so if the underlying data structure possesses meaning for such a function.
@@ -158,6 +160,7 @@ At the high level, a user for whom chunks are out of the realm of concern, may s
 \src[Rout]{high-level}{High level functional interaction with chunks}
 
 Here, the results of the operation are automatically emerged from chunks, and the output of the chunks is combined automatically.
+Note that this sampling doesn't mean that each chunk yielded one single sample -- the sample could have come from any combination of chunks, and this raises the complexity somewhat, to be a multi-step process.
 Automatic unmarshalling is straightforward and can be handled in a wrapper.
 Automatic combination is less so, as different underlying data types have different means of combination, and indeed there may be different intended means of combination for different operations on the same data type.
 The means by which such direction can be encoded may take many forms: It may be polymorphic to be dispatched according to datatype upon emergence; it may be held as a stored procedure with the data, or with the chunk; it may be specified manually each time.
@@ -168,7 +171,7 @@ Consider in \cref{lst:varying-sizes} a different distributed object, with chunks
 
 \src[Rout]{varying-sizes}{A distributed object composed of chunks of varying sizes}
 
-To sample \(n\) elements from this distributed object, each chunk will have to be sampled from.
+To sample \(n\) elements from this distributed object, each chunk will have to form part of the sample space, but it is not necessarily the case that each chunk will necessarily have draws from it.
 However, in this case with the lengths of the chunks differing, the weighting applied to each chunk must vary.
 Because the operations on each chunk occur independently and without the possibility of combining them all for comparison, the remote chunk samples must occur in isolation.
 One manner in which such a problem may be approached is to sample \(n\) times from some probability distribution over the chunks, then use the results to sample from the chunks in turn.

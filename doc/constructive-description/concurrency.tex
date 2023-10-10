@@ -11,7 +11,7 @@ Given the different points of reference in the system, we have from the client's
 A worker sees that of receiving the order for chunk operations, gathering the chunks, running the operation, and storing the result.
 Forcing an even higher-level perspective, we can group the operations to those chunk operations pertaining to client, and those to worker.
 And the question again arises: How to compose these two independent processes?
-Stated in the same manner as an section, are chunks to be distributed over space, or over time?
+Stated in the same manner as \cref{sec:computation}, are chunks to be distributed over space, or over time?
 Again, distribution over space has chunks occupying separate memory spaces simultaneously; for example they may sit on separate nodes in a computing cluster.
 Distribution over time sees chunks occupying the same memory space but at different points in time, sequentially.
 There is something of a gradient between the two options as well, where spatially distributed chunks may have separate temporal existences as well; for example, a cluster of nodes that each sinks chunks to disk, pulling them into memory only when required.
@@ -28,7 +28,7 @@ In comparing the virtues of parallelism with concurrency, the question effective
 The only additional time is the overhead of coordination of multiple processes, which is potentially not all that different from the overhead of organising processes concurrently.
 The remaining question is that of possibility - many things likely cannot be parallelised.
 Any algorithm where each operation is dependent on the outcome of the previous operation serves as examples of those where parallelisation is unclear, though it remains an open question of whether the class of problems that can be solved efficiently in parallel, \(NC\), is equal to \(P\), the inherently sequential problems, as per \textcite{cook1985}.
-The problem posing us is therefore whether the distribution of chunks is inherently sequential, and we have already shown that it does not have to be, with the conceptual possibility of the distribution of chunks through space.
+The problem is therefore whether the distribution of chunks is inherently sequential, and we have already shown that it does not have to be, with the conceptual possibility of the distribution of chunks through space.
 Given this fact, a strong hint is given as to the direction the distribution of chunks should take, and thereby the composition of client and worker(s); at the very least, some degree of parallelism will aid in efficiency.
 In a very concrete sense, the fact of having all chunks in memory simultaneously should lead to orders of magnitude faster interaction with them over having to deserialise them from storage, due to the major speed advantages of computer memory with respect to computer storage.
 
@@ -47,7 +47,7 @@ Upon issuing a request for operations to be run over some chunks, a remarkable t
 The processing occurs in an entirely separate memory space, with a different processor.
 Were the client performing operations on regular, non-chunk objects, the processing would bind up the client, and it would block until the operation completed.
 
-\cref{fig:work-request} shows a an example of this, where a client issues
+\Cref{fig:work-request} shows an example of this, where a client issues
 a request for work, and is entirely free to do whatever other processing
 is desired while the worker is blocked in managing the request.
 
@@ -63,7 +63,8 @@ Such measures may include having some small degree of blocking in the client to 
 
 The emergence of a chunk on the client may also take several different forms, and the system may very well possess the capability for all of them.
 The key point to be made is that the existence of a chunk can not be assumed across the system.
-The different knowledge of a chunk can be relatively considered as different forms of existence of chunks, so it is worth momentarily digressing to discuss them: Chunks may exist, or they may not yet exist.
+The different knowledge of a chunk can be relatively considered as different forms of existence of chunks, so it is worth momentarily digressing to discuss them.
+Chunks may exist, or they may not yet exist:
 
 \begin{itemize}
 	\item

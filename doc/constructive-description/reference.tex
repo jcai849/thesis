@@ -7,7 +7,7 @@ What we want to investigate in this chapter, is how such a relationship, which i
 First, it must be established that the reference itself may be of conceptual interest.
 The referents themselves, if completely transparent to a reference, possess no information on their relation to each other.
 This information needs to be captured somewhere accessible to the user, with most distributed algorithms being dependent on the knowledge of how the underlying chunks relate, in dimension or quantity.
-For a specific example, see the later chapter on ADMM.
+For a specific example, see \cref{ch:lasso}.
 Such information may be stored with each referent chunk, but it may also be argued that the metadata belongs with the reference, being the single entity representing many others, it fits well conceptually.
 Were this to be the form of binding such information, the reference requires some means of direct access, rather than being a plain proxy to pass through.
 
@@ -66,7 +66,7 @@ Values also self-evaluate; \code[lisp]{6} evaluates to \code[lisp]{6}.
 The evaluation treats everything as ``in-use''.
 Such behaviour can be prevented through quotation constructs.
 For example, \code[lisp]{quote-sum} evaluates to \code[lisp]{sum}, which is just treated as just a list of symbols (mention), ready for evaluation later on.
-Such a construct is so common, it has the abbreviated form of the \code[lisp]{tick} - the above example may have been equivalently quoted using \code[lisp]{tick-sum} Quotation may also act in a more selective manner, where some symbols are used, and others just mentioned, with the ``back-quote'' operator of quasi-quotation.
+Such a construct is so common, it has the abbreviated form of the \code[lisp]{tick} - the above example may have been equivalently quoted using \code[lisp]{tick-sum}. Quotation may also act in a more selective manner, where some symbols are used, and others just mentioned, with the ``back-quote'' operator of quasi-quotation.
 Here, \code[lisp]{backquote} is used to quote, with \code[lisp]{quasiquote} used to unquote.
 For example, \code[lisp]{quoted} evaluates to \code[lisp]{unquoted}.
 
@@ -99,7 +99,7 @@ Practically speaking, distributed object references must be interacted with usin
 Referent interaction may take place through wrapping the relevant functions manually, perhaps through some higher-order wrapper provided by the system, that may output a function which proxies the distributed object reference.
 Common methods may have this already provided.
 Reference interactions may take several different forms.
-Like \pkg{pbdR}, they may have some special encoding in function names, is in \code{ddim}.
+Like \pkg{pbdR}, they may have some special encoding in function names, as in \code{ddim}.
 This is similar to C's \texttt{\#}-directive pre-processing, though it requires an additional modest burden on the developer.
 Alternatively, functions may be provided to \code{materialise} and dematerialise the distributed object reference, which serve as the only special cases to access the reference directly.
 

@@ -5,6 +5,6 @@
 # chunk reference on client pointing to an integer chunk on some worker:
 > z <- x + y
 # chunk reference on client pointing to an integer chunk on some worker:
-a <- z + 1 + 2 + ... + n 
+> a <- z + 1 + 2 + ... + n 
 # Integer on client:
-b <- emerge(a)
+> b <- emerge(a)
