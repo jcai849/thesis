@@ -5,14 +5,14 @@ To create a minimal implementation of distributed objects in R, with transparent
 \subsubsection{Method}\label{method}
 
 Using the nectar cluster, the \code[sh]{hdp} node was used as a master with which to control worker nodes \code[sh]{hadoop1} through to \code[sh]{hadoop8}.
-\pkg{RServe} was used as the means for control and
+\pkg{Rserve} was used as the means for control and
 communication with the workers.
 S3 classes were defined for \code{cluster}, \code{node}, \code{distributed-object} and \code{distributed-vector}.
 Communication functions operate serially, but were written with future parallelisation and speed in mind.
 
 The \code{node} class contains information on connections to the worker nodes.
 The \code{cluster} class is a collection of \code{node}s.
-The cluster is set up using \code{make-cluster}, which \code[sh]{ssh} into the hosts and launches \pkg{RServe}, along with the relevant libraries and functions.
+The cluster is set up using \code{make-cluster}, which \code[sh]{ssh} into the hosts and launches \pkg{Rserve}, along with the relevant libraries and functions.
 The global environment local to specific nodes can be checked with the \code{peek} method, serving purely as a sanity check at present.
 \code{send} is a generic with
 methods defined for the \code{node} and \code{cluster} classes; it
@@ -35,7 +35,7 @@ It contains a list of hostnames, the indices of the vector residing on each node
 \code{distributed-object} as an argument, and receiving the unsplit
 referent of the \code{distributed-object} as the value.
 The method will have additional usage as a remote version, which would enable point-to-point communication through a node calling \code{receive} on some distributed object, thereby requesting the referent from its location on all other nodes.
-Such remote usage is not yet implemented due to difficulties with point-to-point communication using \pkg{RServe}.
+Such remote usage is not yet implemented due to difficulties with point-to-point communication using \pkg{Rserve}.
 However, such functionality is essential, and is discussed further in the successive sections.
 
 As a means of testing operations between \code{distributed-vector} objects, S3 \code{ops} methods were defined, using a complex quoting function in order to call the correct \code{generic} and reference the name of the vectors on the worker nodes.
@@ -61,17 +61,17 @@ Were \code{a} and \code{b} not to be assigned, however, the result would still b
 
 This is a memory leak at a high level, and reassignment is even worse; conceivably, there could be some side effect for the cases of non-assignment and reassignment, though this would require a level of reflection whose existence is currently unclear in R.
 
-Dealing with objects of greater complexity such as matrices are certain to pose problems, and it is unlikely that whatever evolution of this implementation would perform better than something that has had years and teams worth of effort poured into it, such as LAPACK or SCaLAPACK.
+Dealing with objects of greater complexity such as matrices are certain to pose problems, and it is unlikely that whatever evolution of this implementation would perform better than something that has had years and teams worth of effort poured into it, such as LAPACK or ScaLAPACK.
 
 The need for data movement between nodes as in the case of aligning two vectors to exist at equivalent positions at equivalent nodes for the sake of processing, if it is to be done efficiently, requires point-to-point communication.
 The alternative is to have each node channel data through the master and then on to the appropriate node, which would be a massive waste of resources.
-This point-to-point communication is not so easy to perform in reality, as \pkg{RServe} forks a fresh \R{} session at every new connection, so objects that exist in a particular node in connection with the master are not able to be referenced in any other connection.
+This point-to-point communication is not so easy to perform in reality, as \pkg{Rserve} forks a fresh \R{} session at every new connection, so objects that exist in a particular node in connection with the master are not able to be referenced in any other connection.
 
 \subsubsection{Next Steps}\label{next-steps}
 
 The next steps in this experiment should involve introducing quality of life aspects to distributed objects such as formal getters and setters, before it becomes unmanageable.
 Further methods for \code{distributed-vector} as well as a generalisation to vectors of different lengths are necessary.
-The implementation of operations between vectors of different lengths requires elements of vectors at equivalent positions to be on the same node for processing; this implies some kind of \code{align} method, which as discussed in the previous section, would ideally require point-to-point communication, which isn't so easily permitted through (ab)using \pkg{RServe}.
+The implementation of operations between vectors of different lengths requires elements of vectors at equivalent positions to be on the same node for processing; this implies some kind of \code{align} method, which as discussed in the previous section, would ideally require point-to-point communication, which isn't so easily permitted through (ab)using \pkg{Rserve}.
 In turn, some custom solution would likely be required.
 Upon implementing this, the system will be highly flexible, with a clean demonstration of this begging for the right methods defined such that \code{summary} and the like work smoothly.
 This would lead naturally to the definition of \code{distributed-data-frame} objects and the like.

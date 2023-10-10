@@ -21,7 +21,11 @@ The master will therefore always be local, all other nodes remote.
 As it currently stands, the local information structures are entirely described by S3 classes, the instances of which act as references to the payload data being held remotely.
 These classes are composed as environments, used for their mutable hash table properties, and contain three elements:
 
-\begin{description} \tightlist \item[\texttt{locs}] a list of \pkg{RServe} connections through which the remote payload data resides in discrete chunks \item[\texttt{name}] a UUID character scalar, which corresponds to the symbol which the chunks are assigned to in the remote environment \item[\texttt{size}] an integer vector of the same length as \texttt{locs}, describing the size (as in \texttt{nrow} or \texttt{length}) of the chunk at each location \end{description}
+\begin{description} \tightlist
+\item[\texttt{locs}] a list of \pkg{Rserve} connections through which the remote payload data resides in discrete chunks
+\item[\texttt{name}] a unique identifier character scalar, which corresponds to the symbol which the chunks are assigned to in the remote environment
+\item[\texttt{size}] an integer vector of the same length as \texttt{locs}, describing the size (as in \texttt{nrow} or \texttt{length}) of the chunk at each location
+\end{description}
 
 This is coupled with a garbage collection system consisting of a hook to the removal of the reference object through \code{reg-finalize}.
 Upon triggering the hook, a directive is issued to all chunks in \texttt{locs} to remove \texttt{name}, thereby closing the loop between creation and deletion on local and remote nodes.
@@ -88,7 +92,7 @@ In this manner, the ``marking'' via name collection is closer to the method of m
 \subsubsection{Remote: Description and Motivation for Current System}\label{description-and-motivation-for-current-system}
 
 The remote end of the system is the simplest component of the entire setup.
-Each remote \R{} process is hosted through \pkg{RServe}, and accessed through \pkg{RSclient} on the local end.
+Each remote \R{} process is hosted through \pkg{Rserve}, and accessed through \pkg{RSclient} on the local end.
 The remote \R{} process holds chunks of data in its global environment, and performs whichever operations on that data as are directed to it from the master \R{} session.
 The data possesses no more structure than what was already in the chunk following reading, operation upon, or reception by the node.
 This has again been due to reasons of simplicity, as no presuppositions of structure suggested themselves at the outset.

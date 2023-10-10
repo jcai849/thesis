@@ -51,8 +51,8 @@ Similarly to chunk manipulation, the central function for performing operations 
 It possesses similar formal parameters to the standard \code{do-call}, being \code{what}, \code{args}, and \code{assign}, which respectively describe the function to be called, a list of arguments to serve as arguments to \code{what}, and whether to return a value or to save the result and monitor it as a distributed object.
 
 A node acting in the role of client will call a \code{do-call-distobj} on a list of distributed object references, as well as non-distributed.
-Of this list, one distributed object reference will be chosen as the target with which all alignment is to be performed relative to, with the function \code{find-target}.
-From this target, \code{do-call-chunkref} is called with an additional \code{target} argument relating the target chunk, on all of the chunk references within the target, with the standard resultant messages being sent to the appropriate chunk queues.
+Of this list, one distributed object reference will be chosen as the \code{target} with which all alignment is to be performed relative to, with the function \code{find-target}.
+\code{do-call-chunkref} is called at this location with an additional \code{target} argument relating the target chunk, on all of the chunk references within the location, with the standard resultant messages being sent to the appropriate chunk queues.
 
 The queues are monitored and popped by the nodes holding the chunks, and \code{do-call-msg} is called on the popped message, taking the same arguments as \code{do-call-chunkref}.
 Within \code{do-call-msg}, \code{reftorec} and \code{alignment} are called to replace the reference objects in the \code{args} list with copies of their referent objects at indices analogous to the target chunk, thereby ensuring correctness in adjacent operations between arrays.

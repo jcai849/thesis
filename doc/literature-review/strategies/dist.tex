@@ -8,7 +8,7 @@ It is introduced with the following description:
 \cqu{pbdR2012}
 
 The project seeks especially to serve minimal wrappers around the \pkg{BLAS} and \pkg{LAPACK} libraries along with their distributed derivatives, with the intention of introducing as little overhead as possible.
-Standard \R{} also uses routines from the library for most matrix operations, but suffers from numerous inefficiencies relating to the structure of the language; for example, copies of all objects being manipulated will be typically be created, often having devastating performance aspects unless specific functions are used for linear algebra operations, as discussed in \textcite{schmidt2017programming} (e.g., \code{crossprod} instead of \code{crossprod-manual}).
+Standard \R{} also uses routines from the library for most matrix operations, but suffers from numerous inefficiencies relating to the structure of the language; for example, copies of all objects being manipulated will be typically be created, often having devastating performance aspects unless specific functions are used for linear algebra operations, as discussed in \textcite{schmidt2017programming} (e.g., \code{crossprod} instead of \mintinline{R}{t(X) %*% X}).
 
 Distributed linear algebra operations in \pkg{pbdR} depend further on the \pkg{ScaLAPACK} library, which can be provided through the \pkg{pbdSLAP} package \cite{Chen2012pbdSLAPpackage}.
 The principal interface for direct distributed computations is the \pkg{pbdMPI} package, which presents a simplified API to \pkg{MPI} through \R{} \cite{Chen2012pbdMPIpackage}.

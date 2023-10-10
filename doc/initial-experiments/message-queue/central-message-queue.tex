@@ -1,12 +1,10 @@
-\subsubsection{Introduction}\label{subsubsec:cmq-introduction}
-
 A problem exists in the architecture described in the prior section.
 At base, the co-ordination between nodes in the cluster requires significant effort from the master, with little room for additional features, with all inter-node communication being remote procedure calls only.
 This issue compromises nearly every aspect of operations on distributed objects, particularly in the initial reading in of data, and later data movement.
 The proposed amendments as described in \cref{sec:description-of-system-changes} provide some degree of amelioration, however the root of the issue in requiring full co-ordinating facilities from the master node is still not solved.
 
 A potential solution exists in the use of message queues.
-Message queues are commonly used for inter-process communication, consisting of queues through which applications may communicate over \cite{curry2004message}.
+Message queues are commonly used for inter-process communication, consisting of queues over which applications may communicate over \cite{curry2004message}.
 The use of message queues for communication between nodes will allow for significantly less knowledge required about other nodes within the system, and enabling greater independence of action within each node.
 Further benefits include allowing for asynchrony in more operations, the ability to monitor the system externally through watching queues, as well as the attendant benefits of decentralisation such as potentially greater resilience and decreased central complexity.
 

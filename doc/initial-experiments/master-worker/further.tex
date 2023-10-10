@@ -7,23 +7,26 @@ In addition, several new and prior unconsidered aspects have arisen; following a
 
 Functions are provided to start the instances through hostnames, to connect to the servers, and to kill the instances.
 A ``cluster'' object, akin to the \pkg{SNOW} cluster object, serves as a reference with which to declare distributed objects upon.
-Distributed objects exist conceptually as the actual data split across \pkg{RServe} instances, and a reference containing the minimum of necessary information existing on the users \R{} session.
+Distributed objects exist conceptually as the actual data split across \pkg{Rserve} instances, and a reference containing the minimum of necessary information existing on the users \R{} session.
 The users \R{} session thus serves as the master node in this distributed system.
 Importantly, the object references are registered with \code{reg-finalize} to run a cleanup on the hosts of the data when being garbage collected themselves.
 Distributed objects are formed from two possible sources; master side, or slave side.
-Formation on the master side involves taking an existing \R{} object, splitting it up according to some function (currently splitting according to most even element distribution), and sending the splits to their associated \pkg{RServe} instances, described in a supplied cluster object formal parameter to the creation function.
+Formation on the master side involves taking an existing \R{} object, splitting it up according to some function (currently splitting according to most even element distribution), and sending the splits to their associated \pkg{Rserve} instances, described in a supplied cluster object formal parameter to the creation function.
 All of the splits are assigned a name on the server side, stored in the distributed object reference.
+
 It is an unlikely user-end scenario that the big data is small enough to fit on the host in order to send it, so reading in data on the worker end, then feeding information back to produce a reference, is the other means of producing a distributed object.
 At present, this takes the form of a \code{read-distributed-csv} call that forwards on most of the arguments to server-side \code{read-csv} functions.
 The nodes then measure the number of rows on their chunk, sending back the information to inform the creation of a reference.
+
 Beyond the storage of data larger than the user-end memory, distributed objects can mimic standard \R{} objects, with an example being distributed vectors having \code{ops} defined.
 Operations between vectors are forwarded on to the hosts, along with the names of their associated chunks, for the hosts to perform at the distributed end.
 The results are assigned to a provided UUID, and a distributed vector reference is returned on the master session, pointing to the new chunks that have been created under the ID.
 Operations between distributed vectors and non-distributed vectors take place through distributing the non-distributed vectors, and recursing on the operation call, along with the original distributed vector and the newly created distributed vector.
-An important aspect to operations between vectors is that the actual processing of operations at corresponding locations between vectors necessarily requires the relevant elements to exist on the same \pkg{RServe} instance.
+
+An important aspect to operations between vectors is that the actual processing of operations at corresponding locations between vectors necessarily requires the relevant elements to exist on the same \pkg{Rserve} instance.
 This creates a complication in operations between vectors of different lengths, or distributed vectors with corresponding elements on different nodes.
 In this case the scalar is distributed to all of the hosts of the distributed vector, with the distributed end running the operation on the chunk and scalar, providing recycling equivalent to a non-distributed object due to scalar length being a multiplicative identity over the length of a vector.
-Beyond operations between vectors, some common functions of vector formal parameters have been implemented for distributed vectors.
+Some common functions of vector formal parameters have been implemented for distributed vectors.
 The nature of the returned object is of great importance in providing consistency and transparency, along with reasonable performance; such goals are often in tension against each other.
 
 Functions returning distributed vectors are arguably the more transparent among the functions acting on distributed vectors, in the sense that they return the same degree of distribution as their input, as regular \R{} functions implicitly do.
@@ -107,10 +110,10 @@ Even if the chunks are all logical, a call to \code{is-logical} will return fals
 However, this leads to breaking transparency, as an equivalent non-distributed vector will yield true.
 A possible solution could be to have finer distributed vector classes that couple with their underlying types, and inherit from a parent \code{distributed-vector} class.
 
-The nature of the connections to \pkg{RServe} instances have proven exceedingly efficient to work with, and have performed extremely well despite not being used as designed.
+The nature of the connections to \pkg{Rserve} instances have proven exceedingly efficient to work with, and have performed extremely well despite not being used as designed.
 The problem of inter-node communication was already covered in the initial report.
 In addition to this, some further issues have appeared, including the difficulty of debugging errors occurring at the server end, as well as occasional and somewhat unpredictable connections dropping \footnote{It appears somehow related to the occurrence of thrashing on the server side}.
-Likely, a more mature distributed object system will require the creation of something like an app manager at some point, replacing the current \pkg{RServe} form of connection.
+Likely, a more mature distributed object system will require the creation of something like an app manager at some point, replacing the current \pkg{Rserve} form of connection.
 In the mean time, an abstraction layer for communication will ease any potential transition to such a communication system.
 
 In a similar vein to the connection issues, part of the problem is that there always will be uncontrollable connection issues in some form, and most distributed systems take this into account, offering varying degrees of resilience to hardware and connection failure.
