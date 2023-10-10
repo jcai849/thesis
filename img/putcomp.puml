@@ -1,0 +1,20 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam style strictuml
+
+(A)
+:store computation;
+group stage computation
+while (all prerequisites accounted for) is (no)
+:select next unaccounted prerequisite;
+if (prerequisite currently locally available?) then (yes)
+:mark prerequisite available;
+else (no)
+:locate and issue request for prerequisite data (send GET /data/* request);
+endif
+endwhile (yes)
+end group
+stop
+
+@enduml

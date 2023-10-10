@@ -9,7 +9,7 @@ While the algorithms in this particular statistical system are equally necessary
 The first questions asked of a distributed system's information structures relate to its topology and mechanism of message passing.
 This particular system answers that necessarily through its context and aims; that it is currently intended to exist as a largely transparent platform within R, which necessitates interactivity and other standard R development practices.
 Thus, a centralised structure must be chosen for the system, with the node associated with the user's \R{} session acting as the master.
-This is the form of operation of other distributed packages currently existing in R, such as \pkg{sparklyr} and \pkg{SNOW} \cites{luraschi20,tierney18}.
+This is the form of operation of other distributed packages currently existing in R, such as \pkg{sparklyr} and \pkg{SNOW} \cites{luraschi20,tierney2018snow}.
 This can be contrasted with a decentralised system as in \pkg{pbdR} and its underlying \pkg{MPI} implementation \cite{pbdR2012}, which requires \R{} programs to be written in a manner agnostic to the nodes in which they are executed upon, resulting in the same program being distributed to all nodes in the system.
 In this way, the program is not capable of being run interactively, something undesirable to the goals of our system.
 The master will therefore always be local, all other nodes remote.

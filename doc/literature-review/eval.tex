@@ -4,7 +4,7 @@ Of greatest interest when discussing evaluation strategies are the treatment of 
 The mechanism of parameter passing can take several different forms, but is categorised at the highest level by whether the parameters passed to a function must be fully evaluated before a function is applied or not \cite{crank1991param}.
 A strategy requiring full evaluation before function application is termed ``strict'' evaluation, while the converse is termed ``non-strict'' evaluation.
 Alternative terminology is ``eager'' and ``lazy'' evaluation, respectively\cite{henderson1976lazy}.
-Binding strategy is a dependent concept, in which the form of the parameters passed to the function are considered\cite{abelson1996sicp:order}.
+Binding strategy is a dependent concept, in which the form of the parameters passed to the function are considered\cite{abelson1996sicp}.
 Binding strategies falling under strict evaluation involve passing to the function a fully evaluated value, an address to the value, or some other public interface.
 Non-strict binding strategies typically involve some variation on passing the name of a value that only resolves upon attempted access.
 
@@ -54,7 +54,7 @@ An exception to the evaluation strategy described here for \R{} is that the ``bu
 
 At this point it is worth discussing other mechanisms for evaluation, for context.
 
-Strict evaluation is typified by applicative order evaluation, which has rewrite rules corresponding to complete evaluation of all function arguments prior to evaluation of the function\cite{abelson1996sicp:order}.
+Strict evaluation is typified by applicative order evaluation, which has rewrite rules corresponding to complete evaluation of all function arguments prior to evaluation of the function\cite{abelson1996sicp}.
 The principal binding strategies include call-by-value, call-by-reference, and object-oriented variations such as call-by-object.
 Call-by-value involves full evaluation of parameters, then calling the function with copies of the values of the parameters\cite{plotkin1975callnameval}.
 It is commonly used, with an example being \proglang{C}'s handling of non-pointer data.
@@ -119,6 +119,6 @@ An argument can be made for leaving distributed evaluation as it is, for the pot
 The side-point made about call construction in \cref{sec:rdisteval}, and illustrated in \cref{lst:docall} may be met through capturing the original call and sending it along with references to the values to the executing node.
 Upon reception by the executing node, it may construct an outer evaluation frame with the passed variable names given as arguments in the captured expression being bound to their associated values (or distributed thunks)\cite{ingerman1961thunks}, and the expression evaluated within this outer evaluation frame.
 Variable names of passed parameters may be accessed for binding through code similar to the example given in \cref{lst:varnames}.
-A drawback of the approach is evaluation of parameters prior to function application, but this may be sidestepped through the \proglang{C} API in a similar manner to the definition of \code{dots-length}\cite{abelson1996sicp:order}.
+A drawback of the approach is evaluation of parameters prior to function application, but this may be sidestepped through the \proglang{C} API in a similar manner to the definition of \code{dots-length}\cite{abelson1996sicp}.
 
 \src[Rout]{varnames}{Access to variable names given as formal parameters to a function call using x and y as defined in \cref{lst:docall}}

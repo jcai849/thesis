@@ -1,0 +1,13 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam style strictuml
+
+(E)
+if (all prerequisites for computation marked as locally available?) then (yes)
+:set computation ready (send PUT /computation-ready/* to self);
+else (no)
+endif
+stop
+
+@enduml

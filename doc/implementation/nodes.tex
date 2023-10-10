@@ -51,9 +51,14 @@ Actual HTTP is not used currently; rather, it is emulated with an \R{} list comp
 
 \subsubsection{Worker operation in detail}
 
-An activity diagram demonstrating the main operation of the worker is given in \cref{fig:workerops}.
+Activity diagrams demonstrating the main operation of the worker is given in \cref{fig:workerops,fig:putcomp,fig:postdata,fig:putcompready,fig:getdata,fig:checkprereqs}.
 This is seen in use in an example interaction in \cref{fig:sysinteract}
 
 \widefig{workerops}{Activity diagram of main worker operation}
+\widefig{putcomp}{Activities resulting from a PUT for computation}
+\widefig{postdata}{Activities resulting from a POST of data}
+\widefig{putcompready}{Activities resulting from a PUT of computation ready}
+\widefig{getdata}{Activities resulting from a GET of data}
+\widefig{checkprereqs}{Activities when checking computation prerequisites}
 
 \widefig{sysinteract}{Sequence diagram of example interaction between client, workers, and locator}

@@ -8,7 +8,6 @@ It consists mainly of wrapper functions, designed to follow its philosophy of ``
 
 It is authored by Norm Matloff, a professor at UC, Davis and previous Editor-in-Chief of the \R{} Journal.
 
-In more detail, \textcite{matloff15} and \textcite{matloff17} presents the motivation behind \pkg{partools} with reference to \pkg{Hadoop} and \pkg{Spark}.
 Matloff describes \pkg{partools} as more ``sensible'' for large data sets than \pkg{Hadoop} and \pkg{Spark}, due to their difficulty of setup, abstract programming paradigms, and the overhead caused by their fault tolerance.
 The alternative approach favoured by \pkg{partools}, termed ``software alchemy'', is to use base \R{} to split the data into distributed chunks, run analyses on each chunk, then average the results.
 This is proven to have asymptotic equivalence to standard analyses under certain assumptions, such as iid data.

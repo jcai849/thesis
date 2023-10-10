@@ -1,0 +1,26 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam style strictuml
+
+(B)
+:store data;
+fork
+group Check if data has associated audience
+if (data has associated audience) then (yes)
+:send to audience;
+else (no)
+endif
+end group
+fork again
+group Check if data is prerequisite to computation
+if (data marked as prerequisite) then (yes)
+:mark prerequisite available;
+else (no)
+endif
+end group
+end fork
+
+stop
+
+@enduml

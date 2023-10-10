@@ -5,7 +5,7 @@ One immediate hesitation to the suitability of \pkg{sparklyr} to iteration is th
 
 The promoted paradigm is functional in nature, with iteration using for loops in \R{} being described as ``not as important'' as in other languages; map functions from the tidyverse purrr package are instead promoted as providing greater abstraction and taking much less time to solve iteration problems.
 Maps do provide a simple abstraction for function application over elements in a collection, similar to internal iterators, however they offer no control over the form of traversal, and most importantly, lack mutable state between iterations that standard loops or generators allow\cite{cousineau1998functional}.
-A common functional strategy for handling a changing state is to make use of recursion, with tail-recursive functions specifically referred to as a form of iteration in \cite{abelson1996structure}.
+A common functional strategy for handling a changing state is to make use of recursion, with tail-recursive functions specifically referred to as a form of iteration in \cite{abelson1996sicp}.
 Reliance on recursion for iteration is naively non-optimal in \R{} however, as it lacks tail-call elimination and call stack optimisations\cite{rcore2020lang}; at present the elements for efficient, idiomatic functional iteration are not present in R, given that it is not as functional a language as the tidyverse philosophy considers it to be, and \pkg{sparklyr}'s attachment to the the ecosystem prevents a cohesive model of iteration until said elements are in place.
 
 \subsection{Iteration}\label{iteration}

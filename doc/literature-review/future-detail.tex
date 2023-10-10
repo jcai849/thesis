@@ -8,7 +8,7 @@ The simplest way to evaluate an expression in parallel is to use \code{future-as
 This package implements sequential, multicore, multisession, and cluster futures.
 With these, \R{} expressions can be evaluated on the local machine, in parallel a set of local machines, or distributed on a mix of local and remote machines.
 Extensions to this package implement additional backends for processing futures via compute cluster schedulers etc. Because of its unified API, there is no need to modify any code in order switch from sequential on the local machine to, say, distributed processing on a remote compute cluster.
-Another strength of this package is that global variables and functions are automatically identified and exported as needed, making it straightforward to tweak existing code to make use of futures\cite{bengtsson20}.
+Another strength of this package is that global variables and functions are automatically identified and exported as needed, making it straightforward to tweak existing code to make use of futures\cite{bengtsson21future}.
 futures are abstractions for
 values that may be available at some point in the future, taking the
 form of objects possessing state, being either resolved and therefore
@@ -79,7 +79,7 @@ Error handling and shared variables are not implemented.
 \subsection{Further Considerations}\label{subsec:further-considerations}
 
 One initial drawback to \pkg{future} is the lack of callback functionality, which would open enormous potential.
-However, this feature is made available in the \pkg{promises} package, which has been developed by Joe Cheng at RStudio, and allows for user-defined handlers to be applied to futures upon resolution\cite{Cheng19}.
+However, this feature is made available in the \pkg{promises} package, which has been developed by Joe Cheng at RStudio, and allows for user-defined handlers to be applied to futures upon resolution\cite{cheng2021promises}.
 
 Issues that aren't resolved by other packages include the copying of objects referenced by \pkg{future}, with mutable objects thereby unable to be directly updated by \pkg{future} (though this may be ameliorated with well-defined callbacks).
 This also means that data movement is mandatory, and costly; \pkg{future} raises an error if the data to be processed is over 500Mb, though this can be overridden.

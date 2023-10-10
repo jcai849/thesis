@@ -6,75 +6,22 @@ skinparam style strictuml
 start
 while (loop while alive)
 switch (request)
-case (PUT /computation/*)
+case ( )
+:PUT /computation/*;
 (A)
 (E)
-case (POST /data/*)
+case ( )
+:POST /data/*;
 (B)
 (E)
-case (PUT /computation-ready/*)
+case ( )
+:PUT /computation-ready/*;
 (C)
-case (GET /data/*)
+case ( )
+:GET /data/*;
 (D)
 endswitch
 endwhile
 -[hidden]->
 detach
-
-(A)
-:store computation;
-group stage computation
-while (all prerequisites accounted for) is (no)
-:select next unaccounted prerequisite;
-if (prerequisite currently locally available?) then (yes)
-:mark prerequisite available;
-else (no)
-:locate and issue request for prerequisite data (send GET /data/* request);
-endif
-endwhile (yes)
-end group
-stop
-
-(B)
-:store data;
-fork
-group Check if data has associated audience
-if (data has associated audience) then (yes)
-:send to audience;
-else (no)
-endif
-end group
-fork again
-group Check if data is prerequisite to computation
-if (data marked as prerequisite) then (yes)
-:mark prerequisite available;
-else (no)
-endif
-end group
-end fork
-
-stop
-
-(C)
-:Access computation and all arguments from local Store;
-:Run computation;
-:Send returned data to self;
-:Send returned data to self (send POST /data/* to self);
-stop
-
-(D)
-if (data locally available?) then (yes)
-:Return data to requester;
-else (no)
-:Add requester to audience for data;
-endif
-stop
-
-(E)
-if (all prerequisites for computation marked as locally available?) then (yes)
-:set computation ready (send PUT /computation-ready/* to self);
-else (no)
-endif
-stop
-
 @enduml

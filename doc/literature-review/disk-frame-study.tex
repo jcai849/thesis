@@ -20,7 +20,7 @@ From inspection of the source code, \pkg{data.table} manipulations are enabled d
 Chunks are created transparently by \pkg{disk.frame}; the user can theoretically remain ignorant of chunking.
 In \R{}, the disk.frame object serves as a reference to the chunk files.
 Operations on disk.frame objects are by default lazy, waiting until the \code{collect} command to perform the collected operations and pull the chunks into \R{} as a single data.table.
-As noted in \cite{zj19:_simpl_verbs_lazy_evaluat}, this form of lazy evaluation is similar to the implementation of \pkg{sparklyr}.
+This form of lazy evaluation is similar to the implementation of \pkg{sparklyr}.
 
 Chunks are by default assigned rows through hashing the source rows, but can be composed of individual levels of some source column, which can provide an enormous efficiency boost for grouped operations, where the computation visits the data, rather than the other way around.
 
@@ -57,7 +57,7 @@ For other grouped functions, there is more complexity involved, due to the chunk
 When functions are applied, they are by default applied to each chunk.
 If groups don't correspond injectively to chunks, then the syntactic chunk-wise summaries and their derivatives may not correspond to the semantic group-wise summaries expected.
 For example, summarising the median is performed by using a median-of-medians method; finding the overall median of all chunks' respective medians.
-Therefore, computing grouped medians in \pkg{disk.frame} result in estimates only -- this is also true of other software, such as \pkg{Spark}, as noted in \cite{zj19:_group_by}.
+Therefore, computing grouped medians in \pkg{disk.frame} result in estimates only -- this is also true of other software, such as \pkg{Spark}, as noted in \textcite{zj19:_group_by}.
 
 Grouped functions are thereby divided into one-stage and two-stage; one-stage functions ``just work'' with the \code{group-by} function, and two-stage functions requiring manual chunk aggregation (using \code{chunk-group-by} and \code{chunk-summarize}), followed by an overall collected aggregation (using regular \code{group-by} and \code{summarise}).
 \Textcite{zj19:_group_by}

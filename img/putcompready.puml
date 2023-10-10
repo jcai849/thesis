@@ -1,0 +1,13 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam style strictuml
+
+(C)
+:Access computation and all arguments from local Store;
+:Run computation;
+:Send returned data to self;
+:Send returned data to self (send POST /data/* to self);
+stop
+
+@enduml

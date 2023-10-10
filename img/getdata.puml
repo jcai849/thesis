@@ -1,0 +1,14 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam style strictuml
+
+(D)
+if (data locally available?) then (yes)
+:Return data to requester;
+else (no)
+:Add requester to audience for data;
+endif
+stop
+
+@enduml
