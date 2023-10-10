@@ -1,6 +1,6 @@
-The structure of the \lsr{} system has been defined principally by the response to linguistic challenges facing an API for modelling on big data.
+The structure of the \lsr{} system has been defined principally by the response to linguistic challenges facing an API for modelling on big data, and defines much of \cref{ch:constructive-description}.
 
-The challenge of the object system provokes questions of what objects should comprise such a system, and what properties they should possess.
+The challenge of the object system, explored in \cref{sec:object-system} provokes questions of what objects should comprise such a system, and what properties they should possess.
 \lsr{} has answered this in a standard fashion, providing chunks, references to the chunks, and an abstraction over them for the end-user.
 Users interact indirectly with chunks, by way of chunk references, which are typically collected as arrays and made opaque to the high-level user, as shown in \cref{fig:top}.
 Arbitrary underlying data, a layered class hierarchy for data access, and asynchronous and immediate distributed procedure dispatch are further core design decisions.
@@ -9,12 +9,13 @@ Such a topology is capable of being represented in the \lsr{} system.
 
 \fig{top}{Distributed object, showing chunks and their references across disparate nodes.}
 
-Communication structure is a further challenge, which has as its answer an implicit virtual topology of the distributed system.
+Communication structure and computation is a further challenge, which has as its answer an implicit virtual topology of the distributed system, described in \cref{sec:computation}.
 \lsr{} engages distributed worker nodes in a peer-to-peer fashion, chunks being the core means of addressing, with their location made opaque at the user-level of the system.
 
-Concurrency is an essential component to distributed systems, and this challenge saw its response as both in-process and inter-process concurrency with \lsr{}; the base supporting layer of the \lsr{} stack is a bespoke in-memory TCP message queue service that allows for communication between nodes concurrent with their other operations.
+Concurrency is an essential component to distributed systems, as outlined in \cref{sec:concurrency}, and this challenge saw its response as both in-process and inter-process concurrency with \lsr{}; the base supporting layer of the \lsr{} stack is a bespoke in-memory TCP message queue service that allows for communication between nodes concurrent with their other operations.
 Between nodes, routines run asynchronously over chunks, with parallelism implicit and controlled in distributed fashion.
 
+Reference to objects in distributed systems is covered in \cref{sec:reference}
 Evaluation and scope may serve to speciate languages, as in the case of \R{} from \proglang{S}, and they take special forms in a distributed system.
 \lsr{} seeks to minimise any differences from the \R{} language, so as to provide as transparent an experience for developers as possible, but with respect to evaluation, differs in following a call-by-value, as opposed to call-by-need pattern.
 Furthermore, errors can be caught, but are only propagated to the caller upon emergence of the underlying chunks, with the system favouring asynchrony to strictness.
