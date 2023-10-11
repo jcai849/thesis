@@ -1,6 +1,6 @@
 \begin{tabular}{p{\dimexpr 0.5\linewidth-2\tabcolsep} | p{\dimexpr 0.5\linewidth-2\tabcolsep}}
 R & largescaler \\ \midrule
 \srcnc{local-x1} & \srcnc{dist-x1} \\
-\vspace{2em}\srcnccentre{shared-x2}\vspace{2em}\\
+\srcnccentre{shared-x2}\vspace{2em}\\
 \srcnc{local-x3} & \srcnc{dist-x3} \\
 \end{tabular}
