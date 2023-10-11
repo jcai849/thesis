@@ -160,7 +160,8 @@ At the high level, a user for whom chunks are out of the realm of concern, may s
 \src[Rout]{high-level}{High level functional interaction with chunks}
 
 Here, the results of the operation are automatically emerged from chunks, and the output of the chunks is combined automatically.
-Note that this sampling doesn't mean that each chunk yielded one single sample -- the sample could have come from any combination of chunks, and this raises the complexity somewhat, to be a multi-step process.
+Note that this sampling doesn't mean that each chunk yielded one single sample -- the sample could have come from any combination of chunks, and this raises the complexity somewhat, to be a multi-step process -- first sampling over the lengths of each chunk to determine a count specifying its contribution to the overall sample, then using those counts to sample from within each chunk.
+This is expanded upon later.
 Automatic unmarshalling is straightforward and can be handled in a wrapper.
 Automatic combination is less so, as different underlying data types have different means of combination, and indeed there may be different intended means of combination for different operations on the same data type.
 The means by which such direction can be encoded may take many forms: It may be polymorphic to be dispatched according to datatype upon emergence; it may be held as a stored procedure with the data, or with the chunk; it may be specified manually each time.
@@ -171,7 +172,7 @@ Consider in \cref{lst:varying-sizes} a different distributed object, with chunks
 
 \src[Rout]{varying-sizes}{A distributed object composed of chunks of varying sizes}
 
-To sample \(n\) elements from this distributed object, each chunk will have to form part of the sample space, but it is not necessarily the case that each chunk will necessarily have draws from it.
+To sample \(n\) elements from this distributed object, each chunk will have to form part of the sample space, but it is not the case that each chunk will necessarily have draws from it.
 However, in this case with the lengths of the chunks differing, the weighting applied to each chunk must vary.
 Because the operations on each chunk occur independently and without the possibility of combining them all for comparison, the remote chunk samples must occur in isolation.
 One manner in which such a problem may be approached is to sample \(n\) times from some probability distribution over the chunks, then use the results to sample from the chunks in turn.
