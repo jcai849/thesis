@@ -90,7 +90,7 @@ In the case of any dependent computations, its availability is marked.
 
 \Cref{fig:putcomp,fig:postdata} both have the potential to alter the state of availability as marked on computational prerequisite chunks.
 As such, following both of these, the same computation prerequisite check routine is run, as given by \cref{fig:checkprereqs}.
-This is a simple sweep of prerequisites for computation, checking for their local availabilith.
+This is a simple sweep of prerequisites for computation, checking for their local availability.
 For those that are entirely available, the computation is ready to proceed.
 In keeping with the concurrent nature of the system, rather than monolithically engaging in the computations immediately, communication is sent from the worker to itself acknowledging the computations which are ready, and the event loop continues.
 

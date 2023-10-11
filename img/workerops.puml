@@ -10,6 +10,7 @@ case ( )
 :PUT /computation/*;
 (A)
 (D)
+case ( )
 :GET /data/*;
 (B)
 case ( )
@@ -19,7 +20,6 @@ case ( )
 case ( )
 :PUT /computation-ready/*;
 (E)
-case ( )
 endswitch
 endwhile
 -[hidden]->

@@ -1,4 +1,4 @@
 \begin{aligned}
-	\text{minimise}& f(x) + g(z) \\
-	\text{subject to}& Ax + Bz = c
+	\text{minimise }& f(x) + g(z) \\
+	\text{subject to }& Ax + Bz = c
 \end{aligned} 
