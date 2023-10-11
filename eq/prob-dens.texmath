@@ -1,1 +1,5 @@
-    \end{cases}
+p_i = \begin{cases}
+        0.5   & i=1 \\
+        0.005 & i=2 \\
+        0.495 & i=3
+\end{cases}
