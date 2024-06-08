@@ -5,8 +5,8 @@ DOCS != find doc -name '*.tex'
 .tex.pdf:
 	latexmk -file-line-error -shell-escape ${.IMPSRC}
 
-thesis: extern thesis.pdf
-thesis.pdf: $(DOCS) header.sty
+thesis: extern thesis.pdf 
+thesis.pdf: $(DOCS) header.sty tikz-cache
 
 extern: equations images tables
 images:
@@ -15,6 +15,8 @@ equations:
 	cd eq && $(MAKE) equations
 tables:
 	cd tab && $(MAKE) tables
+tikz-cache:
+	mkdir tikz-cache
 clean:
 	latexmk -C
 	rm -f *.bbl
