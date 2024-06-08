@@ -1,7 +1,7 @@
 \subsubsection{Introduction}\label{subsec:further-introduction}
 
-The prior section was necessarily largely speculative, considerate of a number of potential architectural choices, with relatively equal weighting;  more concrete evaluation can be produced, and alternatives can be compared against what has been explicitly observed to work and not work.
-In addition, several new and prior unconsidered aspects have arisen; following a full description of the current system as well as elaboration on changes since the previous report, an evaluation of the architecture is given, with suggestions for future research given as part of the conclusion.
+\Cref{sec:mw-ds} was necessarily largely speculative, considerate of a number of potential architectural choices, with relatively equal weighting; with this background, a more concrete evaluation can now be produced, and alternatives can be compared against what has been explicitly observed to work and not work.
+In addition, several new and prior unconsidered aspects are worth describing; following a full description of the refined system as well as elaboration on changes from the system described in \cref{sec:mw-ds}, an evaluation of the architecture is given, with suggestions for future research given as part of the conclusion.
 
 \subsubsection{Current System Overview}\label{sec:overview}
 
@@ -56,10 +56,10 @@ To illustrate: a host containing elements \code{100} to \code{150} will have the
 
 \subsubsection{Description of System Changes}\label{sec:description-of-system-changes}
 
-In comparison with the previous report, the changes made are fairly extensive.
+In comparison with the system of \cref{sec:mw-ds}, the changes made are fairly extensive.
 Beyond the obvious additions alluded to that weren't previously present, some more notable changes are described in this section.
 
-Memory was considered a significant issue in the system at the time of the previous report.
+Memory was considered a significant issue in the system of Secion~\ref{sec:mw-ds}.
 The primary issues have been hugely reduced through the usage of server-side UUID's for chunk assignment, and finalizer functions to remove the remote chunks upon master-side garbage collection.
 This massively reduces the virtual memory leaks, but some issues remain.
 
@@ -111,7 +111,7 @@ However, this leads to breaking transparency, as an equivalent non-distributed v
 A possible solution could be to have finer distributed vector classes that couple with their underlying types, and inherit from a parent \code{distributed-vector} class.
 
 The nature of the connections to \pkg{Rserve} instances have proven exceedingly efficient to work with, and have performed extremely well despite not being used as designed.
-The problem of inter-node communication was already covered in the initial report.
+The problem of inter-node communication was already covered in \cref{sec:mw-topo}.
 In addition to this, some further issues have appeared, including the difficulty of debugging errors occurring at the server end, as well as occasional and somewhat unpredictable connections dropping \footnote{It appears somehow related to the occurrence of thrashing on the server side}.
 Likely, a more mature distributed object system will require the creation of something like an app manager at some point, replacing the current \pkg{Rserve} form of connection.
 In the mean time, an abstraction layer for communication will ease any potential transition to such a communication system.
@@ -127,6 +127,6 @@ With profiling and optimisation this can very likely be significantly improved.
 
 \subsubsection{Conclusion}\label{conclusion}
 
-The experiment has yielded very functional distributed vector and data frame objects, and raised a high volume of information relating to optimal construction, interaction, and architecture of such a system.
+The experiment yielded very functional distributed vector and data frame objects, and raised a high volume of information relating to optimal construction, interaction, and architecture of such a system.
 Key successes as well as failings have been enumerated, mostly paired with potential solutions.
-The volume of issues and solutions created since the initial report demonstrates the success of the experiment thus far in exploring the nature of this specific eager distributed object approach to large-scale statistical modelling using \R{}.
+The volume of issues and solutions created beyond the system of \cref{sec:mw-ds} demonstrates the success of the experiment thus far in exploring the nature of this specific eager distributed object approach to large-scale statistical modelling using \R{}.
