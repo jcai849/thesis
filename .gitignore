@@ -22,3 +22,4 @@ _minted-thesis
 *.bak
 tikz-cache
 thesis.auxlock
+X.tex
