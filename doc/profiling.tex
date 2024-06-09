@@ -1,0 +1,36 @@
+\cqu{knuthbug}
+\bigskip
+\newline
+While a formal proof for the \lsr system has been out of scope for this project due to the scale of such an endeavour, \cref{ch:ui} built constructive motivation for the system, with \cref{ch:implementation} describing a plausible implementation.
+This chapter attempts to round that off with a demonstration of the described implementation actually functioning, including some analysis of results relating to timing and overhead introduced by the system.
+This provides empirical support for the usage of this system.
+The extended example of distributed LASSO will be made further use of as an example use case for the purposes of profiling.
+
+The question of how to critically assess the system in empirical fashion is described in \cref{sec:activity-systems}, where the core measurable aspects are described, as well as each aspect's requirements for logging and profiling.
+
+A complete description of the profiling methodology is given in \cref{sec:prof-methods}, including descriptions of the logs and their transformations.
+
+Rounding off the chapter, the results of profiling are given in \cref{sec:prof-results}, including visualisations, some tabular results, and analyses and discussions of these results.
+
+\section{Activity Systems}\label{sec:activity-systems}
+Description of 4 activity systems to time, properties, how logged
+
+The core activity systems to be logged and profiled can be roughly divided into \lsr activities, and user-specified activities.
+The user-specified activity can be vaguely abstracted as ``computation'', while \lsr{}-specific activities consist of the communications, and handling of these communications.
+
+Further description follows:
+\begin{description}
+\item [Communication] The communication between nodes forms an integral component of the \lsr system. The communication subsystem implemented by each node follows a threaded, asynchronous model which is distinct from the components which it supports. Because of this, it can be considered effectively in isolation, with each communicative event measurable as individual units. Effective logging of communication could be done through recording, for each \code{send}, the IP and port of both sender and receiver, as well as the header for annotation at each point in time. This provides a temporal graph for analysis of communication overhead. It is worth expanding further on the fact that \code{send}, and only \code{send}, is both necessary and sufficient for capturing the communication events, with, for example, \code{receive} being unnecessary, as each \code{send} includes within its blocked time all of the networking events necessary, returning only when all data has been \code{receive}'d at the destination node.
+\item [Handling] Upon a node receiving data, it runs in the loop as described in \cref{sec:nodes}. It may store data, run computations, or any of the other activities as described. Aside from running computations specified by the user, all of these are overhead introduced by the system for distributed management, and can be considered under the umbrella of ``handling''. Because handling is run in a serial loop, logging of handling for the sake of profiling can be as simple as recording timings of start and end of the loop, as well as the handler type and possible handled header for further annotation.
+\item [Computation] Sitting within a handler, the component which varies according to user specification and should not be considered system overhead is computation. The ratio of computation time to communication and handling time gives some measure of system-induced overhead. However, some computation events are still system-specific, where for example computation is used to execute non-user code for some handlers. These ought to be excluded from consideration of computation, for the sake of evenness.
+\end{description}
+
+\section{Profiling Methodology}\label{sec:prof-methods}
+Example log
+Transformation of logs (2 dfs, inter async comms and intra sync loop)
+Example
+
+\section{Results}\label{sec:prof-results}
+Description of visualisation
+Calculation of overhead
+Equivalent serial form
