@@ -23,3 +23,7 @@ _minted-thesis
 tikz-cache
 thesis.auxlock
 X.tex
+.direnv
+_minted
+thesis.bcf*
+thesis.dvi

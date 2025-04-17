@@ -3,7 +3,7 @@ DOCS != find doc -name '*.tex'
 .SUFFIXES: .pdf .tex
 .ORDER: extern thesis.pdf
 .tex.pdf:
-	latexmk -file-line-error -shell-escape ${.IMPSRC}
+	latexmk -lualatex -file-line-error -shell-escape ${.IMPSRC}
 
 thesis: extern thesis.pdf 
 thesis.pdf: $(DOCS) header.sty tikz-cache
