@@ -79,9 +79,9 @@ Given that distributing computation necessitates a rearrangement of evaluative c
 
 The \pkg{SNOW} package may be considered first for its pedigree.
 One of the fundamental procedures in \pkg{SNOW} is \code{cluster-call}\cite{tierney2018snow}.
-The evaluation of this procedure consists in first evaluating arguments on the master, with their values sent to slave nodes which execute the function call.
+The evaluation of this procedure consists in first evaluating arguments on the master, with their values sent to worker nodes which execute the function call.
 This corresponds to a strict evaluation strategy, being an effective call-by-value.
-There is some nuance though, in that within the function being called on the slave node, a call-by-need strategy is still taking place, due to being applied by the \R{} evaluator, but in practice with all arguments having been evaluated prior to function application, the ``strict'' classification is dominant.
+There is some nuance though, in that within the function being called on the worker node, a call-by-need strategy is still taking place, due to being applied by the \R{} evaluator, but in practice with all arguments having been evaluated prior to function application, the ``strict'' classification is dominant.
 Other functions in \pkg{SNOW} follow a similar form.
 
 Prior prototypes in the \lsr project developed herein follow a similar form.

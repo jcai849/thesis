@@ -10,7 +10,7 @@ A ``cluster'' object, akin to the \pkg{SNOW} cluster object, serves as a referen
 Distributed objects exist conceptually as the actual data split across \pkg{Rserve} instances, and a reference containing the minimum of necessary information existing on the users \R{} session.
 The users \R{} session thus serves as the master node in this distributed system.
 Importantly, the object references are registered with \code{reg-finalize} to run a cleanup on the hosts of the data when being garbage collected themselves.
-Distributed objects are formed from two possible sources; master side, or slave side.
+Distributed objects are formed from two possible sources; master side, or worker side.
 Formation on the master side involves taking an existing \R{} object, splitting it up according to some function (currently splitting according to most even element distribution), and sending the splits to their associated \pkg{Rserve} instances, described in a supplied cluster object formal parameter to the creation function.
 All of the splits are assigned a name on the server side, stored in the distributed object reference.
 
