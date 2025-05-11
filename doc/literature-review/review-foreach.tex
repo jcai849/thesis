@@ -6,7 +6,7 @@
 
 From the user end, the package is conceptually simple, revolving entirely around a looping construct and the one-off backend registration.
 
-The principal goal of the package, which it hasn't strayed from, is the enabling of parallelisation through backend transparency within the foreach construct.
+The principal goal of the package, which it hasn't strayed from, is enabling parallelisation through backend transparency within the foreach construct.
 Notably, more complex functionality, such as side effects and parallel recurrence, are not part of the package's intention.
 
 Thus, the primary driver for the practicality of the package, beyond the support offered for parallel backends, is the backends themselves, currently enabling a broad variety of parallel systems.
@@ -60,7 +60,7 @@ These custom iterators can be used in turn with the \code{foreach} function, as 
 
 The name of the package and function interface refer to the foreach programming language construct, present in many other languages.
 By definition, the foreach construct performs traversal over some collection, not necessarily requiring any traversal order.
-In this case, the collection is an iterator object or an object coercible to one, but in other languages with \pkg{foreach} as part of the core language, such as python (whose for loop is actually only a \pkg{foreach} loop), collections can include sets, lists, and a variety of other classes which have \code[py]{iter} and \code[py]{next} methods defined\cite{python2020iter}.
+In this case, the collection is an iterator object or an object coercible to one, but in other languages with \pkg{foreach} as part of the core language, such as \proglang{Python} (whose for loop is actually only a \pkg{foreach} loop), collections can include sets, lists, and a variety of other classes which have \code[py]{iter} and \code[py]{next} methods defined\cite{python2020iter}.
 
 Due to the constraints imposed by a foreach construct, loop optimisation is simplified relative to a for loop, and the lack of explicit traversal ordering permits parallelisation, which is the primary reason for usage of the \pkg{foreach} package.
 The constraints are not insignificant however, and they do impose a limit on what can be expressed through their usage.
@@ -102,7 +102,7 @@ Numerous backends exist, most notably:
 		provides \pkg{MPI} access as a backend, using \pkg{Rmpi}\cite{weston17}.
 	\item[\pkg{doRNG}]
 		provides for reproducible random number usage within parallel
-		iterations, using L'Ecuyer's method; provides\code{dorng}\cite{gaujoux20}.
+		iterations, using L'Ecuyer's method; provides \code{dorng}\cite{gaujoux20}.
 	\item[\pkg{doSNOW}]
 		provides an ad-hoc cluster backend, using the \pkg{SNOW} package\cite{dosnow19}.
 \end{description}

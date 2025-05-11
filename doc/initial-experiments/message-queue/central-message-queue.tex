@@ -43,7 +43,7 @@ These three considerations mirror the state machine concept at an aggregate leve
 
 \subsubsection{Plausible Extensions}\label{plausible-extensions}
 
-While the use of message queues looks to ease many significant issues, there are additional problems that it require addressing, primarily resulting from the asynchrony and decentralisation.
+While the use of message queues looks to ease many significant issues, there are additional problems that require addressing, primarily resulting from the asynchrony and decentralisation.
 
 Most pressingly, the issue of deadlock, in the context of data movement in the process of nodes requesting and transferring data, a deadlock is almost certain to occur if not dealt with.
 This specific instance may be helped through careful implementation and more processing on the initiator node (bringing it closer to a master node), but a possibly superior extension is to have queue-adjacent servers on each node that are able to operate concurrently with the main \R{} session that has as its sole purpose the transfer of chunks, leaving everything else to the main \R{} session.

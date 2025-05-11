@@ -69,7 +69,7 @@ This point-to-point communication is not so easy to perform in reality, as \pkg{
 
 \subsubsection{Next Steps}\label{next-steps}
 
-The next steps in this experiment should involve introducing quality of life aspects to distributed objects such as formal getters and setters, before it becomes unmanageable.
+A potential extension of this experiment would involve introducing quality of life aspects to distributed objects such as formal getters and setters, before it becomes unmanageable.
 Further methods for \code{distributed-vector} as well as a generalisation to vectors of different lengths are necessary.
 The implementation of operations between vectors of different lengths requires elements of vectors at equivalent positions to be on the same node for processing; this implies some kind of \code{align} method, which as discussed in the previous section, would ideally require point-to-point communication, which isn't so easily permitted through (ab)using \pkg{Rserve}.
 In turn, some custom solution would likely be required.

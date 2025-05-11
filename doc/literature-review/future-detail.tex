@@ -84,5 +84,3 @@ Issues that aren't resolved by other packages include the copying of objects ref
 This also means that data movement is mandatory, and costly; \pkg{future} raises an error if the data to be processed is over 500Mb, though this can be overridden.
 
 Referencing variables automatically is a major unsung feature of \pkg{future}, though it doesn't always work reliably; \pkg{future} relies on code inspection, and allows a global parameter to have manual variable specification.
-
-It seems likely that the future package will have some value to its use within this project, especially if asynchronous processing is required on the \R{} end; it is the simplest means of enabling asynchrony in \R{} without having to manipulate networks or threads.
