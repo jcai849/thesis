@@ -1,0 +1,12 @@
+abelson1996sicp:
+  type: book
+  title: Structure and Interpretation of Computer Programs
+  author:
+  - Abelson, Harold
+  - Sussman, Gerald J.
+  date: 1996
+  publisher:
+    name: MIT Press McGraw-Hill
+    location: Cambridge, Mass. New York
+  serial-number:
+    isbn: '0262011530'
