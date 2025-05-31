@@ -6,7 +6,11 @@ DOCS != find doc -name '*.tex'
 	latexmk -lualatex -file-line-error -shell-escape ${.IMPSRC}
 
 thesis: extern thesis.pdf 
-thesis.pdf: $(DOCS) header.sty tikz-cache
+thesis.pdf: $(DOCS) header.sty tikz-cache thesis.tex
+
+thesis-expanded.pdf: thesis-expanded.tex
+thesis-expanded.tex: $(DOCS) header.sty tikz-cache thesis.tex
+	latexpand --empty-comments --keep-comments thesis.tex -o $@
 
 extern: equations images tables
 images:
@@ -23,6 +27,9 @@ clean:
 	rm -f *.lol
 	rm -f *.tdo
 	rm -f *.run.xml
+	rm -f *.auxlock
+	rm -f *.paux
+	rm -f *.log
 full-clean: clean
 	rm -rf _minted*
 	rm -f *.pyg
