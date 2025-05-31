@@ -10,6 +10,9 @@
     {
       devShells.${system}.default = pkgs.mkShell {
         buildInputs = with pkgs; [
+          typst
+          tinymist
+
           bmake
           texlive.combined.scheme-full
           texlab
