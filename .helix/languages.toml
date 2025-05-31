@@ -1,0 +1,3 @@
+[language-server.tinymist.config]
+typstExtraArgs = ["thesis.typ"]
+preview = { background = { enabled = true, args = [ "--data-plane-host=127.0.0.1:23635", "--invert-colors=never" ] } }
