@@ -13,6 +13,10 @@
           bmake
           texlive.combined.scheme-full
           texlab
+
+          typst
+          tinymist
+
           plantuml
           graphviz
           dot2tex
