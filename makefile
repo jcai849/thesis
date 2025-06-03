@@ -1,12 +1,16 @@
 DOCS != find doc -name '*.tex'
-.PHONY: thesis clean full-clean indent
-.SUFFIXES: .pdf .tex
+.PHONY: thesis clean full-clean indent corrections
+.SUFFIXES: .pdf .tex .typ
 .ORDER: extern thesis.pdf
 .tex.pdf:
 	latexmk -lualatex -file-line-error -shell-escape ${.IMPSRC}
+.typ.pdf:
+	typst compile ${.IMPSRC}
 
 thesis: extern thesis.pdf 
 thesis.pdf: $(DOCS) header.sty tikz-cache thesis.tex
+
+corrections: corrections.pdf
 
 thesis-expanded.pdf: thesis-expanded.tex
 thesis-expanded.tex: $(DOCS) header.sty tikz-cache thesis.tex
