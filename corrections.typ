@@ -17,7 +17,7 @@
 
 #let commit(hash) = {
   let url = "https://github.com/jcai849/thesis/commit/" + hash
-  let hash_disp = link(url)[#underline(raw("#" + hash.slice(0,8)))]
+  let hash_disp = link(url, highlight(fill: green, extent: 2pt, raw("#" + hash.slice(0,8))))
   [Commit #hash_disp]
 }
 
@@ -32,16 +32,18 @@
 
 == Corrections
 
+N.B. Corrections that have been made are indicated with hyperlinks to the git commits, as, e.g., #commit("12345678")
+
 === Reviewer 1
 
 + Floating point arithmetic is non-associative.
 + Mathematical description of LASSO should match the implementation.
 + Local version of LASSO should mirror distributed version, using generics.
 + LASSO code should be chunked, with complete working code in appendix.
-+ ```R c < a + b``` should be ```R c <- a + b```.
++ ```R c < a + b``` should be ```R c <- a + b```. #commit("0862e9ee9b3a04baf2656485513c2c8d1d076890")
 + "nectar cluster" needs to be defined.
 + Fix typo in first sentence of 2.3.2.
-+ Use "Worker" instead of "Slave": Corrected in #commit("1e15f4db93d49da47e5fe5ed4995ac0922a54a5d").
++ Use "Worker" instead of "Slave": #commit("1e15f4db93d49da47e5fe5ed4995ac0922a54a5d").
 + Crash is not an appropriate term for a lack-of-memory error.
 + Explicitly define what is meant by a statistical algorithm in this thesis.
 + Have links to packages themselves, not just papers (e.g. in 2.4 and elsewhere).
@@ -66,10 +68,10 @@
 + Remove single-sentence paragraphs from Sections 2.1.4, 2.1.5, and 2.3.2.
 + Don’t use contraction in scientific text; instead spell them out, e.g. "won’t" #sym.arrow "will not".
 + Consistently precede “respectively” at the end sentences with a comma, e.g. "… corresponding to the listings listing 66 and listing 67[,] respectively."
-+ Remove reference to "document" or "report", e.g. Section 4.2.2.4: "This document serves ..."
++ Remove reference to "document" or "report", e.g. Section 4.2.2.4: "This document serves ...": #commit("3322b6b27ea55fab78c1970baa071bc899247e10")
 + Table 4.2: There is in “‘origin’ must be supplied’ error in this output.
 + Fix grammatical errors
-  + Fix incomplete sentence "With this particular demonstration of distributed LASSO dependent on proofs ofseparability for partitioned block matrices using rows as observations, and minor ADMM optimisations, as described in Boyd et al. [30]."
+  + Fix incomplete sentence "With this particular demonstration of distributed LASSO dependent on proofs ofseparability for partitioned block matrices using rows as observations, and minor ADMM optimisations, as described in Boyd et al. [30]." #commit("5ca1db86b214643aaa093699cf37370f1e248cbb")
   + "compared to and" #sym.arrow "compared to an"
   + Fix Section 2.3.1.1: Incomplete sentence: "The slave node for the job tracker."
   + "perform a function [call] at the"
@@ -84,7 +86,7 @@
   + "Listing 1: Pseudocode …” -> “Algorithm 1: Pseudocode …”(?)
   + "from on location” -> “from one location”.
   + "proofs ofseparability” -> “proofs of separability”
-  + "largescaleobjects_primitives" -> “largescaleobjects primitives”
+  + "largescaleobjects_primitives" -> “largescaleobjects primitives” #commit("1b4f03435e7720c2badbccc4bdfed2cd59f88424")
   + "that is is the”
   + "… a three billion length integer.” -> “… a three billion length integer vector.” (?)
   + "be a a sample”
@@ -171,7 +173,7 @@
   + "... Davis Vaughn, an employee at RStudio"
   + "foreach is managed by Revolution Analytics"
   + https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page moved to PARQUET files as of 2022-05-13.
-  + Remove temporal references like "Current System", "New Structures", "Current Structures", and "Existing Systems"
+  + Remove temporal references like "Current System", "New Structures", "Current Structures", and "Existing Systems". #commit("a7a9cdee5b394fb68754ed00b4079f141fe93429")
   + Avoid "present" in "This dataset consists of measures relating to all taxi and limousine trips in New York City from January 2009 to present"
 + Correct “The multicore features enabled with future are redundant over the existing parallel package” (not completely correct).
 + ```R %when%``` doesn't exist in foreach, but externally defined.
