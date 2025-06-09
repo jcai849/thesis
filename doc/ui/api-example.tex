@@ -22,7 +22,9 @@ Actual implementation of a custom model is given in \cref{ch:lasso}.
 
 In our exploration of \lso{}, consider first a simple operation of summation.
 Given some vector $x$ that is broken up into $j$ chunks, yielding $j$ sub-vectors of length $i$.
-Due to associativity the sum of the whole is the sum of the sum of the parts, as shown in \cref{eq:sum}.
+Absent floating-point errors, additivity exhibits associativity, hence the sum of the whole is the sum of the sum of the parts, as shown in \cref{eq:sum}.
+In practice, users will have to guard against the accumulation of floating point error, for example using Kahan Summation\cite{kahan1965error}.
+Such error becomes especially relevant in the context of very large datasets.
 
 \eq{sum}
 
