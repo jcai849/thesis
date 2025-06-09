@@ -36,15 +36,12 @@ N.B. Corrections that have been made are indicated with hyperlinks to the git co
 
 === Reviewer 1
 
-+ Floating point arithmetic is non-associative.
-+ Mathematical description of LASSO should match the implementation.
-+ Local version of LASSO should mirror distributed version, using generics.
-+ LASSO code should be chunked, with complete working code in appendix.
++ Floating point arithmetic is non-associative. #commit("517aae20944bc35cf5fa4775bdef1862e77f65fe").
++ Mathematical description of LASSO should match the implementation. #commit("fb4fdf608185010c73a37d80f54243b0af551352").
 + ```R c < a + b``` should be ```R c <- a + b```. #commit("0862e9ee9b3a04baf2656485513c2c8d1d076890")
-+ "nectar cluster" needs to be defined.
-+ Fix typo in first sentence of 2.3.2.
++ "nectar cluster" needs to be defined. #commit("60450784fcf4b4541482fd78cc42e4f546e272a4")
 + Use "Worker" instead of "Slave": #commit("1e15f4db93d49da47e5fe5ed4995ac0922a54a5d").
-+ Crash is not an appropriate term for a lack-of-memory error.
++ Crash is not an appropriate term for a lack-of-memory error: #commit("17c44d5958e978392a966dfcde290e253955bb2a")
 + Explicitly define what is meant by a statistical algorithm in this thesis.
 + Have links to packages themselves, not just papers (e.g. in 2.4 and elsewhere).
 + RStudio should be Posit.
@@ -229,6 +226,8 @@ N.B. Corrections that have been made are indicated with hyperlinks to the git co
 + Consider iterative solvers for lm, rather than sequential.
 + It might be useful to have ways to guard against inadvertent large memory/time operations, in particular in interactive use.
 + Redundancy/caching of non-mutable data could be considered.
++ Local version of LASSO should mirror distributed version more closely, using generics.
++ LASSO code should be chunked, with complete working code in appendix.
 
 === Reviewer 2
 
