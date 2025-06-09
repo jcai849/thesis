@@ -4,11 +4,14 @@ To create a minimal implementation of distributed objects in R, with transparent
 
 \subsubsection{Method}\label{method}
 
-Using the nectar cluster, the \code[sh]{hdp} node was used as a master with which to control worker nodes \code[sh]{hadoop1} through to \code[sh]{hadoop8}.
-\pkg{Rserve} was used as the means for control and
-communication with the workers.
-S3 classes were defined for \code{cluster}, \code{node}, \code{distributed-object} and \code{distributed-vector}.
-Communication functions operate serially, but were written with future parallelisation and speed in mind.
+Using the Australian Research Data Commons (ARDC) Nectar Research
+Cloud\cite{nectar2021}, the \code[sh]{hdp} node was used as
+a master with which to control worker nodes \code[sh]{hadoop1}
+through to \code[sh]{hadoop8}.  \pkg{Rserve} was used as the means
+for control and communication with the workers.  S3 classes were
+defined for \code{cluster}, \code{node}, \code{distributed-object} and
+\code{distributed-vector}.  Communication functions operate serially,
+but were written with future parallelisation and speed in mind.
 
 The \code{node} class contains information on connections to the worker nodes.
 The \code{cluster} class is a collection of \code{node}s.
