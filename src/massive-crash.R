@@ -1,1 +1,1 @@
-massive_data_crash_r <- read.csv(tlc_data)
+out_of_memory <- read.csv(tlc_data)

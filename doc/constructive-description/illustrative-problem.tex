@@ -36,10 +36,10 @@ Importantly, it should be just as easy to implement a new statistical algorithm 
 For example, consider that we have the data as its raw form directly from the TLC website, as a collated \file{csv} file on disk.
 How do we begin?
 
-\src{massive-crash}{Naive read of larger than memory data guaranteeing a crash}
+\src{massive-crash}{Naive read of larger than memory data guaranteeing an out-of-memory error}
 
 \Cref{lst:massive-crash} simply won't work.
-The object in memory will crash even high-end PC's, at its 60Gb+ size.
+The object in memory will cause an out-of-memory error even in high-end PC's, at its 60Gb+ size.
 There must be a better means of representing the data than its direct form as standard \R{} objects.
 Conversely, such a representation can't possibly stray too far from what the statistician is familiar with in the language.
 Assume, however, that it does somehow exist, and can be treated like a regular object.
