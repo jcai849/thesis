@@ -1,5 +1,5 @@
-    \begin{aligned}
-        x_i^{k+1} &:= (A_i^T A_i + \rho I)^{-1}(A^T b + \rho(z^k - u_i^k))\\
-        z^{k+1} &:= S_\frac{\lambda}{\rho N} (\overline{x}^{k+1} + \overline{u}^k) \\
-        u_i^{k+1} &:= u_i^k + x_i^{k+1} - z^{k+1}
-    \end{aligned} 
+\begin{aligned}
+    x^{k+1} &= \arg \min_x \frac{1}{2} \left|\| Ax - b \right\|^2_2 + \frac{\rho}{2} \left\| x - z + u \right\|^2_2 \\
+    z^{k+1} &= S_z(\overline{x}^{k+1} +\overline{u}) \\
+    u^{k+1} &= u + x^{k+1} - z^{k+1}
+\end{aligned} 
