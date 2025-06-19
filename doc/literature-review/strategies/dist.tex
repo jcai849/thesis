@@ -29,7 +29,7 @@ To work comparatively, a simple working local-only version of the algorithm is p
 
 It outputs a \mathfrom{beta-hat} matrix after several seconds of computation.
 
-Were \pkg{pbdDMAT} matrices to function perfectly transparently as regular matrices, then all that would be required to convert a local algorithm to distributed would be to prefix a \code{dd} to every \code{matrix} call, and bracket the program with a template as per listing \cref{lst:bracket}.
+Were \pkg{pbdDMAT} matrices to function perfectly transparently as regular matrices, then all that would be required to convert a local algorithm to distributed would be to prefix a \code{dd} to every \code{matrix} call, and bracket the program with a template as per \cref{lst:bracket}.
 
 \src{bracket}{Idealised Common Wrap for Local to Distributed Matrices}
 
@@ -43,7 +43,7 @@ This is due to \code{diag-assign} assignment not having been implemented, so sev
 
 This serves to outline the difficulty of complete distributed transparency.
 
-The final working code of \pkg{pbdDMAT} GLM through RWLS is given in listing \cref{lst:dmat}
+The final working code of \pkg{pbdDMAT} GLM through RWLS is given in \cref{lst:dmat}
 
 \src{dmat}{pbdDMAT GLM with RWLS}
 

@@ -141,6 +141,9 @@
 \newcommand{\qu}[1]{
 \blockquote{\input{quote/#1}}}
 
+\usepackage{chngcntr}
+\counterwithin{listing}{chapter}
+
 \newcommand{\src}[3][R]{
 \begin{listing}[H]
 \caption{\label{lst:#2}#3}
