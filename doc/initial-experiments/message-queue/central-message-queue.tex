@@ -21,7 +21,7 @@ The nodes each subscribe to queues dedicated to chunks that they possess, undert
 In this way, nodes function as state machines, reading messages, performing some operation (or not) depending on the message content, and writing back in some form.
 
 For example, some node has a chunk \(x\), and receives a message on the \(x\) queue to add it to another chunk \(y\); if it didn't have the chunk \(y\), it may post a message on the \(y\) queue, requesting it.
-It is likely that the semantics are more general, and the initial message of operation actually won't specify which chunk to add to \(x\), giving it a more general request of addition between distributed objects, and the node will have to determine for itself which chunks to pull to it, if any.
+It is likely that the semantics are more general, and the initial message of operation actually would not specify which chunk to add to \(x\), giving it a more general request of addition between distributed objects, and the node will have to determine for itself which chunks to pull to it, if any.
 
 A very simple example is given by \cref{lst:msg-q-master} \cref{lst:msg-q-worker}, demonstrating the master and worker node routines respectively.
 
