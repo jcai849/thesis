@@ -38,7 +38,7 @@ How do we begin?
 
 \src{massive-crash}{Naive read of larger than memory data guaranteeing an out-of-memory error}
 
-\Cref{lst:massive-crash} simply won't work.
+The call in \Cref{lst:massive-crash} simply won't work.
 The object in memory will cause an out-of-memory error even in high-end PC's, at its 60Gb+ size.
 There must be a better means of representing the data than its direct form as standard \R{} objects.
 Conversely, such a representation can't possibly stray too far from what the statistician is familiar with in the language.
