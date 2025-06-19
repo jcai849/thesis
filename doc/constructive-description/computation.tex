@@ -96,7 +96,7 @@ Specifically, the first chunk of \code{y} should receive \code{x} as-is, because
 The first element of the distributed object is the first element of the first chunk, but nothing should be selected from the other chunks.
 Were a \code{1} to be indexed from each of the other chunks, they would index relative to themselves, and unintended results would ensue.
 
-\widefig{scalar-index}{Figure showing a chunk that is treated as-is and recycled in the situation where it is considered a scalar, but converted to something else entirely when used as a numerical index}
+\widefig{scalar-index}{Demonstration of a chunk that is treated as-is and recycled in the situation where it is considered a scalar, but converted to something else entirely when used as a numerical index}
 
 The earlier section implies that length is always known of a distributed object, which hasn't necessarily been established.
 Were the object under consideration the result of a long chain of operations which may alter the length, and the chunks all remote, there is not any local knowledge of length without a direct query to the relevant workers and a summation of all of the lengths.
