@@ -98,7 +98,7 @@ N.B. Corrections that have been made are indicated with hyperlinks to the git co
 + Term Consistency (#commit("8a6d621562e4956e7a38b09a31f0bf6fb81764a3")):
   + "NYC TLC dataset", "NYC taxi dataset", and "NYC Taxi data".
   + "Data Frame", "Data frame", “data frame", and "data.frame".
-+ Define terms:
++ Define terms (#commit("1affba37c45ef5fbdd8bd32b55d0ef67f0cf670f")):
   + "continuations"
   + "coroutines"
   + "foreign keys"
