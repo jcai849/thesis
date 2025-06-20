@@ -12,7 +12,7 @@ Such a topology is capable of being represented in the \lsr{} system.
 Communication structure and computation is a further challenge, which has as its answer an implicit virtual topology of the distributed system, described in \cref{sec:computation}.
 \lsr{} engages distributed worker nodes in a peer-to-peer fashion, chunks being the core means of addressing, with their location made opaque at the user-level of the system.
 
-Concurrency is an essential component to distributed systems, as outlined in \cref{sec:concurrency}, and this challenge saw its response as both in-process and inter-process concurrency with \lsr{}; the base supporting layer of the \lsr{} stack is a bespoke in-memory TCP message queue service that allows for communication between nodes concurrent with their other operations.
+Concurrency is an essential component to distributed systems, as outlined in \cref{sec:concurrency}, and this challenge saw its response as both in-process and inter-process concurrency with \lsr{}; the base supporting layer of the \lsr{} stack is a bespoke in-memory Transmission Control Protocol (TCP) message queue service that allows for communication between nodes concurrent with their other operations.
 Between nodes, routines run asynchronously over chunks, with parallelism implicit and controlled in distributed fashion.
 
 Reference to objects in distributed systems is covered in \cref{sec:reference}.

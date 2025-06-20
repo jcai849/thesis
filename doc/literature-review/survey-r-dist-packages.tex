@@ -70,7 +70,7 @@ While an excellent tool, some shortcomings include the lack of persistent data, 
 \pkg{pbdR} is a collection of packages allowing for distributed computing with
 R\cite{pbdBASEpackage}, with the name being the abbreviation of
 Programming with Big Data in \R{}.
-The packages include high-performance communication and computation capabilities, including \pkg{RPC}, \pkg{ZeroMQ}, and \pkg{MPI} interfaces.
+The packages include high-performance communication and computation capabilities, including \pkg{RPC} (Remote Procedure Call), \pkg{ZeroMQ}, and \pkg{MPI} interfaces.
 
 The collection is extensive, offering several packages for each of the main categories of application functionality, communication, computation, development, I/O, and profiling.
 
@@ -85,7 +85,7 @@ Some selected packages of interest include the following:
 		Uses the same syntax as base \R{} through S4\cite{pbdDMATpackage}.
 	\item[\pkg{pbdMPI}]
 		Offers a high-level interface to \pkg{MPI}, using the S4 system to program in
-		the SPMD style, with no ``master'' nodes\cite{Chen2012pbdMPIpackage}.
+		the Single Program, Multiple Data (SPMD) style, with no ``master'' nodes\cite{Chen2012pbdMPIpackage}.
 	\item[\pkg{pbdCS}]
 		A client/server framework for \pkg{pbdR}
 		packages\cite{Schmidt2015pbdCSpackage}.

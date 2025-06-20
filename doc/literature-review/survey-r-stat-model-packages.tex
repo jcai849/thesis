@@ -10,12 +10,12 @@ It is authored by Norman Matloff, a professor at University of California, Davis
 
 Matloff describes \pkg{partools} as more ``sensible'' for large data sets than \pkg{Hadoop} and \pkg{Spark}, due to their difficulty of setup, abstract programming paradigms, and the overhead caused by their fault tolerance.
 The alternative approach favoured by \pkg{partools}, termed ``software alchemy'', is to use base \R{} to split the data into distributed chunks, run analyses on each chunk, then average the results.
-This is proven to have asymptotic equivalence to standard analyses under certain assumptions, such as iid data.
+This is proven to have asymptotic equivalence to standard analyses under certain assumptions, such as independend and identically distributed (iid) data.
 Effectively, it is a map-reduce, with map being some analysis, and reduce being an average.
 
 The analyses amenable to software alchemy have bespoke functions for them in the package, typically consisting of their base \R{} name with the prefix ``ca'' alluding to ``chunk averaging'', such as \code{calm}.
 Other functions in which it doesn't make sense to average are also supported, such as column sums, which also have specific functions made for them.
-Complex cases such as fitting LASSO models, in which each chunk may have settled on different explanatory variables, are catered for in \pkg{partools} through subsetting them.
+Complex cases such as fitting Least Absolute Shrinkage and Selection Operator (LASSO) models, in which each chunk may have settled on different explanatory variables, are catered for in \pkg{partools} through subsetting them.
 Finally, aggregate functions, akin to R's aggregate function, provide for arbitrary functions to be applied to distributed data.
 
 In terms of applications of the package, it is difficult to estimate the usage of it; as it has a more complex setup than a simple \code{library} call, it will not be included in many other packages.

@@ -31,14 +31,14 @@ Some of the main extension packages:
 		Was originally a set of functions for complex statistical analyses on
 		big.matrices, having since implemented and provided its own
 		``file-backed big matrices''\cite{prive2018efficient}.
-		The provided functions include matrix operations particularly relating to bioinformatics, such as PCA, sparse linear supervised models, etc. \pkg{bigstatsr} is described in detail in \textcite{prive2018efficient}.
+		The provided functions include matrix operations particularly relating to bioinformatics, such as Principal Component Analysis (PCA), sparse linear supervised models, etc. \pkg{bigstatsr} is described in detail in \textcite{prive2018efficient}.
 \end{description}
 
-\subsubsection{LAPACK, BLAS, ATLAS}\label{subsec:blas-lapack}
+\subsubsection{LAPACK, BLAS}\label{subsec:blas-lapack}
 
-\pkg{BLAS} is a specification for a set of low-level ``building block'' linear
+\pkg{Basic Linear Algebra Subprograms} (\pkg{BLAS}) is a specification for a set of low-level ``building block'' linear
 algebra routines\cite{lawson1979basic}.
-Most linear algebra libraries conform to the \pkg{BLAS} specifications, including the most prominent linear algebra library, \pkg{LAPACK}, with its own set of extensions\cite{demmel1989lapack}.
+Most linear algebra libraries conform to the \pkg{BLAS} specifications, including the most prominent linear algebra library, \pkg{Linear Algebra Package} (\pkg{LAPACK}), with its own set of extensions\cite{demmel1989lapack}.
 \pkg{LAPACK} has been extended in turn to
 support a variety of systems, with implementations such as \pkg{ScaLAPACK}
 being introduced to attend to distributed memory
@@ -67,8 +67,7 @@ An overview is given in \cite{dowle19:_introd}, with extensive benchmarking avai
 
 \subsection{fst}\label{sec:fst}
 
-\pkg{fst} is a means of serialising dataframes, as an alternative to RDS
-files\cite{klik2022fst}.
+\pkg{fst} is a means of serialising dataframes, as an alternative to the R Data Serialization (RDS) format\cite{klik2022fst}.
 Serialisation takes place extremely fast, using compression to minimise disk usage.
 The package speed is increased through parallel computation.
 Author Mark Klik and Yann Collet, of Facebook, Inc.
