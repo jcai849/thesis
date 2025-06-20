@@ -47,7 +47,7 @@ In spite of, and indeed because of, the simple information structure of the loca
 In addition, clarification in system semantics has revealed a need for greater focus in areas presently under-served by the system.
 
 A major feature lacking in this system is a global awareness of existing connections, which can be used in preference to creating new connections upon instantiation of a distributed object.
-Take for example, the act of reading in successive distributed \file{csv}s into the system.
+Take for example, the act of reading in successive distributed \file{CSV}s into the system.
 The first read takes in file location arguments, among others, then creates new connections, finally returning a reference.
 The next read performs exactly the same actions, and so on.
 This ignores the highly likely situation where files are situated in the same locations, and connections at those locations can be reused, thus potentially saving from the overhead of extraneous connections and unnecessary data movement of aligning objects with each other.

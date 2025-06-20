@@ -6,10 +6,10 @@ How would a pre-made model fit larger than memory data?
 There is no simpler form: Load the data, then fit the model with a given function.
 This assumes a running cluster, which is described later on, due to the additional details required for a cluster setup.
 Load the data with some function provided by \lso{} to read distributed data in as a distributed object, with some \code{read-dist} function.
-\lso{} provides the \code{read-dcsv} function to read \file{csv} files distributed across various hosts and filesystems.
+\lso{} provides the \code{read-dcsv} function to read \file{CSV} files distributed across various hosts and filesystems.
 This may be stored as in \cref{lst:read-dcsv-ex}.
 
-\src{read-dcsv-ex}{Example distributed \file{csv} read}
+\src{read-dcsv-ex}{Example distributed \file{CSV} read}
 
 Following this, a model function may be run over the distributed object; with a GLM as an example in \cref{lst:dglm-ex}.
 

@@ -7,7 +7,7 @@ The following description details features from the table and explanations of \l
 \item[Native Support for Iteration] The combination of the user-specified code functions with the built-in garbage collection allows for arbitrary looping without memory issues.
 \item[Object Persistence at Nodes] The chunk and distributed object concepts in \lsr{} depend on exactly this property.
 \item[Support for Distributed File Systems] Local filesystems over separate hosts are supported. Reading from HDFS or the like is not currently a core component of the API, but could easily be extended to allow for it.
-\item[Ease of Setup] Initialisation functions are included with the framework; all that is required is that the \lsr{} packages are installed on all the hosts, as well as a reliable ssh connection to them.
+\item[Ease of Setup] Initialisation functions are included with the framework; all that is required is that the \lsr{} packages are installed on all the hosts, as well as a reliable SSH (Secure Shell) connection to them.
 \item[Inter-Node Communication] The movement from the message-queue-based approach to the final direct approach facilitated this.
 \item[Interactive Usage] Interactivity has been a capability from the beginning.
 \item[Backend Decoupling] As a new framework, there is only one backend available, which is provided by \orcv{}. The layered approach allows for any other backend that provides the \orcv{} interface to be swapped in.

@@ -40,9 +40,9 @@ This will involve specifying additional directions as part of the request messag
 
 It will be clear from the previous example that the problem of point-to-point data movement, somewhat solved via direct sockets in that previous example, is largely an implementation issue, and a problem entirely distinct to the remainder of the logic of the system.
 From this experiment onwards, the mechanism of data movement is abstracted out, with the assumption that there will exist some additional tool that can serve as a sufficient backend for data movement.
-In reality, until that tool is developed, data will be sent through redis; not a solution, but something that can be ignored without loss of generality.
+In reality, until that tool is developed, data will be sent through Redis; not a solution, but something that can be ignored without loss of generality.
 
-The actual creation of a chunk ID in itself demands a system-wide unique identifier; this is a solved problem with a central message server, in redis providing an \code{INCR} operation, which can be used to generate a new chunk ID that is globally unique.
+The actual creation of a chunk ID in itself demands a system-wide unique identifier; this is a solved problem with a central message server, in Redis providing an \code{INCR} operation, which can be used to generate a new chunk ID that is globally unique.
 
 The name origination and option of blocking until a chunk is formed will dictate different algorithms in the creation of the distributed chunk object, as well as the structure of the distributed chunk object.
 \Cref{tab:name-orig-block} shows potential forms these may take.

@@ -10,7 +10,7 @@ Further benefits include allowing for asynchrony in more operations, the ability
 
 Message queues are well established, seeing use from Operating Systems to Web Services.
 For example, the QNX OS makes heavy use of message queues for its microkernel architecture \cite{hildebrand1992qnx}.
-Tech companies Stack Overflow and flickr also use message queues from redis as central components of their infrastructure \cites{nolan2011flickr,montrose2016stack}.
+Tech companies Stack Overflow and flickr also use message queues from Redis as central components of their infrastructure \cites{nolan2011flickr,montrose2016stack}.
 In this platform, the flexibility of Redis lists and the availability of the \pkg{rediscc} package suggests the use of Redis in the implementation of message queues \cite{sanfilippo2009redis,urbanek2020rediscc}.
 Alternatives include Apache \pkg{ActiveMQ}, \pkg{Kafka}, and \pkg{Disque}, among others \cites{snyder2011activemq,garg2013kafka,sanfilippo2016disque}.
 
@@ -25,9 +25,9 @@ It is likely that the semantics are more general, and the initial message of ope
 
 A very simple example is given by \cref{lst:msg-q-master} \cref{lst:msg-q-worker}, demonstrating the master and worker node routines, respectively.
 
-\src{msg-q-master}{Master redis message queue}
+\src{msg-q-master}{Master Redis message queue}
 
-\src{msg-q-worker}{Worker redis message queue}
+\src{msg-q-worker}{Worker Redis message queue}
 
 The master simply pushes serialised calls to the appropriate queue, and the worker loops reading messages from its particular queue(s), deserialising and evaluating any messages.
 The master node and the worker node can be initialised in any order and with any time difference, demonstrating the asynchrony.

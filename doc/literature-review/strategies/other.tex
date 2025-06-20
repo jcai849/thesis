@@ -2,7 +2,7 @@ In the search for a distributed system for statistics, the world outside of \R{}
 The central issue with non-\R{} distributed systems is that their focus is very obviously not statistics, and this shows in the level of support the platforms provide for statistical purposes.
 
 The classical distributed system for high-performance computing is \pkg{MPI}.
-\R{} actually has a high-level interface to \pkg{MPI} through the \pkg{rmpi}
+\R{} actually has a high-level interface to \pkg{MPI} through the \pkg{Rmpi}
 package.
 This package is excellent, but extremely low-level, offering little more than wrappers around \pkg{MPI} functions.
 For the statistician who just wants to implement a model for a large dataset, such concern with minutiae is prohibitive.
@@ -15,15 +15,15 @@ It is described in depth in \cref{sec:hadoop-1}
 
 Closely related to \pkg{Hadoop} is \pkg{Spark}, written on in \cref{sec:spark}.
 
-In the \proglang{Python} world, the closest match to a high-level distributed system that could have statistical application is given by the python library \pkg{dask}\cite{rocklin2015dask}.
-\pkg{dask} offers
+In the \proglang{Python} world, the closest match to a high-level distributed system that could have statistical application is given by the \proglang{Python} library \pkg{Dask}\cite{rocklin2015dask}.
+\pkg{Dask} offers
 dynamic task scheduling through a central task graph, as well as a set
 of classes that encapsulate standard data manipulation structures such
 as \pkg{NumPy} arrays and \pkg{Pandas} dataframes.
 
-The main difference is that the \pkg{dask} classes take advantage of the task scheduling, including online persistence across multiple nodes.
-\pkg{dask} is a large and mature library, catering to many use-cases,
+The main difference is that the \pkg{Dask} classes take advantage of the task scheduling, including online persistence across multiple nodes.
+\pkg{Dask} is a large and mature library, catering to many use-cases,
 and exists largely in the \proglang{Python} ``Machine Learning'' culture in
 comparison to the \R{} ``Statistics'' culture.
 Accordingly, the focus is more tuned to the \proglang{Python} software developer putting existing ML models into a large-scale capacity.
-Of all the distributed systems assessed so far, \pkg{dask} comes the closest to what an ideal platform would look like for a statistician, but it misses out on the statistical ecosystem of \R{}, provides only a few select classes, and is tied entirely to the structure of the task graph.
+Of all the distributed systems assessed so far, \pkg{Dask} comes the closest to what an ideal platform would look like for a statistician, but it misses out on the statistical ecosystem of \R{}, provides only a few select classes, and is tied entirely to the structure of the task graph.

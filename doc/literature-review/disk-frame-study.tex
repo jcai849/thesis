@@ -11,7 +11,7 @@ This is made use of through manipulation of each chunk separately, sparing RAM f
 
 \pkg{fst} is a means of serialising dataframes, as an alternative to \file{RDS}
 files\cite{klik2022fst}.
-It makes use of an extremely fast compression algorithm developed at facebook, with the \R{} package enabling fst written on in \cref{sec:fst}.
+It makes use of an extremely fast compression algorithm developed at Facebook, with the \R{} package enabling fst written on in \cref{sec:fst}.
 
 From inspection of the source code, \pkg{data.table} manipulations are enabled directly through transformations of each chunk to data.tables through the \pkg{fst} backend.
 
@@ -33,9 +33,9 @@ In a computationally intensive procedure, the rows can be rearranged between chu
 The disk.frame object has standard procedures for construction and access.
 disk.frame can be constructed from data.frames and data.tables
 through \code{as-disk-frame}, single or
-multiple \file{csv} files through
+multiple \file{CSV} (Comma Separated Values) files through
 \code{csv-to-disk-frame}, as well as \file{zip}
-files holding \file{csv} files.
+files holding \file{CSV} files.
 Time can be saved later on through the application of functions to the data during the conversion, as well as specifying what to chunk by, keeping like data together.
 The process of breaking up data into chunks is referred to by \pkg{disk.frame} as ``sharding'', enabled for data.frames and data.tables through the \code{shard} function.
 

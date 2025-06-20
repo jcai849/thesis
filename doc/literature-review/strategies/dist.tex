@@ -12,7 +12,7 @@ Standard \R{} also uses routines from the library for most matrix operations, bu
 
 Distributed linear algebra operations in \pkg{pbdR} depend further on the \pkg{ScaLAPACK} library, which can be provided through the \pkg{pbdSLAP} package \cite{Chen2012pbdSLAPpackage}.
 The principal interface for direct distributed computations is the \pkg{pbdMPI} package, which presents a simplified API to \pkg{MPI} through \R{} \cite{Chen2012pbdMPIpackage}.
-All major MPI libraries are supported, but the project tends to make use of openMPI in explanatory documentation.
+All major MPI libraries are supported, but the project tends to make use of OpenMPI in explanatory documentation.
 A very important consideration that isn't immediately clear is that \pkg{pbdMPI} can only be used in batch mode through \pkg{MPI}, rather than any interactive option as in \pkg{Rmpi} \cite{yu02:_rmpi}.
 
 The actual manipulation of distributed matrices is enabled through the \pkg{pbdDMAT} package, which offers S4 classes encapsulating distributed matrices \cite{pbdDMATpackage}.
