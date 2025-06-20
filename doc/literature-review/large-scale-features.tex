@@ -59,7 +59,7 @@ A list of features and their descriptions follows:
 	\item[Evaluation of Arbitrary Classes]
 		Any class, including user-defined classes, can be used in evaluation.
 		There is proven value in rich user-defined objects, with the weight of much of the object-oriented programming paradigm serving to further that point \cite{dahl2004simula}.
-		Conversely, many major packages limit themselves through provisioning only a few classes, such as \pkg{pbdDMAT} with distributed matrices, or the \pkg{tidyverse} and its derivatives including \pkg{sparklyr} with ``tibbles'' \cites{pbdDMATpackage,wickham2019welcome} \item[Package-specific API] The platform is primarily explicitly programmed against at a package-specific interface.
+		Conversely, many major packages limit themselves through provisioning only a few classes, such as \pkg{pbdDMAT} with distributed matrices, or the Tidyverse and its derivatives including \pkg{sparklyr} with ``tibbles'' \cites{pbdDMATpackage,wickham2019welcome} \item[Package-specific API] The platform is primarily explicitly programmed against at a package-specific interface.
 		This is in contrast to packages mostly providing methods which overload standard generics or language structure; at a loss of general transparency, direct API's can ensure greater encapsulation and a closer mapping of code with the underlying implementation, thus potentially resulting in performance gains \cite{bierhoff2009api}.
 		An example in \R{} is the interface to the \pkg{foreach} package not overloading the existing for-loop syntax in \R{}, but defining its own specific interface \cite{microsoft20}.
 	\item[Methods for Standard Generics]
