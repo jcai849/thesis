@@ -168,7 +168,7 @@ The means by which such direction can be encoded may take many forms: It may be 
 As with other facets of the object system, it will have to be tested empirically, with the contribution made here to recognise its significance.
 
 For the sake of demonstration, let's continue with the example of sampling at a lower level, as it will serve to highlight in a more complex light the importance of the chunk structure and the system layering, hopefully cementing the concepts explored in this section.
-Consider in \cref{lst:varying-sizes} a different distributed object, with chunks of different sizes, \code{d4} -- consider this as sharing the same first chunk as \code{d3}, with length \(1 \times 10^9\), but the second and third chunks split from the greater whole differently, at lengths \(1 \times 10^7\) and \(9.9 \times 10^8\) respectively.
+Consider in \cref{lst:varying-sizes} a different distributed object, with chunks of different sizes, \code{d4} -- consider this as sharing the same first chunk as \code{d3}, with length \(1 \times 10^9\), but the second and third chunks split from the greater whole differently, at lengths \(1 \times 10^7\) and \(9.9 \times 10^8\), respectively.
 
 \src[Rout]{varying-sizes}{A distributed object composed of chunks of varying sizes}
 
