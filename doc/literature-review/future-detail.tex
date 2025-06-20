@@ -81,6 +81,6 @@ One initial drawback to \pkg{future} is the lack of callback functionality, whic
 However, this feature is made available in the \pkg{promises} package, which has been developed by Joe Cheng at RStudio, and allows for user-defined handlers to be applied to futures upon resolution\cite{cheng2021promises}.
 
 Issues that aren't resolved by other packages include the copying of objects referenced by \pkg{future}, with mutable objects thereby unable to be directly updated by \pkg{future} (though this may be ameliorated with well-defined callbacks).
-This also means that data movement is mandatory, and costly; \pkg{future} raises an error if the data to be processed is over 500Mb, though this can be overridden.
+This also means that data movement is mandatory, and costly; \pkg{future} raises an error if the data to be processed is over 500MB, though this can be overridden.
 
 Referencing variables automatically is a major unsung feature of \pkg{future}, though it doesn't always work reliably; \pkg{future} relies on code inspection, and allows a global parameter to have manual variable specification.

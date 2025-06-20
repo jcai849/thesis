@@ -5,7 +5,7 @@ In this chapter, we seek to compose a motivating example with which to illustrat
 As an example dataset, we consider only data which exists beyond the regular spectrum of size, sitting larger than memory.
 Concretely, for the purpose of example, consider the NYC TLC dataset\cite{tlc2021trips}.
 This dataset consists of measures relating to all taxi and limousine trips in New York City from January 2009 to present.
-There are roughly 2 billion rows and 25 columns, totalling over 60Gb.
+There are roughly 2 billion rows and 25 columns, totalling over 60GB.
 Measures include aspects of the trip such as pickup and dropoff times and locations, passenger count, tips and tolls, and vendor.
 The dataset is notoriously messy for such a large tabular format; locations are censored from midway through the dataset for privacy reasons, many fields depend entirely on others, etc. It is these qualities in particular that make it valuable as an example for analysis; most tools don't make it easy for users to explore such issues in data, and analysis is hindered - an outcome of this project should be to make such exploration easy.
 
@@ -40,7 +40,7 @@ How do we begin?
 \src{massive-crash}{Naive read of larger than memory data guaranteeing an out-of-memory error}
 
 The call in \Cref{lst:massive-crash} will not work.
-The object in memory will cause an out-of-memory error even in high-end PC's, at its 60Gb+ size.
+The object in memory will cause an out-of-memory error even in high-end PC's, at its 60GB+ size.
 There must be a better means of representing the data than its direct form as standard \R{} objects.
 Conversely, such a representation can't possibly stray too far from what the statistician is familiar with in the language.
 Assume, however, that it does somehow exist, and can be treated like a regular object.
