@@ -39,7 +39,7 @@ In this way, the amount of data moved is minimised through initial reduction.
 As the resulting data exists in a non-distributed form on the master, it is returned in that form without forcing distribution.
 It is a trivial matter to redistribute the data, but this is not presumed on behalf of the system.
 
-Data Frames are implemented in distributed form in a very similar manner to vectors, their only difference being a row-wise splitting, compared to and element-wise splitting.
+Data Frames are implemented in distributed form in a very similar manner to vectors, their only difference being a row-wise splitting, compared to element-wise splitting.
 On the nodes, the data frame chunks are in fact fully functional data frames, along with the full set of attributes.
 
 Selection and subsetting of distributed data frames and vectors are limited to subsetting by distributed and non-distributed logical vectors, and local consecutive numeric vectors.
@@ -60,7 +60,7 @@ In comparison with the system of \cref{sec:mw-ds}, the changes made are fairly e
 Beyond the obvious additions alluded to that weren't previously present, some more notable changes are described in this section.
 
 Memory was considered a significant issue in the system of Secion~\ref{sec:mw-ds}.
-The primary issues have been hugely reduced through the usage of server-side UUID's for chunk assignment, and finalizer functions to remove the remote chunks upon master-side garbage collection.
+The primary issues have been hugely reduced through the usage of server-side UUIDs for chunk assignment, and finalizer functions to remove the remote chunks upon master-side garbage collection.
 This massively reduces the virtual memory leaks, but some issues remain.
 
 Previous operations on chunks took place sequentially within an \code{lapply}.

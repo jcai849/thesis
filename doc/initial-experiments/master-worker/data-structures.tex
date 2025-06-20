@@ -15,7 +15,7 @@ but were written with future parallelisation and speed in mind.
 
 The \code{node} class contains information on connections to the worker nodes.
 The \code{cluster} class is a collection of \code{node}s.
-The cluster is set up using \code{make-cluster}, which \code[sh]{ssh} into the hosts and launches \pkg{Rserve}, along with the relevant libraries and functions.
+The cluster is set up using \code{make-cluster}, which \code[sh]{ssh} into the hosts and launches \pkg{Rserve}, along with the relevant packages and functions.
 The global environment local to specific nodes can be checked with the \code{peek} method, serving purely as a sanity check at present.
 \code{send} is a generic with
 methods defined for the \code{node} and \code{cluster} classes; it

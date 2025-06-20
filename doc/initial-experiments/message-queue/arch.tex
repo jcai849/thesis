@@ -12,7 +12,7 @@ The client contains chunk references, which can be passed as arguments to \code{
 to the queue identified by the chunk ID contained in the chunk reference, with
 the queue existing on some central queue server.
 
-The chunk server concurrently monitors all queues identified by the chunk ID's of the chunks that the chunk server stores in a local chunk table.
+The chunk server concurrently monitors all queues identified by the chunk IDs of the chunks that the chunk server stores in a local chunk table.
 It pops the message off the related queue, and has \code{do-call-chunk} evaluate the function on the chunk, with various options determined by the content of the received message.
 
 The chunk server pushes some response message to the queue associated with that particular job through a unique job ID, which may be picked up later by the client later.

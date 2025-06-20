@@ -24,7 +24,7 @@ This form of lazy evaluation is similar to the implementation of \pkg{sparklyr}.
 
 Chunks are by default assigned rows through hashing the source rows, but can be composed of individual levels of some source column, which can provide an enormous efficiency boost for grouped operations, where the computation visits the data, rather than the other way around.
 
-Chunks can be manipulated individually, having individual ID's, through \code{get-chunk}, as well as added or removed from additional \file{fst} files directly, through \code{add-chunk} and \code{remove-chunk}, respectively.
+Chunks can be manipulated individually, having individual IDs, through \code{get-chunk}, as well as added or removed from additional \file{fst} files directly, through \code{add-chunk} and \code{remove-chunk}, respectively.
 
 In a computationally intensive procedure, the rows can be rearranged between chunks based on a particular column level as a hash, through functions such as \code{rechunk}.
 

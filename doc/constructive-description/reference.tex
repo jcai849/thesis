@@ -65,7 +65,7 @@ For example, \code[lisp]{sum} evaluates to \code[lisp]{6}, as summation.
 Values also self-evaluate; \code[lisp]{6} evaluates to \code[lisp]{6}.
 The evaluation treats everything as ``in-use''.
 Such behaviour can be prevented through quotation constructs.
-For example, \code[lisp]{quote-sum} evaluates to \code[lisp]{sum}, which is just treated as just a list of symbols (mention), ready for evaluation later on.
+For example, \code[lisp]{quote-sum} evaluates to \code[lisp]{sum}, which is treated as a list of symbols (mention), ready for evaluation later on.
 Such a construct is so common, it has the abbreviated form of the \code[lisp]{tick} - the above example may have been equivalently quoted using \code[lisp]{tick-sum}. Quotation may also act in a more selective manner, where some symbols are used, and others just mentioned, with the ``back-quote'' operator of quasi-quotation.
 Here, \code[lisp]{backquote} is used to quote, with \code[lisp]{quasiquote} used to unquote.
 For example, \code[lisp]{quoted} evaluates to \code[lisp]{unquoted}.

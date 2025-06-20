@@ -25,7 +25,7 @@ A \code{pull} that returns with failure if the requested chunk is unavailable; w
 Furthermore, if the requested chunk is immediately depended upon, the \code{pull}-with-failure will have to be used in a continuous loop until the requested chunk is available and able to be pulled.
 Such a pattern of repeated checking until availability is known as busy-waiting, or spinning, and is commonly treated as a computational anti-pattern, due to the additional traffic and load that is placed on the system\cite{corbet2023}.
 
-The alternative to failing \code{pull} that still allows for potential non-availability is an \code{async-pull}, wherein a request is sent from on location to another, with the requesting node able to continue operation immediately after sending the request without waiting for a chunk response, including making further asynchronous requests to the same and other nodes, with the chunks to be sent as they become available.
+The alternative to failing \code{pull} that still allows for potential non-availability is an \code{async-pull}, wherein a request is sent from one location to another, with the requesting node able to continue operation immediately after sending the request without waiting for a chunk response, including making further asynchronous requests to the same and other nodes, with the chunks to be sent as they become available.
 How does the requesting location eventually gain access to the requested chunks?
 The provided API in \lsr{} is that each location has what can be thought of as a queue of messages which asynchronously accumulates whatever data is sent from other chunks.
 At any point, this queue may be waited upon for messages.

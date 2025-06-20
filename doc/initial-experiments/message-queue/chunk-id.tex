@@ -1,7 +1,7 @@
 \subsubsection{Introduction}
 
 The problem of chunk ID origination dictates much of the client-server communication, as well as the state of knowledge in the network, given that chunk ID is used as the key to send messages relevant to a particular chunk.
-This document serves to model the differences between naive client-originated chunk ID's, and server-originated chunk ID's, with an evaluation and proposal that aims at overcoming the limitations involved in the models.
+This document serves to model the differences between naive client-originated chunk IDs, and server-originated chunk IDs, with an evaluation and proposal that aims at overcoming the limitations involved in the models.
 
 \subsubsection{Modelling}\label{sec:cid-model}
 
@@ -22,20 +22,20 @@ In the client-originated chunk ID  model, in addition to the generic model descr
 If there is no assignment, the message includes a job ID instead, naming a job queue to be monitored by the client.
 If the server receives a job ID, it sends the value of the computed function to the queue with that job ID as its key, sending no messages otherwise.
 
-A space-time diagram of the client-originated chunk ID model is given in figure \cref{fig:client-chunk-id}.
+A space-time diagram of the client-originated chunk ID model is given in \cref{fig:client-chunk-id}.
 
 \fig{client-chunk-id}{Space-Time Diagram of Client-Originated Chunk ID}
 
 \subsubsection{Server-Originated Chunk ID}
 
-In the server-originated chunk ID model, given that the client doesn't know the chunk ID of created chunk references, leaving that to the server, it sends out messages with job , creating chunks references that at first reference the job ID, but when the actual chunk ID is required, waiting on the job ID queue for a message containing its chunk ID.
+In the server-originated chunk ID model, given that the client doesn't know the chunk ID of created chunk references, leaving that to the server, it sends out messages with job , creating chunk references that at first reference the job ID, but when the actual chunk ID is required, waiting on the job ID queue for a message containing its chunk ID.
 The server correspondingly sends chunk  of each newly assigned chunk to the job ID queue specified in the request, sending values instead if not directed to perform assignment.
 
 A diagram of the server-originated chunk ID model is given in \cref{fig:server-chunk-id}.
 
 \fig{server-chunk-id}{Space-Time Diagram of Server-Originated Chunk ID}
 
-An important aspect of \cref{fig:server-chunk-id} is the fact that the client has to wait to get the chunk ID's of the chunk references \code{y} and \code{z} before it can push requests to their relevant queues, hence the delay between the communications labelled in the diagram as \textcolor{dark2-3}{\textbf{d}} and \textcolor{dark2-3}{\textbf{h}}; the client still needs to receive \textcolor{dark2-1}{\textbf{g}}, which contains the necessary chunk ID.
+An important aspect of \cref{fig:server-chunk-id} is the fact that the client has to wait to get the chunk IDs of the chunk references \code{y} and \code{z} before it can push requests to their relevant queues, hence the delay between the communications labelled in the diagram as \textcolor{dark2-3}{\textbf{d}} and \textcolor{dark2-3}{\textbf{h}}; the client still needs to receive \textcolor{dark2-1}{\textbf{g}}, which contains the necessary chunk ID.
 
 \subsubsection{Evaluation}\label{sec:mod-eval}
 
@@ -52,7 +52,7 @@ A potential solution to the problems of the models posed in \cref{sec:mod-eval} 
 
 If chunk ID is client-originated, then its outgoing messages can also supply a job ID for the server to push a message to upon completion that the client can in turn refer to, in order to check resolution status as well as any potential errors.
 
-This would capture the benefits of the modelled client-originated chunk ID in reduces wait time, with the robustness of server-originated ID in signalling of errors.
+This would capture the benefits of the modelled client-originated chunk ID in reduce wait time, with the robustness of server-originated ID in signalling of errors.
 The introduction of future terminology of \code{resolved-}, as well as additional slots in a chunk to determine resolution state, as well as the use of job ID queues for more than just value returns will be sufficient to implement such a design.
 The asynchrony may lead to non-deterministic outcomes in the case of failure, but the use of \code{resolved-} and its associated barrier procedure, \code{resolve} will enable the forcing of a greater degree of synchrony, and allow tracing of errors back to their source in a more reliable manner.
 

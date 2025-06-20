@@ -96,7 +96,7 @@ In keeping with the concurrent nature of the system, rather than monolithically 
 
 \widefig{checkprereqs}{Activities when checking computation prerequisites}
 
-Upon receiving the information that a computation is ready, the worker performs a series of steps to run the compuation and store the results, as given in \cref{fig:putcompready}.
+Upon receiving the information that a computation is ready, the worker performs a series of steps to run the computation and store the results, as given in \cref{fig:putcompready}.
 Notably, it returns the data to itself through a request -- this is, as before, in keeping with the concurrent model.
 In addition, it maintains the spirit of structured programming with a single entry and exit for a handler, allowing for a single point of engagement with the activities resulting from a sending of data as given in \cref{fig:postdata}, including sending the data to its audience and checks for data as prerequisite to computation.
 

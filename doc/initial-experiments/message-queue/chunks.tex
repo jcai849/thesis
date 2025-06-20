@@ -7,7 +7,7 @@ The experiments are built successively upon its prior, with the aim of rapidly a
 
 While the RPC-based architecture as described in \cref{sec:mw} had significant limitations, a particularly powerful construct was the higher order function \code{distributed-do-call}, which took functions as arguments to be performed on the distributed chunks.
 
-This construct is powerful in that it can serve as the basis for nearly every function on distributed chunks, and this section serves to document experiments relating to the creation of a general function that will perform a function at the node hosting a particular chunk.
+This construct is powerful in that it can serve as the basis for nearly every function on distributed chunks, and this section serves to document experiments relating to the creation of a general function that will perform a function call at the node hosting a particular chunk.
 
 \subsubsection{With Value Return}\label{sec:val-ret}
 

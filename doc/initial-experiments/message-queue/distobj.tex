@@ -22,7 +22,7 @@ The capacity for further components is reserved, however the prime information i
 
 Some changes are made to the chunk references, based on the need for decoupling data from process when communicating among client and server.
 This takes the principal form of removing the job ID in favour of posting chunk information directly to the distributed table as keys.
-In this manner, all necessary information relating to a chunk ID is encapsulated in the chunk reference, with no need to couple this with job ID's and the implied necessity of a job reference.
+In this manner, all necessary information relating to a chunk ID is encapsulated in the chunk reference, with no need to couple this with job IDs and the implied necessity of a job reference.
 As an example, the resolution status of a chunk ID (whether it has actually been created) is posted as a resolution key identified by the chunk ID in the distributed table, rather than being rolled into a message object and sent to a job ID queue.
 This change has further motivations in allowing access to attributes of a chunk that may resolve asynchronously, by nodes other than the original requesting client.
 For example, an as-yet undefined alignment process requires knowledge of chunk sizes, and may be taking place on a node separate and prior to determination of such information on another node, which upon realisation, posts the chunk size data to the distributed table, and the node performing alignment may now have access to that information despite not being the original requesting client.

@@ -78,7 +78,7 @@ Kademlia sees use by the Ethereum cryptocurrency, the Tox messaging protocol, an
 
 XOR serves as the Kademlia distance measure, which, though non-Euclidean, satisfies several useful properties, including symmetricality and the triangle inequality, thereby preserving relative distances and allowing propagation of knowledge of new nodes via the very act of lookup.
 
-The routing table, known as $k$-buckets in the Kademlia literature, is a list of $m$ elements, matching the number of bits in node and key ID's as in Chord.
+The routing table, known as $k$-buckets in the Kademlia literature, is a list of $m$ elements, matching the number of bits in node and key IDs as in Chord.
 Each element in the $k$-buckets is itself a list of references to $k$ nodes, where $k$ is some pre-decided number shared amongst all nodes, indicated at a recommended 20.
 To determine the correct bucket to store some node's information in the $k$-buckets, the ID of the node of interest is XOR'ed with the ID of the node performing the check, and the location of the first differing bit indicates the bucket to which the node is sent.
 In this way, nodes retain more knowledge on nodes closer to them than nodes further away, as the number of nodes per bucket halves with each unit of magnitude increase in XOR distance.
