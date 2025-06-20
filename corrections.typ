@@ -42,90 +42,62 @@ N.B. Corrections that have been made are indicated with hyperlinks to the git co
 + "nectar cluster" needs to be defined. #commit("60450784fcf4b4541482fd78cc42e4f546e272a4")
 + Use "Worker" instead of "Slave": #commit("1e15f4db93d49da47e5fe5ed4995ac0922a54a5d").
 + Crash is not an appropriate term for a lack-of-memory error: #commit("17c44d5958e978392a966dfcde290e253955bb2a")
-+ Explicitly define what is meant by a statistical algorithm in this thesis.
-+ Have links to packages themselves, not just papers (e.g. in 2.4 and elsewhere).
-+ RStudio should be Posit.
-+ Norman Matloff, not Norm.
++ Explicitly define what is meant by a statistical algorithm in this thesis. #commit("058f69c370c910d8a930935564a7498a41c875bd")
++ Be more formal -- Norman Matloff, not Norm. #commit("4e399bb5090a171a01ed8467c8746174e318c71b")
 
 === Reviewer 2
 
-+ Illustrations and their captions should be self-contained and require no reference to text material to make interpretation of them possible.
-+ Drop “Figure showing …” from captions.
-+ Figure and Equation references should not be abbreviated, e.g. ‘fig. 2.1’ #sym.arrow ‘figure 2.1’ and ‘eq. (2.2)’ #sym.arrow ‘Equation (2.2)’,
-+ Listings should prefix by chapter, e.g. ‘Listing 68’ #sym.arrow ‘Listing 5.11’
-+ Capitalise references to chapters, tables, figures, etc., e.g. ‘Chapter 5’, ‘Figure 2.1’, ‘Table 3.1’, and ‘Equation (3)’
-+ Add legends to figures, preferably to the captions. e.g. Figure 4.1 has symbols ‘C’, ‘Q’, and ‘S’ without description.
-+ Consistent capitalization of captions, e.g. “Figure 4.1: Logical time diagram of chunk assignment for server-originated chunk ID” and “Figure 4.2: Space-Time Diagram of Client-Originated Chunk ID”.
-+ Add line numbers to code snippets.
-+ Reference the specific lines of code which are sent to nodes in, Section 3.5.
-+ Reference Listings that are related to a figure in the caption, e.g. referencing Listing 65 in the caption of Figure 4.2
-+ Specify properties of the underlying algorithm, not the listing. e.g. “Figures 7.6 and 7.8 both have the potential to alter the state of availability as marked on computational prerequisite chunks.”, or “Listing 25 simply won’t work.”; it’s not the listing that works - it’s the code or the call that doesn’t work.
-+ Use LaTeX’s ```latex \left``` and ```latex \right``` for nested brackets, e.g. Equation (6.7).
-+ $m...n$ #sym.arrow $m,...,n$
-+ Remove single-sentence paragraphs from Sections 2.1.4, 2.1.5, and 2.3.2.
-+ Don’t use contraction in scientific text; instead spell them out, e.g. "won’t" #sym.arrow "will not".
-+ Consistently precede “respectively” at the end sentences with a comma, e.g. "… corresponding to the listings listing 66 and listing 67[,] respectively."
++ Drop “Figure showing …” from captions. #commit("3488fa8ceb9d760a854e240791bee27a2b71ae83")
++ Figure and Equation references should not be abbreviated, e.g. ‘fig. 2.1’ #sym.arrow ‘figure 2.1’ and ‘eq. (2.2)’ #sym.arrow ‘Equation (2.2)’. #commit("dc0c9ff985c07da6d4a6c8580f586008c2a07f3b").
++ Listings should prefix by chapter, e.g. ‘Listing 68’ #sym.arrow ‘Listing 5.11’. #commit("d6b619b18702e91e4da1b170b88bfbe9d4766fd3").
++ Capitalise references to chapters, tables, figures, etc., e.g. ‘Chapter 5’, ‘Figure 2.1’, ‘Table 3.1’, and ‘Equation (3)’. #commit("dc0c9ff985c07da6d4a6c8580f586008c2a07f3b").
++ Add legends to figures, preferably to the captions. e.g. Figure 4.1 has symbols ‘C’, ‘Q’, and ‘S’ without description. #commit("aa661fc958c149726ca12c8fb63b9a8b77ad0c87").
++ Consistent capitalization of captions, e.g. “Figure 4.1: Logical time diagram of chunk assignment for server-originated chunk ID” and “Figure 4.2: Space-Time Diagram of Client-Originated Chunk ID”. #commit("8498dfc8ba7afff703e7253f609ca4a3e11f83de").
++ Specify properties of the underlying algorithm, not the listing. e.g. “Figures 7.6 and 7.8 both have the potential to alter the state of availability as marked on computational prerequisite chunks.”, or “Listing 25 simply won’t work.”; it’s not the listing that works - it’s the code or the call that doesn’t work. #commit("7ea857ee2bead79f4afdd342336959220295effb").
++ Don’t use contraction in scientific text; instead spell them out, e.g. "won’t" #sym.arrow "will not". #commit("7fe3c106191393dfb419ebc4abecaea72e89894f").
++ Consistently precede “respectively” at the end sentences with a comma, e.g. "… corresponding to the listings listing 66 and listing 67[,] respectively." #commit("984f1d61e4a9d668a658f43f535fa66fca929584")
 + Remove reference to "document" or "report", e.g. Section 4.2.2.4: "This document serves ...": #commit("3322b6b27ea55fab78c1970baa071bc899247e10")
-+ Table 4.2: There is in “‘origin’ must be supplied’ error in this output.
-+ Fix grammatical errors
++ Table 4.2: There is in “‘origin’ must be supplied’ error in this output. #commit("70df4a5aeac84ec932adc9daa1da1972fb06336c").
++ Fix grammatical errors:
   + Fix incomplete sentence "With this particular demonstration of distributed LASSO dependent on proofs ofseparability for partitioned block matrices using rows as observations, and minor ADMM optimisations, as described in Boyd et al. [30]." #commit("5ca1db86b214643aaa093699cf37370f1e248cbb")
-  + "compared to and" #sym.arrow "compared to an"
-  + Fix Section 2.3.1.1: Incomplete sentence: "The slave node for the job tracker."
-  + "perform a function [call] at the"
-  + 'which' #sym.arrow 'that', e.g. "examining some of the provided functionality which aids the creation of custom models."
-  + 'chunks references' -> 'chunk references'.
-  + 'in reduces wait time’ -> 'in reduced wait time'.
-  + "job ID’s” -> “job IDs” or “job ID”. Same for “chunk ID’s”.
-  + "if the …” -> “If the …” (capitalization)
-  + "listing 26 is the …” -> “Listing 26 is the …” (capitalization)
-  + "figure fig. 4.2.”
-  + "listing listing 2” and “listing listing 5”.
-  + "Listing 1: Pseudocode …” -> “Algorithm 1: Pseudocode …”(?)
-  + "from on location” -> “from one location”.
-  + "proofs ofseparability” -> “proofs of separability”
-  + "largescaleobjects_primitives" -> “largescaleobjects primitives” #commit("1b4f03435e7720c2badbccc4bdfed2cd59f88424")
-  + "that is is the”
-  + "… a three billion length integer.” -> “… a three billion length integer vector.” (?)
-  + "be a a sample”
-  + "which is just treated as just a list of symbols”
-  + "with the result send back to the client”.
-  + Incomplete sentence/clause: “Take the earlier example of maximisation in listing 34, with new object d3 standing for a collection of chunks, being three chunk references, each pointing to its own chunk of length one billion; …”
-  + Incorrect Listing referenced in “Take the earlier example of maximisation in listing 34, …”(?)
-  + Drop comma in “… in the following section 3.3, on computation.”
-  + “… class of problems that can be solved efficiently in parallel, NC, is equal to P”.
-  + “listing 54 listing 55”.
-  + “compuation”
-  + Drop () from “… given as the variable chunk_count(), we …”; same in the next paragraph.
-  + “… along with the relevant libraries and functions”: “libraries” -> “packages”?
-  + ‘promises’
-+ Nomenclature:
+  + "compared to and" #sym.arrow "compared to an". #commit("b6090223bf094ef0cf98f6f4f9a5317982a4b301").
+  + "perform a function [call] at the". #commit("b6090223bf094ef0cf98f6f4f9a5317982a4b301").
+  + 'which' #sym.arrow 'that', e.g. "examining some of the provided functionality which aids the creation of custom models". #commit("b6090223bf094ef0cf98f6f4f9a5317982a4b301").
+  + 'chunks references' -> 'chunk references'. #commit("b6090223bf094ef0cf98f6f4f9a5317982a4b301").
+  + 'in reduces wait time’ -> 'in reduced wait time'. #commit("b6090223bf094ef0cf98f6f4f9a5317982a4b301").
+  + "job ID's” -> “job IDs” or “job ID”. Same for “chunk ID's”. #commit("b6090223bf094ef0cf98f6f4f9a5317982a4b301").
+  + "listing 26 is the” -> “Listing 26 is the” (capitalization). #commit("dc0c9ff985c07da6d4a6c8580f586008c2a07f3b").
+  + "figure fig. 4.2.”. #commit("b6090223bf094ef0cf98f6f4f9a5317982a4b301").
+  + "listing listing 2” and “listing listing 5”. #commit("d6b619b18702e91e4da1b170b88bfbe9d4766fd3").
+  + "from on location” -> “from one location”. #commit("b6090223bf094ef0cf98f6f4f9a5317982a4b301").
+  + "proofs ofseparability” -> “proofs of separability”. #commit("5ca1db86b214643aaa093699cf37370f1e248cbb").
+  + "largescaleobjects_primitives" -> “largescaleobjects primitives”. #commit("1b4f03435e7720c2badbccc4bdfed2cd59f88424").
+  + "that is is the”. #commit("b6090223bf094ef0cf98f6f4f9a5317982a4b301").
+  + "… a three billion length integer.” -> “… a three billion length integer vector”. #commit("b6090223bf094ef0cf98f6f4f9a5317982a4b301").
+  + "be a a sample”. #commit("b6090223bf094ef0cf98f6f4f9a5317982a4b301").
+  + "which is just treated as just a list of symbols”. #commit("b6090223bf094ef0cf98f6f4f9a5317982a4b301").
+  + Drop comma in “… in the following section 3.3, on computation.” #commit("b6090223bf094ef0cf98f6f4f9a5317982a4b301").
+  + “… along with the relevant libraries and functions”: “libraries” -> “packages”. #commit("b6090223bf094ef0cf98f6f4f9a5317982a4b301").
++ Nomenclature: (#commit("4e399bb5090a171a01ed8467c8746174e318c71b"))
   + 'csv' #sym.arrow 'CSV' (also worth spelling out at first use)
+  + 'ssh' #sym.arrow 'SSH' (also worth spelling out at first use)
+  + 'UC, Davis' -- spell out
   + 'docker' #sym.arrow 'Docker'
   + 'facebook' #sym.arrow 'Facebook'
   + 'lisp' #sym.arrow 'Lisp'
   + 'openmpi' #sym.arrow 'OpenMPI'
+  + 'openMPI' #sym.arrow 'OpenMPI'
   + 'python' #sym.arrow 'Python'
   + 'redis' #sym.arrow 'Redis'
-  + 'ssh' #sym.arrow 'SSH' (also worth spelling out at first use)
-  + 'openMPI' #sym.arrow 'OpenMPI'
   + 'dask' #sym.arrow 'Dask' (the framework)
-  + 'futures' #sym.arrow 'Futures'
-  + 'RStudio' #sym.arrow 'Posit'
-  + 'module' #sym.arrow 'package', e.g. "largescaleobjects module".
-  + 'UC, Davis' -- spell out
   + Package is ‘Rmpi’ - not ‘rmpi’
-  + Package is ‘snow’ - not ‘SNOW’
-+ Consistent capitalisation:
++ Consistent capitalisation (#commit("50b37c33b7358f513e50b1c503da3a469e157ee2")):
   + ‘i/o' and 'I/O'
-  + ‘chunk ID' and 'Chunk ID'
   + ‘lasso' and 'LASSO'
-  + "localhost' and 'LOCALHOST'
   + ‘tidyverse' and 'Tidyverse'
-  + Chunks referred to consistently using upper case C1, C2, ... (e.g. Figure 4.5, Listing 66, Table 4.2), or lower case c1, c2, ... (e.g. Definition 1, Figure 4.6).
-+ Term Consistency:
++ Term Consistency (#commit("8a6d621562e4956e7a38b09a31f0bf6fb81764a3")):
   + "NYC TLC dataset", "NYC taxi dataset", and "NYC Taxi data".
   + "Data Frame", "Data frame", “data frame", and "data.frame".
-  + "distributed objects" and "Distributed Objects".
 + Define terms:
   + "continuations"
   + "coroutines"
@@ -216,7 +188,7 @@ N.B. Corrections that have been made are indicated with hyperlinks to the git co
 + Avoid source-code comments such as ```R # don’t do this in production code``` without an explanation.
 + Remove stray semicolons at the end of some lines.
 
-== Suggestions
+== Further Suggestions
 
 === Reviewer 1
 
@@ -234,8 +206,10 @@ N.B. Corrections that have been made are indicated with hyperlinks to the git co
 + Add Glossary of all acronyms and terms with their descriptions and definitions.
 + Add index of all “own” functions, packages, created, discussed, and mentioned.
 + Mention some of the known limitations of ‘foreach’.
++ Add line numbers to code snippets.
++ Reference the specific lines of code which are sent to nodes in, Section 3.5.
 
 == Other Revisions
 
 + Acknowledgements section.
-+ Reproducible Build.
++ Reproducible Build. #commit("06c6ce6548b43113d9ad58e19281da3fc71f6581").
