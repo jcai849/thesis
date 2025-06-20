@@ -14,7 +14,7 @@ Distributed objects are formed from two possible sources; master side, or worker
 Formation on the master side involves taking an existing \R{} object, splitting it up according to some function (currently splitting according to most even element distribution), and sending the splits to their associated \pkg{Rserve} instances, described in a supplied cluster object formal parameter to the creation function.
 All of the splits are assigned a name on the server side, stored in the distributed object reference.
 
-It is an unlikely user-end scenario that the big data is small enough to fit on the host in order to send it, so reading in data on the worker end, then feeding information back to produce a reference, is the other means of producing a distributed object.
+It is an unlikely user-end scenario that the big data are small enough to fit on the host in order to send it, so reading in data on the worker end, then feeding information back to produce a reference, is the other means of producing a distributed object.
 At present, this takes the form of a \code{read-distributed-csv} call that forwards on most of the arguments to server-side \code{read-csv} functions.
 The nodes then measure the number of rows on their chunk, sending back the information to inform the creation of a reference.
 

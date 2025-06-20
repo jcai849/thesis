@@ -9,7 +9,7 @@ The inspiration for the project was a paper from Google describing the Google Fi
 Hadoop consists of a memory part, known as \pkg{Hadoop} Distributed File System (HDFS), described in \cref{sec:hdfs}, and a processing part, known as MapReduce, described in \cref{sec:mapreduce}.
 
 In operation, \pkg{Hadoop} splits files into blocks, then distributes them across nodes in a cluster, where they are then processed by the node.
-This creates the advantage of data locality, wherein data is processed by the node they exist in.
+This creates the advantage of data locality, wherein data are processed by the node they exist in.
 
 \pkg{Hadoop} has seen extensive industrial use as the premier big data
 platform upon its release.
@@ -55,13 +55,13 @@ MapReduce is a programming model consisting of map and reduce steps, alongside m
 	\item[Map]
 		applies a ``map'' function to a dataset, in the mathematical sense of
 		the word.
-		The output data is temporarily stored before being shuffled based on output key, and sent to the reduce step.
+		The output data are temporarily stored before being shuffled based on output key, and sent to the reduce step.
 	\item[Reduce]
 		produces a summary of the dataset yielded by the map operation
 	\item[Keys]
 		are associated with the data at both steps.
-		Prior to the application of mapping, the data is sorted and distributed among data nodes by the data's associated keys, with each key being mapped as a logical unit.
-		Likewise, mapping produces output keys for the mapped data, and the data is shuffled based upon these keys, before being reduced.
+		Prior to the application of mapping, the data are sorted and distributed among data nodes by the data's associated keys, with each key being mapped as a logical unit.
+		Likewise, mapping produces output keys for the mapped data, and the data are shuffled based upon these keys, before being reduced.
 \end{description}
 
 After sorting, mapping, shuffling, and reducing, the output is collected, sorting by the second keys and given as final output.

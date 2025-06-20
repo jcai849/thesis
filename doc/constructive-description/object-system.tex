@@ -1,13 +1,13 @@
 In order to perform calculations on larger-than-memory data, we need some means of \textbf{representing} the data, in order for it to be tangible and useful.
 Let us start at the beginning, where we accept that some region of memory in the computer must hold a form of the data.
 We label such a region an \textbf{object}, and maintain that it is general enough that it could very well be a function, a variable, an instance of a class, or a reference to another object, among a multitude of other possibilities.
-Given that the whole data is larger than memory, it can't exist as a regular object taking up some contiguous region of memory, and must necessarily take some other form, which at the moment can be left for later description.
+Given that the whole dataset is larger than memory, it can't exist as a regular object taking up some contiguous region of memory, and must necessarily take some other form, which at the moment can be left for later description.
 Irrespectively, the data exists as an abstract object, albeit one that is somewhat irregular.
 
 With respect to our motivating example, the NYC TLC data must necessarily exist in memory somewhere.
 
 All objects, regular or irregular, are facilitated in their access and manipulation by way of an \textbf{object system}, which is an organised manner of interaction with objects.
-We choose the description of an object system as the basis for the theoretical development of our project as it is that aspect which is most proximal to the constraint imposed by the scale of data dealt with, in being that aspect which defines how data is dealt with.
+We choose the description of an object system as the basis for the theoretical development of our project as it is that aspect which is most proximal to the constraint imposed by the scale of data dealt with, in being that aspect which defines how data are dealt with.
 We may begin this description by asking what may be intended of an object system within the scope of this project.
 In order to answer this, we must first understand precisely who the audience is for this project.
 Different audiences necessarily seek different interactions with objects, through their differing emphases and required end-results.
@@ -40,7 +40,7 @@ Here, the object is no more than a vessel for whatever data the user seeks to ho
 Such an object would define the higher layer of the object system, and would necessarily be supported by lower layers.
 Compare this with the lowest layer, in which the implementation of this data container could be manipulated directly.
 This requires a consideration of the nature of the objects, now that implementation details are important.
-The central constraint is that the data is larger than computer memory.
+The central constraint is that the data are larger than computer memory.
 This, coupled with the fact that they must be worked on in-memory, will end up with a program thrashing memory if combined naively.
 The only possible means is to split the data into smaller pieces that do fit in memory.
 Such a structure, common among big data systems, is known as a shard, or a \textbf{chunk}.
@@ -86,7 +86,7 @@ Thus this collection of chunks will be a set of pointers to pieces of the datase
 This low-level form may be abstracted over in a \code{read-csv}, or \code{dbconnect}, serving as just one particular method which allows for chunks.
 
 The key result of such objects, beyond the multiple audiences allowed for, is that potentially \textbf{arbitrary data structures} may be held in chunks, or distributed objects.
-This underlying data is therefore able to be specified at the chunk level, and were the system to allow for arbitrary data, special means would be required to interact with it.
+This underlying data are therefore able to be specified at the chunk level, and were the system to allow for arbitrary data, special means would be required to interact with it.
 Specifically, the underlying data will at some points be interacted with directly, and for the system to maintain sufficient generality that the data may take any form, the interaction points would have to be well-specified and extensible to allow correct behaviour at interaction.
 This would have to be a specifically considered and described component of the object system.
 Experience will determine how this may best be afforded, whether through polymorphism through an object-oriented system, untyped procedures, or various other means.
@@ -121,7 +121,7 @@ No specification is given as to whether it necessarily exists in the same memory
 
 The above is interaction purely at the chunk level.
 When considering collections of chunks, or abstracting over them as the user level would require, certain differences arise.
-For example, when seeking the maximum of a set of chunks, due to the transitive nature of such a function, the maximum of the chunks is the maximum of the maximums of each chunk.
+For example, when seeking the maximum of a set of chunks, due to the transitive nature of such a function, the maximum of the chunks is the maximum of the maxima of each chunk.
 But this is only so if the underlying data structure possesses meaning for such a function.
 There must be some means of mapping from a set of chunks to the entire distributed object considered as a whole.
 One example was hinted at before, where chunk references are held together in an array, with a defined underlying data structure making up the chunks as pointed to.

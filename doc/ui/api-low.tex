@@ -27,7 +27,7 @@ Such a pattern of repeated checking until availability is known as busy-waiting,
 
 The alternative to failing \code{pull} that still allows for potential non-availability is an \code{async-pull}, wherein a request is sent from one location to another, with the requesting node able to continue operation immediately after sending the request without waiting for a chunk response, including making further asynchronous requests to the same and other nodes, with the chunks to be sent as they become available.
 How does the requesting location eventually gain access to the requested chunks?
-The provided API in \lsr{} is that each location has what can be thought of as a queue of messages which asynchronously accumulates whatever data is sent from other chunks.
+The provided API in \lsr{} is that each location has what can be thought of as a queue of messages which asynchronously accumulates whatever data are sent from other chunks.
 At any point, this queue may be waited upon for messages.
 Thus, the asynchronous pattern in \lsr{} is to send many asynchronous requests, then upon the completion of all necessary computation, wait upon the queue for any responses, performing computation with each response as required, and repeating.
 

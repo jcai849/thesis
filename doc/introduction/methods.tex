@@ -23,7 +23,7 @@ Scope is likewise limited in favour of message transfer efficiency.
 
 In order to enable complex and iterative models, a distributed garbage collection system is also essential.
 Such a system should handle mutable underlying chunk data as well.
-Mutable data is treated equivalently to immutable data, where all operations on chunks result in new references, with new identifiers, that are surjective to their referent chunks.
+Mutable data are treated equivalently to immutable data, where all operations on chunks result in new references, with new identifiers, that are surjective to their referent chunks.
 \lsr{} enables garbage collection in an efficient and conservative manner, through automatically keeping track of the directed acyclic graph of chunk generation history alongside each chunk reference, and clearing this upon proof of computation.
 Chunks lacking references are marked for deletion and may then be removed by \R{}'s internal garbage collection.
 

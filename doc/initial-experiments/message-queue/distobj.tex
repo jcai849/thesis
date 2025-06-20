@@ -107,5 +107,5 @@ If the \code{do-call-msg} was made concurrent through a backgrounding-like opera
 Implementation of server-side concurrency in the \code{do-call-msg} and its surrounding constructs implies a parallel operation such as that provided by the \pkg{parallel} package, located principally in the \code{mcparallel} function.
 An initial problem with reliance on \code{mcparallel} is the fork produces copy-on-write semantics, and so storing chunks in the local chunk table becomes impossible when the chunk table is forked.
 This may be overcome by removing the concept of a local chunk table, and storing all objects in the local \pkg{osrv} server, which, being a separate process, would not be forked itself.
-A potential problem in this solution is in the memory management of \pkg{osrv}, and what would be done if references to the \R{} objects are forked away, but the data is intended to remain on the server.
+A potential problem in this solution is in the memory management of \pkg{osrv}, and what would be done if references to the \R{} objects are forked away, but the data are intended to remain on the server.
 
