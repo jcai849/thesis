@@ -37,8 +37,6 @@
 		0.033825 & \textcolor{\servercolour}{Requested to perform function as.Date} \\
 		0.033893 & \textcolor{\clientcolour}{Requesting to perform function identity on chunk C1 with no assignment} \\
 		0.034363 & \textcolor{\clientcolour}{writing message: DOFUN identity <environment: 0x55cc165d0808> NULL NULL J3 NULL to queue belonging to chunk" C1 "} \\
-		0.034363 & \textcolor{\servercolour}{Error occured: 'origin' must be supplied} \\
-		0.034655 & \textcolor{\servercolour}{writing message: 'origin' must be supplied, as.Date.numeric(c(...)) to queue belonging to chunk" J2 "} \\
 		0.03519  & \textcolor{\clientcolour}{Awaiting message on queues: J3} \\
 		0.035544 & \textcolor{\servercolour}{Assigned chunk to ID: C2 in chunk table} \\
 		0.035747 & \textcolor{\servercolour}{Awaiting message on queues: C1     C2     chunk1} \\
@@ -50,6 +48,6 @@
 			 & \textcolor{\clientcolour}{\texttt{resolve(y)}} \\
 		0.038197 & \textcolor{\clientcolour}{Chunk not yet resolved. Resolving...} \\
 		0.038325 & \textcolor{\clientcolour}{Awaiting message on queues: J2} \\
-		0.038825 & \textcolor{\clientcolour}{Received message: 'origin' must be supplied, as.Date.numeric(c(...))} \\
+		0.038825 & \textcolor{\clientcolour}{Received message} \\
 		\bottomrule
 \end{xltabular}
