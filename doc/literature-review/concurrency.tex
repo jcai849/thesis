@@ -49,13 +49,17 @@ At this point it is worth looking at alternatives, because the code is starting 
 
 A layer up is the \pkg{coro} package\cite{henry21coro}.
 This makes use of \pkg{promises} as part of an emulation of coroutines.
-Analysing the source code reveals the creation of a state machine that attempts to replicate R's evaluator, but with allowances for re-entrancy.
+Coroutings are generalized routines that can yield control back and forth, allowing cooperative multitasking or lazy evaluation.
+Unlike functions, they can suspend and resume their execution.
+Analysing the source code of \pkg{coro} reveals the creation of a state machine that attempts to replicate R's evaluator, but with allowances for re-entrancy.
 This is an impressive piece of work, but to depend a serious platform on such a complex machine with no guarantees of long term support is to massively constrain the platform to very implementation-dependent details.
 At this point, it is worth considering custom solutions.
 
 \subsection{Attempted Solution}
 
 An initial attempt at a solution was to use continuations in \R{} to implement promises, with coroutines as a base in a similar manner to how it may be implemented in scheme.
+Continuations serve as abstract representations of the "rest of the computation" at any given point in a program.
+They allow for advanced control flows like early exits, backtracking, and coroutines.
 Unfortunately, continuations in \R{} are downwards-only, and so can't be relied upon for proper coroutine or promise implementation.
 
 I attempted a solution without continuations: replicate promises, but have the \code{then} run at any point, without needing to force it or be on the top level.

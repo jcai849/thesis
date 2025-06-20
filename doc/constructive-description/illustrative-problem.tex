@@ -13,6 +13,7 @@ With such a dataset, many questions may be asked of it.
 Geographic questions, such as where hotspots in dropoff and pickup are, or if there is any clustering when looked at in tandem.
 Behavioural questions, such as tipping and the relation to other variables.
 The dataset has many variables that could serve as foreign keys with which to link to other, smaller datasets, in order to gain more insight, such as local events taking place on particular dates, etc.
+Foreign keys may be considered here as a field (or set of fields) in a relational database that creates a link between two tables, enforcing referential integrity.
 
 A full analysis is to be performed on the dataset, involving all the standard components: hypotheses, exploratory data analysis, etc., culminating in the use of some advanced, as-yet unimplemented statistical technique.
 Given the previous methodologies explored in the previous literature review chapter, let's consider in detail just what such a technique should be; notably, it should serve to give issue to all of them, as a prompt to develop upon for our platform.
@@ -59,6 +60,7 @@ With all subsets of a dataset operated upon independently, for some operations t
 These subsets are referred to as \textbf{chunks}, and will be described in greater detail in the following chapter.
 For now, consider the chunks as containers for a subset of the data, which in itself requires certain operations in order to interact with.
 For instance, some operations required are to unmarshall the data out of the chunk, and perform operations on data within the chunk - reading and writing, as minimum necessary features.
+Note that marshalling is considered as the process of transforming data between in-memory structures and a serialized format for storage or transmission, with unmarshalling as its complement in reconstructing it back.
 The \textbf{relation between chunks} within a \textbf{group of chunks} at a higher level is also worth bearing some thought.
 For instance, when a set of chunks are treated as a cohesive object, and the underlying data of the object is sought, how best to retain the shape of the dataset cohesively, without leaving any distortion from the chunks?
 For example, given that at a high level, chunks are to be forgotten, how best to avoid artifacts of subset formation?

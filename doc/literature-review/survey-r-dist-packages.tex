@@ -162,6 +162,8 @@ The author, like that of \pkg{iotools}, is Simon Urbanek.
 cluster\cite{gorecki16}.
 This allows for big data manipulation using a data.table interface.
 The package makes use of \pkg{Rserve} (authored by Simon Urbanek) to facilitate communication between nodes when running from \R{}.
+\pkg{Rserve} provides a server allowing other programs to use R over TCP/IP. Supports multiple concurrent connections, ideal for embedding R in larger systems.
 Alternatively, the nodes can be run as Docker services, for fast remote environment setup, using \pkg{RSclient} for connections.
+\pkg{RSclient} is an R package providing a client interface to connect to an Rserve server, enabling remote R computation from various clients (e.g., from Python or Java).
 Beyond greater storage capacity, speed is increased through manipulations on big.data.table objects occurring in parallel.
 The package is authored by Jan Gorecki, but hasn't been actively developed since mid-2016.
