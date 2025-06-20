@@ -4,7 +4,7 @@ We label such a region an \textbf{object}, and maintain that it is general enoug
 Given that the whole data is larger than memory, it can't exist as a regular object taking up some contiguous region of memory, and must necessarily take some other form, which at the moment can be left for later description.
 Irrespectively, the data exists as an abstract object, albeit one that is somewhat irregular.
 
-With respect to our motivating example, the NYC taxi data must necessarily exist in memory somewhere.
+With respect to our motivating example, the NYC TLC data must necessarily exist in memory somewhere.
 
 All objects, regular or irregular, are facilitated in their access and manipulation by way of an \textbf{object system}, which is an organised manner of interaction with objects.
 We choose the description of an object system as the basis for the theoretical development of our project as it is that aspect which is most proximal to the constraint imposed by the scale of data dealt with, in being that aspect which defines how data is dealt with.
@@ -72,7 +72,7 @@ Within this range, there may be intermediate objects.
 For instance, there may be some object which serves as a container for chunks, though still retains access to implementation-specifics of chunks, without hiding such information as the abstract distributed object does.
 Such an object may be defined by widely differing container shapes, such as a vector, matrix, array, or some other nonlinear form.
 
-Coming back to the example analysis introduced earlier, we may consider that the NYC Taxi data, being a heterogeneous table, would find its optimal existence as an abstract dataframe.
+Coming back to the example analysis introduced earlier, we may consider that the NYC TLC data, being a heterogeneous table, would find its optimal existence as an abstract dataframe.
 Implementation-wise, the underlying chunks would have to split along some dimensions of the dataframe.
 Given that each row is independent, splitting along rows is a natural point of separation.
 Were the size of each chunk small enough to fit in memory, this would serve as a sufficient description for chunking.
