@@ -29,7 +29,6 @@ The \code{foreach} function can take other arguments including changing the mean
 In addition to \mintinline{R}{%do%}, other binary operators can be appended or substituted.
 Parallel iteration is performed by simply replacing \mintinline{R}{%do%} with \mintinline{R}{%dopar%}.
 Nested loops can be created by inserting \mintinline{R}{%:%} between main and nested \pkg{foreach} functions, prior to the \mintinline{R}{%do%} call\cite{weston19:_nestin_loops}.
-The last step to composition of \pkg{foreach} as capable of list comprehension is the filtering function \mintinline{R}{%when%}, which filters iterables based on some predicate to control evaluation.
 
 \subsection{Implementation}\label{sec:implementation}
 
