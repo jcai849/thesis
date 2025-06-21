@@ -9,5 +9,5 @@
         \vdots \\
         b_N
     \end{bmatrix}\\
-    A_i \in \mathbb{R}^{m_i\times n},& \quad b_i \in \mathbb{R}^{m_i}
+    A_i \in \mathbb{R}^{M \times n} \textrm{ with } M = m_i,& \quad b_i \in \mathbb{R}^{m_i}
 \end{aligned}

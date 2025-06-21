@@ -42,7 +42,7 @@ We begin with a description of the input data, as given in \cref{eq:mathlassodat
 
 \eq{mathlassodata}
 
-The starting data includes a column block matrix of explanatory variables, $A$, consisting of $N$ sub-matrices.
+The starting data includes a column block matrix of explanatory variables, $A$, consisting of $N$ sub-matrices, each with $n$ columns.
 This is equivalent to a distributed object consisting of $N$ chunks.
 Here, each chunk is of the standard form where rows are individual observations and columns are variables.
 We also have a block matrix $b$ of the same number of chunks, with each chunk being the column vector of response variables to the corresponding $A$ chunks.
