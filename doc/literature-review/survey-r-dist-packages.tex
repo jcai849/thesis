@@ -15,8 +15,6 @@ of backends\cite{microsoft20}.
 The backends are provided by other packages, typically named with some variation of \emph{X} in \pkg{doX}.
 Parallelisation is enabled by some backends, with \pkg{doParallel} allowing parallel computations\cite{corporation19}, \pkg{doSNOW} enabling cluster access through the \pkg{SNOW} package\cite{dosnow19}, and \pkg{doMPI} allowing for direct \pkg{MPI} access\cite{weston17}.
 
-\pkg{foreach} is managed by Revolution Analytics, with many of the \pkg{doX}
-corollary packages also being produced by them.
 Further information on \pkg{foreach} is given in \cite{weston19:_using}.
 
 I have written more on \pkg{foreach} in \cref{sec:review-foreach}
@@ -37,7 +35,7 @@ extensive series of vignettes\cites{bengtsson20:future-r,bengtsson20:future-r2}
 \pkg{purrr} to be compatible with \pkg{future}, thus enabling parallelisation in a
 similar form to \pkg{multicore}, though with a Tidyverse
 style\cite{vaughan18}.
-Furrr is developed by Matt Dancho, and Davis Vaughn, an employee at RStudio.
+Furrr is developed by Matt Dancho, and Davis Vaughn.
 
 Another package from Bengtsson, \pkg{future.apply}, delivers equivalent parallel mapping capabilities, through cognates of the base \R{} mapping functions.
 
@@ -107,8 +105,6 @@ In 2016, the project won the Oak Ridge National Laboratory 2016 Significant Even
 \R{}\cite{analytics:_rhadoop_wiki}.
 The packages are divided by logical function, including \pkg{rmr2}, which runs MapReduce jobs, and \pkg{rhdfs}, which can access the HDFS.
 The packages also include \pkg{plyrmr}, which makes available \pkg{plyr}-like data manipulation functions, in a similar vein to \pkg{sparklyr}.
-
-It is offered and developed by Revolution Analytics.
 
 \subsection{RHIPE and DeltaRho}\label{subsec:rhipe-deltarho}
 

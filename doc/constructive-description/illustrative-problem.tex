@@ -4,7 +4,7 @@ In this chapter, we seek to compose a motivating example with which to illustrat
 
 As an example dataset, we consider only data which exists beyond the regular spectrum of size, sitting larger than memory.
 Concretely, for the purpose of example, consider the NYC TLC dataset\cite{tlc2021trips}.
-This dataset consists of measures relating to all taxi and limousine trips in New York City from January 2009 to present.
+The dataset considered at the time of writing consists of measures relating to all taxi and limousine trips in New York City from January 2009 to December 2021.
 There are roughly 2 billion rows and 25 columns, totalling over 60GB.
 Measures include aspects of the trip such as pickup and dropoff times and locations, passenger count, tips and tolls, and vendor.
 The dataset is notoriously messy for such a large tabular format; locations are censored from midway through the dataset for privacy reasons, many fields depend entirely on others, etc. It is these qualities in particular that make it valuable as an example for analysis; most tools don't make it easy for users to explore such issues in data, and analysis is hindered - an outcome of this project should be to make such exploration easy.
