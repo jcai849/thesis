@@ -52,7 +52,7 @@ Subsetting through a local logical vector requires distributing the vector in al
 
 Local consecutive numeric vectors rely on the consecutive nature of object distribution in their subsetting of objects.
 The elements of the vector are compared to the known object indices on each host, then translated into the equivalent node-specific indices for each element.
-To illustrate: a host containing elements \code{100} to \code{150} will have the example selection \code{100-130} translated to \code{1-30}, as these are the equivalent elements relative to that specific node.
+To illustrate: a host containing elements \code{100} to \code{150} will have the example selection \code{100-130} translated to \code{1-31}, as these are the equivalent elements relative to that specific node.
 
 \subsubsection{Description of System Changes}\label{sec:description-of-system-changes}
 
