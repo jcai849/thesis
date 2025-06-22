@@ -21,6 +21,15 @@
   [Commit #hash_disp]
 }
 
+#let pkg_action_artifact(pkg, run, artifact) = {
+  let pkg_url = "https://github.com/jcai849/" + pkg
+  let action_url = pkg_url + "/actions/runs/" + run
+  let artifact_url = action_url + "/artifacts/" + artifact
+  let action_disp = link(action_url, highlight(fill: green, extent: 2pt, raw("#" + run)))
+  let artifact_disp = link(artifact_url, highlight(fill: green, extent: 2pt, raw("#" + artifact)))
+  [/ #link(pkg_url, pkg): Action #action_disp \; Check Artifact #artifact_disp]
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -107,7 +116,7 @@ N.B. Corrections that have been made are indicated with hyperlinks to the git co
   + "Rserve"
   + "tail-call elimination"
   + "tail-recursive functions"
-+ Define Acronyms:
++ Define Acronyms (#commit("049219e5be4795ea5a439b0490c6404279f8468c")):
   + 'ATLAS'
   + 'AWS'
   + 'BLAS'
@@ -118,7 +127,6 @@ N.B. Corrections that have been made are indicated with hyperlinks to the git co
   + 'iid'
   + 'LAPACK'
   + 'LASSO'
-  + 'ML'
   + 'PCA'
   + 'RDS'
   + 'REPL'
@@ -128,67 +136,65 @@ N.B. Corrections that have been made are indicated with hyperlinks to the git co
   + 'SPMD'
   + 'TCP'
   + 'UML'
-+ Correct Units:
++ Correct Units (#commit("a7809a5d8961c1c71581f71e64b80a010dbe8860")):
   + Specify currency, e.g. “\$146M” NZD or USD
   + 'Mb' #sym.arrow 'MiB' (or 'MB'?)
   + 'Gb' #sym.arrow 'GiB' (or 'GB'?)
-  + ```R x_mB``` #sym.arrow ```R x_MB```(?)
-+ Consistent pluralisation:
++ Consistent pluralisation (#commit("e7d5f5d15a1452624ee88c1a3b5c76263d9f68d3")):
   + singular/plural "data are" / "data is"
   + singular/plural "maximums" / "maxima"
 + Complete sentence for Section 1.4: "First, to gain context."
-+ Fix outdated information (e.g. by either updating the information or adding "... as of December 2019"):
++ Fix outdated information (#commit("77565e21bd88dcffe10cfc79383ffc8bdb997783")):
   + "The package is authored by Matt Dowle, currently an employee at H2O.ai"
   + "... Davis Vaughn, an employee at RStudio"
   + "foreach is managed by Revolution Analytics"
   + https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page moved to PARQUET files as of 2022-05-13.
   + Remove temporal references like "Current System", "New Structures", "Current Structures", and "Existing Systems". #commit("a7a9cdee5b394fb68754ed00b4079f141fe93429")
   + Avoid "present" in "This dataset consists of measures relating to all taxi and limousine trips in New York City from January 2009 to present"
-+ Correct “The multicore features enabled with future are redundant over the existing parallel package” (not completely correct).
-+ ```R %when%``` doesn't exist in foreach, but externally defined.
-+ ```R foreach() %dopar% ...``` is not a replacement for a regular for-loop
-+ Clarify what 'NA' means in Table 2.1.
-+ Make it more clear that Table 2.1 covers the ‘Feature List’ in Section 2.2.2, and vice versa.
-+ Fix Section 2.3.1.1: "has 5 primary services" #sym.arrow "has five primary services".
-+ Fill missing references:
++ ```R %when%``` doesn't exist in foreach, but externally defined. #commit("63dd975a6bf5aba9562df9ecb53685aaa847f897").
++ Fix Section 2.3.1.1: "has 5 primary services" #sym.arrow "has five primary services". #commit("0480879653cddd19fd4fdb453763f70b25d9347a").
++ Fill missing references (#commit("310e63dd56edf281db6a337c0c31fc67105f1a5e")):
   + 'True Cluster' in Section 2.4.6.
   + 'serialize package' in Section 2.5.8
-  + Missing reference or URL in "directly from the TLC website".
   + Section 7.4.1: Add reference for the "taxicab dataset".
   + R package ‘distObj’ lacks a reference.
   + R package ‘RSclient’ lacks a reference.
   + R package ‘Rserve’ lacks a reference, e.g. “Rserve (authored by Simon Urbanek)”.
-  + R package ‘uuid’ lacks a reference.
   + R package ‘dplyr’ lacks a reference.
-+ Listings corrections:
++ Listings corrections (#commit("bd116aadf88d8663a1c7975a9fa448fa81c52afc")):
   + Listing 3: “return0”, “return1”
-  + Listing 4: Syntax error; extra backslash ().
-  + Listing 5: Syntax error; missing closing parenthesis.
-  + The sparklyr example in Listing 9 lacks a ```R library(dplyr)```
   + Listing 49: The code uses ```R d_1```, ```R d_2```, and ```R d_3```, whereas the text uses d1, d2, and d3
-  + Clarify what ```R timeout=INF``` does in listing 3, and ```R timeout=0``` in Algorithm 1.
   + "```R 100:130``` translated to ```R 1:30```" #sym.arrow ```R 1:31```
-  + Listings 60 & 61 source unknown files.
-  + Listing 62: Misplaced `}`, e.g. `} } else {`.
-  + Listing 74: Non-matching ```R {}``` brackets.
-+ Equation (6.4): Missing "... and analogously for $g$".
-+ Equation (6.5): Clarify the dimension of $A$, e.g. "$A in RR^(M crossmark n) "with" M=m_i$". Also, clarify "... consisting of $N$ sub-matrices, each with $n$ columns."
-+ Drop "flawed" in "... R has both visibly slipped in the (flawed) TIOBE index of use ..."
-+ R packages should build cleanly.
-+ Remove broken package demos
++ Equation (6.4): Missing "... and analogously for $g$". #commit("ffe2b819651bc643016cb5412352586863575a50").
++ Equation (6.5): Clarify the dimension of $A$, e.g. "$A in RR^(M crossmark n) "with" M=m_i$". Also, clarify "... consisting of $N$ sub-matrices, each with $n$ columns." #commit("2fc030df2ffacfd759613c484a6ec16744019bc6").
++ Drop "flawed" in "... R has both visibly slipped in the (flawed) TIOBE index of use ...". #commit("684420946b61d06ce439c3f2d69c70a81e3ef1ab").
++ Avoid source-code comments such as ```R # don’t do this in production code``` without an explanation. #commit("11528f30881d9d6dbf55592f9e6c19e8005cdb34").
 
-#pagebreak()
-== Code Improvements
+== R Packages
 
-+ Use ```R TRUE``` and ```R FALSE```; avoid ```R T``` and ```R F```
-+ Use consistent spacing, e.g. ```R quiet = TRUE```, ```R bldim=2```, and ```R quote({ chunk + 1})```.
-+ Use named argument calls, e.g. ```R serialize(msg, NULL , T)``` #sym.arrow ```R serialize(msg, connection = NULL , ascii= TRUE)``` and ```R get("JOB_ID", x)``` #sym.arrow ```R get("JOB_ID", envir = x)```
-+ Use consistent indentation; currently either four or eight positions.
-+ Using ```R ::``` in more places to help the reader to understand where the different functions are coming from, and which are in-house.
-+ Avoid source-code comments such as ```R # don’t do this in production code``` without an explanation.
-+ Remove stray semicolons at the end of some lines.
+All R packages now have CI pipelines using GitHub Actions, which performs:
+
+```sh
+R CMD build .
+R CMD check --as-cran *.tar.gz
+```
+
+All packages have been amended based on this check to no longer trigger any warnings.
+See:
+
+#pkg_action_artifact("largescalemodels", "15807116690", "3377940120")
+#pkg_action_artifact("largescaleobjects", "15806884962", "3377881813")
+#pkg_action_artifact("chunknet", "15806562272", "3377809193")
+#pkg_action_artifact("orcv", "15806010939", "3377686037")
+
+== Other Revisions
+
++ Acknowledgements section.
++ Reproducible Build. #commit("06c6ce6548b43113d9ad58e19281da3fc71f6581").
 
 == Further Suggestions
+
+These further suggestions have been noted for potential future research, but are not considered corrections as required for final thesis submission.
 
 === Reviewer 1
 
@@ -209,7 +215,11 @@ N.B. Corrections that have been made are indicated with hyperlinks to the git co
 + Add line numbers to code snippets.
 + Reference the specific lines of code which are sent to nodes in, Section 3.5.
 
-== Other Revisions
+== Suggested Code Improvements
 
-+ Acknowledgements section.
-+ Reproducible Build. #commit("06c6ce6548b43113d9ad58e19281da3fc71f6581").
++ Use ```R TRUE``` and ```R FALSE```; avoid ```R T``` and ```R F```
++ Use consistent spacing, e.g. ```R quiet = TRUE```, ```R bldim=2```, and ```R quote({ chunk + 1})```.
++ Use named argument calls, e.g. ```R serialize(msg, NULL , T)``` #sym.arrow ```R serialize(msg, connection = NULL , ascii= TRUE)``` and ```R get("JOB_ID", x)``` #sym.arrow ```R get("JOB_ID", envir = x)```
++ Use consistent indentation; currently either four or eight positions.
++ Using ```R ::``` in more places to help the reader to understand where the different functions are coming from, and which are in-house.
++ Remove stray semicolons at the end of some lines.
