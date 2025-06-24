@@ -189,7 +189,7 @@ See:
 
 == Other Revisions
 
-+ Acknowledgements section.
++ Acknowledgements section. #commit("5c8a71e2094d51bc06cd858b8c12c2b1dbeb949c")
 + Reproducible Build. #commit("06c6ce6548b43113d9ad58e19281da3fc71f6581").
 
 == Further Suggestions
