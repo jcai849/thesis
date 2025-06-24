@@ -1,6 +1,9 @@
 name: main
 
-on: push
+on:
+  push:
+    tags:
+      - '*'
 
 permissions:
   contents: write
@@ -23,7 +26,6 @@ jobs:
         run: nix develop --command typst compile corrections.typ
       - name: Release
         uses: softprops/action-gh-release@v2
-        if: github.ref_type == 'tag'
         with:
           files: |
             thesis.pdf
